@@ -1,0 +1,71 @@
+/* "Hear It From Real People" — a row of vertical client films.
+   Native scroll-snap does the scrolling, so touch, trackpad, keyboard and the
+   arrow buttons all move the same track. Colours and type come from the site's
+   tokens. The .home-rest prefix outranks premium.css regardless of import order. */
+
+.home-rest .voices { padding-block: var(--section-space); overflow: hidden; }
+.voices-head { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: clamp(28px, 3.4vw, 48px); }
+.home-rest .voices-head h2 { margin: 0; font-size: clamp(34px, 3.9vw, 58px); line-height: 1.06; letter-spacing: -.03em; }
+.voices-sub { margin: 20px 0 0; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; color: var(--text-secondary); }
+
+.voices-controls { display: flex; gap: 10px; flex: none; }
+.voices-controls button {
+  display: grid; place-items: center; width: 48px; height: 48px;
+  border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--text); cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast), opacity var(--duration-fast);
+}
+.voices-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.voices-controls button:hover:not(:disabled) { background: var(--action); border-color: var(--action); color: var(--surface); }
+.voices-controls button:disabled { opacity: .35; cursor: default; }
+.voices-controls button:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+
+/* The track lines up with the page's left edge and bleeds off the right one, so
+   a card is always cut off — the cue that there is more to scroll to. */
+.voices-track {
+  --card: clamp(210px, 21vw, 288px);
+  --edge: max(var(--page-gutter), calc((100vw - var(--content-width)) / 2));
+  display: flex; gap: clamp(12px, 1.4vw, 20px);
+  margin: 0; padding: 0 var(--edge) 4px;
+  list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge);
+  scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.voices-track::-webkit-scrollbar { display: none; }
+.voices-track:focus { outline: none; }
+
+.voice-card { position: relative; flex: 0 0 var(--card); aspect-ratio: 9 / 16; scroll-snap-align: start; overflow: hidden; background: var(--text); }
+.voice-card video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--text); }
+
+.voice-play {
+  position: absolute; inset: 0; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 16px; border: 0; cursor: pointer; color: #fff;
+  background: linear-gradient(0deg, #10130fb3 0%, #10130f00 34%);
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+.voice-play:focus-visible { outline: 2px solid var(--surface); outline-offset: -6px; }
+.voice-badge {
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--surface); color: var(--text);
+  box-shadow: 0 6px 20px #10130f40;
+  transition: transform var(--duration-normal) var(--ease-out), background var(--duration-fast), color var(--duration-fast);
+}
+.voice-badge svg { width: 22px; height: 22px; margin-left: 3px; fill: currentColor; }
+.voice-time { font-size: 13px; letter-spacing: .04em; font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px #10130f99; }
+.voice-play:hover .voice-badge { transform: scale(1.08); background: var(--action); color: var(--surface); }
+
+/* Once a film has started the poster overlay steps aside and the native
+   controls take over. */
+.voice-card.is-playing .voice-play { opacity: 0; pointer-events: none; }
+.voice-note { position: absolute; left: 16px; right: 16px; bottom: 76px; z-index: 1; margin: 0; color: #fff; font-size: 14px; line-height: 1.4; pointer-events: none; }
+
+@media (max-width: 700px) {
+  .voices-head { align-items: start; flex-direction: column; gap: 22px; }
+  .voices-controls { display: none; } /* swipe is the gesture on a phone */
+  .voices-track { --card: 68vw; }
+  .voice-badge { width: 46px; height: 46px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voices-track { scroll-behavior: auto; }
+  .voice-badge, .voice-play { transition: none; }
+  .voice-play:hover .voice-badge { transform: none; }
+}

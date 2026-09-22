@@ -1,0 +1,38 @@
+/* --- from src/homepage.css --- */
+.product-section { padding-block: 22px 105px; }
+.edit-tabs { display: flex; gap: 30px; margin: 38px 0 30px; border-bottom: 1px solid var(--line); }
+.edit-tabs button { min-height: 48px; padding: 8px 0 18px; font-size: 12px; background: transparent; border-bottom: 2px solid transparent; color: var(--muted); }
+.edit-tabs [aria-selected=true] { border-color: var(--ink); color: var(--ink); }
+.product-edit { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 25px; }
+.edit-card { text-align: left; background: none; min-width: 0; }
+.edit-card[hidden] { display: none; }
+.edit-image { position: relative; display: block; width: 100%; aspect-ratio: .71; overflow: hidden; background: var(--stone); }
+.edit-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .65s cubic-bezier(.2,.7,.3,1); }
+.edit-card:hover .edit-image img { transform: scale(1.04); }
+.quick-view { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: 17px 20px; background: #ffffffed; font-size: 12px; transform: translateY(101%); transition: transform .3s; }
+.edit-card:hover .quick-view, .edit-card:focus-visible .quick-view { transform: none; }
+.quick-view b { font-weight: 400; }
+.edit-card-title { display: flex; justify-content: space-between; margin-top: 20px; font-family: 'Times New Roman', serif; font-size: 23px; }
+.edit-card-title > span { font-family: Arial, sans-serif; font-size: 15px; }
+.edit-card-meta { display: block; margin-top: 11px; font-size: 8px; letter-spacing: 1.3px; color: var(--muted); }
+.edit-footnote { color: var(--muted); text-align: center; font-size: 12px; margin: 35px 0 0; }
+  .product-edit { gap: 16px; }.edit-card-title { font-size: 20px; }.studio-copy { padding: 65px 9%; }.guide-book-scene { padding-inline: 20px; }.guide-book p { font-size: 36px; }
+  .product-section { padding-bottom: 65px; }.edit-tabs { gap: 23px; margin-top: 27px; }.edit-tabs button { font-size: 11px; }.product-edit { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 26px 16px; }.edit-tag { top: 8px; left: 8px; right: 8px; font-size: 6px; padding: 7px; letter-spacing: .2px; }.edit-card-title { font-size: 20px; display: block; line-height: 1.2; margin-top: 14px; }.edit-card-title > span { display: none; }.edit-card-meta { font-size: 6px; letter-spacing: .6px; line-height: 1.6; }.edit-footnote { font-size: 11px; line-height: 1.8; }.quick-view { display: none; }
+@media (prefers-reduced-motion: reduce) { .guide-book, .guide-book-scene:hover .guide-book { transform: none; }.edit-card:hover .edit-image img { transform: none; } }
+/* --- from src/premium.css --- */
+.product-section { padding-block: var(--section-space); }
+.edit-tabs { gap: 32px; margin: 32px 0 24px; }
+.edit-tabs button { font-size: 16px; padding-bottom: 12px; min-height: 48px; }
+.product-edit { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.edit-image { aspect-ratio: 3 / 4; background: var(--surface-soft); }
+.edit-card-title { font-family: var(--font-body); font-size: 21px; line-height: 1.3; margin-top: 16px; }
+.edit-card-meta { font-size: 13px; letter-spacing: 0; line-height: 1.5; margin-top: 6px; }
+.edit-footnote { text-align: left; margin-top: 28px; font-size: 15px; }
+.quick-view { font-size: 14px; }
+  .product-edit { gap: 18px; }
+  .edit-card-title { font-size: 19px; }
+  .product-edit { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+  .edit-card-title { font-size: 18px; }
+  .edit-card-meta { font-size: 12px; }
+  .edit-tabs { gap: 24px; margin-block: 28px 24px; overflow-x: auto; }
+  .edit-tabs button { flex: none; font-size: 14px; }

@@ -1,0 +1,144 @@
+/* The Hair Extensions page.
+   The page body sits inside .home-rest so it inherits the site's heading type,
+   accordions, footer and colour tokens; everything here is the layout that is
+   particular to this page. Product cards reuse .catalogue-* from
+   sections/discovery.css so the shop and this page stay in step. */
+
+.ext-page { padding-bottom: 0; }
+.ext-page section { position: relative; }
+.ext-section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); align-items: end; gap: clamp(24px, 4vw, 72px); margin-bottom: clamp(32px, 4vw, 56px); }
+.ext-section-head h2 { margin: 12px 0 0; }
+.ext-section-head > p { margin: 0 0 6px; color: var(--text-secondary); font-size: 17px; line-height: 1.7; }
+
+/* ---------- Hero ---------- */
+.ext-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+  align-items: center;
+  gap: clamp(32px, 5vw, 88px);
+  width: min(var(--content-width), calc(100% - var(--page-gutter) * 2));
+  margin: clamp(40px, 5vw, 76px) auto clamp(56px, 7vw, 104px);
+}
+.ext-hero-copy h1 { font-family: 'Times New Roman', Georgia, serif; font-weight: 400; font-size: clamp(46px, 6vw, 92px); line-height: 1.02; letter-spacing: -.035em; margin: 18px 0 0; }
+.ext-hero-lede { max-width: 46ch; margin: 24px 0 0; font-size: 18px; line-height: 1.65; color: var(--text-secondary); }
+.ext-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
+.ext-hero-facts { display: flex; flex-wrap: wrap; gap: 0; margin: clamp(36px, 4vw, 56px) 0 0; padding: 22px 0 0; border-top: 1px solid var(--border); list-style: none; }
+.ext-hero-facts li { padding-right: clamp(20px, 3vw, 44px); margin-right: clamp(20px, 3vw, 44px); border-right: 1px solid var(--border); font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
+.ext-hero-facts li:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+.ext-hero-facts strong { display: block; font-family: 'Times New Roman', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 1.1; color: var(--text); }
+.ext-hero-figure { overflow: hidden; background: var(--surface-soft); }
+.ext-hero-figure img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 54% 32%; }
+
+/* ---------- Methods ---------- */
+.ext-methods { padding-block: clamp(48px, 6vw, 88px); }
+.ext-tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--border); }
+.ext-tabs button {
+  position: relative; min-height: 48px; padding: 0 2px 14px;
+  border: 0; background: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 16px; color: var(--text-secondary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.ext-tabs button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--action); transform: scaleX(0); transform-origin: left center; transition: transform var(--duration-normal) var(--ease-out); }
+.ext-tabs button:hover { color: var(--text); }
+.ext-tabs button[aria-selected="true"] { color: var(--text); }
+.ext-tabs button[aria-selected="true"]::after { transform: scaleX(1); }
+.ext-tabs button:focus-visible { outline: 2px solid var(--action); outline-offset: 4px; }
+
+.ext-method-stage { margin-top: clamp(28px, 4vw, 52px); }
+.ext-method { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: clamp(28px, 4.5vw, 72px); align-items: start; }
+.ext-method-figure { overflow: hidden; background: var(--surface-soft); }
+.ext-method-figure img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.ext-method-copy h3 { font-size: clamp(30px, 3vw, 44px); line-height: 1.08; letter-spacing: -.025em; margin: 10px 0 0; }
+.ext-lede { margin: 16px 0 0; font-size: 19px; line-height: 1.5; }
+.ext-method-copy > p:not(.eyebrow):not(.ext-lede):not(.ext-method-pieces) { margin: 18px 0 0; font-size: 16px; line-height: 1.75; color: var(--text-secondary); max-width: 56ch; }
+.ext-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: clamp(28px, 3vw, 40px) 0 0; padding-top: 22px; border-top: 1px solid var(--border); }
+.ext-facts dt { font-size: 13px; color: var(--text-secondary); }
+.ext-facts dd { margin: 6px 0 0; padding-right: 16px; font-size: 15px; line-height: 1.45; }
+.ext-method-pieces { margin: 28px 0 0; }
+
+/* ---------- Comparison table ---------- */
+.ext-compare { padding-block: clamp(48px, 6vw, 88px); }
+.ext-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.ext-table th, .ext-table td { padding: 18px 20px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+.ext-table thead th { padding-top: 0; font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--text-secondary); border-bottom-color: var(--text); }
+.ext-table tbody th { font-family: var(--font-body); font-weight: 600; width: 26%; }
+.ext-table td { color: var(--text-secondary); line-height: 1.5; }
+/* The fitted column is the one this page is arguing for, so it carries weight. */
+.ext-table thead th:last-child, .ext-table td:last-child { color: var(--text); background: var(--surface-soft); }
+.ext-table th:first-child, .ext-table td:first-child { padding-left: 0; }
+
+/* ---------- The range ---------- */
+.ext-range { padding-block: clamp(48px, 6vw, 88px); }
+.ext-filters { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+.ext-filters button { display: inline-flex; align-items: center; gap: 12px; min-height: 46px; padding: 10px 17px; border: 1px solid var(--border); border-radius: 3px; background: var(--surface); font-family: var(--font-body); font-size: 15px; color: var(--text); cursor: pointer; transition: border-color var(--duration-fast), background var(--duration-fast), color var(--duration-fast); }
+.ext-filters button span { font-size: 12px; color: var(--text-secondary); }
+.ext-filters button:hover { border-color: var(--action); }
+.ext-filters button[aria-pressed="true"] { background: var(--action); border-color: var(--action); color: var(--surface); }
+.ext-filters button[aria-pressed="true"] span { color: inherit; opacity: .75; }
+.ext-filters button:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+.ext-family-note { margin: 18px 0 0; font-size: 15px; color: var(--text-secondary); }
+.ext-grid { margin-top: clamp(28px, 3vw, 40px); }
+.ext-grid .catalogue-product { display: flex; flex-direction: column; height: 100%; }
+.ext-lengths { margin: 0 0 12px; font-size: 13px; color: var(--text-secondary); }
+
+/* ---------- Fitting and aftercare ---------- */
+.ext-care { padding-block: clamp(48px, 6vw, 88px); }
+.ext-care-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 5vw, 80px); margin: 0; }
+.ext-care-list > div { padding: 26px 0; border-top: 1px solid var(--border); }
+.ext-care-list dt { display: flex; align-items: baseline; gap: 14px; font-family: 'Times New Roman', Georgia, serif; font-size: 22px; letter-spacing: -.01em; }
+.ext-care-index { font-family: var(--font-body); font-size: 12px; letter-spacing: .14em; color: var(--action); }
+.ext-care-list dd { margin: 10px 0 0 34px; font-size: 15px; line-height: 1.7; color: var(--text-secondary); }
+
+/* ---------- Questions ---------- */
+.ext-faq { padding-block: clamp(48px, 6vw, 80px); }
+.ext-faq .ruled-accordions { max-width: 860px; margin-top: 0; }
+
+/* ---------- Closing call ---------- */
+.ext-cta { margin-top: clamp(40px, 5vw, 72px); padding-block: clamp(64px, 8vw, 120px); background: var(--surface-soft); }
+.ext-cta-inner { width: min(760px, calc(100% - var(--page-gutter) * 2)); margin-inline: auto; text-align: center; }
+.ext-cta-inner h2 { margin: 14px 0 0; }
+.ext-cta-inner > p:not(.eyebrow) { margin: 20px auto 0; max-width: 48ch; font-size: 17px; line-height: 1.7; color: var(--text-secondary); }
+.ext-cta-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px 28px; margin-top: 34px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .ext-hero { grid-template-columns: 1fr; gap: 32px; }
+  .ext-hero-figure img { aspect-ratio: 16 / 10; object-position: 54% 26%; }
+  .ext-section-head { grid-template-columns: 1fr; align-items: start; gap: 16px; }
+  .ext-method { grid-template-columns: 1fr; gap: 26px; }
+  .ext-method-figure img { aspect-ratio: 16 / 10; }
+  .ext-care-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .ext-hero { margin-block: 28px 48px; }
+  .ext-hero-copy h1 { font-size: clamp(38px, 11vw, 52px); }
+  .ext-hero-lede { font-size: 16px; }
+  .ext-hero-actions { gap: 14px 20px; }
+  .ext-hero-actions .solid-button { width: 100%; justify-content: center; }
+  /* Three equal columns rather than a wrapping row, so the dividers stay in
+     line and "Khar West" does not drop below the pair it belongs with. */
+  .ext-hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .ext-hero-facts li { padding: 0 12px; margin: 0; font-size: 12px; line-height: 1.4; }
+  .ext-hero-facts li:first-child { padding-left: 0; }
+  .ext-hero-facts strong { font-size: 20px; margin-bottom: 4px; }
+  .ext-tabs { gap: 2px 20px; }
+  .ext-tabs button { font-size: 15px; }
+  .ext-facts { grid-template-columns: 1fr; gap: 16px; }
+  .ext-facts dd { padding-right: 0; }
+  /* The table drops its header row and becomes three stacked statements. */
+  .ext-table, .ext-table tbody, .ext-table tr, .ext-table th, .ext-table td { display: block; }
+  .ext-table thead { display: none; }
+  .ext-table tr { padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .ext-table th, .ext-table td { padding: 0; border: 0; }
+  .ext-table tbody th { width: auto; font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+  .ext-table td { margin-top: 10px; padding-left: 120px; position: relative; color: var(--text); font-size: 15px; line-height: 1.4; }
+  .ext-table td:last-child { background: none; }
+  .ext-table td::before { content: attr(data-column); position: absolute; left: 0; top: 0; width: 108px; font-size: 13px; line-height: 1.4; color: var(--text-secondary); }
+  .ext-cta-inner { text-align: left; }
+  .ext-cta-actions { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ext-tabs button::after { transition: none; }
+}

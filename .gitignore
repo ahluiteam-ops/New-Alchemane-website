@@ -1,0 +1,36 @@
+# Dependencies, caches and build output
+node_modules/
+dist/
+.npm-cache/
+
+# QA scratch: screenshots, probe scripts' output, local preview server logs.
+# The check-*.mjs scripts in scripts/ are tracked; only their output is not.
+preview/
+
+# Source media kept outside the repo.
+#
+# These are the originals the scripts/prepare-*.mjs steps read from. Their
+# optimised output lives in public/assets/, which IS tracked, so the site
+# builds and deploys without them. Re-running a prepare script needs the
+# matching folder restored from the shared drive.
+Images/
+Videos/
+Recording/
+Figma design/
+Higgsfield hero refs/
+version/
+*.mp4
+!public/assets/**/*.mp4
+
+# Local noise
+debug.log
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Never commit credentials
+.env
+.env.*
+*.pem

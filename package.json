@@ -1,0 +1,28 @@
+{
+  "name": "alchemane-cloud-reveal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "assets": "node scripts/prepare-assets.mjs",
+    "assets:range": "node scripts/prepare-range-assets.mjs",
+    "assets:editorial": "node scripts/prepare-editorial-assets.mjs",
+    "check:preview": "node scripts/check-preview.mjs",
+    "check:homepage": "node scripts/check-homepage.mjs",
+    "check:reels": "node scripts/check-reels.mjs",
+    "check:discovery": "node scripts/check-discovery.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.1.0",
+    "vite": "^7.1.0"
+  }
+}

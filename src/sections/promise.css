@@ -1,0 +1,181 @@
+/* "The promise" — a photographic trust band following the product range.
+   The three claims run down the right of the panel so
+   each one gets a line of its own, and the cutout breaks the panel's top and
+   bottom edge so it reads as an object standing in front of the band rather
+   than a photo cropped inside it.
+
+   Selectors are prefixed with .home-rest where premium.css also styles the
+   element, so this file wins regardless of stylesheet order. The two warm
+   tones below are local on purpose: --brass is a dark ink meant for white
+   paper and is unreadable on this panel, so the band carries its own
+   champagne, picked from the clips in the photograph. */
+
+.home-rest .promise-band {
+  --promise-champagne: #d9c7a4;
+  --promise-ink: #fbfaf6;
+  position: relative;
+  padding-block: 0;
+  margin-block: clamp(88px, 9vw, 148px);
+  background: none;
+}
+
+/* A one-cell grid, so the inner stretches to whichever is taller — the panel's
+   own minimum or the claims — and can align its content against the full
+   height. The backdrop and the cutout are positioned out of that flow. */
+.promise-panel { position: relative; display: grid; min-height: clamp(500px, 46vw, 660px); overflow: visible; }
+/* A strip of page background sitting directly above the band. The cutout's
+   parallax and tilt both move it a few pixels vertically, and the sleeve's
+   crop runs along the very top of the photograph, so without this the crop
+   edge appears above the panel as a hard line whenever the piece rises. */
+.promise-panel::before {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 14%;
+  background: var(--surface, #fff);
+  pointer-events: none;
+}
+.promise-panel-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+
+/* Dark enough on the right to carry white type, clear on the left so the teal
+   backdrop still holds the cutout. */
+.promise-panel-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: clamp(56px, 6vw, 96px) clamp(24px, 6%, 104px);
+  /* The left padding reserves the cutout's column, so the claims can never
+     run into it however the panel's height and the figure's width resolve. */
+  padding-left: clamp(420px, 46%, 700px);
+  background: linear-gradient(104deg, #0c161300 0%, #0c161300 28%, #0c16139e 43%, #0c1613d9 70%, #0c1613eb 100%);
+}
+/* A soft vignette gives the flat gradient some depth and keeps the eye on the
+   cutout and the claims rather than the empty corners. */
+.promise-panel-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(124% 84% at 16% 48%, transparent 44%, #04100d4d 100%);
+}
+
+.promise-list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.8vw, 42px);
+  width: min(640px, 100%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.promise-list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: clamp(16px, 2vw, 30px);
+  padding-top: clamp(20px, 2.3vw, 32px);
+}
+/* The hairline above each claim draws in from the left on reveal; --rule is
+   tweened by promise.js and stays at 1 when motion is off. */
+@property --rule { syntax: '<number>'; inherits: false; initial-value: 1; }
+.promise-list li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #d9c7a45c 0%, #ffffff29 58%, #ffffff00 100%);
+  transform: scaleX(var(--rule, 1));
+  transform-origin: left center;
+}
+
+.home-rest .promise-index {
+  font-family: 'Bodoni MT', 'Times New Roman', serif;
+  font-size: clamp(11px, .85vw, 14px);
+  letter-spacing: .2em;
+  color: var(--promise-champagne);
+}
+.home-rest .promise-claim {
+  display: block;
+  font-family: 'Bodoni MT', 'Times New Roman', serif;
+  font-size: clamp(21px, 2.05vw, 35px);
+  line-height: 1.14;
+  letter-spacing: -.02em;
+  color: var(--promise-ink);
+  text-wrap: balance;
+}
+
+/* 120% of the panel's height, aligned to its top edge, so the hair runs past
+   the bottom onto the white page and the piece reads as an object standing in
+   front of the band. Two crops in the photograph are hidden this way: the
+   sleeve's top cut sits exactly on the panel's top border, and its left cut
+   runs off the side of the viewport. Do not fade either of them with a mask —
+   Chrome rasterises a masked layer at its own bounds, so the img's drop-shadow
+   below then ends in a visible rectangle across the panel. */
+.promise-figure {
+  position: absolute;
+  z-index: 2;
+  left: clamp(-84px, -3vw, -22px);
+  top: 0;
+  height: 120%;
+  pointer-events: none;
+}
+.promise-figure::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 4%;
+  height: 9%;
+  background: radial-gradient(closest-side, #0a161373, transparent 72%);
+  filter: blur(7px);
+}
+.promise-figure img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 30px 34px #0a161373) drop-shadow(0 8px 14px #0a161340);
+}
+
+/* Between 861 and 1120 the panel is still side by side, but the cutout takes a
+   larger share of it, so it is held back a little and the claims tighten. */
+@media (max-width: 1120px) {
+  .promise-panel { min-height: clamp(500px, 58vw, 620px); }
+  .promise-panel-inner { padding-left: clamp(360px, 48%, 470px); }
+  .promise-figure { left: clamp(-70px, -4vw, -28px); height: 104%; }
+  .promise-list { width: min(460px, 100%); gap: 22px; }
+  .promise-list li { padding-top: 16px; }
+  .home-rest .promise-claim { font-size: clamp(19px, 2.3vw, 26px); }
+}
+
+/* Below 861 there is no room for two columns: the cutout takes the frame and
+   the claims sit beneath it, over the darkened lower half. */
+@media (max-width: 860px) {
+  .home-rest .promise-band { margin-block: 72px; }
+  .promise-panel { min-height: clamp(520px, 90vw, 720px); aspect-ratio: auto; }
+  .promise-figure { left: -8%; top: 0; height: 66%; }
+  .promise-panel-inner {
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0 7% 44px;
+    background: linear-gradient(0deg, #0c1613eb 0%, #0c1613c7 40%, #0c161300 72%);
+  }
+  .promise-panel-inner::after { display: none; }
+  .promise-list { width: 100%; gap: 18px; }
+  .promise-list li { padding-top: 15px; column-gap: 12px; }
+  .home-rest .promise-claim { font-size: clamp(19px, 2.6vw, 26px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promise-figure img { transform: none !important; }
+}

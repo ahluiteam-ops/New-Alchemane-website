@@ -1,0 +1,146 @@
+/* Mobile polish for the homepage.
+   Imported last so it settles ties with the earlier stylesheets. Nothing here
+   removes an element, a section or an animation — it corrects touch ergonomics,
+   legibility and the small-screen spacing that the desktop rules inherit.
+
+   Scoping rules used below:
+     (hover: none) and (pointer: coarse)  →  touch devices only, any width
+     (max-width: 600px)                   →  the phone layout
+     short viewports                      →  landscape phones
+   Desktop with a mouse matches none of these and is left exactly as it was. */
+
+/* ---------------------------------------------------------------- global --
+   Safari inflates text in landscape unless told not to; the site sets its own
+   responsive sizes and does not want that on top. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* --------------------------------------------------- touch feedback (law) --
+   styles.css clears -webkit-tap-highlight-color, and nothing replaced it, so
+   on a phone a tap currently produces no acknowledgement at all until the next
+   screen paints. These give every control an immediate pressed state.
+   Scoped to touch pointers, so mouse hover behaviour is untouched. */
+@media (hover: none) and (pointer: coarse) {
+  .collection-cta:active,
+  .solid-button:active,
+  .catalogue-filters button:active,
+  .ext-filters button:active,
+  .story-controls button:active,
+  .voices-controls button:active,
+  .menu-toggle:active,
+  .dialog-close:active,
+  .dialog-return:active,
+  [data-show-more]:active,
+  [data-reset-filters]:active,
+  .edit-tabs button:active,
+  .catalogue-sort select:active { transform: scale(.97); opacity: .9; }
+
+  .catalogue-product:active,
+  .discovery-category:active,
+  .edit-card:active,
+  .voice-play:active,
+  .catalogue-card:active { opacity: .78; }
+
+  .text-link:active,
+  .main-nav a:active,
+  .footer-grid a:active,
+  .shop-nav a:active,
+  .catalogue-action:active { opacity: .6; }
+
+  .ruled-accordions summary:active,
+  .faq-list summary:active { background: var(--surface-soft, #f3f5f1); }
+
+  /* Kills the 300ms double-tap-zoom wait on controls without disabling
+     pinch-zoom anywhere on the page. */
+  button, a, summary, label, select, [role="tab"] { touch-action: manipulation; }
+}
+
+/* ------------------------------------------------------- phone: the layout */
+@media (max-width: 600px) {
+  /* --- Floating WhatsApp / call buttons -----------------------------------
+     Two different destinations were sitting flush against each other (gap: 0),
+     which is a mis-tap waiting to happen, and at 64px each the pair covered a
+     128px column of whatever scrolled underneath. Smaller, separated, and held
+     clear of the home-indicator area. */
+  .floating-contact {
+    right: 12px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+  .floating-contact-link {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    /* Reads as floating above the page rather than colliding with it. */
+    box-shadow: 0 6px 18px #17161326;
+  }
+  .floating-contact-link:active { transform: scale(.94); }
+
+  /* The buttons are fixed, so without this the last rows of the footer sit
+     permanently underneath them. */
+  .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+  /* --- Story carousel controls -------------------------------------------
+     5px apart; WCAG 2.5.8 and every platform guideline ask for 8px minimum
+     between separate targets. */
+  .stories-section .story-controls { gap: 12px; }
+
+  /* --- Body copy floor ----------------------------------------------------
+     These three sat at 13px. 14px is the smallest that stays comfortable at
+     arm's length on a phone. */
+  .catalogue-description { font-size: 14px; line-height: 1.5; }
+  .catalogue-price-note { font-size: 14px; }
+  .consultation-status p { font-size: 14px; line-height: 1.6; }
+
+  /* --- Radio and checkbox controls ---------------------------------------
+     The labels around them are already 44px tall, so the hit area was fine,
+     but the controls themselves rendered at 16–18px, which is hard to read as
+     checked or unchecked at a glance. */
+  .new-filter input[type="checkbox"],
+  #consultation-form input[type="radio"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--action, #304638);
+  }
+  .new-filter, #consultation-form fieldset label { gap: 12px; }
+
+  /* --- Horizontal scrollers ----------------------------------------------
+     Without this, swiping one of these rows past its end hands the gesture to
+     the browser and navigates back a page. */
+  .edit-tabs,
+  .catalogue-filters,
+  .ext-filters { overscroll-behavior-x: contain; }
+
+  /* --- Hero breathing room at the narrow end ------------------------------
+     At 320px the wordmark and the menu button were 0.8px apart. */
+  .masthead { column-gap: 12px; }
+  .hero-actions { gap: 18px; padding-bottom: 6px; }
+}
+
+/* ------------------------------------------------- very narrow phones (320) */
+@media (max-width: 360px) {
+  .brand-name { font-size: 30px; }
+  .brand-caption { letter-spacing: 2.4px; }
+  .collection-cta { min-width: 0; width: 100%; max-width: 280px; letter-spacing: 2px; }
+  .catalogue-filters button { font-size: 13px; padding: 9px 11px; gap: 7px; }
+}
+
+/* ----------------------------------------------------- landscape on a phone
+   .hero-scene carries min-height: 580–660px. Turn a phone sideways and the
+   viewport is ~390px tall, so the hero alone was taller than the screen and
+   "Shop the collection" fell below the fold with nothing to indicate it.
+   The cloud reveal is already disabled at this height by main.js, so relaxing
+   the floor here costs no animation. */
+@media (max-height: 520px) and (orientation: landscape) {
+  /* Drop the floor and slim the masthead; the hero then fits the short screen
+     and the call to action keeps its place at the foot of the picture. */
+  :root { --header-height: 104px; }
+  .masthead { height: 62px; }
+  .brand-name { font-size: 26px; }
+  .brand { gap: 6px; }
+  .hero-scene, .motion-enabled .stage { min-height: 0; height: 100svh; }
+  .hero-actions { bottom: 4%; gap: 10px; }
+  .collection-cta { min-height: 48px; }
+  .collection-scene { min-height: 0; padding-block: 36px; }
+  .floating-contact-link { width: 48px; height: 48px; }
+  .floating-contact { gap: 10px; }
+}

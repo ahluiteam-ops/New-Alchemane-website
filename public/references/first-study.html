@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Alchemane — Homepage reference direction</title>
+  <style>
+    :root { color-scheme: light; --ink:#181818; --muted:#606060; --line:#dededb; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fff; color:var(--ink); font:15px/1.65 Arial,sans-serif; }
+    a { color:inherit; text-underline-offset:5px; }
+    button { font:inherit; color:inherit; }
+    :focus-visible { outline:2px solid #181818; outline-offset:5px; }
+    header, main, footer { width:min(1440px,90%); margin:auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:24px 0; border-bottom:1px solid var(--line); }
+    .wordmark { font:26px Georgia,serif; letter-spacing:2px; text-decoration:none; }
+    .label { font-size:10px; letter-spacing:2px; text-transform:uppercase; }
+    .intro { padding:72px 0 48px; max-width:1000px; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font:clamp(46px,6.5vw,92px)/1.03 Georgia,serif; letter-spacing:-3px; margin:22px 0 28px; }
+    .intro > p:last-child { color:var(--muted); max-width:680px; font-size:17px; }
+    .baseline { display:grid; grid-template-columns:1.4fr 1fr; border-block:1px solid var(--line); margin-bottom:80px; }
+    .baseline img { width:100%; height:100%; min-height:300px; max-height:440px; object-fit:cover; }
+    .baseline div { padding:40px; align-self:center; }
+    h2 { font:clamp(28px,3.5vw,46px)/1.15 Georgia,serif; letter-spacing:-1px; }
+    .baseline p:last-child { margin-bottom:0; color:var(--muted); }
+    .section-title { display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:28px; }
+    .section-title h2 { margin:0; }
+    .references { display:grid; grid-template-columns:1fr 1fr; gap:64px 40px; }
+    .image-button { border:0; padding:28px; width:100%; background:#f5f5f3; cursor:zoom-in; display:block; }
+    .image-button img { width:100%; height:540px; display:block; object-fit:contain; }
+    .image-button span { display:block; margin-top:18px; font-size:11px; letter-spacing:1px; }
+    .card-body { padding:24px 0 0; }
+    .card-body .label { color:var(--muted); margin-bottom:10px; }
+    h3 { font:29px/1.2 Georgia,serif; margin-bottom:16px; }
+    .card-body p { max-width:590px; margin-bottom:12px; }
+    .card-body p.adapt { color:var(--muted); }
+    .source { display:inline-block; min-height:44px; padding:9px 0; font-size:12px; }
+    .direction { margin:88px 0 0; padding-top:44px; border-top:1px solid var(--line); }
+    .direction > p { max-width:730px; color:var(--muted); }
+    .mapping { margin:32px 0 0; }
+    .mapping article { display:grid; grid-template-columns:.8fr 1.8fr; gap:40px; padding:25px 0; border-top:1px solid var(--line); }
+    .mapping h3 { font-size:23px; margin:0; }
+    .mapping p { margin:0; }
+    .motion { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-top:60px; padding:40px; background:#f7f7f5; }
+    .motion h3 { margin-bottom:12px; }
+    .motion p { margin:0; color:var(--muted); }
+    footer { margin-top:72px; padding:25px 0 35px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:30px; color:var(--muted); font-size:12px; }
+    dialog { width:min(950px,94vw); max-height:94vh; border:0; padding:20px; background:#fff; }
+    dialog::backdrop { background:#000b; }
+    dialog form { position:sticky; top:0; display:flex; justify-content:flex-end; }
+    dialog button { cursor:pointer; background:#fff; padding:10px 20px; border:1px solid var(--line); min-height:44px; }
+    dialog img { display:block; width:100%; height:auto; margin-top:12px; }
+    @media(max-width:700px) {
+      header { align-items:flex-start; } header .label { max-width:140px; text-align:right; }
+      .intro { padding-top:45px; } h1 { letter-spacing:-1.5px; }
+      .baseline,.references,.motion { grid-template-columns:1fr; }
+      .baseline { margin-bottom:48px; } .baseline div { padding:28px 0; }
+      .baseline img { min-height:200px; } .section-title { display:block; }
+      .section-title .label { margin-top:16px; }
+      .references { gap:44px; } .image-button { padding:18px; }
+      .image-button img { height:440px; }
+      .mapping article { grid-template-columns:1fr; gap:12px; }
+      .motion { padding:25px; gap:30px; } footer { flex-direction:column; gap:12px; }
+    }
+  </style>
+</head>
+<body>
+  <header><a class="wordmark" href="/">ALCHEMANE</a><span class="label">Homepage direction / Pinterest research</span></header>
+  <main>
+    <section class="intro">
+      <p class="label">The direction to carry forward</p>
+      <h1>Let the rest of the page<br>feel like the beginning.</h1>
+      <p>Bright white. Confident serif typography. Beautiful hair photography. Four Pinterest references selected for specific lower-page layouts, with a clear way to make them feel like Alchemane.</p>
+    </section>
+    <section class="baseline" aria-labelledby="baseline-title">
+      <img src="/assets/hero-1280.webp" alt="Alchemane’s existing bright, photographic hero artwork">
+      <div><p class="label">Our visual anchor / existing hero</p><h2 id="baseline-title">Air, light,<br>and beautiful hair.</h2><p>Carry the hero’s white canvas, black type and photographic confidence down the page. Use generous space and fewer decorative elements. Let each section have its own composition within that same visual language.</p></div>
+    </section>
+    <div class="section-title"><h2>Four references worth borrowing from.</h2><span class="label">Select an image to inspect</span></div>
+    <section class="references" aria-label="Selected Pinterest references">
+      <article>
+        <button class="image-button" data-image="pinterest/skincare-catalog.jpg" aria-label="Enlarge minimal skincare catalogue reference"><img src="pinterest/skincare-catalog.jpg" alt="White skincare catalogue with fine serif headings, staggered product rows and pale image backgrounds"><span>ENLARGE REFERENCE ↗</span></button>
+        <div class="card-body"><p class="label">01 / Favourites + the full range</p><h3>A quieter product gallery.</h3><p><strong>Borrow:</strong> pale image fields, fine typography and category labels that create breathing room within the product grid.</p><p class="adapt"><strong>For Alchemane:</strong> larger, consistently cropped hair portraits; short names and discreet details underneath. Keep filtering visible and quick-view controls accessible on touch.</p><a class="source" href="https://se.pinterest.com/pin/5488830792400521/" target="_blank" rel="noopener noreferrer">View skincare catalogue on Pinterest ↗</a></div>
+      </article>
+      <article>
+        <button class="image-button" data-image="pinterest/quiet-luxury.jpg" aria-label="Enlarge quiet luxury salon reference"><img src="pinterest/quiet-luxury.jpg" alt="Beauty salon layout with oversized delicate serif statements and small portrait inserts"><span>ENLARGE REFERENCE ↗</span></button>
+        <div class="card-body"><p class="label">02 / Founder story + testimonials + consultation</p><h3>Let the words have presence.</h3><p><strong>Borrow:</strong> oversized editorial statements, small human portraits and very little surrounding decoration.</p><p class="adapt"><strong>For Alchemane:</strong> a black serif founder statement on white, an authentic portrait, and one beautifully set client quote at a time. End with a generous consultation invitation. Use the hero’s palette.</p><a class="source" href="https://mx.pinterest.com/pin/655766395779740756/" target="_blank" rel="noopener noreferrer">View quiet luxury salon on Pinterest ↗</a></div>
+      </article>
+      <article>
+        <button class="image-button" data-image="pinterest/fylona.jpg" aria-label="Enlarge photographic beauty layout reference"><img src="pinterest/fylona.jpg" alt="Yunjac beauty page reference with varied photographic compositions, generous spacing and small product groupings"><span>ENLARGE REFERENCE ↗</span></button>
+        <div class="card-body"><p class="label">03 / Craftsmanship + transformation + films</p><h3>More variety in the photography.</h3><p><strong>Borrow:</strong> the changing rhythm of wide photographs, intimate details and asymmetric image groupings.</p><p class="adapt"><strong>For Alchemane:</strong> one large hair portrait beside a smaller base or texture detail. Give transformation and film sections a larger visual stage, with captions kept outside the image. Keep the surrounding canvas white.</p><a class="source" href="https://kr.pinterest.com/pin/910149405954922285/" target="_blank" rel="noopener noreferrer">View photographic beauty layout on Pinterest ↗</a></div>
+      </article>
+      <article>
+        <button class="image-button" data-image="pinterest/studio-zash.jpg" aria-label="Enlarge Studio Zash beauty store reference"><img src="pinterest/studio-zash.jpg" alt="Shine beauty store design with overlapping portraits, white space and a simple four-column product row"><span>ENLARGE REFERENCE ↗</span></button>
+        <div class="card-body"><p class="label">04 / Find your match + studio + hair guide</p><h3>Layer photographs with restraint.</h3><p><strong>Borrow:</strong> the overlapping portrait and detail imagery, simple black calls to action and open spacing.</p><p class="adapt"><strong>For Alchemane:</strong> combine real salon photography with a close-up of a fitting. Use the existing serif family throughout; simplify the lettering and supporting graphics. Turn the guide into an editorial story card.</p><a class="source" href="https://mx.pinterest.com/pin/734438651767224342/" target="_blank" rel="noopener noreferrer">View Studio Zash reference on Pinterest ↗</a></div>
+      </article>
+    </section>
+    <section class="direction" aria-labelledby="direction-title">
+      <p class="label">Recommended application / design proposal</p><h2 id="direction-title">One coherent homepage.</h2><p>The strongest combination: reference 01 for shopping, 02 for typography, 03 for photographic pacing, and 04 for the studio and guidance sections.</p>
+      <div class="mapping">
+        <article><h3>Solutions & shopping</h3><p>Give “Find your match” a large portrait and a short, clear set of choices. Follow with spacious favourites and a disciplined full-range grid. Unify image ratios, labels and controls.</p></article>
+        <article><h3>Films & transformations</h3><p>Use large stills with a clear play button and a short caption. Preserve the before/after interaction, but remove its heavy beige surround. Let images provide the section’s visual character.</p></article>
+        <article><h3>Craft & founder</h3><p>Introduce an asymmetric photograph-and-detail composition for craftsmanship, then an oversized founder statement on white. Replace the dark green panel with space, portraiture and a clear narrative.</p></article>
+        <article><h3>Stories & studio</h3><p>Set one client quote in large serif type beside a portrait. Present the studio with authentic interior or fitting photography, a concise address and one booking action. Real studio photography is needed to replace the current decorative arch.</p></article>
+        <article><h3>Guide & questions</h3><p>Replace the simulated 3D book with a photographic editorial card. Keep FAQs compact and readable with fine rules, generous tap targets and a simple open/close interaction.</p></article>
+        <article><h3>Consultation & footer</h3><p>Finish with a large typographic invitation and a visually quiet form on white. Use black buttons, understated field borders and a spacious footer aligned to the header.</p></article>
+      </div>
+      <div class="motion"><div><h3>Motion that supports the imagery.</h3><p>Keep the hero’s cloud wipe as the signature transition. Below it, use subtle image reveals, restrained depth on larger photographs and gentle text entrances. Respect reduced-motion preferences.</p></div><div><h3>A simpler visual system.</h3><p>White canvas, near-black text, light grey dividers. Reuse the hero’s serif and one supporting sans serif. Remove numbered section labels, repeated brown italics and unnecessary surface decoration.</p></div></div>
+    </section>
+  </main>
+  <footer><span>Curated 18 September 2026. Reference images belong to their respective creators.<br>This local research board illustrates design ideas; the images are not proposed website assets.</span><a href="/">Return to the current homepage ↗</a></footer>
+  <dialog aria-label="Enlarged Pinterest reference"><form method="dialog"><button>Close ×</button></form><img alt=""></dialog>
+  <script>
+    const viewer = document.querySelector('dialog');
+    document.querySelectorAll('[data-image]').forEach(button => button.addEventListener('click', () => {
+      const image = viewer.querySelector('img');
+      image.src = button.dataset.image;
+      image.alt = button.querySelector('img').alt;
+      viewer.showModal();
+      viewer.scrollTop = 0;
+    }));
+    viewer.addEventListener('click', event => { if (event.target === viewer) { const rect = viewer.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) viewer.close(); } });
+  </script>
+</body>
+</html>

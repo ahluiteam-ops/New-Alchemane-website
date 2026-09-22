@@ -1,0 +1,43 @@
+[
+  {
+    "id": "versa",
+    "title": "VERSA — portrait, manifesto, craft film",
+    "asset": "/references/research-pins/versa.jpg",
+    "pin": "https://in.pinterest.com/pin/versa-jewelry-website-behance--925630529664915156/",
+    "image": "https://i.pinimg.com/736x/27/40/36/274036a4bdb0a601c56698ee5d51850b.jpg",
+    "credit": "Daria Lym / Lym Design Studio, as attributed by the Pinterest page",
+    "evidence": "Static design reference. The Pinterest page and image were inspected; its linked Behance project returned 404 in the web reader.",
+    "observed": "Large high-contrast serif lettering, asymmetric portrait and short statement, generous white space, a wide craft-film poster, thin ruled footer.",
+    "application": "Founder and craftsmanship: use an authentic portrait, one confident sentence, short supporting copy, then a large hands-and-hair film. Carry the hero's white and black palette throughout.",
+    "motionProposal": "A slow poster reveal and user-initiated film; keep the headline readable throughout.",
+    "caution": "Borrow the scale, pacing and composition. Do not copy its logo, exact type treatment, wording or long two-column mobile copy."
+  },
+  {
+    "id": "paola",
+    "title": "Paola Vilas — shoppable editorial gallery",
+    "asset": "/references/research-pins/paola.jpg",
+    "pin": "https://in.pinterest.com/pin/paola-vilas-jewelry-redesign-behance-in-2025--415808978116590026/",
+    "image": "https://i.pinimg.com/736x/29/bb/09/29bb09098244280adcc1838cfba79141.jpg",
+    "project": "https://www.behance.net/gallery/135937061/Paola-Vilas-Jewelry-Redesign",
+    "credit": "Anastasiia Yevtukhova, redesign project, January 2022",
+    "evidence": "Pinterest image visually inspected; original Behance project opened and authorship verified. This is a redesign study, not a claim about the current live brand website.",
+    "observed": "Isolated objects on white alternate with double-height campaign portraits and a smaller horizontal close-up, all aligned to a consistent catalogue grid.",
+    "application": "The Edit: one double-height hair portrait anchors four uncluttered product cards; small product name, purpose and clear action. Use human hair details and honest texture instead of identical boxed cards.",
+    "motionProposal": "Subtle image replacement on hover, with the same alternate image accessible by tap. A simple filter should preserve scroll position.",
+    "caution": "For the homepage, omit the dense filter sidebar and pagination. On mobile use a stable two-column shop grid, with the portrait spanning both columns."
+  },
+  {
+    "id": "jhannah",
+    "title": "J.Hannah — intimate material study",
+    "asset": "/references/research-pins/jhannah.jpg",
+    "pin": "https://www.pinterest.com/pin/jhannah-jewelry-nailpolish-on-behance--515662226085200863/",
+    "image": "https://i.pinimg.com/736x/cd/64/5f/cd645fdb0c1290cec0a5d27eae945b03.jpg",
+    "project": "https://www.behance.net/gallery/74183375/JHannah-Jewelry-Nailpolish",
+    "credit": "Natasha Mead, identity and e-commerce case study, December 2018",
+    "evidence": "Pinterest image visually inspected; original Behance project opened and authorship verified. Historical case study, not the current live site.",
+    "observed": "An oversized softly lit material close-up is balanced by a much smaller on-body image, minimal labels and unusually generous white space.",
+    "application": "Hair craft or transformation: pair a close-up of silk base or hand-knotted hair with a small contextual worn portrait. This gives the product a tactile, intimate quality and changes the page rhythm.",
+    "motionProposal": "A restrained difference in image movement, or a short silent fabric/hair loop, with a still-image fallback.",
+    "caution": "Empty space requires excellent original photography. Preserve useful captions and clear controls; do not shrink Alchemane's navigation or copy to match the screenshot."
+  }
+]

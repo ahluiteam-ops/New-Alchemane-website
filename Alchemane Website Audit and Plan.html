@@ -1,0 +1,938 @@
+<title>Alchemane Site Audit</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F4F6F5; --paper:#FFFFFF; --ink:#14211F; --text:#25332F; --muted:#5C6B68;
+  --line:#D9E1DE; --line-soft:#E8EDEB;
+  --accent:#2E8478; --accent-ink:#1F5F56; --accent-soft:#E3F0ED;
+  --brass:#A8864F; --brass-soft:#F4EBDD;
+  --p0:#B4362C; --p0-soft:#F8E4E1; --p1:#B7791F; --p1-soft:#F8EDD8; --p2:#2E8478; --p2-soft:#E3F0ED; --p3:#6B7775; --p3-soft:#ECEFEE;
+  --ok:#2F7D4F; --ok-soft:#E2F1E7; --warn:#B7791F; --bad:#B4362C;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --serif:"Fraunces","Iowan Old Style",Georgia,serif;
+  --sans:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1A18; --paper:#16221F; --ink:#EEF3F1; --text:#DCE4E1; --muted:#9BABA7;
+    --line:#2A3A36; --line-soft:#223330;
+    --accent:#7CC9BD; --accent-ink:#A6DED5; --accent-soft:#1B2F2B;
+    --brass:#D2B27F; --brass-soft:#2C2517;
+    --p0:#F08A7E; --p0-soft:#3A1D19; --p1:#E7B35A; --p1-soft:#3A2B12; --p2:#7CC9BD; --p2-soft:#1B2F2B; --p3:#A9B4B1; --p3-soft:#232E2C;
+    --ok:#7ED39B; --ok-soft:#173222; --warn:#E7B35A; --bad:#F08A7E;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1A18; --paper:#16221F; --ink:#EEF3F1; --text:#DCE4E1; --muted:#9BABA7;
+  --line:#2A3A36; --line-soft:#223330;
+  --accent:#7CC9BD; --accent-ink:#A6DED5; --accent-soft:#1B2F2B;
+  --brass:#D2B27F; --brass-soft:#2C2517;
+  --p0:#F08A7E; --p0-soft:#3A1D19; --p1:#E7B35A; --p1-soft:#3A2B12; --p2:#7CC9BD; --p2-soft:#1B2F2B; --p3:#A9B4B1; --p3-soft:#232E2C;
+  --ok:#7ED39B; --ok-soft:#173222; --warn:#E7B35A; --bad:#F08A7E;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
+a{color:var(--accent-ink);text-decoration-thickness:1px;text-underline-offset:2px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);font-weight:500;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(2rem,4.5vw,3.25rem);font-variation-settings:"opsz" 144}
+h2{font-size:clamp(1.55rem,2.6vw,2.1rem);margin-top:0;font-variation-settings:"opsz" 96}
+h3{font-size:1.35rem;font-variation-settings:"opsz" 48}
+h4{font-size:1.05rem;font-family:var(--sans);font-weight:700;letter-spacing:.01em}
+p{margin:0 0 .9em}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--line-soft);padding:.05em .35em;border-radius:3px;color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:0}}
+.masthead{grid-column:1/-1;padding-block:44px 28px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.eyebrow{font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:700;margin-bottom:12px}
+.masthead p.lede{font-size:1.15rem;max-width:68ch;color:var(--text);margin-top:14px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:18px;font-size:.9rem;color:var(--muted)}
+.meta-row b{color:var(--ink);font-weight:600}
+nav.toc{position:sticky;top:20px;align-self:start;font-size:.9rem}
+@media (max-width:900px){nav.toc{position:static;margin-bottom:24px;border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper)}}
+nav.toc .eyebrow{margin-bottom:8px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:0;padding:3px 0}
+nav.toc a{color:var(--text);text-decoration:none;display:block;padding:2px 0 2px 10px;border-left:2px solid var(--line-soft)}
+nav.toc a:hover{border-left-color:var(--accent);color:var(--ink)}
+nav.toc li.sub a{padding-left:22px;font-size:.84rem;color:var(--muted)}
+main{min-width:0}
+section.part{margin-bottom:56px}
+section.part>h2{padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:20px}
+.prose{max-width:72ch}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 1em}
+.prose li{margin-bottom:.35em}
+.callout{border-left:3px solid var(--brass);background:var(--brass-soft);padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;max-width:72ch}
+.callout.crit{border-left-color:var(--p0);background:var(--p0-soft)}
+.callout.info{border-left-color:var(--accent);background:var(--accent-soft)}
+.pill{display:inline-block;font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;line-height:1.6;white-space:nowrap}
+.P0{background:var(--p0-soft);color:var(--p0)} .P1{background:var(--p1-soft);color:var(--p1)} .P2{background:var(--p2-soft);color:var(--p2)} .P3{background:var(--p3-soft);color:var(--p3)}
+.ok{background:var(--ok-soft);color:var(--ok)} .warn{background:var(--p1-soft);color:var(--warn)} .bad{background:var(--p0-soft);color:var(--bad)} .na{background:var(--p3-soft);color:var(--p3)}
+.tablewrap{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+th{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--ground);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td .mono{white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0 6px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.kpi .v{font-family:var(--serif);font-size:1.9rem;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.8rem;color:var(--muted);margin-top:4px}
+.kpi.bad .v{color:var(--bad)} .kpi.warn .v{color:var(--warn)} .kpi.ok .v{color:var(--ok)}
+/* page dossier */
+.dossier{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin:0 0 26px}
+.dossier header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 20px;align-items:start;margin-bottom:12px}
+.dossier header h3{font-size:1.45rem}
+.dossier .badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:640px){.dossier header{grid-template-columns:1fr}.dossier .badges{justify-content:flex-start}}
+.dossier dl.ids{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 14px;margin:0 0 16px;font-size:.88rem;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:10px 0}
+.dossier dl.ids dt{color:var(--muted);font-weight:600}
+.dossier dl.ids dd{margin:0;word-break:break-word}
+.dossier h4{margin:14px 0 6px;color:var(--ink)}
+.dossier h4:first-of-type{margin-top:0}
+.dossier ul{padding-left:1.15em;margin:0 0 6px}
+.dossier li{margin-bottom:.4em}
+.dossier li b{font-weight:600}
+.ev{color:var(--muted);font-size:.9em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+@media (max-width:700px){.two{grid-template-columns:1fr}}
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
+.swatch{display:flex;align-items:center;gap:10px;font-size:.9rem}
+.swatch i{width:34px;height:34px;border-radius:6px;border:1px solid var(--line);flex:none}
+.typespec{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.typespec .d{font-family:var(--serif);font-size:1.8rem;color:var(--ink);line-height:1.1}
+.typespec .b{margin-top:8px}
+.typespec small{color:var(--muted);display:block;margin-top:6px}
+.day{display:grid;grid-template-columns:70px minmax(0,1fr);gap:8px 14px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:.93rem}
+.day:last-child{border-bottom:0}
+.day .d{font-family:var(--mono);font-size:.8rem;color:var(--accent-ink);font-weight:500;padding-top:3px}
+.day .t b{color:var(--ink)}
+.phase{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.phase h3{margin-bottom:4px}
+.phase .sum{color:var(--muted);font-size:.9rem;margin-bottom:8px}
+details{border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:10px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.foot{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;max-width:72ch}
+.q{font-weight:600;color:var(--ink)}
+.decisions li{margin-bottom:.7em}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Website audit and build plan</div>
+    <h1>Alchemane Site Audit</h1>
+    <p class="lede">Old Shopify site, new Next.js build and the 28 Figma exports reviewed side by side on desktop and mobile. Findings are evidence-led; anything not verifiable from outside the codebase is marked as such rather than guessed.</p>
+    <div class="meta-row">
+      <span><b>Old site</b> alchemane.com (Shopify, Prestige 7.0.1)</span>
+      <span><b>New build</b> alchemane-frontend-old.vercel.app (Next.js)</span>
+      <span><b>Design</b> 28 Figma PDF exports</span>
+      <span><b>Reviewed</b> 15 Sep 2026</span>
+      <span><b>Role</b> auditor, UX, content, 3D direction</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="eyebrow">Contents</div>
+    <ol>
+      <li><a href="#summary">Executive summary</a></li>
+      <li><a href="#taken">Decisions taken and the answer on starting now</a></li>
+      <li><a href="#inventory">1. Page inventory and Figma map</a></li>
+      <li><a href="#pages">2. Page-by-page audit</a></li>
+      <li class="sub"><a href="#pg-header">Header, menu, city selector</a></li>
+      <li class="sub"><a href="#pg-popup">Offer popup</a></li>
+      <li class="sub"><a href="#pg-footer">Footer and floating widgets</a></li>
+      <li class="sub"><a href="#pg-home">Home</a></li>
+      <li class="sub"><a href="#pg-pe">Permanent Extensions</a></li>
+      <li class="sub"><a href="#pg-toppers">Hair Toppers</a></li>
+      <li class="sub"><a href="#pg-wigs">Hair Wigs</a></li>
+      <li class="sub"><a href="#pg-shop">Shop</a></li>
+      <li class="sub"><a href="#pg-pdp">Product detail</a></li>
+      <li class="sub"><a href="#pg-blog">Blog listing</a></li>
+      <li class="sub"><a href="#pg-article">Blog article</a></li>
+      <li class="sub"><a href="#pg-policies">Policy pages</a></li>
+      <li class="sub"><a href="#pg-contact">Contact</a></li>
+      <li class="sub"><a href="#pg-consult">Consultation</a></li>
+      <li class="sub"><a href="#pg-guide">Free guide</a></li>
+      <li class="sub"><a href="#pg-studios">Studio and city pages</a></li>
+      <li class="sub"><a href="#pg-blr">Bangalore landing pages</a></li>
+      <li class="sub"><a href="#pg-missing">Cart, checkout, search, account, 404</a></li>
+      <li class="sub"><a href="#pg-oldonly">Old-site pages not migrated</a></li>
+      <li><a href="#sitewide">3. Site-wide issues by priority</a></li>
+      <li><a href="#figma">4. Build vs Figma</a></li>
+      <li><a href="#direction">5. Premium direction</a></li>
+      <li><a href="#threed">6. 3D, photo and video shortlist</a></li>
+      <li><a href="#needs">7. What I need from you</a></li>
+      <li><a href="#plan">8. Day-by-day plan for Astra</a></li>
+      <li><a href="#decisions">9. Decisions needed</a></li>
+      <li><a href="#method">Method and limits</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- ===================== SUMMARY ===================== -->
+  <section class="part" id="summary">
+    <h2>Executive summary</h2>
+    <div class="prose">
+      <p>The new build is a large step up from the Shopify site in structure, copy and photography consistency. It is not launchable yet. The purchase journey is broken, the numbers the site uses to earn trust contradict each other, and several sections still hold placeholder or template content. Fixing those is a two-week job. With the decisions taken on 15 Sep (checkout plus consultation, hero-only scroll film, micro-interactions elsewhere), the revised plan is 36 working days for Astra, about seven and a half weeks, with the home page signed off on day 12.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi bad"><div class="v">404</div><div class="l">/cart and /checkout on the new build</div></div>
+      <div class="kpi bad"><div class="v">10.1 s</div><div class="l">Mobile LCP, new home (Lighthouse)</div></div>
+      <div class="kpi warn"><div class="v">2 sets</div><div class="l">Topper prices in the new build (₹25k vs ₹28k)</div></div>
+      <div class="kpi warn"><div class="v">116 / 157</div><div class="l">Home images with empty alt text</div></div>
+      <div class="kpi ok"><div class="v">92</div><div class="l">Mobile performance on the new PDP (old home: 49)</div></div>
+      <div class="kpi"><div class="v">19 / 28</div><div class="l">Live pages with no Figma design</div></div>
+    </div>
+    <div class="callout crit"><b>Five things that block launch.</b> Cart and checkout return 404 while every product shows Add to cart and Buy it now. Search and account icons are disabled. Product prices differ by page. Testimonials are the same five quotes relabelled per product page. Every product shows "Only 5 items left in stock", including a made-to-order ₹80,000 wig.</div>
+    <div class="prose">
+      <p><b>What works.</b> The information architecture is right for this business: concern-led entry points, one long-form page per solution, a consultation form on every page, comparison tables, FAQ per method and a single consistent product shoot. The Figma system is coherent and the build follows it closely on desktop.</p>
+      <p><b>Where it falls short of premium.</b> The visual language is a competent generic e-commerce template: teal buttons, rounded cards, catalogue-style product shots against grey, clickbait blog thumbnails, stock photos in the consultation and studio sections. A ₹40,000 purchase that involves someone's hair loss needs quieter, more assured design, real people with names, and product photography that shows construction close up.</p>
+    </div>
+  </section>
+
+
+  <!-- ===================== DECISIONS TAKEN ===================== -->
+  <section class="part" id="taken">
+    <h2>Decisions taken on 15 Sep 2026 and what they change</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Decision</th><th>Effect on the plan</th></tr></thead>
+      <tbody>
+        <tr><td><b>Checkout and consultation both at launch</b></td><td>Path A in the plan. Shopify headless (Storefront API) is the recommended route because the existing store already holds products, payments, GST and order history. Cart, checkout hand-off and order confirmation are built in week 2, straight after the home page.</td></tr>
+        <tr><td><b>Prices corrected later</b></td><td>The product master is built now from the old site's prices (₹28,000 / ₹38,000 toppers, current variants) as the single source. When you send corrections, one file changes and every page follows. The Toppers page and Figma prices (₹25k / ₹35k / ₹20k) are treated as wrong until you say otherwise.</td></tr>
+        <tr><td><b>Use current social proof, correct later</b></td><td>Home, Bangalore and solution pages keep today's numbers, awards and celebrity mentions but aligned to one set (6,330+ clients, 15+ years, plus the awards and Google rating from the Bangalore pages). The countdown timer and "Only 5 items left" still come out: they are not social proof, they are false urgency. Templated testimonials stay in a single copy per page, no duplicate names, until real stories arrive.</td></tr>
+        <tr><td><b>Use the current website's reviews</b></td><td>Read as: import the reviews visible on alchemane.com (the Shopify review app) with their dates and sources. The 20-review sets on the new PDPs are removed until their source is confirmed. Stars hidden where a product has no reviews.</td></tr>
+        <tr><td><b>Studio address confirmed: 4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai 400052</b></td><td>One address everywhere; "Bandra (West) Branch Studio" wording on Home is replaced with "Our Khar West studio". Other cities are tie-ups but the partner list is withheld for now, so no partner pages: the five city pages keep the honest "served online" copy, lose the word "studio" in URL and title (/hair-extensions/{city}), and get a redirect from /studios/{city}.</td></tr>
+        <tr><td><b>Palette and typography approved</b></td><td>Design tokens from section 5 are built on day 2 and used from the home page onward. No side-by-side flag; the new system is the system.</td></tr>
+        <tr><td><b>Hero only: AI-generated scroll film from your existing model footage (Higgsfield); micro-interactions elsewhere</b></td><td>3D items 1–3 deferred. Hero becomes a scroll-scrubbed generated film in three beats (turn, hair wave, hair lengthening), generated by you in Higgsfield from the current extension video, integrated by Astra. Your "hair grows across the whole page" idea is kept as a light strand motif that runs the page edge, not as the model following the reader (see section 6). No shoot needed for the hero; the half-day shoot stays for client stories and the studio.</td></tr>
+        <tr><td><b>WhatsApp +91 9967123333; current social proof and celebrity cards kept; API access handled by Astra</b></td><td>One WhatsApp number in config. Existing numbers, awards, celebrity names and video cards stay as they are, aligned to one set, until you send replacements. Shopify Storefront API access is something Astra requests from the Shopify admin on day 1; I do not need it.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout info"><b>Should you start with the home page now?</b> Yes, with a four-day foundation first. The home page is where every shared component is born (header, footer, tokens, product card, story card, form, video block), so building it first is right. Building it before the tokens, the site config and the product data feed exist means Astra rebuilds it twice. Days 1–4 below are that foundation; the home page starts on day 5 and is the first page signed off.</div>
+  </section>
+  <!-- ===================== INVENTORY =====================  <!-- ===================== INVENTORY ===================== -->
+  <section class="part" id="inventory">
+    <h2>1. Page inventory and Figma map</h2>
+    <div class="prose"><p>Sources: both sitemaps, robots.txt, crawled pages, downloaded HTML and the 28 PDFs in the Figma design folder. Status reflects what I could reach from outside the codebase on 15 Sep 2026.</p></div>
+
+    <h3>New build pages and their designs</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Live URL (new build)</th><th>Figma desktop</th><th>Figma mobile</th><th>Old-site equivalent</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">/</span></td><td>Homepage-desktop v2.pdf</td><td>Homepage-mobile v1.pdf</td><td>/</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td>Header and mega menu (global)</td><td>desktop_header.pdf</td><td>mobile_header.pdf</td><td>Shopify header</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td>Offer popup (global)</td><td>desktop_popup.pdf</td><td>mobile_popup.pdf</td><td>none</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/permanent-extensions</span></td><td>Permanent Extensions page-desktop v2.pdf</td><td>Permanent Extensions page-mobile v1.pdf</td><td>/pages/permanent-hair-extensions</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/hair-toppers</span></td><td>Hair Toppers page-desktop v1.pdf</td><td>Hair Toppers page - mobile v1.pdf</td><td>/pages/toppers, /collections/hair-toppers</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/hair-wigs</span></td><td>Hair Wigs page-desktop v1.pdf</td><td>Hair Wigs page - mobile v1.pdf</td><td>/pages/cancer-wigs</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/shop</span></td><td>Shop page-desktop v1.pdf</td><td>Shop page-mobile v1.pdf</td><td>/collections/all</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/product/[slug]</span> (21 products)</td><td>Product Detail page-desktop v1.pdf</td><td>Product Detail page - mobile v1.pdf</td><td>/products/[slug] (21)</td><td><span class="pill ok">4 sampled</span></td></tr>
+        <tr><td><span class="mono">/blogs</span></td><td>Blog page-desktop v1.pdf</td><td>Blog page-mobilev1.pdf</td><td>/blogs/articles</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/blogs/[slug]</span> (9 in sitemap)</td><td>Detail Blog page-desktop v1.pdf</td><td>Detail Blog page-mobilev1.pdf</td><td>/blogs/articles/[slug] (~250)</td><td><span class="pill ok">2 sampled</span></td></tr>
+        <tr><td><span class="mono">/privacy-policy</span></td><td>Privacy Policy page-desktop v1.pdf</td><td>Privacy Policy page-mobilev1.pdf</td><td>/pages/privacy-policy</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/terms</span></td><td>Terms of Service page-desktop v1.pdf</td><td>Terms of Service page-mobilev1.pdf</td><td>/pages/terms-of-service</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/shipping</span></td><td>Shipping and Delivery page-desktop v1.pdf</td><td>Shipping and Delivery page-mobilev1.pdf</td><td>/pages/shipping-delivery</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/returns</span></td><td>Returns and Exchanges page-desktop v1.pdf</td><td>Returns and Exchanges page-mobilev1.pdf</td><td>/pages/returns-and-exchanges</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/contact</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>/pages/contact</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/consultation</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>/pages/book-a-trial, /pages/contact</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/guide</span></td><td colspan="2"><span class="pill na">No Figma</span> (section exists in Home Figma)</td><td>none</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/studios/mumbai</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>/pages/hair-extensions-in-mumbai</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/studios/{delhi,bangalore,chennai,hyderabad,surat}</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>/pages/hair-extensions-in-{bangalore,delhi,chennai}</td><td><span class="pill warn">Delhi sampled</span></td></tr>
+        <tr><td><span class="mono">/permanent-extensions/bangalore</span>, <span class="mono">/hair-toppers/bangalore</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>none</td><td><span class="pill ok">Reviewed</span></td></tr>
+        <tr><td><span class="mono">/cart</span>, <span class="mono">/checkout</span></td><td colspan="2"><span class="pill na">No Figma</span></td><td>Shopify native</td><td><span class="pill bad">HTTP 404</span></td></tr>
+        <tr><td>Search, Account</td><td colspan="2"><span class="pill na">No Figma</span></td><td>/search, /account</td><td><span class="pill bad">Disabled ("coming soon")</span></td></tr>
+        <tr><td>404 page</td><td colspan="2"><span class="pill na">No Figma</span></td><td>Shopify 404</td><td><span class="pill bad">Framework default</span></td></tr>
+        <tr><td>Form success / error states, cookie consent, empty states</td><td colspan="2"><span class="pill na">No Figma</span></td><td>Cookie banner exists</td><td><span class="pill warn">Not verifiable</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Old-site inventory (for migration and redirects)</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Group</th><th class="num">Count</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Products <span class="mono">/products/*</span></td><td class="num">21</td><td>Same 21 slugs exist on new build under <span class="mono">/product/*</span>. One-to-one redirects needed.</td></tr>
+        <tr><td>Collections</td><td class="num">6</td><td>frontpage, new-arrivals, wigs-for-cancer, hair-toppers, shop-our-best-sellers, hair-extensions. New build has no collection pages; map to <span class="mono">/shop?type=</span> or solution pages.</td></tr>
+        <tr><td>Pages <span class="mono">/pages/*</span></td><td class="num">31</td><td>Includes 8 how-to-wear guides, size-chart, topper-length, product-faq, for-profesionals (training course, ₹1,50,000), career, gallery, book-a-trial, reviews, thank-you, quinnapi, brown-hair, 4 city pages. Most have no destination on the new build.</td></tr>
+        <tr><td>Blogs</td><td class="num">4 blogs, ~250 posts</td><td>Sitemap lists 226 URLs (truncated at 158 in fetch); listing shows 25 pages of 10. New build sitemap has 9 articles; listing claims 22 pages. Migration scope unconfirmed.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ===================== PAGE BY PAGE ===================== -->
+  <section class="part" id="pages">
+    <h2>2. Page-by-page audit</h2>
+    <div class="prose"><p>Priority: <span class="pill P0">P0</span> blocks launch or damages trust, <span class="pill P1">P1</span> fix before launch, <span class="pill P2">P2</span> first month after launch, <span class="pill P3">P3</span> nice to have. Effort is developer time: S under half a day, M one to two days, L three to five days, XL over a week.</p></div>
+
+    <!-- HEADER -->
+    <article class="dossier" id="pg-header">
+      <header><h3>Header, mega menu, city selector</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd>Global, all pages</dd><dt>Figma</dt><dd>desktop_header.pdf, mobile_header.pdf</dd><dt>Old site</dt><dd>Shopify header with six-group Shop menu, Book a Consultation link, account, search, cart</dd></dl>
+      <h4>What works</h4>
+      <ul><li>Clean, light header; wordmark, four links, city pill, three icons. Mobile drawer in Figma is clear with grouped accordions.</li><li>Figma mega menu mirrors the old Shopify taxonomy (Clip-In, Permanent, Fringes, Toppers, Volumizer, Wigs) so customers who know the old site find their way.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Search and Account are dead controls.</b> <span class="ev">Buttons carry <code>disabled</code> and aria-label "Search — coming soon" / "Account — coming soon" on every page.</span> A disabled icon in a premium header reads as unfinished.</li>
+        <li><b>Shop menu is not the Figma mega menu.</b> <span class="ev">Server HTML for Home lists only the four topper products plus View All under Shop; Figma shows six columns with 21 items.</span> Needs confirming in a browser (could be client-rendered), otherwise 17 products are unreachable from the menu.</li>
+        <li><b>"Book a Consultation" dropped from primary nav.</b> Old site had it in the header; it is the site's main conversion and now lives only in page bodies and a floating widget.</li>
+        <li><b>City selector purpose unclear.</b> <span class="ev">Live shows "Select city"; Figma shows "Bangalore" selected. The only studio link in HTML is /studios/mumbai.</span> Behaviour after selection not verifiable; if it routes to /studios/* pages it implies studios that do not exist (see <a href="#pg-studios">studios</a>).</li>
+        <li><b>Cart icon has no count and no destination.</b> <span class="ev">Cart is a button with aria-label "Cart"; /cart returns 404.</span></li>
+        <li>Header appears in 3 of 116 empty-alt images? No: header icons have alt text via aria-label, fine. Logo is an SVG with alt "Alchemane Home". Good.</li>
+      </ul>
+      <h4>Recommendations</h4>
+      <ul><li>Either ship search (product and article search with a simple client index) or remove the icon until it works. Same for account.</li><li>Restore "Book a Consultation" as a visible header CTA, styled as the one filled button in the header.</li><li>Implement the six-column mega menu from Figma with images for the five solution groups; on mobile keep the accordion drawer.</li><li>Decide the city selector's job: if it only pre-fills the consultation form, move it into the form. If it switches studio content, it needs real studios.</li></ul>
+      <h4>Needed</h4><p>Decision on search scope; decision on city selector; confirmation of the Shop taxonomy (six groups or three solutions).</p>
+    </article>
+
+    <!-- POPUP -->
+    <article class="dossier" id="pg-popup">
+      <header><h3>First-order offer popup</h3><div class="badges"><span class="pill P2">P2</span><span class="pill P3">Effort S</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd>Fires on Home (seen in every headless capture)</dd><dt>Figma</dt><dd>desktop_popup.pdf, mobile_popup.pdf</dd><dt>Old site</dt><dd>None (cookie banner only)</dd></dl>
+      <h4>What works</h4><ul><li>Split layout, single phone field, WhatsApp alternative and consent line are all sensible for an Indian audience. Dark green panel is the most premium-looking element on the site.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Build deviates from Figma.</b> <span class="ev">Figma: "Luxury Hair Extensions" tag, three benefit rows with icons (Early Access, Premium Quality, Personalised Guidance), dark "Unlock My Offer" button. Live: different benefit copy, teal button, smaller card, no tag.</span></li>
+        <li><b>Fires immediately on first paint</b> <span class="ev">(it covered content in every screenshot at 0 s)</span>. Interrupting before the hero has been seen is the single most common reason luxury visitors bounce. No Figma spec for trigger timing, frequency or dismissal memory.</li>
+        <li><b>Mobile popup covers the whole viewport with the dark panel first</b>; offer field is below the fold on a 390 px screen.</li>
+        <li>5% is a weak hook on a ₹28,000 purchase; "free colour-match consultation" or "free guide" converts better for this category and avoids discount signalling.</li>
+        <li>Accessibility: focus trap, Escape key and return-focus not verifiable from HTML. Add to QA.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Match Figma or update Figma; agree one version.</li><li>Trigger on 40% scroll or exit intent, not on load; suppress for 30 days after dismiss; never show on policy, consultation or checkout pages.</li><li>Mobile: single-column, offer field visible without scrolling.</li></ul>
+      <h4>Needed</h4><p>Offer decision (5% off, free guide, or free consultation); SMS/WhatsApp provider and consent wording.</p>
+    </article>
+
+    <!-- FOOTER -->
+    <article class="dossier" id="pg-footer">
+      <header><h3>Footer and floating widgets</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort S</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd>Global</dd><dt>Figma</dt><dd>Bottom of every page PDF</dd><dt>Old site</dt><dd>Four-column footer with Quick Links, Contact, Branch At, currency selector</dd></dl>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Social links go to the wrong place.</b> <span class="ev">Footer anchors are https://facebook.com, https://instagram.com, https://x.com, https://youtube.com. Old site links to /Alchemanehairextensions/, /alchemanehair, /alchemanehairextensions/.</span></li>
+        <li><b>Two WhatsApp numbers.</b> <span class="ev">Floating widget: wa.me/919967123333. Contact page: +91 8591116455. Blog article: +91 9222666111.</span></li>
+        <li><b>Three floating elements on the right</b> (WhatsApp, call, Rewards pill) plus back-to-top. <span class="ev">On Shop desktop the call button overlaps the fourth product image; on mobile the Rewards pill sits over the founder CTA.</span> "Rewards" has no destination I could find.</li>
+        <li>"Solution" column lists Bangalore doorway pages but not Contact, Consultation, Studio, Training or Guide.</li>
+        <li>Old footer had a country/currency selector (30 countries, all INR) which was misleading; correctly dropped. But no international shipping note remains anywhere except the policy page.</li>
+        <li>No cookie consent anywhere on the new build while the privacy policy describes targeted advertising and GDPR rights.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Fix the four social hrefs today. Pick one WhatsApp number site-wide.</li><li>One floating control: WhatsApp. Put call and back-to-top in the footer. Remove Rewards until a programme exists.</li><li>Add a fifth footer column for Studio address, hours, map link and "Book a consultation".</li><li>Add a lightweight consent banner and wire analytics to it.</li></ul>
+      <h4>Needed</h4><p>Official social profile URLs; single WhatsApp business number; decision on rewards programme.</p>
+    </article>
+
+    <!-- HOME -->
+    <article class="dossier" id="pg-home">
+      <header><h3>Home</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort L</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">https://alchemane-frontend-old.vercel.app/</span></dd><dt>Figma</dt><dd>Homepage-desktop v2.pdf, Homepage-mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">https://alchemane.com/</span></dd></dl>
+      <h4>What works</h4>
+      <ul><li>Section order is sound: proof (press), products, video proof, quality band, concern-led entry, solution tabs, bestsellers, founder, why-us, studio, transformations, guide, FAQ, form.</li><li>Concern cards ("Crown Thinning?", "Bridal Hair Goals?") are the best copy on the site and match how customers search.</li><li>Build matches the Figma section order closely; desktop spacing and type are consistent.</li><li>Big improvement on the old home, which opened with a Shopify carousel, twelve icon bullets, a GIF and a fifty-city dropdown.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>No H1 and no headline in the hero.</b> <span class="ev">h1 count 0 in server HTML; hero is a three-panel video still with a play icon and no text or CTA.</span> Nothing above the fold says what Alchemane is or for whom. Both Figma and build share this.</li>
+        <li><b>Every product tile and concern card links to /shop.</b> <span class="ev">17 links to /shop in the page; zero to /hair-toppers or /hair-wigs from the concern grid.</span> Figma mobile routes each concern to Toppers, Wigs, Extensions or Book Consultation and shows a per-card CTA; the build dropped that.</li>
+        <li><b>Testimonials are templated.</b> <span class="ev">"Priya S." appears twice in the same carousel with the same quote (Figma and build). The same five names and quotes reappear on Toppers, Extensions and Wigs pages with the product label changed.</span></li>
+        <li><b>Celebrity Picks has no celebrity content.</b> <span class="ev">Five cards, alt text "Celebrity hair transformation 1–5"; centre card thumbnail is an empty salon interior. Figma shows dark placeholders.</span> Old site had a Lara Dutta video with a headline; that asset exists.</li>
+        <li><b>Founder image is a composite</b> <span class="ev">(portrait cut onto a helicopter backdrop, 1.58 MB JPEG)</span>. Copy differs from Figma (first person in Figma, third person in build).</li>
+        <li><b>Prices differ from Figma.</b> <span class="ev">Figma bestsellers: 25,000 / 35,000 / 20,000 / 35,000. Build: 28,000 / 38,000 / 28,000 / 38,000.</span></li>
+        <li><b>Studio sections use stock imagery.</b> <span class="ev">"Visit Us" gallery shows a salon with a woman in a blazer and a reception with product boxes; the same images reappear as "Celebrity" video thumbnails.</span> "Our Bandra (West) Branch Studio" contradicts the Khar West address in the footer.</li>
+        <li><b>Performance.</b> <span class="ev">Lighthouse mobile: performance 65, LCP 10.1 s, Speed Index 5.9 s, 2.97 MB. The eight product tiles are plain <code>&lt;img&gt;</code> JPEGs of 256–397 KB each, bypassing next/image. Celebrity thumbnail 1.25 MB. Coolvetica shipped as 108 KB OTF, not WOFF2.</span> For comparison the old Shopify home scores 49 with LCP 11.5 s and 96 MB transferred (GIFs and app scripts), and the new PDP scores 92 with LCP 3.2 s at 475 KB, which shows the template is fine and the home page assets are the problem.</li>
+        <li><b>Accessibility.</b> <span class="ev">116 of 157 images have alt="". Lighthouse: 31 contrast failures (teal on white buttons and teal small labels), ARIA role children missing, list items outside lists.</span> Form has placeholder-only labels on desktop; Figma mobile shows proper labels.</li>
+        <li><b>Mobile layout.</b> <span class="ev">At 390 px, every capture shows text and cards clipped on the right edge (hero heading, "Hear It From Real People", product cards). Lighthouse's 412 px emulation passed the viewport audit.</span> Likely a fixed-width element between 390 and 412 px; needs device verification.</li>
+        <li>"Industry leading Solutions" tab 2 and 3, Bestsellers "Hair Extensions" tab and Transformations filters not verifiable without a browser; add to QA.</li>
+        <li>Media band lists three outlets; the old site linked each logo to the article. Build logos are not links.</li>
+        <li>Copy inconsistencies: "Start Your HAIR JOURNEY", "Book Your Private Consultation", "Book Private Consultation", "Ask an Expert" and "Ask An Expert" all used as the same CTA.</li>
+      </ul>
+      <h4>Recommendations</h4>
+      <ul><li>Hero: add a headline (H1), one-line promise and two CTAs (Book a consultation, Shop toppers) over a muted, autoplaying, captioned video. Keep the play control for sound.</li><li>Route concern cards to solutions, not /shop; restore per-card CTA labels from Figma mobile.</li><li>Replace templated testimonials with five real, consented client stories, each with product, city and a real before/after pair. Until then remove the section.</li><li>Celebrity section: use the Lara Dutta film and any consented celebrity footage, or cut the section.</li><li>Founder: shoot a proper studio portrait; keep the first-person Figma copy.</li><li>Serve tiles through next/image as WebP/AVIF at 600 px; preload the hero poster; convert Coolvetica to WOFF2 or replace it (see <a href="#direction">direction</a>).</li><li>Alt text for every content image; button contrast to AA; real labels on form fields.</li></ul>
+      <h4>Needed</h4><p>Hero headline sign-off; five consented client stories with photos; celebrity footage rights; founder portrait; confirmation of studio address and name; press article URLs.</p>
+    </article>
+
+    <!-- PERMANENT EXTENSIONS -->
+    <article class="dossier" id="pg-pe">
+      <header><h3>Permanent Extensions</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/permanent-extensions</span></dd><dt>Figma</dt><dd>Permanent Extensions page-desktop v2.pdf, Permanent Extensions page-mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">/pages/permanent-hair-extensions</span></dd></dl>
+      <h4>What works</h4><ul><li>Best page on the site. Clear H1, honest "Permanent, But Not Forever" explainer, clip-on vs permanent table, method tabs, application and maintenance facts, expert profile, FAQ. Build matches Figma closely.</li><li>The hero four-panel (consult, hair, application, result) is the right story.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Method facts conflict with the old site and the product pages.</b> <span class="ev">This page: lasts 6–12 weeks, application 2–4 h. Old site: 2–3 months, 2 h. Micro Ring PDP: 3–4 months. Tape-in tab: 6–8 weeks.</span></li>
+        <li><b>Two methods have no product.</b> <span class="ev">Tabs list Ice and Feather extensions; the shop has Tape, Micro Ring and Keratin only. Testimonials cite "Ice Hair Extensions" and "Feather-Light".</span></li>
+        <li><b>Templated testimonials</b> (same five as Home; Priya S. twice).</li>
+        <li><b>"Trusted by Bollywood Celebrities" badge with no names</b>; the old site named Madhuri Dixit, Shilpa Shetty, Raveena Tandon, Deepika Padukone. Use names only with permission, otherwise drop the badge.</li>
+        <li>No product cards or prices on the page; a reader cannot get from method to purchase without the menu. Figma has a "View Details" link per method that the build should route to the product.</li>
+        <li>Hero video and five reels: playback and sources not verifiable (no <code>&lt;video&gt;</code> or iframe in HTML).</li>
+        <li>Mobile: same right-edge clipping as Home.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>One fact sheet per method (duration, application time, removal, reuse, price from) used by this page, the PDP and the FAQ.</li><li>Add a three-card product strip after the methods section with "From ₹40,000" and links.</li><li>Remove Ice and Feather until they are sellable, or add products.</li></ul>
+      <h4>Needed</h4><p>Method fact sheet signed by Vinitt; decision on Ice and Feather; celebrity permissions.</p>
+    </article>
+
+    <!-- TOPPERS -->
+    <article class="dossier" id="pg-toppers">
+      <header><h3>Hair Toppers</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/hair-toppers</span></dd><dt>Figma</dt><dd>Hair Toppers page-desktop v1.pdf, Hair Toppers page - mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">/pages/toppers</span>, <span class="mono">/collections/hair-toppers</span></dd></dl>
+      <h4>What works</h4><ul><li>Strong H1 ("Hair Toppers That Look Like Your Own Hair"), video guides for wearing and measuring, comparison table, sizing guidance (5x3 vs 5x6). Hero uses real before images of real clients, which is more convincing than the model shoot.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Wrong prices.</b> <span class="ev">This page: Silk 5x3 ₹25,000, Silk 5x6 ₹35,000, Skin 5x3 ₹20,000, Skin 5x6 ₹35,000 (matches Figma). PDP, Shop, Home and the old site: ₹28,000 / ₹38,000 / ₹28,000 / ₹38,000.</span> A customer who clicks through sees the price rise by ₹3,000–8,000.</li>
+        <li><b>Hero before-photos are shared with the Wigs page</b> <span class="ev">(same three women)</span>, so one set of clients is presented as both topper and wig customers.</li>
+        <li><b>Video guide thumbnail says "Clip-On Topper" with a "5 THINGS" YouTube thumbnail</b>; fine for YouTube, cheap on a product page. Use a clean poster frame.</li>
+        <li>Templated testimonials (Priya S. twice again, now as topper clients).</li>
+        <li>Comparison table uses red text for "Generic" column: 31 contrast failures on the site include these small coloured cells.</li>
+        <li>The old page's useful specifics were dropped: silk vs lace difference, glue vs clip attachment, colour options including Brown Gold Highlights, how measurement works with a size chart.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Fix prices from one product master. Add a "What's included" and "Base type" explainer with macro photos of silk and skin bases.</li><li>Bring back the size chart as a proper diagram (see 3D shortlist: base anatomy).</li></ul>
+      <h4>Needed</h4><p>Confirmed price list; base construction facts; which hero before/after belong to toppers vs wigs.</p>
+    </article>
+
+    <!-- WIGS -->
+    <article class="dossier" id="pg-wigs">
+      <header><h3>Hair Wigs</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/hair-wigs</span></dd><dt>Figma</dt><dd>Hair Wigs page-desktop v1.pdf, Hair Wigs page - mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">/pages/cancer-wigs</span>, product <span class="mono">/products/premium-wigs</span></dd></dl>
+      <h4>What works</h4><ul><li>Tone is right for a sensitive audience: "feel like yourself again", private consultations, the three-step "Planning Your Wig Before Chemotherapy" block is genuinely useful and specific (15–30 days to make, order before the second session).</li><li>Three-way structure (alopecia, chemotherapy, extreme hair loss) carried over from the old site.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Third-party branding in the video posters.</b> <span class="ev">"Everything About Wigs" thumbnail carries an "American Hairline – Hair Solutions" logo.</span> Either a partner (say so) or a mistaken asset.</li>
+        <li><b>Only one wig product, ₹80,000, with variant data that contradicts itself.</b> <span class="ev">PDP default Length "10 inch"; description lists 14/18/22 inch; old site lists 14–30 inch, three densities, three textures, 100–300 g.</span> Zero reviews on the PDP; FAQ on the old wig product is the topper FAQ.</li>
+        <li><b>Testimonials templated</b>: the same five quotes labelled "Premium Wigs"; Figma even reuses Priya S. twice here.</li>
+        <li>Figma hero shows a video; build shows the same three before-photos as Toppers.</li>
+        <li>No pricing guidance on the page at all for a customised ₹80,000+ product; "How To Order" is a video, not a written process.</li>
+        <li>Medical claims need care: "Alopecia is an unpredictable condition, hence there can be no permanent solution" (old site) should not return; keep to product facts.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Written four-step ordering process with timelines and what the consultation covers; "From ₹80,000, custom-made in 15–30 days".</li><li>Replace video posters with brand frames; confirm partner relationship or remove the logo.</li><li>Use the old site's real wig stories (consented) here, not the shared five.</li></ul>
+      <h4>Needed</h4><p>Wig spec sheet (bases, densities, lengths, textures, weights, lead time, price bands); consented client stories; clarification on American Hairline.</p>
+    </article>
+
+    <!-- SHOP -->
+    <article class="dossier" id="pg-shop">
+      <header><h3>Shop</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/shop</span></dd><dt>Figma</dt><dd>Shop page-desktop v1.pdf, Shop page-mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">/collections/all</span> (21 products, sort, filters)</dd></dl>
+      <h4>What works</h4><ul><li>All 21 products present with a consistent shoot; filters for colour, type, price and stock; three grid densities; sort. Matches Figma layout closely.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>No H1.</b> <span class="ev">h1 count 0.</span></li>
+        <li><b>Add to cart on every card goes nowhere verifiable</b> <span class="ev">(25 buttons; /cart is 404).</span></li>
+        <li><b>Review counts inconsistent with the Figma and the old site.</b> <span class="ev">Figma: every card "(20)". Build: 0, 0, 2, 1, 1, 0, 0, 21, 20, 7, 0, 0, 3, 20, 20, 3, 20, 20, 22, 1, 3. Old site: 2–4 reviews on four products only.</span> Five-star icons show even at (0).</li>
+        <li><b>Filter counts wrong.</b> <span class="ev">Build "Clip In Extensions (9)"; Figma and old site "(4)".</span></li>
+        <li><b>Hero banner is a product-box shot on grey with no headline</b>; the Shop page needs a title, one line of positioning and quick links to the three solutions.</li>
+        <li>Mixed price formatting: "From Rs. 2,500.00" vs "RS. 2,500.00" vs "Rs. 2,500.00" on adjacent cards (Figma has the same inconsistency).</li>
+        <li>No category landing pages: the old site's collections (Toppers, Extensions, Wigs for Cancer) had URLs; here only query filters, if any. Bad for SEO and for the menu.</li>
+        <li>Product type taxonomy on cards (Bangs &amp; Fringes, Clip In, Permanent, Silk Hair Topper, Wigs) does not match the menu taxonomy (six groups) or the solution pages (three).</li>
+        <li>"Recently viewed" section in Figma shows Bestsellers in the build (different content, same slot).</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>H1 plus intro; solution quick-links strip under the banner.</li><li>Hide review stars where count is 0; format prices one way (₹28,000, no decimals).</li><li>Add <span class="mono">/shop/toppers</span>, <span class="mono">/shop/extensions</span>, <span class="mono">/shop/wigs</span> (or filtered URLs that are indexable) and redirect the old collections to them.</li></ul>
+      <h4>Needed</h4><p>Final taxonomy (menu = filters = solution pages); review source.</p>
+    </article>
+
+    <!-- PDP -->
+    <article class="dossier" id="pg-pdp">
+      <header><h3>Product detail (template) and product data</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort L</span></div></header>
+      <dl class="ids"><dt>URLs sampled</dt><dd><span class="mono">/product/silk-hair-toppers</span>, <span class="mono">/product/micro-ring-hair-extensions</span>, <span class="mono">/product/tape-hair-extensions</span>, <span class="mono">/product/scrunchies</span>, <span class="mono">/product/premium-wigs</span></dd><dt>Figma</dt><dd>Product Detail page-desktop v1.pdf, Product Detail page - mobile v1.pdf</dd><dt>Old site</dt><dd><span class="mono">/products/*</span> (Shopify, Globo options, Judge.me-style reviews)</dd></dl>
+      <h4>What works</h4><ul><li>Layout is standard and clear: thumbnail rail, gallery with video slot, title, rating, price, variants, quantity, two CTAs, four accordions, share. Reviews block with distribution bars and dated, named reviews reads credibly. Related products, reels, FAQ and consultation form below.</li><li>Much better than the old PDP, where all permanent-extension variants read "Sold out" and there were no reviews or ratings visible.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Purchase path broken.</b> <span class="ev">Add to cart and Buy it now are type="button" with no form; /cart and /checkout 404.</span></li>
+        <li><b>"Only 5 items left in Stock!" on every product</b>, including made-to-order wigs and permanent extensions applied in-studio. Hard-coded scarcity is the kind of thing the ASCI and customers notice.</li>
+        <li><b>Variant data inconsistent.</b> <span class="ev">Silk Topper: Length dropdown 14 / 16 in; "Additional Information" says 14, 18, 22 in; Figma shows a Texture selector the build lacks. Micro Ring: 18–24 in, Natural Black only, Natural Wave/Straight. Premium Wigs: default "10 inch" not in the description's 14/18/22. Old site lists Brown Gold Highlights for Silk 5x6; build has three swatches everywhere.</span> Price does not change with length on any sampled product; the old site had "From" pricing implying it should. One stray "Rs. 30,000.00" in the Silk Topper HTML.</li>
+        <li><b>Reviews provenance.</b> <span class="ev">Build shows 20 reviews on Silk Topper 5x3 dated Sep 2024 to May 2025 with first names; old site shows none on that product and 2–4 on others.</span> If these are imported from Google or WhatsApp, say so and keep the originals. If they are written for the site, they must go.</li>
+        <li><b>Wrong FAQ on wrong product.</b> <span class="ev">Premium Wigs PDP (old) and Scrunchies (new) carry topper/shipping FAQs.</span></li>
+        <li><b>Meta description is auto-generated</b> <span class="ev">("Silk Topper 5x3 — From Rs. 28,000.00. Shop Remy human hair pieces at Alchemane.")</span> and og:image is a shared default. No Product or Review JSON-LD (old site had FAQPage, Organization, BreadcrumbList).</li>
+        <li>Gallery: 5 stills plus a video slot; one placeholder image path (<span class="mono">/assets/shared/placeholders/media.svg</span>) still referenced. No macro shot of the base, no colour swatch close-ups, no on-head 360.</li>
+        <li>No delivery estimate, no "custom orders are final" note near the CTA, no EMI mention (old city pages mention EMI), no size guide link.</li>
+        <li>Related products are the same four items on every PDP (three toppers and a ₹1,500 single clip), even on the ₹80,000 wig.</li>
+        <li>Figma review pagination shows "1 2 3 … 22" for 20 reviews; build shows 15 of 20 with no pagination. Both wrong.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Build cart, checkout (Razorpay or Shopify headless: decision), order confirmation, and a real inventory flag per variant. Custom products get "Made to order, 15–30 days" instead of a stock count.</li><li>Product master sheet: 21 SKUs × variants × price × lead time × what's included × care × FAQ set. Everything on the site reads from it.</li><li>Per-product meta title and description, Product + AggregateRating + FAQPage JSON-LD, unique og:image.</li><li>Gallery order: on-head hero, base macro, length comparison, colour swatches, video. Add "You may also like" by category.</li></ul>
+      <h4>Needed</h4><p>Product master sheet; review source and export; checkout platform decision; payment and EMI provider; base and swatch photography.</p>
+    </article>
+
+    <!-- BLOG LIST -->
+    <article class="dossier" id="pg-blog">
+      <header><h3>Blog listing</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/blogs</span></dd><dt>Figma</dt><dd>Blog page-desktop v1.pdf, Blog page-mobilev1.pdf</dd><dt>Old site</dt><dd><span class="mono">/blogs/articles</span> (25 pages), plus /blogs/news, /blogs/wigs, /blogs/smp</dd></dl>
+      <h4>What works</h4><ul><li>Category chips, clean three-column cards, excerpt and read-more. Better hierarchy than the old Shopify list.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Thumbnails are YouTube clickbait style</b> <span class="ev">(all-caps white and yellow headlines: "TOPPER IN PUBLIC?", "BOLLYWOOD HAIR SECRET?", "WIG PROBLEMS? FIX THEM FAST")</span>. They undermine every premium cue above them.</li>
+        <li><b>Pagination claims 22 pages; sitemap has 9 articles.</b> Either ~200 posts are unlisted or the pager is decorative. Old site has ~250 posts that need a migrate-or-redirect decision.</li>
+        <li>No dates, authors or read times on cards. Category chips are visual only in HTML; filtering not verifiable.</li>
+        <li>Titles use a mix of the display face and body face across cards (Figma uses body face for titles; build uses Coolvetica).</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Editorial thumbnail system: brand photography or a typographic card in the brand palette; no yellow caps.</li><li>Migrate the best 40–60 old posts with rewritten intros; 301 the rest to the nearest category. Show date and reading time.</li></ul>
+      <h4>Needed</h4><p>List of posts to keep; author name(s) and bios.</p>
+    </article>
+
+    <!-- ARTICLE -->
+    <article class="dossier" id="pg-article">
+      <header><h3>Blog article</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URLs sampled</dt><dd><span class="mono">/blogs/synthetic-wigs-vs-lace-front-wigs-whats-better-for-daily-use</span>, <span class="mono">/blogs/does-wearing-a-wig-damage-your-real-hair</span></dd><dt>Figma</dt><dd>Detail Blog page-desktop v1.pdf, Detail Blog page-mobilev1.pdf</dd><dt>Old site</dt><dd><span class="mono">/blogs/articles/*</span></dd></dl>
+      <h4>What works</h4><ul><li>Readable measure, table of contents, comparison table, H2 structure, related posts, call-back form. Article copy is decent and specific.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Placeholder text visible.</b> <span class="ev">"Youtube video link" is printed over both video posters (4 occurrences in HTML).</span></li>
+        <li><b>Wrong phone number.</b> <span class="ev">"+91 9222666111" in the article body vs +91 9967123333 site-wide.</span></li>
+        <li><b>Figma's sample comment is a spam post</b> <span class="ev">(herbal-cure advertisement, "Phily Joe").</span> The build does not show it, but comments need moderation or removal.</li>
+        <li>Published dates in the future relative to migration (May–Sep 2026 is fine today; check on launch). No author bio, no medical reviewer for cancer-related content, no last-updated.</li>
+        <li>No Article JSON-LD, no share buttons (old site had them), no inline product links.</li>
+        <li>Hero image is the clickbait thumbnail at full width.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Remove the placeholder overlay; embed lite-YouTube with a brand poster. Replace phone numbers via one config value.</li><li>Author block with Vinitt or a named specialist; "Reviewed by" line on medical topics. Remove comments or moderate.</li></ul>
+      <h4>Needed</h4><p>Author names, photos and bios; YouTube IDs per article.</p>
+    </article>
+
+    <!-- POLICIES -->
+    <article class="dossier" id="pg-policies">
+      <header><h3>Privacy, Terms, Shipping, Returns</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort S (build) + legal review</span></div></header>
+      <dl class="ids"><dt>URLs</dt><dd><span class="mono">/privacy-policy</span>, <span class="mono">/terms</span>, <span class="mono">/shipping</span>, <span class="mono">/returns</span></dd><dt>Figma</dt><dd>Privacy Policy, Terms of Service, Shipping and Delivery, Returns and Exchanges (desktop v1 + mobilev1)</dd><dt>Old site</dt><dd><span class="mono">/pages/privacy-policy</span>, <span class="mono">/pages/terms-of-service</span>, <span class="mono">/pages/shipping-delivery</span>, <span class="mono">/pages/returns-and-exchanges</span></dd></dl>
+      <h4>What works</h4><ul><li>Teal banner with breadcrumb, one clean reading column, matches Figma. Content is carried over verbatim so nothing was lost.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Privacy policy is a Shopify-era document with leftovers.</b> <span class="ev">Mentions "WordPress uses limited automation for fraud prevention", "processors like Shopify", a tinyurl Google Form for complaints, and the old Saffron Building address. Figma text ends with "This revision aims to make the policy more succinct… please let me know!" (an assistant's sign-off; removed in the build).</span></li>
+        <li><b>Terms say products are offered "exclusively online"</b>, contradicting the studio; no governing law or jurisdiction; no last-updated date on any policy.</li>
+        <li><b>Returns contradict themselves.</b> <span class="ev">"Store credit will be given after a deduction of INR 200" and later "after deducting Rs500". "WE DO NOT OFFER BANK REFUNDS" in caps.</span> Unboxing-video requirement and no-refund stance are legal for hygiene goods but need plain-language framing.</li>
+        <li><b>Shipping timelines conflict.</b> <span class="ev">"3 to 5 working days" and "5-7 business days" in the same page; clip-ins "3 to 4 weeks".</span> Only "African countries" are named for international.</li>
+        <li>No cookie policy page although cookies are referenced; no DPDP Act 2023 language for Indian users.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Legal pass on all four; one deduction amount; one delivery window per product type; add jurisdiction (Mumbai) and dates; remove platform names.</li><li>Add a short "Returns at a glance" card at the top of the returns page and a one-line summary on the PDP.</li></ul>
+      <h4>Needed</h4><p>Legal review; final return deduction; delivery SLA by product type; international shipping countries served.</p>
+    </article>
+
+    <!-- CONTACT -->
+    <article class="dossier" id="pg-contact">
+      <header><h3>Contact</h3><div class="badges"><span class="pill P2">P2</span><span class="pill P3">Effort S</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/contact</span></dd><dt>Figma</dt><dd><span class="pill na">No Figma</span></dd><dt>Old site</dt><dd><span class="mono">/pages/contact</span> (two addresses: Saffron Building and Empressa Building)</dd></dl>
+      <h4>What works</h4><ul><li>Simple: form, three contact cards, hours, map. Marks required fields and optional ones. Hours (Tue–Sun 11–8, Mon closed) finally appear somewhere.</li></ul>
+      <h4>Issues</h4><ul><li>WhatsApp number differs from the floating widget (see footer).</li><li>Map is a static image; no "Get directions" link; no landmark description (old FAQ had "above Anushka Reddy showroom, opposite Satgurus").</li><li>Submit is a plain text button, weaker than every other CTA; success state unknown.</li><li>Banner is the generic teal block; no photograph of the studio entrance, which is what a first-time visitor needs.</li></ul>
+      <h4>Recommendations</h4><ul><li>Merge hours, landmark, directions, parking and a studio-front photo into a "Find us" block; reuse it on Studio and Consultation pages.</li></ul>
+      <h4>Needed</h4><p>Studio-front photo; landmark text; Google Maps place link.</p>
+    </article>
+
+    <!-- CONSULTATION -->
+    <article class="dossier" id="pg-consult">
+      <header><h3>Book a Consultation</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort L</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/consultation</span></dd><dt>Figma</dt><dd><span class="pill na">No Figma</span> (form block exists in every page design)</dd><dt>Old site</dt><dd><span class="mono">/pages/book-a-trial</span>, <span class="mono">/pages/contact</span> (Appointly booking app, 50-city dropdown)</dd></dl>
+      <h4>What works</h4><ul><li>Short form: name, email, phone, city, studio or online. Privacy line. This is the site's main conversion and it is reachable from every page.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>Stock photo of two women at a laptop with a visible third-party logo</b> (bottom right). It does not show Alchemane, a consultation, or the customer this site is for.</li>
+        <li><b>No expectation setting.</b> What happens after "Request consultation"? Who calls, when, is it free, how long, what to bring, is there a fee for in-studio trials (old site implied a paid trial)?</li>
+        <li><b>No slot booking.</b> Old site used an appointment app; this is a lead form. Fine if the team calls back within a stated time, but that promise is missing.</li>
+        <li>City list has six cities while the form lets anyone pick "Mumbai Studio" from Surat; the online/studio choice should drive the city field, not sit beside it.</li>
+        <li>Placeholder-only labels; no inline validation visible; success and error states unverifiable.</li>
+        <li>No Figma for this page, so the build improvised the banner and stock image.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Design this page properly: three-step "How it works" (request, call within 24 h, 30-minute consult), what you get (colour match, method recommendation, quote), FAQ, real photo of a consultation in the studio.</li><li>Optional calendar slot picker for studio visits; keep the short form for online.</li><li>Thank-you page with WhatsApp confirmation and the guide download.</li></ul>
+      <h4>Needed</h4><p>Consultation process facts (free or paid, duration, call-back SLA); consultation photography; CRM or inbox for leads.</p>
+    </article>
+
+    <!-- GUIDE -->
+    <article class="dossier" id="pg-guide">
+      <header><h3>Free guide</h3><div class="badges"><span class="pill P2">P2</span><span class="pill P3">Effort S</span></div></header>
+      <dl class="ids"><dt>URL</dt><dd><span class="mono">/guide</span></dd><dt>Figma</dt><dd><span class="pill na">No page Figma</span>; section in Homepage-desktop v2.pdf</dd><dt>Old site</dt><dd>none</dd></dl>
+      <h4>What works</h4><ul><li>Clear offer, two fields, trust lines. Book mockup with "2026 Edition, 40 pages".</li></ul>
+      <h4>Issues</h4><ul><li><b>Does the guide exist?</b> No PDF is linked anywhere; the mockup is a flat illustration with a yellow spine (off-palette).</li><li>Copy says "Book a consultation & instantly receive" on the section but the page only asks for name and email; the promise and the mechanism disagree.</li><li>Three separate guides are promised (Extensions, Toppers, Wig) on three pages; one page delivers "Extensions".</li></ul>
+      <h4>Recommendations</h4><ul><li>Produce one 20–30 page guide (or three short ones) in the brand system; render a real cover; deliver by email and WhatsApp; show a spread preview on the page.</li></ul>
+      <h4>Needed</h4><p>Guide manuscript or outline; decision on one guide vs three.</p>
+    </article>
+
+    <!-- STUDIOS -->
+    <article class="dossier" id="pg-studios">
+      <header><h3>Studio and city pages</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URLs</dt><dd><span class="mono">/studios/mumbai</span>, <span class="mono">/studios/delhi</span>, <span class="mono">/studios/bangalore</span>, <span class="mono">/studios/chennai</span>, <span class="mono">/studios/hyderabad</span>, <span class="mono">/studios/surat</span></dd><dt>Figma</dt><dd><span class="pill na">No Figma</span></dd><dt>Old site</dt><dd><span class="mono">/pages/hair-extensions-in-{mumbai,bangalore,delhi,chennai}</span>; footer "Branch At: Bangalore, Kerala, Kolkata, Delhi, Mumbai" (all "#")</dd></dl>
+      <h4>What works</h4><ul><li>Mumbai page has a strong local H1 and the full home content beneath it. Delhi page is honest: "Our studio is in Mumbai. We serve Delhi clients entirely online."</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>URL and title say "Studio" for cities without one.</b> <span class="ev">Title "Hair Extensions for Delhi NCR | Alchemane" under /studios/delhi.</span> Google and customers will read that as a Delhi studio.</li>
+        <li><b>Mumbai studio page is the home page with a new hero</b>; no address block, hours, map, parking, photos of the actual studio, team, or services list (application, removal, re-taping, colour, cysteine) which the old site had.</li>
+        <li>Home calls it "Our Bandra (West) Branch Studio"; footer says Khar West; old site used two addresses. Also old copy mentions "Home Service in selected areas".</li>
+        <li>Five city pages of near-identical content are doorway pages; risk of thin-content penalty and they dilute the studio story.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>One real <span class="mono">/studio</span> page: address, hours, map, directions, photos, team, services and pricing for in-studio services, booking.</li><li>Rename city pages to <span class="mono">/hair-extensions/{city}</span> with genuinely local content (delivery time, online colour-match process, local client stories) or consolidate to one "We ship across India" page.</li></ul>
+      <h4>Needed</h4><p>Confirmed studio name and address; whether any other branch exists; in-studio service menu and prices; home-service policy.</p>
+    </article>
+
+    <!-- BANGALORE LPs -->
+    <article class="dossier" id="pg-blr">
+      <header><h3>Bangalore landing pages</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>URLs</dt><dd><span class="mono">/permanent-extensions/bangalore</span>, <span class="mono">/hair-toppers/bangalore</span></dd><dt>Figma</dt><dd><span class="pill na">No Figma</span></dd><dt>Old site</dt><dd><span class="mono">/pages/hair-extensions-in-bangalore</span></dd></dl>
+      <h4>What works</h4><ul><li>Sharp, local copy ("Hard water. Humidity. Thin hair anyway?", ORR commutes, video calls). Reel carousels with real captions, a "Step Inside a Real Consultation" strip with Vinitt on camera, and "Why most extensions fail" are the most persuasive content on the whole site.</li></ul>
+      <h4>Issues</h4>
+      <ul>
+        <li><b>A different visual system.</b> Pill-shaped headline badge, marker-pen underline, two-tone green headings, black award tiles, coloured stat boxes. It looks like a paid-ads funnel bolted onto the brand site.</li>
+        <li><b>Fake urgency.</b> <span class="ev">"Only 24 Consultation slots left" with a countdown at 09:52:18.</span> This is a dark pattern and, with the "100% Money Back Guarantee" on a consultation, invites complaints.</li>
+        <li><b>Claims conflict with the rest of the site.</b> <span class="ev">Here: 6,700+ clients across 12 countries, 12+ years, 4.9 Google rating, 11k+ YouTube subscribers, Shark Tank India deal, Bharat Innovators Award, Lara Dutta and Neha Dhupia. Home: 6,330+ clients, 15+ years, no Google rating, no awards.</span></li>
+        <li>Mumbai address in the footer of a Bangalore page with no explanation until the FAQ.</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Keep the content ideas (local pain points, consultation reels, award proof, celebrity stories) and rebuild them in the main design system. Remove the countdown. Put the awards and the Google rating on the Home page too, if they are real, so numbers match everywhere.</li></ul>
+      <h4>Needed</h4><p>Proof for each claim (Google rating screenshot and link, YouTube channel, Shark Tank episode, award citation, celebrity consent).</p>
+    </article>
+
+    <!-- MISSING -->
+    <article class="dossier" id="pg-missing">
+      <header><h3>Cart, checkout, search, account, 404</h3><div class="badges"><span class="pill P0">P0</span><span class="pill P3">Effort XL</span></div></header>
+      <dl class="ids"><dt>URLs</dt><dd><span class="mono">/cart</span> 404, <span class="mono">/checkout</span> 404, search and account disabled, <span class="mono">/any-unknown-url</span> shows the Next.js default "404: This page could not be found." with no header or footer</dd><dt>Figma</dt><dd><span class="pill na">No Figma for any of these</span></dd><dt>Old site</dt><dd>Shopify cart, checkout, search, account all functional</dd></dl>
+      <h4>Issues</h4><ul><li>The site advertises "Add to cart", "Buy it now", a cart icon and a 5% discount code but cannot take an order. Either the new build is consultation-only at launch (then remove all commerce affordances) or checkout must be built and tested, including GST invoice, shipping rules (free India, quoted international), custom-order terms, Razorpay or Shopify Checkout, order emails and WhatsApp updates.</li><li>404 page needs brand, navigation, search and popular links; also an explicit 410 or redirect map for ~280 old URLs.</li></ul>
+      <h4>Recommendations</h4><ul><li>Decide the launch model. If commerce: Shopify headless (Storefront API) reuses the existing store, payments, inventory and order history with the least risk. If consultation-first: replace Add to cart with "Enquire" and "Book a consultation" and remove the cart icon.</li></ul>
+      <h4>Needed</h4><p>Launch model decision; payment provider; shipping rules; GST details.</p>
+    </article>
+
+    <!-- OLD ONLY -->
+    <article class="dossier" id="pg-oldonly">
+      <header><h3>Old-site content with no home on the new build</h3><div class="badges"><span class="pill P1">P1</span><span class="pill P3">Effort M</span></div></header>
+      <dl class="ids"><dt>Old URLs</dt><dd>/pages/for-profesionals, /pages/book-a-trial, /pages/gallery, /pages/how-to-wear (+7), /pages/size-chart, /pages/topper-length, /pages/product-faq, /pages/reviews, /pages/career, salon services and SMP sections on the old home</dd><dt>Figma</dt><dd><span class="pill na">None</span></dd></dl>
+      <h4>Findings</h4>
+      <ul>
+        <li><b>Professional training course</b> (5 days, ₹1,50,000, starter kit, certificate) is a real revenue line and brand-authority signal. Missing from the new site.</li>
+        <li><b>How-to-wear guides</b> (seven product-specific pages) and the <b>size chart</b> are the kind of after-sale content that reduces returns. Missing.</li>
+        <li><b>Salon services and Scalp Micro Pigmentation</b>: application, removal, re-taping, cysteine, colour, wash-and-service of pieces. Missing; decide whether SMP is still offered.</li>
+        <li><b>Cancer-wig specifications</b> (base elastic, densities, textures, 100–300 g, 14–30 in) and the "For Professionals" founder bio are richer than anything on the new site.</li>
+        <li>Pages to drop: gallery (w3schools placeholder images "Mountains", "Lights", "Car"), product-faq (two questions referencing "Luxy Hair", a competitor), reviews (empty), quinnapi, brown-hair, thank-you (replace with a real thank-you page).</li>
+      </ul>
+      <h4>Recommendations</h4><ul><li>Add: /training, /studio (services), /guides/how-to-wear/{product}, /size-guide. Fold SMP into studio services if still offered.</li><li>Redirect map for all 280+ old URLs before DNS switch.</li></ul>
+      <h4>Needed</h4><p>Confirmation of which services and the course are current; course dates and pricing; how-to-wear videos.</p>
+    </article>
+  </section>
+
+  <!-- ===================== SITEWIDE ===================== -->
+  <section class="part" id="sitewide">
+    <h2>3. Site-wide issues and improvements, by priority</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Priority</th><th>Issue</th><th>Evidence</th><th>Fix</th><th>Effort</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="pill P0">P0</span></td><td>Purchase journey broken</td><td>/cart and /checkout HTTP 404; Add to cart is a dead button; search and account disabled</td><td>Decide launch model; build or remove commerce</td><td>XL</td></tr>
+        <tr><td>2</td><td><span class="pill P0">P0</span></td><td>Prices differ by page</td><td>Toppers page and Figma ₹25k/35k/20k/35k; PDP, Shop, Home, old site ₹28k/38k</td><td>Single product master; all pages read from it</td><td>M</td></tr>
+        <tr><td>3</td><td><span class="pill P0">P0</span></td><td>Fabricated-looking social proof</td><td>Same five testimonials relabelled on four pages, Priya S. twice per carousel; "(20)" reviews on every Figma card; "Only 5 items left" on every product</td><td>Real consented stories; real inventory; remove scarcity text</td><td>M + content</td></tr>
+        <tr><td>4</td><td><span class="pill P0">P0</span></td><td>Trust numbers contradict each other</td><td>6,330+ vs 6,700+ clients; 15+ vs 12+ years; awards, Google rating and celebrities only on Bangalore pages; countdown timer</td><td>One claims sheet with proof; remove countdown</td><td>S + content</td></tr>
+        <tr><td>5</td><td><span class="pill P0">P0</span></td><td>Social links go to generic domains</td><td>facebook.com, instagram.com, x.com, youtube.com</td><td>Replace with profile URLs</td><td>S</td></tr>
+        <tr><td>6</td><td><span class="pill P1">P1</span></td><td>Mobile performance</td><td>Lighthouse mobile: Home perf 65, LCP 10.1 s, SI 5.9 s, 2.97 MB; PDP perf 92, LCP 3.2 s, 475 KB; old Shopify home perf 49, LCP 11.5 s, 96 MB. Eight 250–400 KB tile JPEGs bypass next/image; 1.2–1.6 MB portraits; OTF font</td><td>next/image everywhere, AVIF/WebP, preload LCP, WOFF2 fonts, lazy-load reels</td><td>M</td></tr>
+        <tr><td>7</td><td><span class="pill P1">P1</span></td><td>Accessibility</td><td>a11y 85: 31 contrast failures, empty alt on 116/157 home images, ARIA structure errors, placeholder-only labels</td><td>Contrast pass on teal buttons and small labels; alt text; visible labels</td><td>M</td></tr>
+        <tr><td>8</td><td><span class="pill P1">P1</span></td><td>Mobile layout clipping at 390 px</td><td>Right-edge clipping on every page capture at 390 px; passes at 412 px</td><td>Find fixed-width element; test on iPhone 12/13 mini and SE</td><td>S</td></tr>
+        <tr><td>9</td><td><span class="pill P1">P1</span></td><td>Missing headings and structured data</td><td>No H1 on Home or Shop; zero JSON-LD (old site had Organization, WebSite, FAQPage, BreadcrumbList)</td><td>H1 per page; Product, FAQPage, Article, LocalBusiness, BreadcrumbList schema</td><td>M</td></tr>
+        <tr><td>10</td><td><span class="pill P1">P1</span></td><td>Placeholder and leftover content</td><td>"Youtube video link" overlay; WordPress and Shopify in privacy policy; tinyurl complaint form; old address; "American Hairline" logo on wig video; stock consultation photo with third-party logo</td><td>Content sweep with a checklist</td><td>S</td></tr>
+        <tr><td>11</td><td><span class="pill P1">P1</span></td><td>Contact details inconsistent</td><td>Three WhatsApp or phone numbers; Bandra vs Khar; two old addresses</td><td>One config file for phone, WhatsApp, address, hours, socials</td><td>S</td></tr>
+        <tr><td>12</td><td><span class="pill P1">P1</span></td><td>Navigation routes everything to /shop</td><td>17 /shop links on Home; concern cards without targets; Shop menu shows 4 items</td><td>Route by intent; mega menu; category URLs</td><td>M</td></tr>
+        <tr><td>13</td><td><span class="pill P1">P1</span></td><td>Old URLs and content unmapped</td><td>21 products, 6 collections, 31 pages, ~250 posts; no redirects; training, how-to-wear, size chart, services absent</td><td>Redirect map; add four content pages; blog migration plan</td><td>L</td></tr>
+        <tr><td>14</td><td><span class="pill P1">P1</span></td><td>Policies inconsistent and dated</td><td>₹200 vs ₹500 deduction; 3–5 vs 5–7 days; "exclusively online"; no jurisdiction; no consent banner</td><td>Legal review; consent banner; dates</td><td>S + legal</td></tr>
+        <tr><td>15</td><td><span class="pill P1">P1</span></td><td>No design for 8 page types</td><td>Consultation, contact, guide, studio, city pages, 404, cart/checkout, form states have no Figma</td><td>Design sprint for the missing set</td><td>L (design)</td></tr>
+        <tr><td>16</td><td><span class="pill P2">P2</span></td><td>Visual language reads generic</td><td>Teal buttons and rounded cards everywhere, grey catalogue shots, clickbait thumbnails, stock salon photos, composite founder portrait, Coolvetica display face</td><td>Premium direction (section 5) and photo brief (section 6)</td><td>XL</td></tr>
+        <tr><td>17</td><td><span class="pill P2">P2</span></td><td>CTA and price copy inconsistent</td><td>"Start Your HAIR JOURNEY" vs "Book Your Private Consultation" vs "Ask An Expert"; "From Rs. 2,500.00" vs "RS. 2,500.00"</td><td>Copy deck with three CTA verbs; ₹ with no decimals</td><td>S</td></tr>
+        <tr><td>18</td><td><span class="pill P2">P2</span></td><td>Popup timing and offer</td><td>Fires on load; 5% off; layout differs from Figma</td><td>Scroll or exit trigger; better hook; match Figma</td><td>S</td></tr>
+        <tr><td>19</td><td><span class="pill P2">P2</span></td><td>Floating widgets crowd the page</td><td>WhatsApp, call, Rewards, back-to-top; overlap product images</td><td>One WhatsApp control</td><td>S</td></tr>
+        <tr><td>20</td><td><span class="pill P2">P2</span></td><td>Analytics and consent</td><td>No GTM/GA on staging; no cookie banner</td><td>GA4 + Meta via GTM behind consent; conversion events for form, WhatsApp, call</td><td>S</td></tr>
+        <tr><td>21</td><td><span class="pill P3">P3</span></td><td>Blog scale and depth</td><td>9 articles vs 250; no authors; thumbnails</td><td>Editorial plan; author bios</td><td>Ongoing</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ===================== FIGMA ===================== -->
+  <section class="part" id="figma">
+    <h2>4. New build vs Figma designs</h2>
+    <div class="prose"><p>The build follows the Figma closely on desktop for the nine designed page types. Deltas below are the ones that change what the customer sees or does; pixel-level spacing was not measured.</p></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Area</th><th>Figma</th><th>Build</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Header Shop menu</td><td>Six-column mega menu, 21 links, "Bangalore" city selected</td><td>Dropdown with four topper links and View All; "Select city"</td><td><span class="pill bad">Missing</span></td></tr>
+        <tr><td>Home hero</td><td>Video still, play icon, no headline</td><td>Same</td><td><span class="pill warn">Both need a headline</span></td></tr>
+        <tr><td>Shop by Concern</td><td>Per-card CTA ("Explore Toppers", "Explore Wigs", "Book Consultation" on mobile)</td><td>No CTA label; all cards link to /shop</td><td><span class="pill bad">Regressed</span></td></tr>
+        <tr><td>Bestseller prices</td><td>₹25,000 / 35,000 / 20,000 / 35,000</td><td>₹28,000 / 38,000 / 28,000 / 38,000 (Toppers page keeps Figma prices)</td><td><span class="pill bad">Inconsistent</span></td></tr>
+        <tr><td>Founder</td><td>First person ("Hi, I'm Vinitt…"), "15+ Years of International Expertise"</td><td>Third person; helicopter composite image</td><td><span class="pill warn">Copy differs</span></td></tr>
+        <tr><td>Celebrity Picks</td><td>Five dark placeholders</td><td>Five thumbnails, one a salon interior</td><td><span class="pill warn">Never designed with content</span></td></tr>
+        <tr><td>Testimonials</td><td>Priya S. twice, five reused quotes</td><td>Same</td><td><span class="pill bad">Design defect carried over</span></td></tr>
+        <tr><td>Offer popup</td><td>Tag, three icon rows, dark CTA</td><td>Different copy, teal CTA, smaller</td><td><span class="pill warn">Differs</span></td></tr>
+        <tr><td>Consultation form</td><td>Mobile: visible labels (Name, Phone, Email, City)</td><td>Placeholder-only on desktop</td><td><span class="pill warn">Follow mobile Figma</span></td></tr>
+        <tr><td>PDP variants</td><td>Base Size, Length, Colour, Texture</td><td>Texture missing on toppers</td><td><span class="pill warn">Check data</span></td></tr>
+        <tr><td>PDP reviews pager</td><td>"1 2 3 … 22" for 20 reviews</td><td>15 shown, no pager</td><td><span class="pill warn">Both wrong</span></td></tr>
+        <tr><td>Shop filter counts</td><td>Clip In (4); all cards "(20)"</td><td>Clip In (9); mixed counts</td><td><span class="pill warn">Data</span></td></tr>
+        <tr><td>Shop bottom section</td><td>"Recently viewed products"</td><td>"Bestsellers"</td><td><span class="pill warn">Differs</span></td></tr>
+        <tr><td>Blog card titles</td><td>Body face</td><td>Display face</td><td><span class="pill P3">Minor</span></td></tr>
+        <tr><td>Blog article</td><td>TOC, comments incl. spam sample, call-back form</td><td>TOC, "Youtube video link" overlay, call-back form</td><td><span class="pill warn">Placeholders both sides</span></td></tr>
+        <tr><td>Privacy text</td><td>Ends with an assistant's sign-off sentence</td><td>Sentence removed</td><td><span class="pill ok">Fixed in build</span></td></tr>
+        <tr><td>Policy pages</td><td>Teal banner, breadcrumb</td><td>Same</td><td><span class="pill ok">Match</span></td></tr>
+        <tr><td>Wigs hero</td><td>Video</td><td>Same three before-photos as Toppers</td><td><span class="pill warn">Differs</span></td></tr>
+        <tr><td>Consultation, Contact, Guide, Studio, City, Bangalore, 404, Cart, Checkout, Search, Account, form states, cookie banner</td><td colspan="2">No design</td><td><span class="pill bad">Undesigned</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout info"><b>Figma housekeeping.</b> Mobile PDFs for Toppers, Wigs, Extensions and Home export at 1200–2288 pt canvases with the phone frame in one corner; Blog, PDP and policy mobiles export at 390 pt. Export each mobile frame at frame size so developers can measure. Coolvetica is used for headings in Figma and shipped as OTF in the build; confirm the licence covers web embedding.</div>
+  </section>
+
+  <!-- ===================== DIRECTION ===================== -->
+  <section class="part" id="direction">
+    <h2>5. Premium visual and content direction</h2>
+    <div class="prose">
+      <p><b>Positioning line to design against:</b> the atelier for hair that is unmistakably yours. Alchemane is not a hair-extension shop; it is a Mumbai studio that colour-matches, hand-finishes and fits. The site should feel like the consultation room: calm, precise, private, expensive without saying so.</p>
+      <p><b>Three principles.</b> Show construction, not just hair (bases, knots, clips, tapes in macro). Show real people with names and cities, never composites. Lead with guidance and let the shop follow.</p>
+    </div>
+    <h3>Palette</h3>
+    <div class="prose"><p>Keep the teal, but as a heritage accent rather than the button colour. Deepen it so it passes contrast on white and pair it with a warm metal and a cool stone.</p></div>
+    <div class="dir-grid">
+      <div class="swatch"><i style="background:#0F2320"></i><div><b>Deep teal ink</b> #0F2320<br><small>headlines, footer, dark panels</small></div></div>
+      <div class="swatch"><i style="background:#2E8478"></i><div><b>Verdigris</b> #2E8478<br><small>links, active states, small accents (AA on white)</small></div></div>
+      <div class="swatch"><i style="background:#59B1A5"></i><div><b>Alchemane teal</b> #59B1A5<br><small>logo only, large surfaces, never small text</small></div></div>
+      <div class="swatch"><i style="background:#F4F6F5"></i><div><b>Porcelain</b> #F4F6F5<br><small>page ground (cool, not cream)</small></div></div>
+      <div class="swatch"><i style="background:#A8864F"></i><div><b>Brass</b> #A8864F<br><small>one accent per screen: price, badge, rule</small></div></div>
+      <div class="swatch"><i style="background:#25332F"></i><div><b>Slate text</b> #25332F<br><small>body copy</small></div></div>
+    </div>
+    <h3>Typography</h3>
+    <div class="dir-grid">
+      <div class="typespec"><div class="d">Fraunces</div><div class="b">Display and H1–H3. Soft serif with optical sizes; echoes the serif wordmark and reads editorial rather than tech.</div><small>Alternative: Instrument Serif (lighter, sharper).</small></div>
+      <div class="typespec"><div class="d" style="font-family:var(--sans);font-weight:600">Source Sans 3</div><div class="b">Body, UI, forms, tables. Humanist, warm, excellent at 15–17 px on Indian mobile networks (small files).</div><small>Alternative: Manrope for a more geometric feel.</small></div>
+      <div class="typespec"><div class="d mono" style="font-size:1.4rem">IBM Plex Mono</div><div class="b">Specifications only: base sizes, lengths, weights, order timelines. Makes product facts feel measured.</div><small>Retire Coolvetica; it is the main reason the current build reads like a template.</small></div>
+    </div>
+    <h3>Layout and components</h3>
+    <div class="prose">
+      <ul>
+        <li><b>Hero with a thesis.</b> Headline, one-sentence promise, two CTAs, a muted autoplaying film of a topper being placed. No carousel.</li>
+        <li><b>Fewer cards.</b> Comparison tables, FAQs and "why us" become ruled lists on the page ground; reserve cards for products and client stories.</li>
+        <li><b>Buttons.</b> One filled (deep teal ink on porcelain; porcelain on dark), one outlined, one text link. Sentence case, no letter-spaced caps for CTAs.</li>
+        <li><b>Product cards.</b> Image, name, base or method, "From ₹28,000", lead time. Stars only when real.</li>
+        <li><b>Spec strips.</b> Mono-set rows (Base 5×3 in · Length 14–22 in · Density medium · Lead time 7 days) on PDP and solution pages.</li>
+        <li><b>Client stories.</b> Name, city, concern, solution, one quote, before and after shot on the same set with the same light, optional 20-second film.</li>
+        <li><b>Motion.</b> Reveal on scroll at 200–300 ms, one scroll-scrubbed 3D or film moment per page, nothing decorative. Respect reduced-motion.</li>
+      </ul>
+    </div>
+    <h3>Content and voice</h3>
+    <div class="prose">
+      <ul>
+        <li>Second person, plain, specific. "Your topper is colour-matched in the studio and cut to your parting" beats "premium ultra-natural solutions".</li>
+        <li>One number set, with proof, used everywhere: years, clients, pieces, rating, awards, press.</li>
+        <li>Medical-adjacent pages (wigs, alopecia, chemotherapy) get a named reviewer line and no promises about hair regrowth.</li>
+        <li>Three CTA verbs only: <b>Book a consultation</b>, <b>Shop</b> (product), <b>Ask on WhatsApp</b>.</li>
+        <li>Photography brief in section 6 replaces the grey catalogue shoot as the primary imagery; keep the current shoot for the Shop grid until reshot.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== 3D ===================== -->
+  <section class="part" id="threed">
+    <h2>6. 3D, photography and video shortlist</h2>
+    <div class="callout"><b>Art direction stance (revised for the hero-only decision).</b> One cinematic moment on the home hero, built as a scroll-scrubbed film rather than real-time 3D. Hair is the hardest material to render convincingly in WebGL; a filmed topper under studio light will always look more expensive than a modelled one, costs a fraction, and behaves on every phone. The 3D pieces below stay in the report as later options. Every other page gets restraint plus a small, consistent set of micro-interactions.</div>
+
+    <h3>Hero: AI-generated scroll film from your existing footage (Higgsfield)</h3>
+    <div class="prose">
+      <p><b>Your idea, restated:</b> take the current video of the model wearing extensions, generate a 360° turn, then a confident hair wave, then the hair growing longer and longer as the reader scrolls, with the figure moving right to left and left to right down to the end of the page. Two-thirds of that is a strong hero. The last third fights the page. Here is the version I would build.</p>
+      <h4>Beat sheet (pinned hero, about two viewports of scroll)</h4>
+      <ul>
+        <li><b>Beat 1, Reveal (0–30% scroll).</b> Model front-on, then a slow 180° turn to show the extensions from the back, then back to three-quarter. Headline "Hair that is unmistakably yours" and promise line sit left; the film fills the right.</li>
+        <li><b>Beat 2, Confidence (30–55%).</b> The hair wave: one slow toss, hair settles. Caption "Colour-matched. Hand-finished. Fitted in our Khar West studio."</li>
+        <li><b>Beat 3, Length (55–100%).</b> Hair lengthens from shoulder to waist as you scroll; a brass ruler on the left counts 14 → 18 → 22 → 26 in alongside, so the effect reads as product information (lengths you sell) rather than a trick. Two CTAs appear at the end: Book a consultation, Shop extensions.</li>
+        <li><b>Idle.</b> At rest the film loops a 3-second slice of Beat 2 so the hero never freezes. "Watch the film" opens the full clip with sound.</li>
+      </ul>
+      <h4>"Throughout the page" without hijacking the page</h4>
+      <ul>
+        <li>A model that follows the reader across every section would cover product cards, forms and tables, cannot work on a phone, and forces every section to be designed around a moving figure. It would also push the scroll length of the home page far beyond what a buyer will tolerate.</li>
+        <li>Keep the spirit instead: a single fine strand (an SVG path in verdigris at low opacity) starts where the hero ends and lengthens down the page as you scroll, swapping from the right margin to the left margin at each section boundary, and finishes at the consultation form where it ends in a small brass clip. On phones it is hidden. It costs one developer day and nothing in performance. If you still want the figure to travel, we test it after launch on the Extensions page only.</li>
+      </ul>
+      <h4>Generating it in Higgsfield</h4>
+      <ul>
+        <li>Generate three separate 5–6 second clips, one per beat, all from the same source frame of your existing video so the face, top and lighting stay consistent. Locked camera, plain background, no hands near the hair (hands and clips are where AI video breaks). Ask for 25 fps, 16:9 and 9:16 versions.</li>
+        <li>Generate 4–6 candidates per beat and pick by three checks: hair strands do not flicker or merge, the face does not drift between clips, and the extension blend looks like your real product (Natural Black, wave pattern). Reject anything with extra fingers, jewellery changes or shifting necklines.</li>
+        <li>Upscale the chosen clips to 4K (Higgsfield's own upscale or Topaz), colour-match in one grade, export as an image sequence: 150–180 frames, WebP at 1600 px wide, about 25–35 KB each (4–6 MB total, loaded progressively behind the poster). Astra scrubs the frames on a canvas with GSAP ScrollTrigger; the H1 and CTAs remain real HTML text.</li>
+        <li>Prompt skeleton per beat (adjust wording to Higgsfield's fields):</li>
+      </ul>
+      <pre style="background:var(--line-soft);padding:12px 14px;border-radius:6px;overflow-x:auto;font-family:var(--mono);font-size:.82rem;line-height:1.5;white-space:pre-wrap">Source: [upload 1 still from the existing video, front three-quarter, hair down]
+Beat 1: Same woman, same outfit and background, studio softbox light, locked camera at chest height. She turns slowly 180 degrees to show the back of her long natural-black wavy hair, then returns to three-quarter. Photoreal, 25 fps, 6 s, no hand movement, no text, no camera movement.
+Beat 2: Same woman, same framing. One slow confident hair toss over the shoulder, hair settles naturally, subtle smile. Strands stay distinct, no flicker. 5 s.
+Beat 3: Same woman, same framing, hair hangs straight down the front. Over 6 seconds her hair grows smoothly and continuously from shoulder length to waist length, same colour and wave, body still. Nothing else changes.
+Negative: extra fingers, changing face, changing clothes, flickering strands, jewellery, text, logos, camera motion.</pre>
+      <h4>Mobile, reduced motion and honesty</h4>
+      <ul>
+        <li>Phones: no pin. Headline and CTAs above a muted 6-second loop of Beats 2–3 (MP4, poster preloaded). Under <code>prefers-reduced-motion</code> or Save-Data: poster only. LCP is the poster, under 150 KB.</li>
+        <li>This film is a visual, not proof. Keep it out of the transformations and testimonials sections, keep real before-and-after photos as the evidence, and add a two-word "Visualisation" caption in the corner. Check your model's release covers AI-derived use of her likeness before publishing.</li>
+        <li>If the generated hair does not pass the three checks after two rounds, fall back to the filmed "lift" version in the earlier plan (half a shoot day) rather than ship a flickering hero.</li>
+      </ul>
+      <h4>Effort</h4>
+      <ul><li>You: 1–2 days generating and selecting clips. Edit and upscale: 1 day. Astra: 3 days (frame pipeline, scrub, idle loop, modal, mobile loop, fallbacks) plus 1 day for the page-edge strand.</li></ul>
+    </div>
+
+    <h3>Micro-interaction set for every other page</h3>
+    <div class="prose"><p>One set, built once as components, 150–300 ms, transform and opacity only, disabled under reduced-motion. Nothing decorative that does not answer "what does this do?"</p>
+      <ul>
+        <li><b>Product card:</b> image cross-fades to the on-head shot on hover or on focus; price and lead time slide up; Add to cart appears in place (no layout shift).</li>
+        <li><b>Colour swatches:</b> selected swatch grows with a brass ring; product image cross-fades to that colour; name updates with a 120 ms fade.</li>
+        <li><b>Before / after:</b> draggable divider on client stories and solution heroes; keyboard arrows move it; snaps to "before" and "after" at the ends.</li>
+        <li><b>Accordions (FAQ, Why choose):</b> height animation with the chevron rotating; only one open per group; deep-linkable.</li>
+        <li><b>Comparison rows:</b> reveal row by row on scroll, Alchemane column ticks draw in; no colour-only meaning (icon plus text).</li>
+        <li><b>Stats (15+ years, clients):</b> count up once when in view, 900 ms, tabular figures so nothing jitters.</li>
+        <li><b>Primary CTA:</b> subtle lift and shadow on hover, pressed state at 0.98 scale, spinner and "Sent" state on submit; WhatsApp button pulses once on first appearance only.</li>
+        <li><b>Sticky buy bar on PDP:</b> slides in when the main CTA scrolls out; shows price, variant summary, Add to cart.</li>
+        <li><b>Form fields:</b> floating labels, inline validation on blur, success card replaces the form with next steps and a WhatsApp confirmation link.</li>
+        <li><b>Video posters:</b> play control scales on hover; poster darkens 10%; lite-YouTube loads only on click.</li>
+        <li><b>Mega menu:</b> fades and drops 8 px in 180 ms; column images preload on hover intent; Escape closes and returns focus.</li>
+        <li><b>Page transitions:</b> none beyond a 150 ms content fade; no scroll hijacking, no cursor effects.</li>
+      </ul>
+    </div>
+
+
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Element</th><th>Page and placement</th><th>Purpose</th><th>Visual concept</th><th>Interaction</th><th>Assets required</th><th>Effort</th><th>Perf impact</th><th>Mobile fallback</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>Base anatomy exploded view</b> <span class="pill P3">Deferred</span></td><td>Hair Toppers page, after "Why Choose"; PDP "Construction" tab</td><td>Show why a silk or skin base looks like scalp; justify price</td><td>Layers lift apart on scroll: comfort net, lace with knotted strands, silk top, four clips. Matte studio light, porcelain ground, brass labels</td><td>Scroll-scrubbed separation; hover or tap a layer for a one-line label; toggle Silk / Skin</td><td>One topper base modelled from a real 5×3 piece (photo reference, 4 layers, ~40k tris), 2K textures, HDRI; label copy from Vinitt</td><td>Modeler 5 days, tech artist 3 days, dev 3 days (React Three Fiber + GSAP)</td><td>~1.2 MB glTF + 0.6 MB textures, lazy; 60 fps on mid phones</td><td>Six-frame image sequence scrubbed by scroll, or a 10-second film</td></tr>
+        <tr><td>2</td><td><b>Coverage map</b> <span class="pill P3">Deferred (SVG version only)</span></td><td>Home "Shop by Concern" and Toppers "How to take measurements"</td><td>Self-diagnosis: which piece covers which area; drives the right consultation</td><td>Low-poly matte head (no face detail, no hair), top-down and three-quarter; zones glow verdigris: parting, crown, temples, full</td><td>Tap a zone (or answer three questions) and the recommended piece slides in with size overlay (5×3 in vs 5×6 in drawn to scale); "Book a colour match" CTA</td><td>Generic head model (licensed), zone masks, sizing rules from Vinitt, recommendation copy</td><td>Tech artist 2 days, dev 4 days</td><td>~400 KB; trivial</td><td>SVG head map with the same zones (build this first; it is the accessible version)</td></tr>
+        <tr><td>3</td><td><b>Method micro-scenes</b> <span class="pill P3">Deferred; shoot the macro films</span></td><td>Permanent Extensions, one per method tab</td><td>Explain tape sandwich, micro ring bead, keratin bond at strand level without a salon visit</td><td>Three tiny looping scenes at macro scale: natural strand, attachment, extension weft. Cross-section on hover</td><td>Autoplays on tab open; drag to rotate 30°; "how it is removed" second state</td><td>Three simple models (weft, bead, bond), strand shader, 1K textures; method facts</td><td>Modeler 4 days, dev 3 days</td><td>~300 KB each, lazy per tab</td><td>Looping 6-second macro film per method (recommended to shoot regardless)</td></tr>
+        <tr><td>4</td><td><b>Hero scroll film (AI-generated in Higgsfield, filmed "lift" as fallback)</b> <span class="pill ok">Build: the one hero moment</span></td><td>Home hero right panel</td><td>Premium first impression, show movement</td><td>A real topper on a stand rotating under soft light, hair moving; shot at 50 fps, 4K, loop of 8 s</td><td>Muted autoplay; scroll parallax on the panel; sound toggle</td><td>Studio film day (shared with item 6), stand, two pieces (Natural Black, Highlights)</td><td>Half a film day + edit 1 day</td><td>2–3 MB WebM/MP4, poster preloaded</td><td>Poster image; film only on Wi-Fi or after interaction</td></tr>
+        <tr><td>5</td><td><b>Colour-match under three lights</b> <span class="pill warn">Photo instead</span></td><td>PDP colour selector; Consultation page</td><td>Show Natural Black, Dark Brown, Highlights honestly under daylight, indoor and flash</td><td>Macro photos of swatches and on-head shots in three lighting setups; slider switches light</td><td>Segmented control: Daylight / Indoor / Flash; swatch and on-head update together</td><td>9 macro photos per colour (3 lights × swatch, on-head, close-up)</td><td>Half a shoot day; dev 1 day</td><td>~60 KB per frame WebP</td><td>Same component; it is already 2D</td></tr>
+        <tr><td>6</td><td><b>Client story films</b> <span class="pill ok">Film</span></td><td>Home, each solution page, PDP reels</td><td>Replace templated testimonials with proof</td><td>20–40 second vertical films: consultation, fitting, reveal, one sentence to camera. Same set and light for all</td><td>Carousel with captions; tap to unmute</td><td>Five to eight consented clients; one film day at the studio; release forms</td><td>1 film day, 3 edit days</td><td>Poster + lazy MP4</td><td>Poster with quote; film on tap</td></tr>
+        <tr><td>7</td><td><b>Studio 360</b> <span class="pill ok">Photo</span></td><td>Studio page, Home studio block</td><td>Replace stock salon images with the real room</td><td>Panorama or Matterport tour; four stills of chair, colour bar, private room, entrance</td><td>Drag to look around</td><td>Panorama shoot (half day)</td><td>Half day + embed 0.5 day</td><td>Embed, lazy</td><td>Stills carousel</td></tr>
+        <tr><td>8</td><td><b>Ambient strand field</b> <span class="pill P3">Dropped (hero is the film)</span></td><td>Behind the Home hero headline and the guide section</td><td>Motion without content cost</td><td>Sparse, slow, fine curved lines drifting on a 2D canvas in verdigris at 6% opacity</td><td>Reacts faintly to cursor; off under reduced-motion</td><td>None</td><td>Dev 1 day</td><td>Negligible</td><td>Static</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Photography and film brief (replaces the grey catalogue look as primary imagery)</h3>
+    <div class="prose"><ul>
+      <li><b>Products (21 SKUs):</b> on-head hero on a warm neutral set with directional light; base macro; length comparison against a ruler; three colours; one 8-second turntable film per hero SKU.</li>
+      <li><b>People:</b> founder studio portrait (no composite); team; five to eight client stories, before and after on the same set.</li>
+      <li><b>Place:</b> studio entrance with signage, consultation room, colour bar, panorama.</li>
+      <li><b>Editorial:</b> six lifestyle frames (work call, wedding, travel) for concern cards, replacing the current AI-looking portraits.</li>
+      <li><b>Blog:</b> a typographic cover template in the brand system, no shouting thumbnails.</li>
+    </ul></div>
+  </section>
+
+  <!-- ===================== NEEDS ===================== -->
+  <section class="part" id="needs">
+    <h2>7. Exactly what I need from you</h2>
+    <div class="two">
+      <div class="prose">
+        <h3>Product facts</h3>
+        <ul>
+          <li>Product master sheet for all 21 SKUs: name, category, base or method, variants (size, length, colour, texture, density), price per variant, lead time, what is included, care, warranty.</li>
+          <li>Which items are stocked vs made to order; real stock levels if any.</li>
+          <li>Method fact sheet: application time, wear duration, reuse count, removal, servicing, price from, for Tape, Micro Ring, Keratin, and whether Ice and Feather exist.</li>
+          <li>Wig specification: bases, densities, textures, weights, lengths, lead time, price bands, chemotherapy planning guidance.</li>
+          <li>Size guide measurements and diagrams for 5×3 and 5×6.</li>
+          <li>Shipping SLA by product type; international countries served; return deduction amount; cancellation window.</li>
+        </ul>
+        <h3>Brand and claims</h3>
+        <ul>
+          <li>One set of numbers with proof: years, clients, pieces delivered, Google rating link, YouTube channel, Shark Tank episode, Bharat Innovators citation, press article URLs.</li>
+          <li>Celebrity names and footage you have permission to use (Lara Dutta, Neha Dhupia, others).</li>
+          <li>Studio official name and address (Bandra West vs Khar West), hours, landmark, map link; any other branches; home-service policy.</li>
+          <li>Single phone, WhatsApp business number, email; official social profile URLs.</li>
+          <li>Relationship with "American Hairline" or permission to drop the logo.</li>
+          <li>Coolvetica web licence, or agreement to move to the proposed typefaces.</li>
+        </ul>
+      </div>
+      <div class="prose">
+        <h3>Content and assets</h3>
+        <ul>
+          <li>Five to eight consented client stories (name, city, concern, product, quote, photos, release form).</li>
+          <li>Review export with source (Google, Judge.me, WhatsApp) for every review shown.</li>
+          <li>Founder bio and portrait; team names and roles.</li>
+          <li>YouTube video IDs for every video slot (about 40 slots across the site).</li>
+          <li>The buying guide manuscript, or an outline, and a decision on one guide vs three.</li>
+          <li>Training course details if it continues: dates, price, syllabus, inclusions.</li>
+          <li>In-studio services menu with prices; SMP yes or no.</li>
+          <li>List of old blog posts to keep (or permission to select the top 50 by traffic; share Shopify analytics).</li>
+          <li>How-to-wear videos per product.</li>
+          <li>Legal review of the four policies; consent banner wording.</li>
+        </ul>
+        <h3>Platform</h3>
+        <ul>
+          <li>Launch model: full checkout or consultation-first.</li>
+          <li>If checkout: Shopify headless vs custom; payment gateway; EMI; GST invoice details.</li>
+          <li>CRM or inbox for consultation leads; SMS/WhatsApp provider for the popup.</li>
+          <li>Analytics accounts (GA4, Meta, Google Ads) and domain access for redirects and DNS.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PLAN ===================== -->
+  <section class="part" id="plan">
+    <h2>8. Day-by-day implementation plan for Astra (revised)</h2>
+    <div class="prose"><p>Revised for the decisions above: checkout plus consultation, home page first after a four-day foundation, hero scroll film, micro-interactions elsewhere, no 3D vendor. Assumes Astra full time, a designer half time in weeks 1–4, and content from you on the marked days. Working days, Monday to Friday.</p></div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">4</div><div class="l">Days: foundation (tokens, config, data, shell)</div></div>
+      <div class="kpi"><div class="v">8</div><div class="l">Days: home page incl. hero film</div></div>
+      <div class="kpi"><div class="v">7</div><div class="l">Days: commerce (PDP, cart, checkout, shop)</div></div>
+      <div class="kpi"><div class="v">9</div><div class="l">Days: solution pages, consultation, partners, blog, policies</div></div>
+      <div class="kpi"><div class="v">8</div><div class="l">Days: SEO, migration, QA, launch</div></div>
+      <div class="kpi ok"><div class="v">36</div><div class="l">Total working days (about 7.5 weeks)</div></div>
+    </div>
+
+    <div class="phase"><h3>Phase 0: foundation (days 1–4)</h3><div class="sum">Nothing visible yet; everything the home page will be made of.</div>
+      <div class="day"><div class="d">Day 1</div><div class="t"><b>Site config and Shopify link.</b> One config for phone, WhatsApp (+91 9967123333), the Empressa Building address, hours, socials, claims set. Astra creates a Storefront API token in the Shopify admin (collaborator access from you) and fetches all 21 products, variants and current prices. <i>From you: social URLs, Shopify collaborator access for Astra.</i></div></div>
+      <div class="day"><div class="d">Day 2</div><div class="t"><b>Design tokens.</b> Palette, Fraunces + Source Sans 3 + Plex Mono (WOFF2, subset), type scale, spacing, buttons (filled, outline, text), rules, focus states, reduced-motion switch. Retire Coolvetica.</div></div>
+      <div class="day"><div class="d">Day 3</div><div class="t"><b>Shell.</b> Header with six-group mega menu, "Book a consultation" CTA, working cart button with count, search icon removed until search ships; mobile drawer; footer with studio block and correct social links; single floating WhatsApp; branded 404; cookie consent; GTM behind consent.</div></div>
+      <div class="day"><div class="d">Day 4</div><div class="t"><b>Shared components.</b> Product card, client-story card, video poster with lite-YouTube, accordion, comparison list, stat counter, consultation form with labels, validation and success state, sticky bar. Micro-interaction set built here once.</div></div>
+    </div>
+
+    <div class="phase"><h3>Phase 1: home page (days 5–12)</h3><div class="sum">First page signed off. Hero clips generated in Higgsfield by you by day 9; a half-day shoot for client stories and the studio can happen any time before day 24.</div>
+      <div class="day"><div class="d">Day 5</div><div class="t"><b>Hero scaffold.</b> Real H1 and promise, two CTAs, poster image, mobile autoplay loop variant, scroll-pin layout with placeholder frames. <i>From you: hero headline approval (draft: "Hair that is unmistakably yours").</i></div></div>
+      <div class="day"><div class="d">Day 6</div><div class="t"><b>Press, products, concerns.</b> Press logos linked to articles; eight product tiles through next/image (AVIF, 600 px) routed to category and product pages; concern cards with Figma CTA labels routed to Toppers, Wigs, Extensions or Consultation.</div></div>
+      <div class="day"><div class="d">Day 7</div><div class="t"><b>Solutions tabs, bestsellers, quality band.</b> Bestsellers from the product feed with real prices, stars only where reviews exist; both tabs working; spec strip under the solutions copy.</div></div>
+      <div class="day"><div class="d">Day 8</div><div class="t"><b>Proof blocks.</b> Video proof with real YouTube IDs; celebrity section with Lara Dutta film and whatever else you clear, otherwise hidden; founder with first-person copy and the current portrait until the new one exists; claims set applied. <i>From you: YouTube IDs, celebrity footage.</i></div></div>
+      <div class="day"><div class="d">Day 9</div><div class="t"><b>Why choose, studio, transformations.</b> Ruled "why choose" list; studio block reworded to "Our Khar West studio" with the confirmed address, real studio photos when available; transformations with one copy of each testimonial, filter tabs working, before/after slider.</div></div>
+      <div class="day"><div class="d">Day 10</div><div class="t"><b>Guide, FAQ, form.</b> Guide section with real cover render; FAQ accordion with FAQPage schema; consultation form wired to your inbox or CRM with thank-you state and WhatsApp confirmation. <i>From you: lead inbox or CRM.</i></div></div>
+      <div class="day"><div class="d">Day 11</div><div class="t"><b>Hero film integration.</b> Selected Higgsfield clips upscaled and exported as frames; canvas scrub across the three beats, brass length ruler, idle loop, "Watch the film" modal, mobile loop, reduced-motion poster, page-edge strand. LCP check under 2.5 s on mobile. <i>From you: chosen clips by day 9.</i></div></div>
+      <div class="day"><div class="d">Day 12</div><div class="t"><b>Home QA and sign-off.</b> Alt text, contrast, keyboard, 390 px overflow fix, Lighthouse target performance 85+ mobile. Popup restyled and set to scroll trigger with 30-day suppression. You approve the home page; it becomes the reference for every other page.</div></div>
+    </div>
+
+    <div class="phase"><h3>Phase 2: commerce (days 13–19)</h3><div class="sum">Customers can buy. Reviews come from alchemane.com only.</div>
+      <div class="day"><div class="d">Day 13</div><div class="t"><b>PDP template.</b> Gallery order, variant selectors from Shopify data (price changes with variant where the store says so), made-to-order lead time instead of stock counts, spec strip, four accordions with correct content per product, sticky buy bar.</div></div>
+      <div class="day"><div class="d">Day 14</div><div class="t"><b>Reviews and FAQ per product.</b> Import old-site reviews with dates and source; remove unverified sets; product-specific FAQ mapping; Product, AggregateRating and FAQPage schema; per-product meta and og:image.</div></div>
+      <div class="day"><div class="d">Day 15</div><div class="t"><b>Cart.</b> Cart drawer and /cart page via Storefront API; quantity, remove, variant summary, custom-order terms line, shipping note (free in India, quoted abroad), returns summary link.</div></div>
+      <div class="day"><div class="d">Day 16</div><div class="t"><b>Checkout hand-off.</b> Shopify Checkout with your existing payments and GST; return to a branded order-confirmation page; order and WhatsApp notifications tested; Buy it now path.</div></div>
+      <div class="day"><div class="d">Day 17</div><div class="t"><b>Shop.</b> H1 and intro, solution quick links, category URLs (/shop/toppers, /shop/extensions, /shop/wigs, /shop/clip-ins, /shop/fringes), filters with correct counts, one price format, Add to cart from cards, related products by category.</div></div>
+      <div class="day"><div class="d">Day 18</div><div class="t"><b>Search and account.</b> Client-side product and article search in the header; account link to Shopify customer accounts (or hidden if you prefer). Colour-match-under-three-lights component on PDP if the swatch photos exist, otherwise plain swatches.</div></div>
+      <div class="day"><div class="d">Day 19</div><div class="t"><b>Commerce QA.</b> End-to-end order on staging with a test gateway; edge cases (out of stock, made-to-order, international address); cart persistence; analytics events (view item, add to cart, begin checkout, purchase).</div></div>
+    </div>
+
+    <div class="phase"><h3>Phase 3: remaining pages (days 20–28)</h3>
+      <div class="day"><div class="d">Day 20</div><div class="t"><b>Permanent Extensions.</b> Home components applied; method fact sheet; product strip after methods; Ice and Feather hidden until confirmed; method macro films if shot, otherwise stills.</div></div>
+      <div class="day"><div class="d">Day 21</div><div class="t"><b>Hair Toppers.</b> Correct prices from the feed; base explainer with macro photos; size guide (SVG coverage map); consistent client stories.</div></div>
+      <div class="day"><div class="d">Day 22</div><div class="t"><b>Hair Wigs.</b> Written ordering process, spec strip, planning block, poster frames without third-party logos, real wig stories from the old site.</div></div>
+      <div class="day"><div class="d">Day 23</div><div class="t"><b>Consultation and Contact.</b> How it works, what you get, real studio photo, form, thank-you with guide delivery; "Find us" block with the Empressa Building address, hours, landmark, directions.</div></div>
+      <div class="day"><div class="d">Day 24</div><div class="t"><b>Studio and city pages.</b> /studio with the Khar West address, hours, map, services and prices; five city pages moved to /hair-extensions/{city} with "served online" copy and no "studio" wording; redirects from /studios/*. Partner salons added later when you release the list.</div></div>
+      <div class="day"><div class="d">Day 25</div><div class="t"><b>Bangalore landing pages</b> rebuilt in the main system: local copy, consultation reels, awards, no countdown.</div></div>
+      <div class="day"><div class="d">Day 26</div><div class="t"><b>Blog.</b> Listing with dates and authors, typographic cover template, article template with author block, reviewer line, TOC, lite-YouTube, Article schema; "Youtube video link" and wrong phone number gone; migrated posts loaded. <i>From you: post list, author bio.</i></div></div>
+      <div class="day"><div class="d">Day 27</div><div class="t"><b>Policies, guide, training, size guide, how-to-wear.</b> Reviewed policy text with dates; returns-at-a-glance; guide page with real cover and delivery; three content templates. <i>From you: legal-reviewed policies, guide file, course details.</i></div></div>
+      <div class="day"><div class="d">Day 28</div><div class="t"><b>Copy and consistency pass.</b> Three CTA verbs, sentence case, product names, ₹ format, headings, claims set on every page.</div></div>
+    </div>
+
+    <div class="phase"><h3>Phase 4: SEO, migration, QA, launch (days 29–36)</h3>
+      <div class="day"><div class="d">Day 29</div><div class="t"><b>Structured data and meta</b> across all templates; sitemap; robots; Search Console.</div></div>
+      <div class="day"><div class="d">Day 30</div><div class="t"><b>Redirect map</b> for 21 products, 6 collections, 31 pages, ~250 posts; crawler test.</div></div>
+      <div class="day"><div class="d">Day 31</div><div class="t"><b>Device QA:</b> iPhone SE, 13 mini, 15; Pixel 6a; Samsung A-series; Safari and Chrome; hero film fallbacks; checkout on device.</div></div>
+      <div class="day"><div class="d">Day 32</div><div class="t"><b>Accessibility QA:</b> keyboard, screen reader on PDP and forms, contrast, reduced motion.</div></div>
+      <div class="day"><div class="d">Day 33</div><div class="t"><b>Performance QA:</b> Lighthouse on Home, Shop, PDP, solution page, article; budgets enforced.</div></div>
+      <div class="day"><div class="d">Day 34</div><div class="t"><b>Your content sign-off:</b> prices (corrected by now), claims, contact details, policies; broken-link crawl.</div></div>
+      <div class="day"><div class="d">Day 35</div><div class="t"><b>Launch:</b> DNS, redirects live, analytics verified, WhatsApp and phone tests, monitoring.</div></div>
+      <div class="day"><div class="d">Day 36</div><div class="t"><b>Post-launch fixes</b> from the first 24 hours; Search Console errors; conversion events; hand-over notes.</div></div>
+    </div>
+    <div class="callout"><b>Estimate summary.</b> Astra: 36 working days. Designer: about 12 days in weeks 1–4 (home page, PDP, consultation, city page, blog cover template). Hero: 1–2 days of your time in Higgsfield plus 1 edit day, clips by day 9. Photo and film: half a shoot day for client stories and the studio plus 2 edit days, any time before day 24. Legal: 2 days. Your time: about 6 days across the plan. Deferred 3D pieces can be added after launch without touching the plan.</div>
+  </section>
+
+  <!-- ===================== DECISIONS ===================== -->
+  <section class="part" id="decisions">
+    <h2>9. Decisions I need from you</h2>
+    <div class="prose">
+      <p>Taken: launch model (checkout and consultation), prices later, current social proof, reviews and celebrity cards kept for now, Khar West address confirmed, partner list withheld, palette and typography, hero-only scroll film generated in Higgsfield, WhatsApp +91 9967123333. Still open:</p>
+      <ol class="decisions">
+        <li><span class="q">Shopify headless</span> for cart and checkout (recommended), or a custom checkout with Razorpay?</li>
+        <li><span class="q">Hero film.</span> Approve the three-beat version of your Higgsfield idea and the page-edge strand in place of the travelling figure. Confirm the model's release covers AI-derived use.</li>
+        <li><span class="q">Hero headline.</span> Approve or replace "Hair that is unmistakably yours".</li>
+        <li><span class="q">Products.</span> Do Ice and Feather extensions exist? Is SMP offered? Does the training course continue?</li>
+        <li><span class="q">Popup hook.</span> 5% off, free guide, or free consultation.</li>
+        <li><span class="q">Guide.</span> One buying guide or three; who writes it.</li>
+        <li><span class="q">Blog migration.</span> Top 50 by traffic, all 250, or a hand-picked list.</li>
+        <li><span class="q">Search and account.</span> Ship both on day 18, or hide account.</li>
+        <li><span class="q">Legal.</span> Who reviews the four policies; final return deduction; jurisdiction.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="part" id="method">
+    <h2>Method and limits</h2>
+    <div class="prose">
+      <ul>
+        <li>Both sites were crawled from their sitemaps; HTML was downloaded for Home, Shop, PDP, blog, policies, Bangalore and 404 pages and inspected for headings, alt text, links, scripts, schema and CSS tokens. Full-page screenshots were taken with headless Chrome at 1440 px and 390 px. Lighthouse was run locally in mobile emulation on the new Home page (perf 65, a11y 85, SEO 100), the new Silk Topper PDP (perf 92, a11y 89, SEO 100) and the old Home page (perf 49, a11y 89, SEO 85). Full-page screenshots of the old site timed out in headless Chrome, so the old site was reviewed from its HTML, content and Lighthouse trace rather than from captures.</li>
+        <li>All 28 Figma PDFs were rasterised and read in full, and their text was extracted.</li>
+        <li>Not verifiable without a browser session or repository access: JavaScript-driven behaviour (video playback, tab content, filters, form submission and success states, city selector, popup rules, cart logic), pages 2+ of the blog, mobile rendering on real devices, and Figma component measurements. These are marked in the text and listed for QA.</li>
+        <li>No changes were made to either website, the Figma files, code, content or assets.</li>
+      </ul>
+    </div>
+    <p class="foot">Prepared for Vinitt Dessai, Alchemane Hair Extensions. Review date 15 September 2026.</p>
+  </section>
+
+  </main>
+</div>

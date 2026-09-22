@@ -1,0 +1,48 @@
+/* "The promise" — a photographic trust band between the range and the
+   craftsmanship section. Colours and type come from the page's own tokens
+   (--stone, --brass, --muted, --line) so it restyles automatically with the
+   rest of the page; nothing here is hard-coded to a one-off palette. */
+
+.promise-band { position: relative; padding-block: 128px 156px; background: var(--stone); overflow: visible; }
+.promise-intro { max-width: 640px; margin-bottom: 52px; }
+.promise-intro h2 { margin: 16px 0 0; }
+
+.promise-panel { position: relative; width: 100%; height: clamp(420px, 44vw, 600px); overflow: visible; }
+.promise-panel-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+.promise-panel-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 6%; background: linear-gradient(100deg, transparent 0%, transparent 34%, #0c1613b3 46%, #0c1613cc 100%); }
+
+.promise-list { display: flex; align-items: center; gap: clamp(24px, 4vw, 64px); margin: 0; padding: 0; list-style: none; max-width: 780px; }
+.promise-list li { position: relative; padding-left: clamp(24px, 4vw, 64px); }
+.promise-list li:first-child { padding-left: 0; }
+.promise-list li:not(:first-child)::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: #ffffff59; }
+.promise-list span { display: block; font-family: 'Bodoni MT', 'Times New Roman', serif; font-size: clamp(17px, 1.55vw, 23px); line-height: 1.32; letter-spacing: -.01em; color: #fbfaf6; }
+
+/* The cutout breaks the panel's top and bottom edge on purpose: 22% taller
+   than the panel, held in place, so it reads as a physical object resting
+   in front of the band rather than a photo cropped inside it. */
+.promise-figure { position: absolute; z-index: 2; left: clamp(18px, 5%, 68px); top: -11%; height: 122%; pointer-events: none; }
+.promise-figure::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 6%; height: 10%; background: radial-gradient(closest-side, #0a1613a3, transparent 72%); filter: blur(6px); }
+.promise-figure img { position: relative; z-index: 1; display: block; height: 100%; width: auto; filter: drop-shadow(0 26px 30px #0a161366) drop-shadow(0 6px 12px #0a161340); }
+
+@media (max-width: 1000px) {
+  .promise-panel { height: clamp(380px, 52vw, 520px); }
+  .promise-panel-inner { padding-right: 5%; }
+  .promise-list { gap: clamp(18px, 3vw, 34px); }
+}
+
+@media (max-width: 700px) {
+  .promise-band { padding-block: 80px 96px; }
+  .promise-intro { margin-bottom: 30px; }
+  .promise-panel { height: auto; aspect-ratio: 4 / 5; }
+  .promise-panel-inner { align-items: flex-end; justify-content: flex-start; padding: 0 6% 40px; background: linear-gradient(0deg, #0c1613d9 0%, #0c1613b8 42%, transparent 68%); }
+  .promise-list { flex-direction: column; align-items: flex-start; gap: 16px; max-width: 100%; }
+  .promise-list li { padding-left: 0; }
+  .promise-list li:not(:first-child) { padding-top: 16px; }
+  .promise-list li:not(:first-child)::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 1px; }
+  .promise-list span { font-size: 18px; }
+  .promise-figure { left: 5%; top: -8%; height: 62%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promise-figure img { transform: none !important; }
+}

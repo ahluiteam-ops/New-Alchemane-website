@@ -1,0 +1,44 @@
+/* Alchemane foundations. See docs/design-system.md for usage and component rules. */
+@font-face { font-family: 'Source Sans 3'; src: url('/fonts/source-sans-3-regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url('/fonts/source-sans-3-semibold.ttf') format('truetype'); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Source Serif 4'; src: url('/fonts/source-serif-4-regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+
+:root {
+  --color-white: #ffffff;
+  --color-fog: #f3f5f1;
+  --color-ink: #242923;
+  --color-forest: #304638;
+  --color-muted: #60655f;
+  --color-line: #d8ded6;
+  --surface: var(--color-white);
+  --surface-soft: var(--color-fog);
+  --text: var(--color-ink);
+  --text-secondary: var(--color-muted);
+  --action: var(--color-forest);
+  --border: var(--color-line);
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --text-small: .875rem;
+  --text-body: 1.0625rem;
+  --text-title: clamp(2.25rem, 3.65vw, 3.75rem);
+  --text-display: clamp(3.5rem, 6.6vw, 6.75rem);
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --section-space: clamp(4rem, 7vw, 7rem);
+  --page-gutter: clamp(1.25rem, 5vw, 5rem);
+  --content-width: 1320px;
+  --duration-fast: 180ms;
+  --duration-normal: 300ms;
+  --ease-out: cubic-bezier(.2, .7, .3, 1);
+  --paper: var(--surface);
+  --ink: var(--text);
+  --muted: var(--text-secondary);
+  --line: var(--border);
+  --atelier: var(--action);
+  --stone: var(--surface-soft);
+  --brass: var(--action);
+}

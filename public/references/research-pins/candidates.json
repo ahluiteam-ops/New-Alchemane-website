@@ -1,0 +1,50 @@
+[
+  {
+    "id": "typology",
+    "url": "https://in.pinterest.com/pin/382383824632330699/",
+    "sourceImage": "https://i.pinimg.com/736x/1f/d8/99/1fd8998cb0dd68c55bc4be26a59902d3.jpg",
+    "status": 200
+  },
+  {
+    "id": "carbon",
+    "url": "https://in.pinterest.com/pin/carbon-beauty-awwwards-sotd--480618591474052964/",
+    "sourceImage": "https://i.pinimg.com/736x/f7/a1/23/f7a123461f292974e3241172a1b22cf3.jpg",
+    "status": 200
+  },
+  {
+    "id": "araw",
+    "url": "https://in.pinterest.com/pin/footer-design-araw-collection-for-web-design-inspiration-added-by-awwwards-to-footer-in-2025--75646468737369154/",
+    "sourceImage": "https://i.pinimg.com/736x/c7/a4/22/c7a4224233eeb8214272fd403acdff6b.jpg",
+    "status": 200
+  },
+  {
+    "id": "aesop-taxonomy",
+    "url": "https://nz.pinterest.com/pin/25684660362745742/",
+    "sourceImage": "https://i.pinimg.com/736x/75/4a/9c/754a9c9063b46ad6382a5eebbe7d0dff.jpg",
+    "status": 200
+  },
+  {
+    "id": "luxury-editorial",
+    "url": "https://www.pinterest.com/pin/1108026314570499305/",
+    "error": "no-image",
+    "status": 200
+  },
+  {
+    "id": "fashion",
+    "url": "https://www.pinterest.com/pin/fashion-ecommerce-website-ui-design--599823244134492543/",
+    "sourceImage": "https://i.pinimg.com/736x/69/e3/3f/69e33fbdeed64d1840277893cb18d749.jpg",
+    "status": 200
+  },
+  {
+    "id": "perf",
+    "url": "https://in.pinterest.com/pin/perf-a-luxury-ecommerce-website-design--448389706670246186/",
+    "sourceImage": "https://i.pinimg.com/736x/45/fb/46/45fb462ee7a10c66e1a1f3fd60059452.jpg",
+    "status": 200
+  },
+  {
+    "id": "aesop-concept",
+    "url": "https://in.pinterest.com/pin/1018728378217507995/",
+    "sourceImage": "https://i.pinimg.com/736x/a7/1f/dd/a71fddf1a75d87e52ece017a432d42a6.jpg",
+    "status": 200
+  }
+]
