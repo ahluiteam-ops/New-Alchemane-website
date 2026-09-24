@@ -1,20 +1,22 @@
 import './testimonials.css';
 
-// Playback is always visitor-initiated and one film at a time. Leaving the
-// section, hiding the tab or starting another film pauses the current one, so
-// nobody is left with a voice playing from somewhere they can no longer see.
+// Wires every film rail on the page ("Hear It From Real People", "Celebrity
+// Picks"). Playback is always visitor-initiated and one film at a time across
+// all rails. Leaving a film, hiding the tab or starting another film pauses
+// it, so nobody is left with a voice playing from somewhere they can't see.
+// Placeholder cards (no film yet) have no video and are skipped.
 export function initTestimonials() {
-  const track = document.querySelector('[data-voices-track]');
-  if (!track) return () => {};
+  const tracks = [...document.querySelectorAll('[data-voices-track]')];
+  if (!tracks.length) return () => {};
   const abort = new AbortController();
   const options = { signal: abort.signal };
-  const cards = [...track.querySelectorAll('[data-voice]')];
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const videos = cards.map(card => card.querySelector('video'));
+  const playable = tracks.flatMap(track => [...track.querySelectorAll('[data-voice]')]);
+  const videos = playable.map(card => card.querySelector('video'));
   const stop = video => { video.pause(); };
 
-  cards.forEach(card => {
+  playable.forEach(card => {
     const video = card.querySelector('video');
     const play = card.querySelector('.voice-play');
     play.addEventListener('click', () => {
@@ -43,24 +45,29 @@ export function initTestimonials() {
   videos.forEach(video => away.observe(video));
   document.addEventListener('visibilitychange', () => { if (document.hidden) videos.forEach(stop); }, options);
 
-  // Arrow buttons move the track one page of cards at a time.
-  const prev = document.querySelector('[data-voices-prev]');
-  const next = document.querySelector('[data-voices-next]');
-  const step = () => {
-    const first = cards[0].getBoundingClientRect().width;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    return Math.max(1, Math.floor((track.clientWidth - parseFloat(getComputedStyle(track).paddingLeft)) / (first + gap))) * (first + gap);
-  };
-  const sync = () => {
-    const max = track.scrollWidth - track.clientWidth;
-    prev.disabled = track.scrollLeft <= 2;
-    next.disabled = track.scrollLeft >= max - 2;
-  };
-  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reduced() ? 'auto' : 'smooth' }), options);
-  next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: reduced() ? 'auto' : 'smooth' }), options);
-  track.addEventListener('scroll', sync, { ...options, passive: true });
-  window.addEventListener('resize', sync, options);
-  sync();
+  // Each rail's arrow buttons move its own track one page of cards at a time.
+  tracks.forEach(track => {
+    const section = track.closest('.voices');
+    const prev = section?.querySelector('[data-voices-prev]');
+    const next = section?.querySelector('[data-voices-next]');
+    const first = track.querySelector('.voice-card');
+    if (!prev || !next || !first) return;
+    const step = () => {
+      const width = first.getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return Math.max(1, Math.floor((track.clientWidth - parseFloat(getComputedStyle(track).paddingLeft)) / (width + gap))) * (width + gap);
+    };
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reduced() ? 'auto' : 'smooth' }), options);
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: reduced() ? 'auto' : 'smooth' }), options);
+    track.addEventListener('scroll', sync, { ...options, passive: true });
+    window.addEventListener('resize', sync, options);
+    sync();
+  });
 
   return () => { abort.abort(); away.disconnect(); videos.forEach(stop); };
 }

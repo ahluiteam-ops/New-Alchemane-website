@@ -1,0 +1,124 @@
+/* Alchemane palette pass.
+   Keep visible UI to the approved dark primary, teal family and white. Older
+   warm neutrals remain only inside photography, never as interface colour. */
+
+:root {
+  color-scheme: light;
+  --paper: var(--color-white);
+  --ink: var(--color-primary);
+  --muted: var(--color-muted);
+  --line: var(--color-line);
+  --atelier: var(--color-primary);
+  --stone: var(--surface-soft);
+  --brass: var(--color-accent-ink);
+}
+
+html, body { color: var(--color-primary); background: var(--color-white); }
+::selection { color: var(--color-primary); background: var(--color-accent-soft); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible,
+summary:focus-visible { outline-color: var(--color-primary); }
+
+/* Header and opening scenes */
+.site-header, .shop-header, .stage, .hero-scene, .collection-scene { background: var(--color-white); }
+.hero-visual { background: color-mix(in srgb, var(--color-mist) 24%, var(--color-white)); }
+.hero-ground { background: linear-gradient(transparent, var(--color-white) 88%); }
+.header-cta, .solid-button { background: var(--color-primary); color: var(--color-white); }
+.header-cta:hover, .solid-button:hover { background: var(--color-accent-ink); }
+.collection-cta {
+  border-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  background: rgb(255 255 255 / .94);
+  color: var(--color-primary);
+  box-shadow: 0 12px 34px rgb(35 41 40 / .08);
+  backdrop-filter: blur(8px);
+}
+.collection-cta:hover { background: var(--color-primary); color: var(--color-white); }
+.collection-kicker, .eyebrow { color: var(--color-accent-ink); }
+.collection-lockup h2 { color: var(--color-primary); }
+.collection-title-line--italic { color: var(--color-accent-ink); }
+.cloud-layer::after, .whiteout { background: var(--color-white); }
+
+/* Shared editorial system */
+.home-rest { --atelier: var(--color-primary); --stone: var(--surface-soft); --brass: var(--color-accent-ink); }
+.home-rest h2, .home-rest h3, .home-rest h2 em { color: var(--color-primary); }
+.home-rest h2 em { color: var(--color-accent-ink); }
+.text-link:hover, .film-credit a:hover { color: var(--color-accent-ink); }
+.quality-ribbon, .solution-tabs, .edit-tabs, .ruled-accordions,
+.footer-top, .footer-bottom { border-color: var(--color-line); }
+.quality-ribbon i, .solution-tabs button span, .ruled-accordions summary > span,
+.quote-mark, .ext-care-index { color: var(--color-accent-ink); }
+.solution-tabs button { color: var(--color-muted); border-color: var(--color-line); }
+.solution-tabs button[aria-selected='true'] { color: var(--color-primary); border-left-color: var(--color-accent-ink); }
+.solution-photograph, .edit-image, .compare-frame, .catalogue-photo,
+.ext-hero-figure, .ext-method-figure { background: var(--surface-soft); }
+.transformation-section, .range-band, .consultation-section, .ext-cta,
+.catalogue-empty { background: var(--surface-soft); }
+
+/* Dark editorial moments use one ink field and pale-teal hierarchy. */
+.founder-section, .film-band-dark { background: var(--color-primary); color: var(--color-white); }
+.film-band-dark { --line: rgb(255 255 255 / .18); --muted: var(--color-mist); --brass: var(--color-accent-muted); }
+.founder-copy .eyebrow, .film-band-dark .eyebrow { color: var(--color-accent-muted); }
+.founder-copy h2, .film-band-dark h2 { color: var(--color-white); }
+.founder-copy h2 em, .film-band-dark h2 em { color: var(--color-accent-soft); }
+.founder-copy > p:not(.eyebrow), .founder-stats span { color: var(--color-mist); }
+.film-band-dark .solid-button { background: var(--color-white); color: var(--color-primary); }
+.film-band-dark .solid-button:hover { background: var(--color-mist); }
+
+/* Studio, guide and footer */
+.studio-section { background: var(--surface-soft); }
+.studio-card { border-color: var(--color-line); }
+.studio-card::before { border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-white)); }
+.studio-monogram { color: var(--color-accent-ink); }
+/* No fill here: premium.css already sets this link transparent, plain white
+   text over the studio photo, matching the eyebrow/city text above it. */
+.guide-book {
+  background: var(--color-mist);
+  color: var(--color-primary);
+  border-left-color: var(--color-accent);
+  box-shadow: 8px 8px 0 var(--color-white), 10px 8px 0 var(--color-accent-soft), 24px 27px 35px rgb(35 41 40 / .16);
+}
+.book-bottom { border-color: color-mix(in srgb, var(--color-primary) 28%, transparent); }
+.site-footer { background: var(--color-white); }
+
+/* Film and range controls */
+.film-frame { background: var(--color-primary); }
+.poster-panel, .range-media { background: var(--surface-soft); }
+.film-play:focus-visible, .chapter:focus-visible, .range-panel:focus-visible,
+.range-link:focus-visible, .compare-frame:focus-within, .ruled-accordions summary:focus-visible {
+  outline-color: var(--color-primary);
+}
+.range-switch { border-color: var(--color-line); }
+.range-switch [role='tab'] { color: var(--color-muted); }
+.range-switch [role='tab']:hover, .range-switch [aria-selected='true'] { color: var(--color-primary); }
+.range-indicator, .story-track i { background: var(--color-primary); }
+.footprint rect { fill: rgb(89 177 165 / .12); stroke: var(--color-accent-ink); }
+.range-filters button { border-color: var(--color-line); }
+.range-filters [aria-pressed='true'] { background: var(--color-primary); border-color: var(--color-primary); }
+.range-filters [aria-pressed='true'] span { color: var(--color-mist); }
+.range-shades i { box-shadow: 0 0 0 1px var(--surface-soft), 0 0 0 2px var(--color-line); }
+
+/* The promise inherits the same dark/pale-teal relationship. */
+.home-rest .promise-band { --promise-champagne: var(--color-accent-muted); --promise-ink: var(--color-white); }
+.promise-panel-inner {
+  background: linear-gradient(104deg, rgb(35 41 40 / 0) 0%, rgb(35 41 40 / 0) 28%, rgb(35 41 40 / .64) 43%, rgb(35 41 40 / .88) 70%, var(--color-primary) 100%);
+}
+.promise-panel-inner::after { background: radial-gradient(124% 84% at 16% 48%, transparent 44%, rgb(35 41 40 / .32) 100%); }
+.promise-list li::before { background: linear-gradient(90deg, rgb(131 197 188 / .48), rgb(255 255 255 / .16) 58%, transparent); }
+.promise-figure::after { background: radial-gradient(closest-side, rgb(35 41 40 / .45), transparent 72%); }
+.promise-figure img { filter: drop-shadow(0 30px 34px rgb(35 41 40 / .45)) drop-shadow(0 8px 14px rgb(35 41 40 / .25)); }
+
+/* Product discovery and extension pages */
+.shop-service { background: var(--color-primary); color: var(--color-white); }
+.nav-dot, .new-label { background: var(--color-accent); color: var(--color-primary); }
+.discovery-category, .ext-table thead th:last-child, .ext-table td:last-child { background: var(--surface-soft); }
+.discovery-category:hover { border-color: var(--color-primary); }
+.catalogue-filters button[aria-pressed='true'], .ext-filters button[aria-pressed='true'] {
+  background: var(--color-primary); border-color: var(--color-primary); color: var(--color-white);
+}
+.catalogue-more button:hover { background: var(--color-mist); }
+.client-film-frame { box-shadow: 0 26px 70px rgb(35 41 40 / .13); }
+
+@media (max-width: 860px) {
+  .promise-panel-inner {
+    background: linear-gradient(0deg, var(--color-primary) 0%, rgb(35 41 40 / .82) 40%, rgb(35 41 40 / 0) 72%);
+  }
+}

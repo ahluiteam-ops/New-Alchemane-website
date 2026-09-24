@@ -6,23 +6,24 @@ The task: make it easy to find a product, including for visitors who do not know
 
 - [Official catalogue](https://alchemane.com/collections/all) and [public product feed](https://alchemane.com/products.json?limit=250): 21 products verified on 21 September 2026. The full response is retained in `live-products-2026-09-21.json`. Names, handles and minimum variant prices match the source. Existing local product photos are reused; the missing Premium Wigs photograph was downloaded from its official product image URL.
 - The preceding local build had 20 products, two top-level categories, fringes nested inside extensions, and its full range after several storytelling sections. Premium Wigs was missing. The opening also required an extended scroll transition.
-- The supplied image adds 19 names. All 19 are included exactly as supplied. No new specifications, prices, availability, product page URLs or photography were supplied.
-- The original full-height hero and cloud reveal are preserved. The revealed five-piece collection now includes a direct “Browse all 40 products” action, and the product finder follows immediately after the animated experience.
-- The Hairline Series uses five categories: Hair Toppers, Permanent Extensions, Clip Extensions, Wigs and Fringes. Product names remain prominent beneath each image. No hover interaction is required to see an action.
-- Show eight products initially and allow more to be revealed. Category and new-product filters work across all 40, including hidden cards, and result counts are announced. The search interface has been removed.
+- The supplied product lists add 21 names. All 21 are included exactly as supplied. No new specifications, prices, availability, product page URLs or product photography were supplied.
+- The original full-height hero and cloud reveal are preserved. The restored “Beautiful hair. New possibilities.” heading introduces the category finder immediately before the catalogue.
+- The catalogue uses six categories: Hair Toppers, Permanent Extensions, Clip Extensions, Wigs, Fringes and Hairline Series. Hairline Series is a category, not the collection headline. Product names remain prominent beneath each image. No hover interaction is required to see an action.
+- Show eight products initially and allow more to be revealed. Category and new-product filters work across all 42 unique products, including hidden cards, and result counts are announced. The search interface has been removed.
 
 ## Catalogue
 
 | Category | Existing | New | Total |
 | --- | ---: | ---: | ---: |
 | Hair toppers | 4 | 4 | 8 |
-| Permanent extensions | 5 | 3 | 8 |
-| Clip extensions | 7 | 0 | 7 |
-| Fringes | 4 | 9 | 13 |
+| Permanent extensions | 3 | 3 | 6 |
+| Clip extensions | 8 | 0 | 8 |
+| Fringes | 5 | 9 | 14 |
 | Wigs | 1 | 3 | 4 |
-| Total | 21 | 19 | 40 |
+| Hairline Series | 0 | 3 | 3 |
+| Unique catalogue total | 21 | 21 | 42 |
 
-Net Fringe Toppers sits with the fringe family, following its placement in the supplied list; its full name remains searchable, including “topper”. New extension attachment methods are deliberately unclassified until confirmed. New-product categories are navigation groupings, not fitting recommendations.
+Hairline Toppers is one product with membership in both Hair Toppers and Hairline Series, so category-row totals include it twice while the unique catalogue total does not. Net Fringe Toppers sits with the fringe family, following its placement in the supplied list; its full name remains searchable, including “topper”. New extension attachment methods are deliberately unclassified until confirmed. New-product categories are navigation groupings, not fitting recommendations.
 
 ## Updating approved content
 
@@ -38,7 +39,7 @@ Edit `src/sections/catalogue-products.js`:
 
 ## Verification and follow-up
 
-Automated browser checks cover the five categories and counts, search removal, extension and wig price removal, price sorting, new placeholders/enquiries, show-more behaviour, reload/back navigation, retained dialogs, stories, FAQs and consultation, keyboard skip navigation, reduced motion, and 320/390/768/1440px widths. Screenshots and the report live in `preview/discovery-qa`.
+Automated browser checks cover the six categories and counts, shared Hairline Toppers membership, search removal, extension and wig price removal, price sorting, new placeholders/enquiries, show-more behaviour, reload/back navigation, retained dialogs, stories, FAQs and consultation, keyboard skip navigation, reduced motion, and 320/390/768/1440px widths. Screenshots and the report live in `preview/discovery-qa`.
 
 Python was unavailable for the UI/UX Pro Max search script; applicable navigation, keyboard and empty-state guidance was read directly from its local UX guidelines. Caveman Compress was reviewed, but no memory/todo file was nominated for compression; application source and interface copy were not compression targets.
 

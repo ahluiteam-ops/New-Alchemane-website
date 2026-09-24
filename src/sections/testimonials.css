@@ -44,11 +44,11 @@
 .voice-play:focus-visible { outline: 2px solid var(--surface); outline-offset: -6px; }
 .voice-badge {
   display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-  background: var(--surface); color: var(--text);
+  background: var(--surface); color: var(--action);
   box-shadow: 0 6px 20px #10130f40;
   transition: transform var(--duration-normal) var(--ease-out), background var(--duration-fast), color var(--duration-fast);
 }
-.voice-badge svg { width: 22px; height: 22px; margin-left: 3px; fill: currentColor; }
+.voice-badge svg { width: 20px; height: 20px; margin-left: 2px; fill: currentColor; }
 .voice-time { font-size: 13px; letter-spacing: .04em; font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px #10130f99; }
 .voice-play:hover .voice-badge { transform: scale(1.08); background: var(--action); color: var(--surface); }
 
@@ -56,6 +56,12 @@
    controls take over. */
 .voice-card.is-playing .voice-play { opacity: 0; pointer-events: none; }
 .voice-note { position: absolute; left: 16px; right: 16px; bottom: 76px; z-index: 1; margin: 0; color: #fff; font-size: 14px; line-height: 1.4; pointer-events: none; }
+
+/* A reel whose film isn't ready yet: same 9:16 frame, fog instead of a poster,
+   the play badge purely decorative (nothing is clickable). */
+.voice-card--pending { background: var(--surface-soft); border: 1px solid var(--border); }
+.voice-pending { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.voice-pending-label { font-size: var(--text-small, 14px); color: var(--text-secondary); }
 
 @media (max-width: 700px) {
   .voices-head { align-items: start; flex-direction: column; gap: 22px; }

@@ -25,31 +25,74 @@ const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 const clock = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 const spoken = seconds => (seconds < 60 ? `${seconds} seconds` : `${Math.floor(seconds / 60)} minute${seconds >= 120 ? 's' : ''} ${seconds % 60} seconds`);
 
-function card(film, index) {
-  const label = film.name ? `${film.name}, client film` : `Client film ${index + 1} of ${films.length}`;
+function card(film, index, total) {
+  const dir = film.dir ?? 'testimonials';
+  const kind = film.kind ?? 'client film';
+  const label = film.name ? `${film.name}, ${kind}` : `${kind[0].toUpperCase()}${kind.slice(1)} ${index + 1} of ${total}`;
   return `<li class="voice-card" data-voice>
-      <video preload="none" playsinline poster="/assets/testimonials/${film.id}.webp" aria-label="${esc(label)}"><source src="/assets/testimonials/${film.id}.mp4" type="video/mp4"><a href="/assets/testimonials/${film.id}.mp4">Watch the film</a></video>
+      <video preload="none" playsinline poster="/assets/${dir}/${film.id}.webp" aria-label="${esc(label)}"><source src="/assets/${dir}/${film.id}.mp4" type="video/mp4"><a href="/assets/${dir}/${film.id}.mp4">Watch the film</a></video>
       <button type="button" class="voice-play" aria-label="Play ${esc(label)}, ${spoken(film.seconds)}">
-        <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span>
         <span class="voice-time" aria-hidden="true">${clock(film.seconds)}</span>
       </button>
       ${film.note ? `<p class="voice-note">${esc(film.note)}</p>` : ''}
     </li>`;
 }
 
-export function renderTestimonials() {
-  return `<section class="voices" id="voices" aria-labelledby="voices-title">
+// "Celebrity Picks" — seven reels, still being edited. Each entry becomes a
+// playable card the moment it gets a file: add `id` (the name of
+// /assets/celebrities/<id>.mp4 and its <id>.webp poster) and `seconds`, plus
+// `name` once the celebrity has approved being named. Until then the card is
+// an honest placeholder with no fake playback.
+const celebrityFilms = Array.from({ length: 7 }, () => ({ id: '', seconds: 0, name: '' }));
+
+function pendingCard(index, total, kind) {
+  return `<li class="voice-card voice-card--pending">
+      <div class="voice-pending">
+        <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span>
+        <span class="voice-pending-label">Film coming soon</span>
+        <span class="sr-only">${kind} ${index + 1} of ${total}</span>
+      </div>
+    </li>`;
+}
+
+function celebrityCard(film, index) {
+  if (!film.id) return pendingCard(index, celebrityFilms.length, 'Celebrity film');
+  return card({ ...film, dir: 'celebrities', kind: 'celebrity film' }, index, celebrityFilms.length);
+}
+
+function rail({ id, title, sub, label, items }) {
+  return `<section class="voices" id="${id}" aria-labelledby="${id}-title">
     <div class="voices-inner section-wrap">
       <div class="voices-head reveal-on-scroll">
-        <div><h2 id="voices-title">Hear It From Real People</h2><p class="voices-sub">Same woman. Same scalp.<br>Just the right solution.</p></div>
+        <div><h2 id="${id}-title">${title}</h2>${sub ? `<p class="voices-sub">${sub}</p>` : ''}</div>
         <div class="voices-controls" role="group" aria-label="Scroll the films">
           <button type="button" data-voices-prev aria-label="Previous films" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
           <button type="button" data-voices-next aria-label="Next films"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
         </div>
       </div>
     </div>
-    <ul class="voices-track" role="list" tabindex="-1" data-voices-track aria-label="Client films">
-      ${films.map(card).join('\n      ')}
+    <ul class="voices-track" role="list" tabindex="-1" data-voices-track aria-label="${label}">
+      ${items.join('\n      ')}
     </ul>
   </section>`;
+}
+
+export function renderTestimonials() {
+  return rail({
+    id: 'voices',
+    title: 'Hear It From Real People',
+    sub: 'Same woman. Same scalp.<br>Just the right solution.',
+    label: 'Client films',
+    items: films.map((film, i) => card(film, i, films.length)),
+  });
+}
+
+export function renderCelebrityPicks() {
+  return rail({
+    id: 'celebrity-picks',
+    title: 'Celebrity Picks',
+    label: 'Celebrity films',
+    items: celebrityFilms.map(celebrityCard),
+  });
 }

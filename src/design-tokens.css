@@ -5,16 +5,26 @@
 
 :root {
   --color-white: #ffffff;
-  --color-fog: #f3f5f1;
-  --color-ink: #242923;
-  --color-forest: #304638;
-  --color-muted: #60655f;
-  --color-line: #d8ded6;
+  --color-primary: #232928;
+  --color-accent: #59b1a5;
+  --color-accent-muted: #83c5bc;
+  --color-accent-soft: #add9d3;
+  --color-mist: #d7ece9;
+  --color-fog: color-mix(in srgb, var(--color-mist) 42%, var(--color-white));
+  --color-ink: var(--color-primary);
+  --color-forest: var(--color-primary);
+  --color-muted: color-mix(in srgb, var(--color-primary) 68%, var(--color-white));
+  --color-line: color-mix(in srgb, var(--color-primary) 16%, var(--color-white));
+  --color-accent-ink: color-mix(in srgb, var(--color-primary) 58%, var(--color-accent));
+  --accent: var(--color-accent);
   --surface: var(--color-white);
   --surface-soft: var(--color-fog);
+  --surface-tint: var(--color-mist);
+  --surface-accent: var(--color-accent-soft);
   --text: var(--color-ink);
   --text-secondary: var(--color-muted);
-  --action: var(--color-forest);
+  --action: var(--color-primary);
+  --brand: var(--color-primary);
   --border: var(--color-line);
   --font-display: 'Source Serif 4', Georgia, serif;
   --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;

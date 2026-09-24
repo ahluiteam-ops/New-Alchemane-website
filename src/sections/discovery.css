@@ -8,6 +8,7 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
 .shop-header { position: sticky; top: 0; z-index: 40; background: var(--surface); border-bottom: 1px solid var(--border); }
 .shop-masthead { max-width: 1480px; min-height: 88px; margin: auto; padding: 16px var(--page-gutter); display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
 .shop-masthead .brand { align-items: start; gap: 5px; width: fit-content; }
+.shop-masthead .brand-logo { width: 160px; }
 .shop-masthead .brand-name { font-size: 31px; letter-spacing: -.7px; }
 .shop-masthead .brand-caption { font-size: 9px; letter-spacing: 2.8px; padding-left: 2px; }
 .header-help { justify-self: end; display: inline-flex; align-items: center; gap: 18px; min-height: 44px; font-size: 15px; border-bottom: 1px solid var(--border); }
@@ -15,7 +16,7 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
 .shop-nav a { min-height: 48px; height: auto; white-space: nowrap; font-size: 15px; }
 .shop-nav a[aria-current] { color: var(--action); font-weight: 600; }
 .shop-nav a[aria-current]::after { transform: scaleX(1); background: var(--action); }
-.nav-dot { width: 5px; height: 5px; margin-left: 8px; border-radius: 50%; background: var(--action); }
+.nav-dot { width: 5px; height: 5px; margin-left: 8px; border-radius: 50%; background: var(--accent); }
 .shop-hero { display: grid; grid-template-columns: .9fr 1.4fr; align-items: center; max-width: 1600px; margin-inline: auto; min-height: 405px; background: var(--surface); }
 .shop-hero-copy { padding: 40px 0 40px var(--page-gutter); z-index: 1; }
 .shop-hero-copy h1 { font-family: var(--font-display); font-size: clamp(36px, 3.7vw, 58px); font-weight: 400; letter-spacing: -.045em; line-height: 1.1; margin: 16px 0 20px; }
@@ -31,7 +32,7 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
 .catalogue h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 3.1vw, 44px); letter-spacing: -.035em; line-height: 1.15; margin: 8px 0 0; }
 /* Fills the gap the removed "Browse all N products" link used to hold open
    between the heading and the category cards. */
-.discovery-categories { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: clamp(48px, 6vh, 78px); }
+.discovery-categories { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-top: clamp(48px, 6vh, 78px); }
 .discovery-category { display: flex; flex-direction: column; min-width: 0; background: var(--surface-soft); border: 1px solid var(--border); transition: border-color var(--duration-fast); }
 .discovery-category:hover { border-color: var(--action); }
 .discovery-image { aspect-ratio: 1.6; display: block; overflow: hidden; background: var(--surface); }
@@ -59,11 +60,13 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
 .catalogue-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; list-style: none; padding: 0; margin: 0; }
 .catalogue-card { min-width: 0; }
 .catalogue-product { display: flex; flex-direction: column; height: 100%; }
-.catalogue-photo { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: var(--surface-soft); }
+/* 4:5 matches the product photography's native 1080×1350 crop, so every card
+   — real photo or blank placeholder — shares the same shape. */
+.catalogue-photo { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface-soft); }
 .catalogue-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-normal); }
 .catalogue-product:hover .catalogue-photo img { transform: scale(1.025); }
 .catalogue-photo.is-placeholder { background: var(--product-placeholder); }
-.new-label { position: absolute; top: 12px; left: 12px; background: var(--surface); color: var(--text); padding: 5px 9px; font-size: 12px; }
+.new-label { position: absolute; top: 12px; left: 12px; background: var(--accent); color: var(--text); padding: 5px 9px; font-size: 12px; }
 .catalogue-family { font-size: 12px; color: var(--text-secondary); margin: 16px 0 5px; }
 .catalogue-card h3 { font-family: var(--font-body); font-weight: 600; font-size: 19px; line-height: 1.35; margin: 0 0 6px; }
 .catalogue-description { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 14px; }
@@ -84,18 +87,23 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
   .header-help { font-size: 14px; gap: 8px; }
   .shop-nav { gap: 24px; }
   .shop-hero-copy h1 { font-size: 40px; }
-  .discovery-categories { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
-  .discovery-category { grid-column: span 2; }
-  .discovery-category:nth-child(n + 4) { grid-column: span 3; }
+  .discovery-categories { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .discovery-category { grid-column: auto; }
   .discovery-category-copy { padding: 12px; }
   .discovery-category strong { font-size: 17px; }
   .catalogue-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
+}
+@media (max-width: 900px) {
+  .shop-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-inline: 12px; }
+  .shop-nav a { justify-content: center; }
+  .shop-nav a::after { left: 12px; right: 12px; }
 }
 @media (max-width: 700px) {
   :root { --shop-header-height: 0px; }
   .shop-service { justify-content: center; font-size: 12px; }
   .shop-service > span { display: none; }
   .shop-masthead { grid-template-columns: 1fr auto; gap: 12px; padding: 14px 20px 10px; }
+  .shop-masthead .brand-logo { width: 144px; }
   .shop-masthead .brand-name { font-size: 27px; }
   .shop-masthead .brand-caption { font-size: 8px; letter-spacing: 2px; }
   .header-help { grid-column: 2; grid-row: 1; font-size: 13px; }
@@ -112,9 +120,7 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
   .collection-discovery { margin-top: 20px; padding: 0; }
   .catalogue h2 { font-size: 31px; }
   .discovery-categories { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 32px; }
-  .discovery-category, .discovery-category:nth-child(n + 4) { grid-column: auto; }
-  .discovery-category:last-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
-  .discovery-category:last-child .discovery-category-copy { padding-right: 68px; }
+  .discovery-category { grid-column: auto; }
   .discovery-image { aspect-ratio: 1.4; }
   .discovery-category-copy { padding: 12px 10px; }
   .discovery-category strong { font-size: 16px; }

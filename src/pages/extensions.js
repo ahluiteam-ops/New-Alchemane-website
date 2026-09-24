@@ -11,7 +11,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../premium.css';
 import '../design-tokens.css';
 import './extensions.css';
+import '../palette.css';
 import { families } from '../sections/extensions-data.js';
+import { initOfferPopup } from '../sections/offer-popup.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -123,5 +125,6 @@ initHeaderOffset();
 initMethods();
 initFilter();
 initReveals();
+initOfferPopup();
 document.querySelectorAll('.ext-faq details').forEach(d => d.addEventListener('toggle', () => ScrollTrigger.refresh()));
 window.addEventListener('load', () => ScrollTrigger.refresh());

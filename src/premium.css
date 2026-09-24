@@ -13,7 +13,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 .home-rest .text-link:hover { color: var(--action); gap: 24px; }
 .solid-button, .home-rest .solid-button { min-height: 48px; border-radius: 2px; padding: 14px 22px; background: var(--action); color: var(--surface); font-size: 16px; transition: background var(--duration-fast); }
 .home-rest .solid-button:hover { background: var(--text); transform: none; }
-.brand-name, .footer-brand { font-family: var(--font-display); }
+.brand-name { font-family: var(--font-display); }
 .brand-caption { font-size: 11px; letter-spacing: 2px; }
 .header-note { font-size: 13px; letter-spacing: .04em; text-transform: none; }
 nav a { font-size: 16px; letter-spacing: 0; }
@@ -60,6 +60,14 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .reel-frame { position: relative; width: 100%; aspect-ratio: 9 / 16; overflow: hidden; background: var(--border); }
 .reel-frame > img, .reel-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .reel-frame video { object-fit: contain; background: var(--text); }
+/* Decorative only — there is no film to start yet, so this isn't a button. */
+.reel-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%;
+  color: var(--action); background: var(--surface);
+  box-shadow: 0 12px 32px #10130f40;
+}
+.reel-play svg { width: 26px; height: 26px; margin-left: 2px; fill: currentColor; }
 .reel-pending { position: absolute; bottom: 16px; left: 16px; right: 16px; padding: 10px 8px; text-align: center; font-size: 13px; line-height: 1.4; background: var(--surface); color: var(--text); }
 .reel-error { position: absolute; inset: auto 0 0; padding: 16px; margin: 0; background: var(--surface); font-size: 14px; }
 .reel-error a { text-decoration: underline; }
@@ -96,17 +104,29 @@ nav a { font-size: 16px; letter-spacing: 0; }
 
 .founder-section { padding-block: var(--section-space); background: var(--surface-soft); color: var(--text); }
 .founder-grid { grid-template-columns: .8fr 1fr; gap: 12%; }
-.founder-image { overflow: hidden; }
-.founder-image img { height: 390px; object-position: center 12%; filter: none; transform: scale(1.45); transform-origin: center 24%; }
+/* The founder portrait is a finished square with his name set into the lower
+   third, so it is shown whole: no crop, no zoom. Its corners are already
+   rounded and transparent in the file. */
+.founder-image { overflow: visible; }
+.founder-image img { height: auto; aspect-ratio: 1; object-fit: contain; filter: none; transform: none; max-width: 520px; }
 .founder-copy > p:not(.eyebrow) { color: var(--text-secondary); font-size: 17px; line-height: 1.7; }
 .founder-stats { gap: 48px; margin-block: 32px; padding-block: 24px; border-block: 1px solid var(--border); }
 .founder-stats strong { font-family: var(--font-display); font-size: 42px; }
 .founder-stats span { color: var(--text-secondary); font-size: 12px; letter-spacing: .02em; }
 
 /* A quiet proof point between the founder's expertise and client stories. */
-.media-coverage { padding-block: clamp(56px, 6vw, 88px); background: var(--surface); }
+/* Section rhythm. Neighbouring sections alternate between white and the soft
+   fog surface (with the dark founder band as the anchor), so each section
+   boundary reads as a change of tone rather than one continuous white run:
+     solutions · films (white) → Hear It From Real People (fog)
+     → A change you can feel (white) → founder (dark) → Celebrity Picks (white)
+     → Media Coverage (fog) → Client stories (white) → Studio (fog)
+     → Questions (white) → Consultation (fog) → footer (white).
+   Celebrity Picks stays white on purpose: its pending cards are fog. */
+.home-rest #voices { background: var(--color-white); }
+.media-coverage { padding-block: clamp(56px, 6vw, 88px); background: var(--surface-soft); }
 .media-coverage-inner { text-align: center; }
-.home-rest .media-coverage h2 { margin: 0; font-family: var(--font-body); font-size: clamp(28px, 2.5vw, 40px); font-weight: 600; letter-spacing: -.025em; }
+.home-rest .media-coverage h2 { margin: 0; }
 .media-coverage-logos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: clamp(32px, 6vw, 96px); max-width: 1080px; margin: clamp(36px, 4.5vw, 56px) auto 0; padding: 0; list-style: none; }
 .media-logo { display: grid; place-items: center; min-height: 76px; }
 .media-logo img { display: block; width: auto; max-width: 100%; height: auto; max-height: 68px; object-fit: contain; }
@@ -161,7 +181,7 @@ nav a { font-size: 16px; letter-spacing: 0; }
 #consultation-form fieldset label { min-height: 44px; }
 .form-privacy { font-size: 13px; }
 .site-footer { background: var(--surface); padding: 64px var(--page-gutter) 0; }
-.footer-brand { font-size: clamp(42px, 6vw, 88px); letter-spacing: -.04em; }
+.footer-brand { display: block; width: fit-content; }
 .footer-top p { font-size: 15px; }
 .footer-top .text-link { font-size: 14px; }
 .footer-grid { grid-template-columns: 1.45fr 1fr 1fr 1fr; gap: 40px; }
@@ -209,6 +229,8 @@ nav a { font-size: 16px; letter-spacing: 0; }
   .home-rest .reel-copy h2 { font-size: 36px; }
   .reel-copy > p:not(.eyebrow) { max-width: none; margin-bottom: 12px; }
   .reel-frame { max-width: 300px; margin-inline: auto; }
+  .reel-play { width: 58px; height: 58px; }
+  .reel-play svg { width: 21px; height: 21px; }
   .range-head { gap: 16px; }
   .range-lede { font-size: 16px; }
   .range-switch { gap: 24px; }
@@ -221,11 +243,10 @@ nav a { font-size: 16px; letter-spacing: 0; }
   .promise-intro { margin-bottom: 40px; }
   .promise-list span { font-size: 18px; }
   .founder-grid, .story-layout, .studio-section, .faq-section, .consultation-grid { grid-template-columns: 1fr; gap: 32px; }
-  .founder-image img { height: 280px; }
+  .founder-image img { height: auto; max-width: 440px; margin-inline: auto; }
   .founder-stats { gap: 40px; }
   .founder-stats span { font-size: 11px; }
   .media-coverage { padding-block: 56px; }
-  .home-rest .media-coverage h2 { font-size: 30px; }
   .media-coverage-logos { grid-template-columns: 1fr; gap: 26px; max-width: 280px; margin-top: 34px; }
   .media-logo { min-height: 54px; }
   .media-logo--vogue img { width: 178px; }

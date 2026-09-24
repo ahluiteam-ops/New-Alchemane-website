@@ -129,7 +129,7 @@ function card(p) {
   return `<li class="catalogue-card" data-family="${p.group}">
     <a class="catalogue-product catalogue-product--without-price" href="${esc(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>
       <span class="catalogue-photo${p.image ? '' : ' is-placeholder'}">${p.image
-        ? `<img src="${esc(p.image)}" alt="${esc(p.alt || p.name)}" width="600" height="800" loading="lazy" decoding="async">`
+        ? `<img src="${esc(p.image)}" alt="${esc(p.alt || p.name)}" width="720" height="900" loading="lazy" decoding="async">`
         : '<span class="sr-only">Product photograph not yet available</span>'}${p.isNew ? '<span class="new-label">New addition</span>' : ''}</span>
       <h3>${esc(p.name)}</h3>
       <p class="catalogue-description">${esc(p.description || 'Ask us about this piece')}</p>

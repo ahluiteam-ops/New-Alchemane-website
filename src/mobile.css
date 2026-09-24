@@ -67,11 +67,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     gap: 12px;
   }
   .floating-contact-link {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    /* Reads as floating above the page rather than colliding with it. */
-    box-shadow: 0 6px 18px #17161326;
+    overflow: hidden;
+    box-shadow: none;
+  }
+  /* The SVG artwork has a generous transparent canvas around each circle.
+     Crop that canvas so the page does not read as a white halo. */
+  .floating-contact-link img {
+    width: 126.667%;
+    height: 126.667%;
+    max-width: none;
+    transform: translate(-10.526%, -5.263%);
   }
   .floating-contact-link:active { transform: scale(.94); }
 
@@ -99,7 +107,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   #consultation-form input[type="radio"] {
     width: 22px;
     height: 22px;
-    accent-color: var(--action, #304638);
+    accent-color: var(--action, #232928);
   }
   .new-filter, #consultation-form fieldset label { gap: 12px; }
 
@@ -118,8 +126,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* ------------------------------------------------- very narrow phones (320) */
 @media (max-width: 360px) {
-  .brand-name { font-size: 30px; }
-  .brand-caption { letter-spacing: 2.4px; }
+  .brand-name { font-size: 26px; }
+  .brand-caption { letter-spacing: 2px; }
   .collection-cta { min-width: 0; width: 100%; max-width: 280px; letter-spacing: 2px; }
   .catalogue-filters button { font-size: 13px; padding: 9px 11px; gap: 7px; }
 }
@@ -128,19 +136,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    .hero-scene carries min-height: 580–660px. Turn a phone sideways and the
    viewport is ~390px tall, so the hero alone was taller than the screen and
    "Shop the collection" fell below the fold with nothing to indicate it.
-   The cloud reveal is already disabled at this height by main.js, so relaxing
-   the floor here costs no animation. */
+   The mobile cloud reveal remains active and scales its travel to the shorter
+   hero, so relaxing the floor here keeps both the CTA and transition visible. */
 @media (max-height: 520px) and (orientation: landscape) {
   /* Drop the floor and slim the masthead; the hero then fits the short screen
      and the call to action keeps its place at the foot of the picture. */
-  :root { --header-height: 104px; }
-  .masthead { height: 62px; }
+  :root { --header-height: 68px; }
+  .masthead { height: 100%; }
   .brand-name { font-size: 26px; }
   .brand { gap: 6px; }
-  .hero-scene, .motion-enabled .stage { min-height: 0; height: 100svh; }
+  .hero-scene, .motion-enabled .stage, .motion-mobile .stage { min-height: 0; height: 100svh; }
   .hero-actions { bottom: 4%; gap: 10px; }
   .collection-cta { min-height: 48px; }
   .collection-scene { min-height: 0; padding-block: 36px; }
-  .floating-contact-link { width: 48px; height: 48px; }
+  .floating-contact-link { width: 44px; height: 44px; }
   .floating-contact { gap: 10px; }
 }

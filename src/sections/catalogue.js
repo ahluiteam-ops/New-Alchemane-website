@@ -1,9 +1,9 @@
-import { products, categories } from './catalogue-data';
+import { products, categories, productBelongsToCategory } from './catalogue-data';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const extensionCategories = new Set(['permanent-extensions', 'clip-extensions']);
 const isSupportedCategory = id => id === 'all' || id === 'extensions' || categories.some(c => c.id === id);
-const matchesCategory = (product, category) => category === 'all' || product.category === category || (category === 'extensions' && extensionCategories.has(product.category));
+const matchesCategory = (product, category) => category === 'all' || productBelongsToCategory(product, category) || (category === 'extensions' && extensionCategories.has(product.category));
 
 export function initCatalogue() {
   const section = document.querySelector('#range');

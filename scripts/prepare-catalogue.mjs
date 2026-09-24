@@ -24,8 +24,9 @@ const additions = [
   ['Velcro Fringes', 'fringes'], ['V-Shape Fringes', 'fringes'], ['Fringes Filler', 'fringes'],
   ['European Full Wig', 'wigs'], ['Skin Top Wig', 'wigs'], ['Lace Wig', 'wigs'],
   ['Feather Extension', 'permanent-extensions'], ['V-Light Extension', 'permanent-extensions'], ['Ice Extension', 'permanent-extensions'],
-  ['Hairline Toppers', 'toppers'], ['Rose Topper', 'toppers'], ['Classic Clip Topper', 'toppers'], ['Mesh Topper', 'toppers'],
-].map(([name, category]) => ({ handle: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, group: 'unconfirmed', price: null, image: null,
+  ['7-Inch Hairline', 'hairline-series'], ['11-Inch Hairline', 'hairline-series'], ['Hairline Toppers', 'toppers', ['hairline-series']],
+  ['Rose Topper', 'toppers'], ['Classic Clip Topper', 'toppers'], ['Mesh Topper', 'toppers'],
+].map(([name, category, categories]) => ({ handle: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, ...(categories ? { categories } : {}), group: 'unconfirmed', price: null, image: null,
   description: 'Ask our team about this new addition', aliases: '', shades: [], url: null, isNew: true }));
 writeFileSync('src/sections/catalogue-products.js', `// Official store snapshot: 21 Sep 2026. New names: supplied client list.\n// Set image to an approved asset path when supplied; null renders a blank grey card.\nexport const products = ${JSON.stringify([...existing, ...additions], null, 2)};\n`);
 console.log(`Prepared ${existing.length} existing + ${additions.length} new products.`);

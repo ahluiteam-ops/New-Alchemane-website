@@ -8,11 +8,16 @@ import { initFilms } from './sections/films';
 import { initPromise } from './sections/promise';
 import { initOverture } from './sections/overture';
 import { initTestimonials } from './sections/testimonials';
+import { initOfferPopup } from './sections/offer-popup';
+import { initSolutions } from './sections/solutions';
+import { initQualityBanner } from './sections/quality-banner';
 import './premium.css';
 import './design-tokens.css';
 import './sections/discovery.css';
 // Last, so its small-screen corrections settle ties with everything above.
 import './mobile.css';
+// Final colour pass: one restrained palette across legacy and newer sections.
+import './palette.css';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 const hero = document.querySelector('.hero-scene');
@@ -44,10 +49,19 @@ function setFloatingContactVisible(visible) {
 
 function updateFloatingContactForFlow() {
   if (document.documentElement.classList.contains('motion-enabled')) return;
+  if (document.documentElement.classList.contains('motion-mobile') && !document.documentElement.classList.contains('mobile-reveal-complete')) {
+    setFloatingContactVisible(false);
+    return;
+  }
   const secondSection = document.querySelector('.collection-scene');
   if (!secondSection) return;
   const bounds = secondSection.getBoundingClientRect();
-  setFloatingContactVisible(bounds.top <= innerHeight * .55 && bounds.bottom > 0);
+  const compactLayout = matchMedia('(max-width: 1000px)').matches;
+  // On compact layouts the controls would cover the final category cards.
+  // Bring them in only after that section has almost completely cleared.
+  setFloatingContactVisible(compactLayout
+    ? bounds.bottom <= innerHeight * .2
+    : bounds.top <= innerHeight * .55 && bounds.bottom > 0);
 }
 
 function initMainNavigation() {
@@ -66,7 +80,7 @@ function initMainNavigation() {
   const onDocumentClick = (event) => {
     if (header.classList.contains('is-menu-open') && !header.contains(event.target)) setOpen(false);
   };
-  const desktop = window.matchMedia('(min-width: 601px)');
+  const desktop = window.matchMedia('(min-width: 901px)');
   const onBreakpointChange = (event) => { if (event.matches) setOpen(false); };
 
   toggle.addEventListener('click', onToggle);
@@ -98,12 +112,24 @@ function initFloatingContact() {
 }
 
 const media = gsap.matchMedia();
-media.add({ motion: '(prefers-reduced-motion: no-preference)', room: '(min-height: 680px)' }, (context) => {
-  // Short viewports use normal document flow so all collection items stay reachable.
-  if (!context.conditions.motion || !context.conditions.room || (innerWidth <= 600 && innerHeight < 760)) return;
+media.add({
+  motion: '(prefers-reduced-motion: no-preference)',
+  room: '(min-height: 680px)',
+  fullRow: '(min-width: 1001px)',
+}, (context) => {
+  // The pinned reveal requires the entire heading and category grid to fit in
+  // one viewport. Phones and tablets use normal flow so no content can be
+  // centred outside, or clipped by, the fixed-height animation stage.
+  if (!context.conditions.motion || !context.conditions.room || !context.conditions.fullRow) return;
+  const cloudStage = document.querySelector('.cloud-stage-desktop');
+  const cloudFar = cloudStage?.querySelector('.cloud-far');
+  const cloudNear = cloudStage?.querySelector('.cloud-near');
+  const cloudFront = cloudStage?.querySelector('.cloud-front');
+  const whiteout = cloudStage?.querySelector('.whiteout');
+  if (!cloudStage || !cloudFar || !cloudNear || !cloudFront || !whiteout) return;
+  const cloudLayers = gsap.utils.toArray('.cloud-layer', cloudStage);
   document.documentElement.classList.add('motion-enabled');
   collection.inert = true;
-  const cloudLayers = gsap.utils.toArray('.cloud-layer');
   gsap.set(collection, { autoAlpha: 0 });
   gsap.set('.collection-lockup', { opacity: 0, y: 18, scale: 0.985 });
   gsap.set('.collection-discovery', { opacity: 0, y: 18 });
@@ -114,11 +140,17 @@ media.add({ motion: '(prefers-reduced-motion: no-preference)', room: '(min-heigh
       trigger: '.experience', pin: '.stage', start: 'top top',
       end: () => `+=${Math.round(window.innerHeight * 2.55)}`,
       scrub: 0.85, anticipatePin: 1, invalidateOnRefresh: true,
+      // collection.inert is toggled here, not from onUpdate's scrubbed
+      // progress: scrub eases behind the real scroll position, so a fast
+      // flick can cross this boundary while progress still reads stale,
+      // leaving the category cards inert (untappable) after they're visible.
+      // onLeave/onEnterBack fire from the actual scroll position instead.
+      onLeave() { collection.inert = false; },
+      onEnterBack() { collection.inert = true; },
     },
     onUpdate() {
       const progress = this.progress();
       hero.inert = progress > 0.42;
-      collection.inert = progress < 0.78;
       setFloatingContactVisible(progress >= 0.67);
     },
   });
@@ -126,14 +158,14 @@ media.add({ motion: '(prefers-reduced-motion: no-preference)', room: '(min-heigh
   reveal.to('.hero-art', { scale: 1.045, yPercent: -3, duration: 0.52 }, 0)
     .to('.hero-actions', { opacity: 0, y: -22, duration: 0.16 }, 0)
     .to('.site-header', { y: -24, opacity: 0, duration: 0.22 }, 0.2)
-    .to('.cloud-far', { y: () => -innerHeight * 1.22, xPercent: 4, duration: 0.52 }, 0)
-    .to('.cloud-near', { y: () => -innerHeight * 1.4, xPercent: -4, duration: 0.49 }, 0.025)
-    .to('.cloud-front', { y: () => -innerHeight * 1.58, xPercent: 3, duration: 0.47 }, 0.055)
-    .to('.whiteout', { opacity: 1, duration: 0.15, ease: 'power1.inOut' }, 0.36)
+    .to(cloudFar, { y: () => -innerHeight * 1.22, xPercent: 4, duration: 0.52 }, 0)
+    .to(cloudNear, { y: () => -innerHeight * 1.4, xPercent: -4, duration: 0.49 }, 0.025)
+    .to(cloudFront, { y: () => -innerHeight * 1.58, xPercent: 3, duration: 0.47 }, 0.055)
+    .to(whiteout, { opacity: 1, duration: 0.15, ease: 'power1.inOut' }, 0.36)
     .set(hero, { autoAlpha: 0 }, 0.53)
     .set(collection, { autoAlpha: 1 }, 0.53)
     .set(cloudLayers, { opacity: 0 }, 0.54)
-    .to('.whiteout', { opacity: 0, duration: 0.22, ease: 'power1.inOut' }, 0.61)
+    .to(whiteout, { opacity: 0, duration: 0.22, ease: 'power1.inOut' }, 0.61)
     .to('.collection-lockup', { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power2.out' }, 0.67)
     .to('.collection-discovery', { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.76);
 
@@ -143,6 +175,108 @@ media.add({ motion: '(prefers-reduced-motion: no-preference)', room: '(min-heigh
     document.documentElement.classList.remove('motion-enabled');
     hero.inert = false;
     collection.inert = false;
+    updateFloatingContactForFlow();
+  };
+});
+
+// Phones and tablets use the same pinned cloud / whiteout / scene-swap
+// choreography as desktop. The real collection is taller than one viewport,
+// so an inert clone supplies the pinned reveal frame and aligns exactly with
+// the real collection as the pin releases.
+media.add('(prefers-reduced-motion: no-preference) and (max-width: 1000px)', () => {
+  const root = document.documentElement;
+  const experience = document.querySelector('.experience');
+  const stage = document.querySelector('.stage');
+  const cloudStage = document.querySelector('.cloud-stage-mobile');
+  if (!experience || !stage || !cloudStage || !hero || !collection) return;
+  const cloudLayers = gsap.utils.toArray('.cloud-layer', cloudStage);
+  const cloudFar = cloudStage.querySelector('.cloud-far');
+  const cloudNear = cloudStage.querySelector('.cloud-near');
+  const cloudFront = cloudStage.querySelector('.cloud-front');
+  const whiteout = cloudStage.querySelector('.whiteout');
+  if (!cloudFar || !cloudNear || !cloudFront || !whiteout) return;
+
+  const collectionNext = collection.nextSibling;
+  const preview = collection.cloneNode(true);
+  preview.classList.add('collection-scene-mobile');
+  preview.classList.remove('collection-scene-flow');
+  preview.removeAttribute('id');
+  preview.removeAttribute('aria-labelledby');
+  preview.setAttribute('aria-hidden', 'true');
+  preview.inert = true;
+  preview.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+  preview.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(element => element.setAttribute('tabindex', '-1'));
+
+  stage.insertBefore(preview, cloudStage);
+  experience.after(collection);
+  collection.classList.add('collection-scene-flow');
+  root.classList.add('motion-mobile');
+  collection.inert = true;
+
+  const previewLockup = preview.querySelector('.collection-lockup');
+  const previewDiscovery = preview.querySelector('.collection-discovery');
+  gsap.set(cloudLayers, { y: 0, xPercent: 0, force3D: true });
+  gsap.set(whiteout, { opacity: 0 });
+  gsap.set(preview, { autoAlpha: 0 });
+  gsap.set(previewLockup, { opacity: 0, y: 18, scale: 0.985 });
+  gsap.set(previewDiscovery, { opacity: 0, y: 18 });
+
+  reveal = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      id: 'mobile-cloud-reveal',
+      trigger: experience,
+      pin: stage,
+      start: 'top top',
+      end: () => `+=${Math.round(window.innerHeight * 2.55)}`,
+      scrub: 0.85,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      refreshPriority: 1,
+      // collection.inert is toggled here, not from onUpdate's scrubbed
+      // progress: scrub eases behind the real scroll position, so a fast
+      // flick can cross this boundary while progress still reads stale,
+      // leaving the category cards inert (untappable) after they're visible.
+      // onLeave/onEnterBack fire from the actual scroll position instead.
+      onLeave() {
+        root.classList.add('mobile-reveal-complete');
+        collection.inert = false;
+        updateFloatingContactForFlow();
+      },
+      onEnterBack() {
+        root.classList.remove('mobile-reveal-complete');
+        collection.inert = true;
+        setFloatingContactVisible(false);
+      },
+    },
+    onUpdate() {
+      const progress = this.progress();
+      hero.inert = progress > 0.42;
+    },
+  });
+  reveal.to('.hero-art', { scale: 1.045, yPercent: -3, duration: 0.52 }, 0)
+    .to('.hero-actions', { opacity: 0, y: -22, duration: 0.16 }, 0)
+    .to('.site-header', { y: -24, opacity: 0, duration: 0.22 }, 0.2)
+    .to(cloudFar, { y: () => -innerHeight * 1.22, xPercent: 4, duration: 0.52 }, 0)
+    .to(cloudNear, { y: () => -innerHeight * 1.4, xPercent: -4, duration: 0.49 }, 0.025)
+    .to(cloudFront, { y: () => -innerHeight * 1.58, xPercent: 3, duration: 0.47 }, 0.055)
+    .to(whiteout, { opacity: 1, duration: 0.15, ease: 'power1.inOut' }, 0.36)
+    .set(hero, { autoAlpha: 0 }, 0.53)
+    .set(preview, { autoAlpha: 1 }, 0.53)
+    .set(cloudLayers, { opacity: 0 }, 0.54)
+    .to(whiteout, { opacity: 0, duration: 0.22, ease: 'power1.inOut' }, 0.61)
+    .to(previewLockup, { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power2.out' }, 0.67)
+    .to(previewDiscovery, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.76);
+
+  return () => {
+    navigationTween?.kill();
+    reveal = undefined;
+    root.classList.remove('motion-mobile', 'mobile-reveal-complete');
+    hero.inert = false;
+    collection.inert = false;
+    collection.classList.remove('collection-scene-flow');
+    stage.insertBefore(collection, collectionNext);
+    preview.remove();
     updateFloatingContactForFlow();
   };
 });
@@ -227,7 +361,10 @@ const cleanupRange = initCatalogue();
 const cleanupFilms = initFilms();
 const cleanupPromise = initPromise();
 const cleanupOverture = initOverture();
+const cleanupSolutions = initSolutions();
 const cleanupTestimonials = initTestimonials();
+const cleanupQualityBanner = initQualityBanner();
+const cleanupOfferPopup = initOfferPopup();
 window.addEventListener('load', () => {
   if (resetScrollOnLoad) {
     resetHomepageScroll();
@@ -236,4 +373,4 @@ window.addEventListener('load', () => {
   ScrollTrigger.refresh();
   if (!resetScrollOnLoad && location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'start' });
 });
-if (import.meta.hot) import.meta.hot.dispose(() => { navigationTween?.kill(); cleanupMainNavigation(); cleanupFloatingContact(); cleanupHomepage(); cleanupRange(); cleanupFilms(); cleanupPromise(); cleanupOverture(); cleanupTestimonials(); media.revert(); });
+if (import.meta.hot) import.meta.hot.dispose(() => { navigationTween?.kill(); cleanupMainNavigation(); cleanupFloatingContact(); cleanupHomepage(); cleanupRange(); cleanupFilms(); cleanupPromise(); cleanupOverture(); cleanupSolutions(); cleanupTestimonials(); cleanupQualityBanner(); cleanupOfferPopup(); media.revert(); });

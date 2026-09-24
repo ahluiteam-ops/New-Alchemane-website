@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
-    <meta name="description" content="Explore The Hairline Series by Alchemane: hair toppers, permanent extensions, clip extensions, wigs and fringes." />
+    <meta name="description" content="Explore Alchemane hair products, including Hairline Series, hair toppers, permanent extensions, clip extensions, wigs and fringes." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/source-sans-3-regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/source-serif-4-regular.ttf" as="font" type="font/ttf" crossorigin />
@@ -21,19 +21,21 @@
             <header class="site-header">
               <div class="masthead">
                 <a class="brand" href="#home" aria-label="Alchemane home">
-                  <span class="brand-name">ALCHEMANE</span>
-                  <span class="brand-caption">Hair extensions</span>
+                  <img class="brand-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40" />
                 </a>
-                <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="main-navigation" aria-expanded="false">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-                </button>
+                <nav id="main-navigation" aria-label="Main navigation" class="main-nav">
+                  <a href="#home" aria-current="page">Home</a>
+                  <a href="#range" data-catalogue-category="extensions">Extensions</a>
+                  <a href="#range" data-catalogue-category="toppers">Toppers</a>
+                  <a href="#range" data-catalogue-category="wigs">Wigs</a>
+                </nav>
+                <div class="header-actions">
+                  <a class="header-cta" href="#consultation">Book a consultation</a>
+                  <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="main-navigation" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                  </button>
+                </div>
               </div>
-              <nav id="main-navigation" aria-label="Main navigation" class="main-nav">
-                <a href="#home" aria-current="page">Home</a>
-                <a href="#range" data-catalogue-category="extensions">Hair Extensions</a>
-                <a href="#range" data-catalogue-category="toppers">Hair Toppers</a>
-                <a href="#range" data-catalogue-category="wigs">Hair Wigs</a>
-              </nav>
             </header>
             <div class="hero-visual">
               <h1 class="sr-only">Alchemane. Your own kind of beautiful.</h1>
@@ -56,15 +58,22 @@
               <div class="collection-lockup">
                 <p class="collection-kicker">The Alchemane collection</p>
                 <h2 id="collection-title" tabindex="-1">
-                  <span class="collection-title-line">The Hairline</span>
-                  <em class="collection-title-line collection-title-line--italic">Series.</em>
+                  <span class="collection-title-line">Beautiful hair.</span>
+                  <em class="collection-title-line collection-title-line--italic">New possibilities.</em>
                 </h2>
               </div>
               <!-- collection-discovery -->
             </div>
           </section>
 
-          <div class="cloud-stage" aria-hidden="true">
+          <div class="cloud-stage cloud-stage-mobile" aria-hidden="true">
+            <div class="cloud-layer cloud-far"><img src="/assets/cloud.webp" alt="" /></div>
+            <div class="cloud-layer cloud-near"><img src="/assets/cloud.webp" alt="" /></div>
+            <div class="cloud-layer cloud-front"><img src="/assets/cloud.webp" alt="" /></div>
+            <div class="whiteout"></div>
+          </div>
+
+          <div class="cloud-stage cloud-stage-desktop" aria-hidden="true">
             <div class="cloud-layer cloud-far"><img src="/assets/cloud.webp" alt="" /></div>
             <div class="cloud-layer cloud-near"><img src="/assets/cloud.webp" alt="" /></div>
             <div class="cloud-layer cloud-front"><img src="/assets/cloud.webp" alt="" /></div>

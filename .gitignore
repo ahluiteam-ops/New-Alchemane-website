@@ -22,6 +22,10 @@ version/
 *.mp4
 !public/assets/**/*.mp4
 
+# Design references and agent-skill packages: not part of the deployed site.
+reference/
+skill/
+
 # Local noise
 debug.log
 *.log

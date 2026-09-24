@@ -64,12 +64,12 @@
   height: clamp(58px, 6vw, 76px);
   border: 1px solid rgba(255, 255, 255, .78);
   border-radius: 50%;
-  color: var(--text);
+  color: var(--action);
   background: rgba(255, 255, 255, .92);
   box-shadow: 0 10px 35px rgba(22, 27, 22, .24);
   transform: translate(-50%, -50%);
 }
-.client-film-play svg { width: 28px; height: 28px; margin-left: 3px; fill: currentColor; }
+.client-film-play svg { width: 26px; height: 26px; margin-left: 2px; fill: currentColor; }
 
 @media (max-width: 700px) {
   .home-rest .client-proof { padding-block: 64px; }

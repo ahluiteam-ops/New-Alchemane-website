@@ -21,7 +21,7 @@ export const products = [
   {
     "handle": "halo-hair-extensions",
     "name": "Halo Hair Extensions",
-    "category": "permanent-extensions",
+    "category": "clip-extensions",
     "group": "volume",
     "price": 14000,
     "ranged": true,
@@ -113,7 +113,7 @@ export const products = [
     "group": "toppers",
     "price": 38000,
     "ranged": true,
-    "image": "/assets/range/skin-topper-5x6-a.webp",
+    "image": null,
     "alt": "Larger skin base topper held up to show its base",
     "description": "Coverage at the parting and crown",
     "aliases": "Skin Topper 5 × 6 14–18 in",
@@ -319,7 +319,7 @@ export const products = [
   {
     "handle": "scrunchies",
     "name": "Scrunchies",
-    "category": "permanent-extensions",
+    "category": "fringes",
     "group": "volume",
     "price": 2500,
     "ranged": false,
@@ -580,9 +580,38 @@ export const products = [
     "isNew": true
   },
   {
+    "handle": "7-inch-hairline",
+    "name": "7-Inch Hairline",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "11-inch-hairline",
+    "name": "11-Inch Hairline",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
     "handle": "hairline-toppers",
     "name": "Hairline Toppers",
     "category": "toppers",
+    "categories": [
+      "hairline-series"
+    ],
     "group": "unconfirmed",
     "price": null,
     "image": null,

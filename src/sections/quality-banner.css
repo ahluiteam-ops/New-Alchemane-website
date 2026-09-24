@@ -1,0 +1,107 @@
+.quality-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+
+.quality-banner-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.quality-banner-picture {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100%;
+  display: block;
+}
+
+.quality-banner-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.quality-banner-inner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(400px, 36vw, 580px);
+  padding: 64px var(--page-gutter);
+}
+
+.quality-banner-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  width: min(1200px, 100%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quality-banner-list li {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -.02em;
+  text-shadow: 0 1px 3px rgb(35 41 40 / .85), 0 0 9px rgb(35 41 40 / .6);
+}
+
+.quality-banner-list li + li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--color-white);
+  box-shadow: 0 0 2px rgb(35 41 40 / .75);
+}
+
+@media (max-width: 1000px) and (min-width: 701px) {
+  .quality-banner-inner { padding-inline: 24px; }
+  .quality-banner-list li { padding-inline: 16px; font-size: 22px; }
+}
+
+@media (max-width: 700px) {
+  .quality-banner-inner {
+    min-height: clamp(575px, 145vw, 760px);
+    padding: 54px 24px;
+  }
+  .quality-banner-picture img { object-position: 54% center; }
+  .quality-banner-list { grid-template-columns: 1fr; gap: 88px; }
+  .quality-banner-list li {
+    min-height: 0;
+    padding: 0;
+    font-size: clamp(24px, 6.5vw, 30px);
+    color: var(--color-white);
+    text-shadow: 0 1px 3px rgb(35 41 40 / .85), 0 0 9px rgb(35 41 40 / .6);
+  }
+  /* Short vertical rules between stacked claims, as in the mobile reference. */
+  .quality-banner-list li + li::before {
+    left: 50%;
+    top: -68px;
+    width: 1px;
+    height: 48px;
+    background: var(--color-white);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .quality-banner-picture { will-change: transform; }
+}
