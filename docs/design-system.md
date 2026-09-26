@@ -1,5 +1,9 @@
 # Alchemane design system
 
+## Current homepage revision
+
+The September 26 mobile-first homepage overrides the historical motion and discovery descriptions below. Its opening restores the full-screen pinned cloud reveal, while the later campaign parallax remains archived. Category discovery and the catalogue form one section: six horizontal category tabs directly above the products, with Hairline Series selected by default. Full explainer slots are on their detail pages; the homepage keeps playable client videos. Help CTAs lead to the consultation form. See `docs/mobile-homepage.md` for the current behavior and checks. Typography, palette, product provenance and other foundations below continue to apply.
+
 The homepage helps someone compare hair pieces and speak to the team. Photography and useful product information lead; copy is direct, warm and brief.
 
 ## Foundations

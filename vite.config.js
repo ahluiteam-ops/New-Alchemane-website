@@ -3,14 +3,14 @@ import tailwindcss from '@tailwindcss/vite';
 import { readFileSync } from 'node:fs';
 import { renderRangePlaceholders } from './src/sections/range-data.js';
 import { renderReels } from './src/sections/reel-data.js';
-import { renderCatalogue, renderDiscovery } from './src/sections/catalogue-data.js';
+import { renderCatalogue } from './src/sections/catalogue-data.js';
 import { renderExtensions } from './src/sections/extensions-data.js';
 import { renderTestimonials, renderCelebrityPicks } from './src/sections/testimonials-data.js';
 import { renderSolutions } from './src/sections/solutions-data.js';
 
 export default defineConfig({
   // Two pages: the shop homepage and the Hair Extensions page.
-  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html' } } },
+  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', toppers: 'toppers.html' } } },
   plugins: [tailwindcss(), {
     name: 'page-sections',
     transformIndexHtml(html) {
@@ -20,11 +20,11 @@ export default defineConfig({
         .replace('<!-- testimonials -->', renderTestimonials())
         .replace('<!-- celebrity-picks -->', renderCelebrityPicks())
         .replace('<!-- hair-solutions -->', renderSolutions());
-      return html
+      return renderReels(html
         .replace('<!-- homepage-sections -->', sections)
-        .replace('<!-- collection-discovery -->', renderDiscovery())
+        .replace('<!-- hair-solutions -->', renderSolutions())
         .replace('<!-- product-discovery -->', renderCatalogue())
-        .replace('<!-- extensions-sections -->', renderExtensions());
+        .replace('<!-- extensions-sections -->', renderExtensions()));
     },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('homepage.html')) server.ws.send({ type: 'full-reload' });

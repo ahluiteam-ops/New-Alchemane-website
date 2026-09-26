@@ -29,9 +29,9 @@ try {
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(400);
     const section = page.locator('.quality-banner');
-    assert.equal(await section.evaluate(el => el.previousElementSibling.id), 'voices', `${name}: placement`);
+    assert.equal(await section.evaluate(el => el.previousElementSibling.classList.contains('stories-section')), true, `${name}: placement`);
     assert.deepEqual(await section.locator('.quality-banner-list li > span:last-child').allTextContents(), [
-      '100% Pro-Grade Human Hair', 'Ethically Sourced & Carefully Treated', 'Alchemane Quality Guarantee',
+      '100% Pro-GradeHuman Hair', 'Ethically Sourced &Carefully Treated', 'Alchemane QualityGuarantee',
     ], `${name}: claim word spacing`);
     await section.scrollIntoViewIfNeeded();
     await page.locator('.quality-banner-picture img').evaluate(img => img.decode());

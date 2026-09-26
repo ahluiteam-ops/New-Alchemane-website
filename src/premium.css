@@ -114,15 +114,8 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .founder-stats strong { font-family: var(--font-display); font-size: 42px; }
 .founder-stats span { color: var(--text-secondary); font-size: 12px; letter-spacing: .02em; }
 
-/* A quiet proof point between the founder's expertise and client stories. */
-/* Section rhythm. Neighbouring sections alternate between white and the soft
-   fog surface (with the dark founder band as the anchor), so each section
-   boundary reads as a change of tone rather than one continuous white run:
-     solutions · films (white) → Hear It From Real People (fog)
-     → A change you can feel (white) → founder (dark) → Celebrity Picks (white)
-     → Media Coverage (fog) → Client stories (white) → Studio (fog)
-     → Questions (white) → Consultation (fog) → footer (white).
-   Celebrity Picks stays white on purpose: its pending cards are fog. */
+/* Featured In sits between the founder and Celebrity Choice. Its soft
+   surface separates the two sections without extra spacer markup. */
 .home-rest #voices { background: var(--color-white); }
 .media-coverage { padding-block: clamp(56px, 6vw, 88px); background: var(--surface-soft); }
 .media-coverage-inner { text-align: center; }
@@ -266,7 +259,6 @@ nav a { font-size: 16px; letter-spacing: 0; }
   }
   .stories-section .story-controls {
     gap: 8px;
-    margin-top: 20px;
   }
   .stories-section .story-controls button {
     width: 48px;
@@ -274,13 +266,6 @@ nav a { font-size: 16px; letter-spacing: 0; }
     display: inline-grid;
     place-items: center;
     font-size: 17px;
-  }
-  /* Swap which copy of the arrows is live: below the image on a phone,
-     rather than under the heading. */
-  .stories-section .section-heading-row .story-controls { display: none; }
-  .stories-section .story-controls--carousel {
-    display: flex;
-    margin-top: 14px;
   }
   .story-layout {
     gap: 0;

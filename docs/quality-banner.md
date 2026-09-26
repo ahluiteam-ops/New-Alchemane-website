@@ -1,6 +1,6 @@
 # Alchemane standard banner
 
-Immediately below Hear It From Real People. Only the three reference claims are visible: centered in a desktop row, stacked on mobile. Two vertical dividers are tall on desktop and short on mobile.
+Immediately below See the difference. Only the three reference claims are visible: centered in a desktop row, stacked on mobile. Two vertical dividers are tall on desktop and short on mobile.
 
 ## Photography and contrast
 

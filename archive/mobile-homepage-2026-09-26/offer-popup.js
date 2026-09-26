@@ -66,7 +66,7 @@ function markup() {
           <label class="offer-label" for="offer-phone">Mobile number</label>
           <div class="offer-phone">
             <span class="offer-prefix" aria-hidden="true">IN +91</span>
-            <input id="offer-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="10-digit number" aria-describedby="offer-error" required>
+            <input id="offer-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="10-digit mobile number" aria-describedby="offer-error" required>
           </div>
           <p class="offer-error" id="offer-error" role="alert" hidden>Enter a 10-digit mobile number starting with 6, 7, 8 or 9.</p>
           <label class="offer-consent"><input type="checkbox" name="updates"> Send me offers and updates</label>

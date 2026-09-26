@@ -27,11 +27,11 @@ try {
   await page.screenshot({ path: 'preview/discovery-qa/desktop-home.png' });
   await expect(page.locator('.hero-scene')).toBeVisible();
   assert.equal(await page.locator('html').evaluate(el => el.classList.contains('motion-enabled')), true);
-  await page.getByRole('link', { name: 'Shop the collection' }).click();
+  await page.getByRole('link', { name: 'Find your hair solution' }).click();
   await page.waitForTimeout(2800);
   await expect(page.locator('.collection-scene')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Beautiful hair. New possibilities.' })).toBeVisible();
-  await expect(page.locator('.collection-kicker')).toHaveText('The Alchemane collection');
+  await expect(page.getByRole('heading', { name: 'Find your hair solution.' })).toBeVisible();
+  await expect(page.locator('.collection-kicker')).toHaveText('Shop or book');
   await expect(page.locator('.collection-scene .category')).toHaveCount(0);
   await expect(page.locator('.collection-scene .discovery-category')).toHaveCount(6);
   await expect(page.getByText('What would you like to find?')).toHaveCount(0);
@@ -81,12 +81,14 @@ try {
   await page.locator('[data-category="wigs"]').click();
   await expect(page.locator('.catalogue-card:visible')).toHaveCount(4);
   await expect(page.locator('.catalogue-card:visible .catalogue-price')).toHaveCount(0);
+  assert.deepEqual(await page.locator('.catalogue-card:visible .catalogue-product').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')))]), ['#consultation']);
   await page.locator('[data-category="clip-extensions"]').click();
   await expect(page.locator('.catalogue-card:visible')).toHaveCount(8);
-  await expect(page.locator('.catalogue-card:visible .catalogue-price')).toHaveCount(0);
+  await expect(page.locator('.catalogue-card:visible .catalogue-price')).toHaveCount(8);
   await page.locator('[data-category="permanent-extensions"]').click();
   await expect(page.locator('.catalogue-card:visible')).toHaveCount(6);
   await expect(page.locator('.catalogue-card:visible .catalogue-price')).toHaveCount(0);
+  assert.deepEqual(await page.locator('.catalogue-card:visible .catalogue-product').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')))]), ['#consultation']);
   await page.locator('.catalogue-filters [data-category="all"]').click();
   await page.locator('#range').screenshot({ path: 'preview/discovery-qa/desktop-catalogue.png' });
 
@@ -95,15 +97,15 @@ try {
   await page.setViewportSize({ width: 412, height: 800 });
   await page.goto(BASE, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('html').evaluate(el => el.classList.contains('motion-enabled')), false);
-  await page.getByRole('link', { name: 'Shop the collection' }).click();
-  await page.waitForTimeout(1000);
+  await page.getByRole('link', { name: 'Find your hair solution' }).click();
+  await page.waitForTimeout(2800);
   const mobileHeadingBounds = await page.locator('#collection-title').evaluate(element => {
     const bounds = element.getBoundingClientRect();
     return { top: bounds.top, bottom: bounds.bottom, viewport: innerHeight };
   });
   assert.ok(mobileHeadingBounds.top >= 0, 'Collection heading is not cropped above the mobile viewport');
   assert.ok(mobileHeadingBounds.bottom <= mobileHeadingBounds.viewport, 'Collection heading fits inside the mobile viewport');
-  await page.locator('.discovery-category:last-child').scrollIntoViewIfNeeded();
+  await page.locator('.collection-scene-flow .discovery-category:last-child').scrollIntoViewIfNeeded();
   await page.waitForTimeout(100);
   await expect(page.locator('.floating-contact')).not.toHaveClass(/is-visible/);
 
@@ -117,8 +119,8 @@ try {
   await page.getByLabel('Your name', { exact: true }).fill('Preview Visitor');
   await page.getByLabel('Phone number', { exact: true }).fill('9876543210');
   await page.getByLabel('Your city', { exact: true }).fill('Mumbai');
-  await page.getByLabel('What are you looking for?').selectOption('More volume');
-  await page.getByRole('button', { name: 'Submit' }).click();
+  await page.getByLabel('What do you need help with?').selectOption('Add hair volume');
+  await page.getByRole('button', { name: 'Send my request' }).click();
   await expect(page.locator('.consultation-status')).toBeVisible();
   await page.getByLabel('Your city', { exact: true }).fill('Pune');
   await expect(page.locator('.consultation-status')).toBeHidden();

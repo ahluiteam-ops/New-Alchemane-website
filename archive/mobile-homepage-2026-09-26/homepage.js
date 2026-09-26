@@ -56,10 +56,10 @@ export function initHomepage() {
     if (!reduced()) gsap.fromTo('.story-quote blockquote', { opacity: .25, y: 8 }, { opacity: 1, y: 0, duration: .4, overwrite: true });
   }));
   document.querySelectorAll('[data-consult-type]').forEach(link => link.addEventListener('click', () => {
-    document.querySelector(`[name=meeting][value="${link.dataset.consultType === 'studio' ? 'Khar West studio' : 'Online'}"]`).checked = true;
+    document.querySelector(`[name=meeting][value="${link.dataset.consultType === 'studio' ? 'Mumbai studio' : 'Online'}"]`).checked = true;
   }));
   document.querySelectorAll('.home-rest a[href^="#"]').forEach(link => {
-    if (document.body.classList.contains('simple-home') || ['#home', '#collection'].includes(link.hash) || link.hasAttribute('data-range-open') || link.hasAttribute('data-catalogue-category')) return;
+    if (['#home', '#collection'].includes(link.hash) || link.hasAttribute('data-range-open') || link.hasAttribute('data-catalogue-category')) return;
     link.addEventListener('click', event => {
       const target = document.querySelector(link.hash);
       if (!target) return;
@@ -73,11 +73,7 @@ export function initHomepage() {
   const form = document.querySelector('#consultation-form');
   form.elements.phone.pattern = '[+0-9 ]{7,20}';
   form.elements.phone.title = 'Use 7–20 digits, spaces, or a leading +.';
-  form.elements.phone.addEventListener('input', event => {
-    const digits = event.target.value.replace(/\D/g, '');
-    event.target.setCustomValidity(digits.length >= 7 && digits.length <= 15 ? '' : 'Enter a valid phone number with 7–15 digits.');
-  });
-  ['name'].forEach(name => form.elements[name].addEventListener('input', event => {
+  ['name', 'city'].forEach(name => form.elements[name].addEventListener('input', event => {
     event.target.setCustomValidity(event.target.value.trim() ? '' : 'Please enter a value.');
   }));
   form.addEventListener('submit', event => {
@@ -86,13 +82,12 @@ export function initHomepage() {
     const message = `Hello Alchemane, I’d like to arrange a consultation.\n\nName: ${data.get('name').trim()}\nPhone: ${data.get('phone').trim()}\nCity: ${data.get('city').trim()}\nHair goal: ${data.get('interest')}\nMeeting: ${data.get('meeting')}${data.get('email') ? `\nEmail: ${data.get('email').trim()}` : ''}`;
     document.querySelector('#send-consultation').href = `https://wa.me/919967123333?text=${encodeURIComponent(message)}`;
     form.querySelector('.consultation-status').hidden = false;
-    document.querySelector('#send-consultation').focus();
   });
   form.addEventListener('input', () => { form.querySelector('.consultation-status').hidden = true; document.querySelector('#send-consultation').removeAttribute('href'); });
   document.querySelectorAll('.ruled-accordions details').forEach(detail => detail.addEventListener('toggle', () => ScrollTrigger.refresh()));
 
   const motion = gsap.matchMedia();
-  motion.add('(prefers-reduced-motion: no-preference) and (min-width: 1001px)', () => {
+  motion.add('(prefers-reduced-motion: no-preference)', () => {
     gsap.utils.toArray('.reveal-on-scroll').forEach(element => {
       gsap.from(element, { y: 16, opacity: 0, duration: .55, ease: 'power2.out', scrollTrigger: { trigger: element, start: 'top 91%', once: true } });
     });

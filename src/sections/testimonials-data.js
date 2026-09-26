@@ -49,16 +49,10 @@ const celebrityFilms = Array.from({ length: 7 }, () => ({ id: '', seconds: 0, na
 function pendingCard(index, total, kind) {
   return `<li class="voice-card voice-card--pending">
       <div class="voice-pending">
-        <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span>
         <span class="voice-pending-label">Film coming soon</span>
         <span class="sr-only">${kind} ${index + 1} of ${total}</span>
       </div>
     </li>`;
-}
-
-function celebrityCard(film, index) {
-  if (!film.id) return pendingCard(index, celebrityFilms.length, 'Celebrity film');
-  return card({ ...film, dir: 'celebrities', kind: 'celebrity film' }, index, celebrityFilms.length);
 }
 
 function rail({ id, title, sub, label, items }) {
@@ -81,18 +75,20 @@ function rail({ id, title, sub, label, items }) {
 export function renderTestimonials() {
   return rail({
     id: 'voices',
-    title: 'Hear It From Real People',
-    sub: 'Same woman. Same scalp.<br>Just the right solution.',
+    title: 'Watch our clients’ stories',
     label: 'Client films',
     items: films.map((film, i) => card(film, i, films.length)),
   });
 }
 
 export function renderCelebrityPicks() {
+  const ready = celebrityFilms.filter(film => film.id);
   return rail({
     id: 'celebrity-picks',
-    title: 'Celebrity Picks',
+    title: 'Celebrity Choice',
     label: 'Celebrity films',
-    items: celebrityFilms.map(celebrityCard),
+    items: ready.length
+      ? ready.map((film, index) => card({ ...film, dir: 'celebrities', kind: 'celebrity film' }, index, ready.length))
+      : [pendingCard(0, 2, 'Celebrity film'), pendingCard(1, 2, 'Celebrity film')],
   });
 }

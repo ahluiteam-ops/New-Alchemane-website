@@ -145,27 +145,31 @@
 
 @media (max-width: 760px) {
   .offer-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
-  .offer-dialog[open] { grid-template-columns: 1fr; }
+  .offer-dialog[open] { grid-template-columns: minmax(0, 1fr); }
+  .offer-panel--brand, .offer-panel--form { min-width: 0; }
   .offer-panel--brand { padding: 28px 22px 24px; }
   .offer-panel--brand::before { top: -110px; right: -110px; width: 240px; height: 240px; }
-  .offer-logo { width: 128px; }
-  .offer-headline { margin-top: 18px; font-size: clamp(30px, 8.4vw, 38px); }
-  /* Phones: titles only, so the form and its button land above the fold. */
-  .offer-benefits { gap: 6px; margin-top: 20px; }
-  .offer-benefits li { align-items: center; padding: 10px 14px; gap: 12px; }
-  .offer-benefits svg { width: 20px; height: 20px; margin-top: 0; }
-  .offer-benefit-detail { display: none; }
-  .offer-benefits strong { margin: 0; font-size: 15px; }
-  .offer-panel--form { padding: 28px 22px 24px; }
-  .offer-form { margin-top: 22px; }
-  .offer-close { top: 14px; right: 14px; }
-}
-
-/* Short phones (iPhone SE and similar): the offer and the form matter most,
-   so the benefit list steps aside rather than pushing the button off-screen. */
-@media (max-width: 760px) and (max-height: 720px) {
+  .offer-logo { width: 118px; }
+  .offer-headline { margin-top: 14px; font-size: clamp(24px, 7.2vw, 30px); }
+  /* Phones: the headline already states the offer, and the benefit list is
+     the one thing this dialog can lose without losing the offer itself — cut
+     it here so the whole card sits inside one screen with no internal scroll. */
   .offer-benefits { display: none; }
-  .offer-intro { font-size: 15px; }
+  .offer-panel--form { padding: 22px 20px 18px; }
+  /* The brand panel's headline already says "Get 5% off" — this h2 repeated it
+     right below. Kept for the dialog's aria-labelledby, hidden from sight.
+     The "done" step's own h2 ("Almost there") is not a repeat, so it stays. */
+  [data-offer-step="form"] h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .offer-intro { margin-top: 0; font-size: 14px; line-height: 1.5; }
+  .offer-form { margin-top: 16px; }
+  .offer-label { margin-bottom: 6px; }
+  .offer-phone { min-height: 46px; }
+  .offer-consent { margin-top: 10px; min-height: 36px; font-size: 14px; }
+  .offer-submit { min-height: 46px; margin-top: 12px; }
+  .offer-whatsapp { display: block; margin-top: 12px; text-align: center; overflow-wrap: anywhere; }
+  .offer-whatsapp img { display: inline-block; margin-right: 8px; vertical-align: middle; }
+  .offer-legal { margin-top: 10px; font-size: 11px; line-height: 1.45; }
+  .offer-close { top: 14px; right: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

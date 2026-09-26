@@ -1,0 +1,90 @@
+/* ScrollTrigger pins this frame without spacer height. The following section
+   is a full-width cover layer that rises over the fixed, unscaled portrait. */
+.home-rest .overture-stage {
+  position: relative;
+  z-index: 0;
+  overflow: clip;
+  background: #f9f9f7;
+}
+
+.home-rest .films-pair,
+.home-rest .voices {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+/* The portrait is still finishing its natural exit when the testimonials
+   enter. Give that full-width section its own opaque cover so the pinned
+   campaign can never bleed into later content. */
+.home-rest .voices {
+  background: var(--surface);
+}
+
+.home-rest .films-pair::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  background: var(--surface);
+  transform: translateX(-50%);
+}
+
+.home-rest .overture-stage .editorial-overture {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-rest .overture-stage .editorial-overture {
+    height: 100svh;
+    min-height: 0;
+  }
+
+  .home-rest .overture-stage .editorial-overture-copy {
+    will-change: transform;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-rest .overture-stage .editorial-overture {
+    display: flex;
+    align-items: flex-start;
+    height: max(780px, 100svh, 160vw);
+    min-height: 780px;
+    padding: 0;
+  }
+
+  .home-rest .overture-stage .editorial-overture .overture-picture > img {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  .home-rest .overture-stage .editorial-overture::after {
+    display: none;
+    background: none;
+  }
+
+  .home-rest .overture-stage .editorial-overture-copy {
+    padding-block: 28px 0;
+  }
+
+  .home-rest .overture-stage .editorial-overture h2 {
+    font-size: clamp(38px, 10.5vw, 48px);
+    margin-block: 12px;
+  }
+
+  .home-rest .overture-stage .editorial-overture .text-link {
+    margin-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-rest .overture-stage .editorial-overture-copy {
+    will-change: auto;
+  }
+}

@@ -1,0 +1,55 @@
+/* Restore the original full-screen hero and layered scene reveal. */
+.simple-home .site-header { height: var(--header-height); }
+.simple-home .hero-scene { height: 100svh; }
+.simple-home .hero-visual { height: calc(100% - var(--header-height)); }
+.simple-home .hero-actions { bottom: clamp(32px, 7svh, 80px); gap: 12px; }
+.simple-home .collection-cta { min-height: 52px; border-radius: 4px; background: var(--action); border-color: var(--action); color: var(--surface); font-family: var(--font-body); font-size: 16px; font-weight: 600; letter-spacing: 0; text-transform: none; box-shadow: 0 8px 26px #23292825; }
+.simple-home .collection-cta:hover { background: var(--ink); color: white; }
+.simple-home .scroll-cue { font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+.simple-home .collection-scene { align-items: flex-start; padding: 24px var(--page-gutter) 48px; }
+.simple-home .collection-content { width: min(100%, 1200px); }
+.simple-home .solutions-tabs { margin-bottom: 12px; }
+.simple-home .catalogue.section-wrap { width: 100%; padding: 0; border: 0; }
+.simple-home .catalogue-results { min-height: 44px; padding: 0; gap: 12px; }
+.simple-home .catalogue-results > p { flex: none; margin: 0; }
+.simple-home .mobile-contact-bar[hidden] { display: none; }
+.motion-mobile .stage > .cloud-stage-desktop { display: block; }
+.motion-mobile .cloud-stage-mobile { display: none; }
+/* .hero-runway is a plain, unsized wrapper everywhere except here: on phones
+   it reserves 100svh plus one "runway" of extra scroll room, and .hero-scene
+   (still exactly 100svh, still clipping its own art and clouds with its own
+   overflow: hidden — unchanged from every other mode) holds at the top of
+   the viewport for that whole runway. .hero-runway itself must stay
+   overflow: visible — an overflow: hidden ancestor is also, per spec, a
+   "scroll container", and a position: sticky element sticks to the nearest
+   one it finds; if that were .hero-runway (which the page never actually
+   scrolls — the window does), .hero-scene would read as sticky in computed
+   style but never hold in practice. */
+.hero-runway { position: relative; }
+.motion-flow .hero-runway { height: calc(100svh + var(--cloud-runway, 55svh)); }
+.motion-flow .hero-scene { position: sticky; top: 0; }
+.motion-flow .cloud-stage-mobile { display: block; }
+@media (max-width: 1000px) {
+  .motion-mobile .stage > .cloud-stage-desktop { display: none; }
+  .motion-mobile .cloud-stage-mobile { display: block; }
+  .simple-home .main-nav { top: var(--header-height); }
+  .simple-home .hero-scene { min-height: 0; }
+  .simple-home .collection-scene-mobile { padding-top: max(24px, env(safe-area-inset-top)); }
+  .motion-flow .simple-home #collection { padding-top: clamp(72px, 10svh, 96px); }
+}
+@media (max-width: 700px) {
+  .simple-home .hero-actions { bottom: clamp(16px, 3svh, 28px); }
+  .simple-home .collection-cta { min-width: min(300px, calc(100vw - 32px)); min-height: 50px; padding: 12px 16px; }
+  .simple-home .scroll-cue { gap: 2px; }
+  .simple-home .scroll-cue svg { height: 17px; }
+  .simple-home .collection-scene { padding-block: 20px 36px; }
+  .simple-home .collection-scene-mobile { padding-top: 20px; }
+  .simple-home .solutions-journey { padding-top: 0; }
+  .simple-home .solutions-journey h2 { font-size: clamp(28px, 7vw, 36px); margin-bottom: 14px; }
+  .simple-home .solutions-tabs { margin-bottom: 8px; }
+  .simple-home .catalogue-results { gap: 8px; }
+  .simple-home .catalogue-results > p { font-size: 13px; }
+}
+@media (max-height: 680px) and (max-width: 700px) {
+  .simple-home .scroll-cue { display: none; }
+}

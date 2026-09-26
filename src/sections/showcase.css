@@ -3,6 +3,7 @@
    --stone, --atelier, --brass (.home-rest in homepage.css). */
 
 /* ---------- Film sections ---------- */
+.films-pair.detail-film { grid-template-columns: 1fr; max-width: 1000px; }
 .film-band { padding-block: 112px 104px; border-top: 1px solid var(--line); }
 .film-band-dark { --line: #ffffff26; --muted: #c3ccc6; --brass: #c6b58f; background: var(--atelier); color: #f7f5ef; border-top: 0; }
 .film-band-dark .eyebrow { color: #c6b58f; }

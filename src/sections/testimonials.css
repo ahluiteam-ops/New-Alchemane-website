@@ -57,16 +57,19 @@
 .voice-card.is-playing .voice-play { opacity: 0; pointer-events: none; }
 .voice-note { position: absolute; left: 16px; right: 16px; bottom: 76px; z-index: 1; margin: 0; color: #fff; font-size: 14px; line-height: 1.4; pointer-events: none; }
 
-/* A reel whose film isn't ready yet: same 9:16 frame, fog instead of a poster,
-   the play badge purely decorative (nothing is clickable). */
+/* Unreleased celebrity films have a neutral, non-interactive 9:16 card. */
 .voice-card--pending { background: var(--surface-soft); border: 1px solid var(--border); }
 .voice-pending { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-.voice-pending-label { font-size: var(--text-small, 14px); color: var(--text-secondary); }
+.voice-pending::before { content: ''; width: 64px; height: 1px; background: var(--border); }
+.voice-pending-label { font-size: 16px; color: var(--text-secondary); }
+#celebrity-picks { background: var(--surface); }
+#celebrity-picks .voices-track { --card: clamp(240px, 26vw, 320px); }
 
 @media (max-width: 700px) {
   .voices-head { align-items: start; flex-direction: column; gap: 22px; }
   .voices-controls { display: none; } /* swipe is the gesture on a phone */
   .voices-track { --card: 68vw; }
+  #celebrity-picks .voices-track { --card: 72vw; }
   .voice-badge { width: 46px; height: 46px; }
 }
 

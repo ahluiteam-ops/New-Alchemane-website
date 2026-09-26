@@ -14,6 +14,7 @@ import './extensions.css';
 import '../palette.css';
 import { families } from '../sections/extensions-data.js';
 import { initOfferPopup } from '../sections/offer-popup.js';
+import { initFilms } from '../sections/films.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,5 +127,6 @@ initMethods();
 initFilter();
 initReveals();
 initOfferPopup();
+initFilms();
 document.querySelectorAll('.ext-faq details').forEach(d => d.addEventListener('toggle', () => ScrollTrigger.refresh()));
 window.addEventListener('load', () => ScrollTrigger.refresh());
