@@ -29,6 +29,22 @@ export function initHomepage() {
     if (!reduced()) gsap.fromTo('.edit-card:not([hidden])', { opacity: .2, y: 12 }, { opacity: 1, y: 0, duration: .4, stagger: .05, overwrite: true });
     ScrollTrigger.refresh();
   });
+  const faqTabs = [...document.querySelectorAll('[data-faq-tab]')];
+  if (faqTabs.length) {
+    bindTabs('[data-faq-tab]', tab => {
+      document.querySelectorAll('[data-faq-panel]').forEach(panel => {
+        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      });
+      tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced() ? 'instant' : 'smooth' });
+      ScrollTrigger.refresh();
+    });
+    document.querySelectorAll('[data-faq-panel] details').forEach(detail => detail.addEventListener('toggle', () => {
+      if (!detail.open) return;
+      detail.closest('[data-faq-panel]').querySelectorAll('details[open]').forEach(item => {
+        if (item !== detail) item.open = false;
+      });
+    }));
+  }
   const stories = [
     ["No one could tell it wasn't my real hair. My confidence skyrocketed overnight.", 'Priya S.', 'Seamless Clip-In Extensions', 'priya-s', true],
     ['Finally found a solution that looks real and feels weightless. Simply amazing!', 'Ananya R.', 'Tape Hair Extensions', 'ananya-r', true],
@@ -83,12 +99,30 @@ export function initHomepage() {
   form.addEventListener('submit', event => {
     event.preventDefault();
     const data = new FormData(form);
-    const message = `Hello Alchemane, I’d like to arrange a consultation.\n\nName: ${data.get('name').trim()}\nPhone: ${data.get('phone').trim()}\nCity: ${data.get('city').trim()}\nHair goal: ${data.get('interest')}\nMeeting: ${data.get('meeting')}${data.get('email') ? `\nEmail: ${data.get('email').trim()}` : ''}`;
+    const message = `Hello Alchemane, I’d like to arrange a consultation.\n\nName: ${data.get('name').trim()}\nPhone: ${data.get('phone').trim()}\nCity: ${data.get('city').trim()}\nMeeting: ${data.get('meeting')}${data.get('email') ? `\nEmail: ${data.get('email').trim()}` : ''}`;
     document.querySelector('#send-consultation').href = `https://wa.me/919967123333?text=${encodeURIComponent(message)}`;
     form.querySelector('.consultation-status').hidden = false;
     document.querySelector('#send-consultation').focus();
   });
   form.addEventListener('input', () => { form.querySelector('.consultation-status').hidden = true; document.querySelector('#send-consultation').removeAttribute('href'); });
+
+  const discountForm = document.querySelector('#checkout-discount-form');
+  if (discountForm) {
+    const discountPhone = discountForm.elements.phone;
+    discountPhone.addEventListener('input', () => {
+      discountPhone.value = discountPhone.value.replace(/[^+0-9 ()-]/g, '').slice(0, 20);
+      const digits = discountPhone.value.replace(/\D/g, '');
+      discountPhone.setCustomValidity(digits.length >= 7 && digits.length <= 15 ? '' : 'Enter a valid phone number.');
+    });
+    discountForm.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!discountForm.reportValidity()) return;
+      const phone = discountPhone.value.trim();
+      const updates = discountForm.elements.updates.checked;
+      const message = `Hello Alchemane, I would like to unlock special discounts on checkout.\nPhone: ${phone}${updates ? '\nGet updates on WhatsApp: Yes' : ''}`;
+      window.open(`https://wa.me/919967123333?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    });
+  }
   document.querySelectorAll('.ruled-accordions details').forEach(detail => detail.addEventListener('toggle', () => ScrollTrigger.refresh()));
 
   const motion = gsap.matchMedia();

@@ -1,0 +1,101 @@
+.best-sellers {
+  padding-block: var(--section-space);
+  overflow: hidden;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.best-sellers__inner {
+  width: min(var(--content-width), calc(100% - var(--page-gutter) * 2));
+  margin-inline: auto;
+}
+
+.best-sellers__heading {
+  margin-bottom: clamp(32px, 4vw, 52px);
+  text-align: center;
+}
+
+.home-rest .best-sellers__heading h2 { margin: 0; }
+
+.best-sellers__track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 1.7vw, 28px);
+}
+
+.best-seller-card { min-width: 0; }
+.best-seller-card > a { display: flex; height: 100%; flex-direction: column; }
+
+.best-seller-card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+
+.best-seller-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms var(--ease-out);
+}
+
+.best-seller-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-top: 18px;
+}
+
+.best-seller-card__category {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.best-seller-card h3 {
+  margin: 7px 0 6px;
+  font: 600 clamp(17px, 1.35vw, 20px)/1.35 var(--font-body);
+}
+
+.best-seller-card__price { font-size: 16px; line-height: 1.5; }
+
+@media (hover: hover) and (pointer: fine) {
+  .best-seller-card > a:hover .best-seller-card__media img { transform: scale(1.025); }
+}
+
+@media (max-width: 900px) {
+  .best-sellers__track { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 18px; }
+}
+
+@media (max-width: 600px) {
+  .best-sellers { padding-block: 56px; }
+  .best-sellers__inner { width: 100%; }
+  .best-sellers__heading { margin-bottom: 28px; padding-inline: 20px; }
+
+  .best-sellers__track {
+    display: flex;
+    gap: 14px;
+    margin: 0;
+    padding: 0 20px 8px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .best-sellers__track::-webkit-scrollbar { display: none; }
+  .best-seller-card { flex: 0 0 min(72vw, 290px); scroll-snap-align: start; }
+  .best-seller-card__body { padding-top: 14px; }
+  .best-seller-card h3 { font-size: 17px; }
+  .best-seller-card__price { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .best-seller-card__media img { transition: none; }
+}

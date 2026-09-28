@@ -14,6 +14,12 @@ import './sections/discovery.css';
 import './mobile.css';
 import './palette.css';
 import './mobile-homepage.css';
+import './sections/best-sellers.css';
+import './sections/shop-concerns.css';
+import './sections/checkout-discount.css';
+import './sections/risk-free-banner.css';
+import './sections/faq-tabs.css';
+import './sections/studio-visit.css';
 import './sections/hero-cloud.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,13 +73,17 @@ document.addEventListener('click', event => {
 
 const cleanups = [initHomepage(), initSolutions(), initCatalogue(), initTestimonials(), initHeroCloud(), initQualityBanner(), initOfferPopup()];
 const contact = document.querySelector('.floating-contact');
-const visible = { hero: true, collection: true, consultation: false };
+const visible = { hero: true, collection: true, studio: false, consultation: false };
 const contactObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => { visible[entry.target.id === 'consultation' ? 'consultation' : entry.target.id === 'collection' ? 'collection' : 'hero'] = entry.isIntersecting; });
-  contact.classList.toggle('is-visible', !visible.hero && !visible.collection && !visible.consultation);
+  entries.forEach(entry => {
+    const key = ['collection', 'studio', 'consultation'].includes(entry.target.id) ? entry.target.id : 'hero';
+    visible[key] = entry.isIntersecting;
+  });
+  contact.classList.toggle('is-visible', !visible.hero && !visible.collection && !visible.studio && !visible.consultation);
 }, { threshold: 0 });
 contactObserver.observe(document.querySelector('.hero-scene'));
 contactObserver.observe(document.querySelector('#collection'));
+contactObserver.observe(document.querySelector('#studio'));
 contactObserver.observe(document.querySelector('#consultation'));
 window.addEventListener('load', () => {
   ScrollTrigger.refresh();

@@ -1,5 +1,104 @@
 <div class="home-rest">
 
+  <section class="best-sellers" aria-labelledby="best-sellers-title">
+    <div class="best-sellers__inner">
+      <header class="best-sellers__heading reveal-on-scroll">
+        <h2 id="best-sellers-title">Our Best Sellers</h2>
+      </header>
+      <div class="best-sellers__track" role="list" aria-label="Best-selling hair products">
+        <article class="best-seller-card best-seller-card--hairline" role="listitem">
+          <a href="#range" data-catalogue-category="hairline-series">
+            <span class="best-seller-card__media best-seller-card__media--empty" aria-hidden="true"></span>
+            <span class="best-seller-card__body">
+              <span class="best-seller-card__category">Hairline Series</span>
+              <h3>Hairline Toppers</h3>
+              <span class="best-seller-card__price">Enquire for price</span>
+            </span>
+          </a>
+        </article>
+        <article class="best-seller-card" role="listitem">
+          <a href="https://alchemane.com/products/silk-hair-toppers">
+            <span class="best-seller-card__media">
+              <img src="/assets/range/silk-hair-toppers-a.webp" width="720" height="900" alt="Silk base hair topper held beside the model's parting" loading="lazy" decoding="async">
+            </span>
+            <span class="best-seller-card__body">
+              <span class="best-seller-card__category">Hair Toppers</span>
+              <h3>Silk Topper 5x3</h3>
+              <span class="best-seller-card__price">From ₹28,000</span>
+            </span>
+          </a>
+        </article>
+        <article class="best-seller-card" role="listitem">
+          <a href="https://alchemane.com/products/skin-topper">
+            <span class="best-seller-card__media">
+              <img src="/assets/range/skin-topper-a.webp" width="720" height="900" alt="Skin base hair topper held beside the model's parting" loading="lazy" decoding="async">
+            </span>
+            <span class="best-seller-card__body">
+              <span class="best-seller-card__category">Hair Toppers</span>
+              <h3>Skin Topper 5x3</h3>
+              <span class="best-seller-card__price">From ₹28,000</span>
+            </span>
+          </a>
+        </article>
+        <article class="best-seller-card" role="listitem">
+          <a href="https://alchemane.com/products/fringe-with-sides">
+            <span class="best-seller-card__media">
+              <img src="/assets/range/fringe-with-sides-a.webp" width="720" height="900" alt="Model holding a clip-in fringe with side pieces" loading="lazy" decoding="async">
+            </span>
+            <span class="best-seller-card__body">
+              <span class="best-seller-card__category">Fringes</span>
+              <h3>Fringe With Sides</h3>
+              <span class="best-seller-card__price">₹2,500</span>
+            </span>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="shop-concerns" aria-labelledby="shop-concerns-title">
+    <div class="shop-concerns__inner">
+      <header class="shop-concerns__heading reveal-on-scroll">
+        <h2 id="shop-concerns-title">Shop by Concerns</h2>
+      </header>
+      <div class="shop-concerns__grid" role="list">
+        <a class="shop-concerns__card reveal-on-scroll" href="#range" data-catalogue-category="toppers" role="listitem">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/concerns/top-area-mobile.webp" width="800" height="999">
+            <img src="/assets/concerns/top-area-desktop.webp" width="1200" height="800" alt="A woman checking natural volume at the top of her hair" loading="lazy" decoding="async">
+          </picture>
+          <span class="shop-concerns__card-copy"><span>Top Area</span><i aria-hidden="true">↗</i></span>
+        </a>
+        <a class="shop-concerns__card reveal-on-scroll" href="#range" data-catalogue-category="permanent-extensions" role="listitem">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/concerns/back-area-mobile.webp" width="800" height="999">
+            <img src="/assets/concerns/back-area-desktop.webp" width="1200" height="800" alt="A stylist arranging long, naturally full hair at the back" loading="lazy" decoding="async">
+          </picture>
+          <span class="shop-concerns__card-copy"><span>Back Area</span><i aria-hidden="true">↗</i></span>
+        </a>
+        <a class="shop-concerns__card reveal-on-scroll" href="#range" data-catalogue-category="hairline-series" role="listitem">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/concerns/hairline-mobile.webp" width="800" height="999">
+            <img src="/assets/concerns/hairline-desktop.webp" width="1200" height="800" alt="A woman smoothing her natural-looking front hairline" loading="lazy" decoding="async">
+          </picture>
+          <span class="shop-concerns__card-copy"><span>Hairline</span><i aria-hidden="true">↗</i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="checkout-discount" aria-labelledby="checkout-discount-title">
+    <div class="checkout-discount__inner reveal-on-scroll">
+      <h2 id="checkout-discount-title">Get special discounts<br>on checkout</h2>
+      <form class="checkout-discount__form" id="checkout-discount-form">
+        <label class="sr-only" for="checkout-discount-phone">Phone number</label>
+        <input id="checkout-discount-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Phone number" pattern="[+0-9 ()-]{7,20}" title="Enter a valid phone number." maxlength="20" required>
+        <button type="submit">UNLOCK</button>
+        <label class="checkout-discount__consent"><input type="checkbox" name="updates"><span>Get updates on WhatsApp. You may opt out anytime.</span></label>
+      </form>
+    </div>
+  </section>
+
   <!-- testimonials -->
 
   <section class="section-wrap stories-section" aria-labelledby="stories-title">
@@ -53,7 +152,22 @@
 
 
 
-  <section class="studio-section" id="studio" aria-labelledby="studio-title"><div class="studio-card"><img class="studio-photo" src="/assets/editorial/consultation-studio.webp" width="1536" height="1024" alt="A stylist and client in a bright consultation space — concept imagery" loading="lazy" decoding="async"><span class="studio-concept-note">Concept imagery for design preview</span><p class="eyebrow">Visit Alchemane</p><p class="studio-city">Mumbai</p><p class="studio-coordinate">KHAR WEST · INDIA</p><a href="https://www.google.com/maps/search/?api=1&query=Empressa+Building+2nd+Road+Khar+West+Mumbai+400052" target="_blank" rel="noopener noreferrer" class="text-link">Get directions <span aria-hidden="true">↗</span></a></div><div class="studio-copy reveal-on-scroll"><h2 id="studio-title">Try it at our Mumbai studio</h2><p>Try the hair. Find your colour. Get help with the fit.</p><address>4th floor, Empressa Building, 2nd Road,<br>Ram Krishna Nagar, Khar West,<br>Mumbai, Maharashtra 400052.</address><a href="#consultation" class="solid-button" data-consult-type="studio">Need Consultation <span aria-hidden="true">↗</span></a><a href="#consultation" class="text-link" data-consult-type="online">Book an online consultation <span aria-hidden="true">↗</span></a></div></section>
+  <section class="studio-visit" id="studio" aria-labelledby="studio-title">
+    <div class="studio-visit__media reveal-on-scroll">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/studio-visit/consultation-mobile-640.webp 640w, /assets/studio-visit/consultation-mobile-1024.webp 1024w" sizes="100vw" width="1024" height="1536">
+        <img src="/assets/studio-visit/consultation-desktop-1774.webp" srcset="/assets/studio-visit/consultation-desktop-1100.webp 1100w, /assets/studio-visit/consultation-desktop-1774.webp 1774w" sizes="(max-width: 900px) 100vw, 58vw" width="1774" height="887" alt="A hair specialist helping a client compare a brunette hair extension in a private consultation" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="studio-visit__copy reveal-on-scroll">
+      <h2 id="studio-title">Want to Try Out<br>Our Hair Extensions<br>In-Person?</h2>
+      <p class="studio-visit__lede">Try and buy natural hair extensions, wigs and toppers that suit your hair needs.</p>
+      <div class="studio-visit__actions">
+        <a href="#consultation" class="solid-button studio-visit__cta" data-consult-type="studio">Visit us <span aria-hidden="true">↗</span></a>
+        <a href="#consultation" class="studio-visit__online" data-consult-type="online">Prefer to meet online?</a>
+      </div>
+    </div>
+  </section>
 
   <section class="client-proof" id="client-closeups" aria-labelledby="client-closeups-title">
     <div class="section-wrap client-proof-inner">
@@ -66,16 +180,105 @@
       </figure>
     </div>
   </section>
-  <section class="faq-section section-wrap" id="questions" aria-labelledby="faq-title"><div class="faq-intro reveal-on-scroll"><h2 id="faq-title">Your questions, answered</h2><a href="#consultation" class="outline-button">Need Help <span aria-hidden="true">↗</span></a></div><div class="ruled-accordions faq-list">
-    <details name="faq"><summary>What is the difference between a topper and extensions?<i aria-hidden="true">+</i></summary><p>A topper covers thinning at the parting or crown. Extensions make your hair longer or fuller. We can help you choose the right one.</p></details>
-    <details name="faq"><summary>How do I choose the right colour?<i aria-hidden="true">+</i></summary><p>Send us photos of your hair in daylight, book an online consultation, or visit our Khar West studio. We will help you find the closest match.</p></details>
-    <details name="faq"><summary>Can I remove extensions at home?<i aria-hidden="true">+</i></summary><p>You can remove clip-in, ponytail and halo extensions at home. Permanent extensions must be removed by a trained professional.</p></details>
-    <details name="faq"><summary>How do I care for my hair piece?<i aria-hidden="true">+</i></summary><p>Care depends on the product. We will show you how to brush, wash, dry, store and style it.</p></details>
-    <details name="faq"><summary>Can I book an online consultation?<i aria-hidden="true">+</i></summary><p>Yes. Choose “Online” in the form below. Tell us your city and what you need, and our team will contact you.</p></details>
-    <details name="faq"><summary>Where can I try the products?<i aria-hidden="true">+</i></summary><p>Visit our Khar West studio at 4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Mumbai 400052. Please book a consultation before you come.</p></details>
-  </div></section>
 
-  <section class="consultation-section" id="consultation" aria-labelledby="consultation-title"><div class="section-wrap consultation-grid"><div class="consultation-copy reveal-on-scroll"><h2 id="consultation-title">Let’s find your hair match</h2><p>Meet us online or at our Mumbai studio.</p><a class="phone-link" href="tel:+919967123333">Prefer to call us? +91 99671 23333 ↗</a></div><form id="consultation-form"><p class="form-note">We’ll prepare your request for WhatsApp. You review and send it.</p><div class="form-row"><label>Your name<input name="name" autocomplete="name" placeholder="Full name" required maxlength="80"></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="+91" required pattern="[+0-9 ()-]{7,20}" title="Enter a phone number with 7–20 digits or phone symbols." maxlength="20"></label></div><div class="form-row"><label>Your city (optional)<input name="city" autocomplete="address-level2" placeholder="City" maxlength="80"></label></div><label>What do you need help with?<select name="interest" required><option value="I’m not sure yet">I’m not sure yet</option><option>Cover thinning at the top</option><option>Add hair length</option><option>Add hair volume</option><option>Choose a wig</option><option>Try a fringe</option></select></label><fieldset><legend>How would you like to meet?</legend><label><input type="radio" name="meeting" value="Khar West studio" checked> Khar West studio</label><label><input type="radio" name="meeting" value="Online"> Online</label></fieldset><button class="solid-button" type="submit">Prepare my request <span aria-hidden="true">↗</span></button><div class="consultation-status" role="status" hidden><p>Your request is ready. Open WhatsApp, check the message and press send.</p><a class="solid-button" id="send-consultation" target="_blank" rel="noopener noreferrer">Open WhatsApp <span aria-hidden="true">↗</span></a></div></form></div></section>
+  <section class="risk-free-banner" aria-labelledby="risk-free-title">
+    <div class="risk-free-banner__inner">
+      <header class="risk-free-banner__intro reveal-on-scroll">
+        <h2 id="risk-free-title">Risk-Free Offer –<br>100% Satisfaction<br>Guarantee!</h2>
+      </header>
+      <div class="risk-free-banner__content reveal-on-scroll">
+        <h3>Not Sure? We’ve Got You Covered!</h3>
+        <ul class="risk-free-banner__benefits" role="list">
+          <li>Try It Risk-Free – If you’re not satisfied, we’ll adjust, restyle, or replace it.</li>
+          <li>No Obligation Consultation – Just honest advice to find the best solution for you.</li>
+        </ul>
+        <div class="risk-free-banner__cta">
+          <p>Zero Risk, Maximum Confidence – Let’s Chat!</p>
+          <div class="risk-free-banner__actions">
+            <a class="risk-free-banner__whatsapp" href="https://wa.me/919967123333" target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span></a>
+            <a class="risk-free-banner__call" href="tel:+919967123333">Call us <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section faq-section--tabs" id="questions" aria-labelledby="faq-title">
+    <div class="faq-section__inner">
+      <header class="faq-intro reveal-on-scroll">
+        <h2 id="faq-title">Frequently Asked Questions</h2>
+      </header>
+      <div class="faq-tabs" role="tablist" aria-label="Question categories">
+        <button id="faq-tab-consultation" type="button" role="tab" aria-selected="true" aria-controls="faq-panel-consultation" tabindex="0" data-faq-tab>Consultation</button>
+        <button id="faq-tab-extensions" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-extensions" tabindex="-1" data-faq-tab>Permanent Extensions</button>
+        <button id="faq-tab-toppers" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-toppers" tabindex="-1" data-faq-tab>Toppers</button>
+        <button id="faq-tab-wigs" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-wigs" tabindex="-1" data-faq-tab>Wigs</button>
+        <button id="faq-tab-hairline" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-hairline" tabindex="-1" data-faq-tab>Hairline</button>
+      </div>
+
+      <div class="faq-panels reveal-on-scroll">
+        <div class="faq-panel" id="faq-panel-consultation" role="tabpanel" aria-labelledby="faq-tab-consultation" data-faq-panel>
+          <div class="faq-list">
+            <details open><summary>How long does a consultation take?<i aria-hidden="true">+</i></summary><p>Usually 30 to 45 minutes. We take time to understand your needs and answer your questions properly.</p></details>
+            <details><summary>What happens in the consultation?<i aria-hidden="true">+</i></summary><p>We discuss your hair goals, look at the area you would like to address, and guide you towards the most suitable options.</p></details>
+            <details><summary>Can I consult online as well as in person?<i aria-hidden="true">+</i></summary><p>Yes. You can meet us online or visit our Khar West studio—choose the option that feels easier for you.</p></details>
+            <details><summary>Where is your hair extensions store located?<i aria-hidden="true">+</i></summary><p>We are on the 4th floor of Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</p></details>
+            <details><summary>Will I be pressured to buy during the consultation?<i aria-hidden="true">+</i></summary><p>No. The consultation is for clear, honest advice so you can decide what feels right for you.</p></details>
+          </div>
+        </div>
+
+        <div class="faq-panel" id="faq-panel-extensions" role="tabpanel" aria-labelledby="faq-tab-extensions" data-faq-panel hidden>
+          <div class="faq-list">
+            <details open><summary>Can I go swimming with hair extensions?<i aria-hidden="true">+</i></summary><p>Yes, occasional swimming is possible. Wet the lengths with clean water first, secure them in a loose braid or ponytail, rinse immediately afterwards, and dry the roots and attachment areas thoroughly.</p></details>
+            <details><summary>Can I wear hair extensions every day?<i aria-hidden="true">+</i></summary><p>Yes, when the method suits your natural hair and routine. Clip-ins should be removed at night, while professionally fitted extensions are intended for longer wear and need regular maintenance.</p></details>
+            <details><summary>Are hair extensions permanent?<i aria-hidden="true">+</i></summary><p>No. Permanent extensions are professionally fitted for longer wear, then removed and refitted as your own hair grows.</p></details>
+            <details><summary>How can I keep my extensions in good condition?<i aria-hidden="true">+</i></summary><p>Detangle gently from the ends upward, use products recommended for human-hair extensions, keep hot tools away from attachment points, and attend maintenance appointments on time.</p></details>
+            <details><summary>Can hair extensions damage natural hair?<i aria-hidden="true">+</i></summary><p>They can cause damage if they are too heavy, fitted too tightly, poorly maintained, left in too long, or removed incorrectly. The right method, professional fitting and aftercare reduce that risk.</p></details>
+          </div>
+        </div>
+
+        <div class="faq-panel" id="faq-panel-toppers" role="tabpanel" aria-labelledby="faq-tab-toppers" data-faq-panel hidden>
+          <div class="faq-list">
+            <details open><summary>How do I measure for the size topper I need?<i aria-hidden="true">+</i></summary><p>We have a detailed video that shows how to measure for a human-hair silk topper. Our team can also guide you through the measurement during a consultation.</p></details>
+            <details><summary>How do I place a hair topper on my head?<i aria-hidden="true">+</i></summary><p>Our technicians will train you when you collect your topper from the salon, so you can feel confident placing it yourself.</p></details>
+            <details><summary>Can I take my topper to my stylist to have it cut?<i aria-hidden="true">+</i></summary><p>Yes, but we cannot take responsibility for work completed outside our salon because we do not know the technique used on the topper.</p></details>
+            <details><summary>Can a hair topper be coloured?<i aria-hidden="true">+</i></summary><p>Yes. Our silk-base toppers can be coloured much like your own hair, ideally by an experienced professional.</p></details>
+            <details><summary>How are hair toppers attached?<i aria-hidden="true">+</i></summary><p>Silk and lace toppers can be secured with bonded glue, or attached to your own hair with clips depending on the base and fitting method.</p></details>
+          </div>
+        </div>
+
+        <div class="faq-panel" id="faq-panel-wigs" role="tabpanel" aria-labelledby="faq-tab-wigs" data-faq-panel hidden>
+          <div class="faq-list">
+            <details open><summary>How do I choose the right wig?<i aria-hidden="true">+</i></summary><p>We help you choose a cap, length, texture and colour that suit your lifestyle and the look you want to achieve.</p></details>
+            <details><summary>Can a wig be cut or styled?<i aria-hidden="true">+</i></summary><p>Yes. Human-hair wigs can be cut and styled to personalise the finish. We recommend having this done by a professional familiar with wigs.</p></details>
+            <details><summary>How do I care for a human-hair wig?<i aria-hidden="true">+</i></summary><p>Gently detangle it before washing, use suitable shampoo and conditioner, and store it on a stand away from heat and direct sunlight.</p></details>
+            <details><summary>Can I wear a wig every day?<i aria-hidden="true">+</i></summary><p>Yes, with the right fit and care routine. We can help you find an option that feels comfortable for your usual day.</p></details>
+            <details><summary>Will you help me match the wig colour?<i aria-hidden="true">+</i></summary><p>Yes. Share daylight photos online or visit our studio and we will help you find the closest, most natural-looking match.</p></details>
+          </div>
+        </div>
+
+        <div class="faq-panel" id="faq-panel-hairline" role="tabpanel" aria-labelledby="faq-tab-hairline" data-faq-panel hidden>
+          <div class="faq-list">
+            <details open><summary>What can help me achieve a fuller-looking hairline?<i aria-hidden="true">+</i></summary><p>A well-matched silk or lace topper can help create a softer, fuller-looking front hairline. The best option depends on your natural hair, the coverage you need and how you prefer to wear it.</p></details>
+            <details><summary>Will a hairline solution look natural?<i aria-hidden="true">+</i></summary><p>A natural finish comes from the right shade, density and placement. We focus on blending the piece with your own hair and face shape.</p></details>
+            <details><summary>How is a hairline piece secured?<i aria-hidden="true">+</i></summary><p>The attachment method depends on the product and your needs. Our team will explain the available options and the care each one requires.</p></details>
+            <details><summary>Can I style my hair after fitting a hairline solution?<i aria-hidden="true">+</i></summary><p>Yes. We will show you which styling techniques and products are best suited to your chosen hairline solution.</p></details>
+            <details><summary>How do I know which hairline solution is right for me?<i aria-hidden="true">+</i></summary><p>A consultation is the best place to start. We consider your natural hair, preferred styling and the coverage you would like before making a recommendation.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="faq-support reveal-on-scroll" aria-labelledby="faq-support-title">
+        <div>
+          <h3 id="faq-support-title">Still have questions?</h3>
+          <p>Tell us what you are looking for. Our hair experts will guide you to the right solution.</p>
+        </div>
+        <a href="#consultation" class="faq-support__link">Ask an expert <span aria-hidden="true">↗</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="consultation-section" id="consultation" aria-labelledby="consultation-title"><div class="section-wrap consultation-grid"><div class="consultation-copy reveal-on-scroll"><h2 id="consultation-title">Book Your Private Consultation</h2><p>Meet us online or at our Mumbai studio.</p><a class="phone-link" href="tel:+919967123333">Prefer to call us? +91 99671 23333 ↗</a></div><form id="consultation-form"><div class="form-row"><label>Your name<input name="name" autocomplete="name" placeholder="Full name" required maxlength="80"></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="+91" required pattern="[+0-9 ()-]{7,20}" title="Enter a phone number with 7–20 digits or phone symbols." maxlength="20"></label></div><div class="form-row"><label>Your city<input name="city" autocomplete="address-level2" placeholder="City" maxlength="80"></label></div><fieldset><legend>How would you like to meet?</legend><label><input type="radio" name="meeting" value="Khar West studio" checked> Khar West studio</label><label><input type="radio" name="meeting" value="Online"> Online</label></fieldset><button class="solid-button" type="submit">Submit <span aria-hidden="true">↗</span></button><div class="consultation-status" role="status" hidden><p>Your request is ready. Open WhatsApp, check the message and press send.</p><a class="solid-button" id="send-consultation" target="_blank" rel="noopener noreferrer">Open WhatsApp <span aria-hidden="true">↗</span></a></div></form></div></section>
 
   <footer class="site-footer"><div class="footer-top"><div><a class="footer-brand" href="#home" aria-label="Alchemane home"><img class="footer-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40"></a><p>Natural-looking hair, matched to you.</p></div><a class="text-link" href="#home">Back to top <span aria-hidden="true">↑</span></a></div><div class="footer-grid"><div class="footer-address"><p class="eyebrow">Khar West studio</p><address>4th floor, Empressa Building, 2nd Road,<br>Ram Krishna Nagar, Khar West,<br>Mumbai, Maharashtra 400052.</address></div><div><p class="eyebrow">Hair products</p><a href="#range" data-catalogue-category="all">All products</a><a href="#range" data-catalogue-category="toppers">Hair toppers</a><a href="#range" data-catalogue-category="hairline-series">Hairline Series</a><a href="#range" data-catalogue-category="permanent-extensions">Permanent extensions</a><a href="#range" data-catalogue-category="clip-extensions">Clip extensions</a><a href="#range" data-catalogue-category="wigs">Wigs</a><a href="#range" data-catalogue-category="fringes">Fringes</a></div><div><p class="eyebrow">Need help?</p><a href="/toppers.html">How toppers work</a><a href="/extensions.html">How extensions work</a><a href="#questions">Common questions</a><a href="#consultation">Book a consultation</a></div><div><p class="eyebrow">Contact us</p><a href="tel:+919967123333">+91 99671 23333</a><a href="mailto:info@alchemane.com">info@alchemane.com</a><a href="https://wa.me/919967123333" target="_blank" rel="noopener noreferrer">Chat on WhatsApp ↗</a></div></div><div class="footer-bottom"><span>© 2026 Alchemane Hair Extensions</span><span>Mumbai, India</span></div></footer>
 </div>
