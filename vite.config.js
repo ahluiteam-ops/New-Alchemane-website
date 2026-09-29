@@ -9,8 +9,8 @@ import { renderTestimonials, renderCelebrityPicks } from './src/sections/testimo
 import { renderSolutions } from './src/sections/solutions-data.js';
 
 export default defineConfig({
-  // Two pages: the shop homepage and the Hair Extensions page.
-  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', toppers: 'toppers.html' } } },
+  // The shop homepage plus one detail page per category with its own explainer: extensions, toppers, wigs.
+  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', toppers: 'toppers.html', wigs: 'wigs.html' } } },
   plugins: [tailwindcss(), {
     name: 'page-sections',
     transformIndexHtml(html) {

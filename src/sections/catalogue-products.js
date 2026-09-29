@@ -622,6 +622,32 @@ export const products = [
     "isNew": true
   },
   {
+    "handle": "7-inch-hairline-topper",
+    "name": "7-Inch Hairline Topper",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "11-inch-hairline-topper",
+    "name": "11-Inch Hairline Topper",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
     "handle": "rose-topper",
     "name": "Rose Topper",
     "category": "toppers",

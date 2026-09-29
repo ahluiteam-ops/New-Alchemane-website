@@ -8,6 +8,7 @@ import { initTestimonials } from './sections/testimonials';
 import { initHeroCloud, navigateToCollection } from './sections/hero-cloud';
 import { initQualityBanner } from './sections/quality-banner';
 import { initOfferPopup } from './sections/offer-popup';
+import { initFloatingContact } from './sections/floating-contact';
 import './premium.css';
 import './design-tokens.css';
 import './sections/discovery.css';
@@ -21,6 +22,8 @@ import './sections/risk-free-banner.css';
 import './sections/faq-tabs.css';
 import './sections/studio-visit.css';
 import './sections/hero-cloud.css';
+import './sections/floating-contact.css';
+import './sections/site-footer.css';
 
 gsap.registerPlugin(ScrollTrigger);
 const controller = new AbortController();
@@ -71,20 +74,20 @@ document.addEventListener('click', event => {
   history.pushState(null, '', link.hash);
 }, options);
 
-const cleanups = [initHomepage(), initSolutions(), initCatalogue(), initTestimonials(), initHeroCloud(), initQualityBanner(), initOfferPopup()];
+const cleanups = [initHomepage(), initSolutions(), initCatalogue(), initTestimonials(), initHeroCloud(), initQualityBanner(), initOfferPopup(), initFloatingContact()];
 const contact = document.querySelector('.floating-contact');
-const visible = { hero: true, collection: true, studio: false, consultation: false };
-const contactObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    const key = ['collection', 'studio', 'consultation'].includes(entry.target.id) ? entry.target.id : 'hero';
-    visible[key] = entry.isIntersecting;
-  });
-  contact.classList.toggle('is-visible', !visible.hero && !visible.collection && !visible.studio && !visible.consultation);
-}, { threshold: 0 });
-contactObserver.observe(document.querySelector('.hero-scene'));
-contactObserver.observe(document.querySelector('#collection'));
-contactObserver.observe(document.querySelector('#studio'));
-contactObserver.observe(document.querySelector('#consultation'));
+const bestSellers = document.querySelector('.best-sellers');
+let contactFrame = 0;
+const syncContactVisibility = () => {
+  contactFrame = 0;
+  contact?.classList.toggle('is-visible', Boolean(bestSellers && bestSellers.getBoundingClientRect().top <= 0));
+};
+const requestContactVisibilitySync = () => {
+  if (!contactFrame) contactFrame = requestAnimationFrame(syncContactVisibility);
+};
+window.addEventListener('scroll', requestContactVisibilitySync, { passive: true, signal: controller.signal });
+window.addEventListener('resize', requestContactVisibilitySync, options);
+syncContactVisibility();
 window.addEventListener('load', () => {
   ScrollTrigger.refresh();
   if (startAtHero) {
@@ -100,5 +103,5 @@ window.addEventListener('pageshow', event => {
   if (startAtHero && !event.persisted && !userMoved) requestAnimationFrame(() => window.scrollTo(0, 0));
 }, options);
 if (import.meta.hot) import.meta.hot.dispose(() => {
-  controller.abort(); contactObserver.disconnect(); cleanups.forEach(cleanup => cleanup?.());
+  controller.abort(); cancelAnimationFrame(contactFrame); cleanups.forEach(cleanup => cleanup?.());
 });

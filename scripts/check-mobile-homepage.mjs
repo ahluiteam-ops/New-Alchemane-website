@@ -71,39 +71,38 @@ try {
     await page.screenshot({ path: `preview/mobile-homepage-qa/home-${width}.png` });
     if (width === 390 || width === 1440) {
       if (width === 390) {
-        // .hero-runway (hero-cloud.css) is 100svh plus one "cloud runway" of
-        // extra scroll (--cloud-runway, matched here since a static check
-        // can't read a CSS custom property); .hero-scene sticks at the top of
-        // the viewport for exactly that runway, and #collection — right
-        // after .hero-runway in flow — only starts entering once it's used
-        // up. That's the fix under test: #collection tracks .hero-runway's
-        // full height throughout, but the cloud reveal itself must be done
-        // long before #collection is anywhere near the viewport.
-        const CLOUD_RUNWAY_RATIO = 0.55;
-        const runwayHeight = await page.locator('.hero-runway').evaluate(node => node.offsetHeight);
-        const runwayPx = height * CLOUD_RUNWAY_RATIO;
-        const positions = [];
-        for (const fraction of [0.2, 0.5, 0.8]) { // fractions of the runway itself, where the sticky hero still holds
-          await page.evaluate(y => scrollTo(0, y), runwayPx * fraction);
-          await page.waitForTimeout(150);
-          positions.push(await page.locator('.cloud-stage-mobile .cloud-front').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m42));
-          const sectionTop = await page.locator('#collection').evaluate(node => node.getBoundingClientRect().top);
-          assert(Math.abs(sectionTop - (runwayHeight - runwayPx * fraction)) < 5, 'mobile collection should enter steadily with manual scroll');
-        }
-        assert(positions[0] > positions[1] && positions[1] > positions[2], 'clouds should rise smoothly as the user scrolls');
-
-        // The actual bug this page was rebuilt to fix: the cloud reveal must
-        // fully finish (whiteout back to 0) before #collection ever reaches
-        // the viewport, not still be mid-fade while #collection is already
-        // showing underneath it.
-        await page.evaluate(y => scrollTo(0, y), runwayPx * 0.99);
-        await page.waitForTimeout(200);
-        const [whiteoutOpacity, sectionTopAtHandoff] = await Promise.all([
-          page.locator('.cloud-stage-mobile .whiteout').evaluate(node => parseFloat(getComputedStyle(node).opacity)),
-          page.locator('#collection').evaluate(node => node.getBoundingClientRect().top),
-        ]);
-        assert(whiteoutOpacity < 0.05, 'cloud whiteout should have fully cleared before #collection arrives');
-        assert(sectionTopAtHandoff > 0, '#collection should not have entered the viewport yet when the cloud reveal finishes');
+        // A short finger swipe from the hero must finish the whole reveal on
+        // its own (hero-cloud.js snaps it, like the CTA): clouds rise, the
+        // screen goes fully white for a beat, then the hero fades to reveal
+        // #collection already in place at the top. Record every frame of it.
+        const swipe = direction => page.evaluate(async direction => {
+          const hero = document.querySelector('.hero-scene');
+          const whiteout = document.querySelector('.cloud-stage-mobile .whiteout');
+          const front = document.querySelector('.cloud-stage-mobile .cloud-front');
+          const frames = [];
+          let recording = true;
+          (function record() {
+            frames.push({ white: +getComputedStyle(whiteout).opacity, hero: +getComputedStyle(hero).opacity, cloud: new DOMMatrix(getComputedStyle(front).transform).m42 });
+            if (recording) requestAnimationFrame(record);
+          })();
+          for (let i = 0; i < 8; i++) { scrollBy(0, 10 * direction); await new Promise(resolve => setTimeout(resolve, 15)); }
+          await new Promise(resolve => setTimeout(resolve, 1600));
+          recording = false;
+          return { frames, sectionTop: document.querySelector('#collection').getBoundingClientRect().top, heroVisibility: getComputedStyle(hero).visibility };
+        }, direction);
+        const down = await swipe(1);
+        assert(Math.abs(down.sectionTop) < 2, 'a short swipe should finish the reveal with the section at the top');
+        assert.equal(down.heroVisibility, 'hidden', 'the hero should be hidden once the section is revealed');
+        assert(down.frames.every((frame, index) => index === 0 || frame.cloud <= down.frames[index - 1].cloud + 1), 'clouds should rise smoothly');
+        const whiteAt = down.frames.findIndex(frame => frame.white >= 0.99);
+        const fadeAt = down.frames.findIndex(frame => frame.hero < 0.99);
+        assert(whiteAt >= 0 && fadeAt > whiteAt, 'the screen should go fully white before the hero fades to the section');
+        await page.locator('#collection .solutions-tab').nth(1).tap();
+        await expect(page.locator('#collection .solutions-tab').nth(1)).toHaveAttribute('aria-selected', 'true');
+        await page.locator('#collection .solutions-tab').first().tap();
+        const up = await swipe(-1);
+        assert(up.sectionTop > height * 0.4, 'a short swipe up from the section should return to the hero');
+        assert.equal(up.heroVisibility, 'visible', 'the hero should be visible again after returning');
       }
       await page.evaluate(() => scrollTo(0, innerHeight * 0.8));
       await page.waitForTimeout(500);
@@ -189,7 +188,7 @@ try {
     }
     await page.locator('.footer-grid [data-catalogue-category="all"]').click();
     while (await page.locator('#range [data-show-more]').isVisible()) await page.locator('#range [data-show-more]').click();
-    await expect(page.locator('.catalogue-card:visible')).toHaveCount(42);
+    await expect(page.locator('.catalogue-card:visible')).toHaveCount(44);
     await page.locator('.story-action a[href="#consultation"]').click();
     await expect(page.locator('#consultation')).toBeFocused();
     await expect(page.locator('.floating-contact')).not.toHaveClass(/is-visible/);

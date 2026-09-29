@@ -26,8 +26,25 @@
    scrolls — the window does), .hero-scene would read as sticky in computed
    style but never hold in practice. */
 .hero-runway { position: relative; }
-.motion-flow .hero-runway { height: calc(100svh + var(--cloud-runway, 55svh)); }
-.motion-flow .hero-scene { position: sticky; top: 0; }
+/* The runway box overlaps the section's top screen (see #collection below),
+   so the box itself must not take taps — only the hero does, and once the
+   reveal hides the hero (visibility: hidden) taps reach the section. */
+/* Heights here use the *large* viewport (lvh: the screen with the browser's
+   address bar hidden). Scrolling with a finger hides that bar, and the screen
+   grows by ~56px; a hero sized to 100svh then left a strip at the bottom
+   where the section waiting underneath showed through, mid-reveal. The hero
+   box (and its clouds and white cover) now always reaches the bottom of the
+   screen, while .hero-visual below keeps the photo and CTA sized to the small
+   viewport, so nothing sits under the address bar when it is showing. */
+.motion-flow .hero-runway { z-index: 2; height: calc(100vh + var(--cloud-runway, 55svh)); height: calc(100lvh + var(--cloud-runway, 55svh)); pointer-events: none; }
+.motion-flow .hero-scene { position: sticky; top: 0; height: 100vh; height: 100lvh; pointer-events: auto; }
+.motion-flow .hero-visual { height: calc(100svh - var(--header-height)); }
+/* #collection is pulled up one hero-height so that, when the runway ends, it
+   is already sitting at the top of the viewport directly underneath the hero
+   (z-index 1 below .hero-runway's 2). hero-cloud.js whites the hero out and
+   then fades it away, so the section is revealed in place — no second screen
+   of cloud-covered hero scrolling up through a white gap before it arrives. */
+.motion-flow #collection { z-index: 1; margin-top: -100vh; margin-top: -100lvh; }
 .motion-flow .cloud-stage-mobile { display: block; }
 @media (max-width: 1000px) {
   .motion-mobile .stage > .cloud-stage-desktop { display: none; }

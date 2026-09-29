@@ -13,14 +13,9 @@ export function navigateToCollection({ fast = false, focus = true } = {}) {
   if (!collection) return;
   navigationTween?.kill();
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // On desktop, .scrollTrigger.end IS collection's on-screen position — the
-  // pinned preview swaps for the real thing exactly there. On phones, since
-  // .hero-runway made that end point the (earlier) cloud-reveal finish line
-  // rather than collection's actual flow position, landing there would strand
-  // the scroll short of collection — so aim at collection's own position instead.
-  const destination = reveal?.scrollTrigger?.id === 'desktop-cloud-reveal'
-    ? reveal.scrollTrigger.end
-    : collection.getBoundingClientRect().top + scrollY;
+  // On both layouts the reveal's end is exactly where the collection sits at
+  // the top of the viewport.
+  const destination = reveal?.scrollTrigger?.end ?? collection.getBoundingClientRect().top + scrollY;
   const duration = reduceMotion ? 0 : fast && matchMedia('(max-width: 700px)').matches ? 0.65 : reveal ? 1.15 : 0.45;
   navigationTween = gsap.to(window, {
     scrollTo: { y: destination, autoKill: false },
@@ -50,10 +45,11 @@ export function initHeroCloud() {
   const media = gsap.matchMedia();
 
   // On phones .hero-scene sticks (CSS position: sticky, via .hero-runway in
-  // hero-cloud.css) at the top of the viewport for one scroll "runway", so
-  // the clouds finish rising before the real, usable product section — right
-  // after .hero-runway in document flow — ever starts to appear. No GSAP pin,
-  // so there's no pin-spacer left behind for a tap to catch on.
+  // hero-cloud.css) at the top of the viewport for one scroll "runway", with
+  // the real product section waiting directly underneath it. Over that runway
+  // the clouds rise, the screen goes fully white for a moment, and the hero
+  // fades away to reveal the section in place. No GSAP pin, so there's no
+  // pin-spacer left behind for a tap to catch on.
   media.add('(prefers-reduced-motion: no-preference) and (max-width: 1000px) and (min-height: 520px)', () => {
     const cloudStage = stage.querySelector('.cloud-stage-mobile');
     const far = cloudStage.querySelector('.cloud-far');
@@ -65,42 +61,78 @@ export function initHeroCloud() {
     gsap.set(layers, { y: 0, xPercent: 0, force3D: true });
     gsap.set(whiteout, { opacity: 0 });
 
-    // .hero-runway reserves 100svh plus exactly one "runway" of extra scroll
-    // (--cloud-runway in hero-cloud.css; kept at the same 0.55 below so this
-    // scroll-trigger's distance matches what that CSS ratio actually reserves).
-    // .hero-scene can only stay stuck at the top of the viewport for that
-    // runway's worth of scroll — the room CSS gives it to stay put runs out
-    // once the page has scrolled past it. So the trigger's end is capped to
-    // that same distance, not to .hero-scene's own (unchanged, 100svh)
-    // height: the whole cloud reveal has to fit inside the window where the
-    // hero is actually still stuck, or it would still be mid-fade when
-    // #collection, right after .hero-runway in flow, starts entering the
-    // viewport underneath it.
-    const runway = () => Math.round(innerHeight * 0.55);
+    // .hero-runway is one hero-height plus one "runway" of extra scroll
+    // (--cloud-runway in hero-cloud.css). The hero stays stuck for exactly
+    // that runway, and #collection's negative margin puts its top at the
+    // viewport top at the runway's end — so the trigger spans exactly the
+    // runway, and its end is where the section is. Measured from the layout,
+    // not innerHeight: on phones innerHeight changes as the address bar
+    // hides and shows, which used to move the handoff point mid-scroll.
+    const runwayBox = hero.closest('.hero-runway') ?? hero;
+    const runway = () => Math.max(1, runwayBox.offsetHeight - hero.offsetHeight);
     reveal = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
         id: 'mobile-cloud-flow',
-        trigger: hero,
+        // Not the sticky .hero-scene: while it is stuck its measured top is
+        // always 0, so any ScrollTrigger.refresh() taken while scrolled (the
+        // catalogue refreshes on every category tap) would shift the start
+        // down by the scroll amount. .hero-runway never moves.
+        trigger: runwayBox,
         start: 'top top',
         end: () => `+=${runway()}`,
         scrub: 0.08,
         invalidateOnRefresh: true,
       },
     });
-    reveal.to(hero.querySelector('.hero-art'), { scale: 1.025, yPercent: -2, duration: 1 }, 0)
-      .to(hero.querySelector('.hero-actions'), { opacity: 0, y: -18, duration: 0.16 }, 0)
-      .to(far, { y: () => -innerHeight * 0.58, xPercent: 3, duration: 0.92 }, 0)
-      .to(near, { y: () => -innerHeight * 0.72, xPercent: -3, duration: 0.88 }, 0.03)
-      .to(front, { y: () => -innerHeight * 0.85, xPercent: 2, duration: 0.86 }, 0.06)
-      .to(whiteout, { opacity: 0.24, duration: 0.12 }, 0.7)
-      .to(whiteout, { opacity: 0, duration: 0.1 }, 0.87);
+    // Clouds rise (0–0.72), the screen is fully white by 0.6 and holds for a
+    // beat, then the hero fades out (0.82–1) to reveal the section beneath.
+    reveal.to(hero.querySelector('.hero-art'), { scale: 1.025, yPercent: -2, duration: 0.8 }, 0)
+      .to(hero.querySelector('.hero-actions'), { opacity: 0, y: -18, duration: 0.14 }, 0)
+      .to(far, { y: () => -hero.offsetHeight * 0.58, xPercent: 3, duration: 0.72 }, 0)
+      .to(near, { y: () => -hero.offsetHeight * 0.72, xPercent: -3, duration: 0.7 }, 0.02)
+      .to(front, { y: () => -hero.offsetHeight * 0.85, xPercent: 2, duration: 0.68 }, 0.04)
+      .to(whiteout, { opacity: 1, duration: 0.12 }, 0.48)
+      .to(hero, { autoAlpha: 0, duration: 0.18 }, 0.82);
+
+    // A finger swipe should behave like the CTA: when the user lets go part
+    // way through the reveal, finish it in the direction they were moving —
+    // down to the section, or back up to the hero — instead of leaving the
+    // hero parked half-clouded. (Done here rather than with ScrollTrigger's
+    // own directional snap, which picked the wrong direction after the
+    // catalogue's ScrollTrigger.refresh() on a category tap.)
+    const trigger = reveal.scrollTrigger;
+    let lastY = scrollY;
+    let direction = 0;
+    let settling;
+    const trackDirection = () => {
+      if (scrollY !== lastY) direction = scrollY > lastY ? 1 : -1;
+      lastY = scrollY;
+    };
+    const settle = () => {
+      if (navigationTween?.isActive() || settling?.isActive()) return;
+      const { start, end } = trigger;
+      const y = scrollY;
+      if (y <= start + 1 || y >= end - 1) return;
+      const forward = direction ? direction > 0 : y - start > (end - start) / 2;
+      const target = forward ? end : start;
+      settling = gsap.to(window, {
+        scrollTo: { y: target, autoKill: true },
+        duration: 0.35 + 0.35 * Math.abs(target - y) / (end - start),
+        ease: 'power2.inOut',
+      });
+    };
+    window.addEventListener('scroll', trackDirection, { passive: true });
+    ScrollTrigger.addEventListener('scrollEnd', settle);
     ScrollTrigger.refresh();
     return () => {
       navigationTween?.kill();
+      settling?.kill();
+      window.removeEventListener('scroll', trackDirection);
+      ScrollTrigger.removeEventListener('scrollEnd', settle);
       reveal = undefined;
       root.classList.remove('motion-flow');
-      gsap.set([hero.querySelector('.hero-art'), hero.querySelector('.hero-actions'), ...layers, whiteout], { clearProps: 'all' });
+      gsap.set([hero, hero.querySelector('.hero-art'), hero.querySelector('.hero-actions'), ...layers, whiteout], { clearProps: 'all' });
     };
   });
 

@@ -1,0 +1,297 @@
+.floating-contact {
+  position: fixed;
+  z-index: 30;
+  right: clamp(16px, 2.2vw, 32px);
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 18px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(14px);
+  transition: opacity var(--duration-fast) ease, transform var(--duration-fast) ease, visibility var(--duration-fast);
+}
+
+.floating-contact.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.floating-contact__actions {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(.96);
+  transform-origin: bottom right;
+  transition: opacity var(--duration-fast) ease, transform var(--duration-normal) var(--ease-out);
+}
+
+.floating-contact.is-open .floating-contact__actions {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.floating-contact-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 4px 4px 4px 16px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 11%, transparent);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 8px 24px rgb(35 41 40 / .14);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease, background var(--duration-fast) ease;
+}
+
+.floating-contact-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 28px rgb(35 41 40 / .18);
+}
+
+.floating-contact-action:focus-visible,
+.floating-contact__trigger:focus-visible {
+  outline: 3px solid var(--surface);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--action), 0 10px 28px rgb(35 41 40 / .18);
+}
+
+.floating-contact-action--callback { background: var(--surface); }
+
+.floating-contact-action__icon {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.floating-contact-action__icon img {
+  width: 56px;
+  height: 56px;
+  max-width: none;
+  transform: translate(-6px, -3px);
+}
+
+.floating-contact__trigger {
+  position: relative;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  transition: transform var(--duration-fast) ease;
+}
+
+.floating-contact__trigger:hover { transform: translateY(-2px); }
+
+.floating-contact__trigger-icon {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  max-width: none;
+  transform: translate(-6px, -3px);
+  transition: opacity var(--duration-fast) ease, transform var(--duration-normal) var(--ease-out);
+}
+
+.floating-contact__trigger-icon--close { opacity: 0; transform: translate(-6px, -3px) rotate(-60deg) scale(.7); }
+.floating-contact.is-open .floating-contact__trigger-icon--main { opacity: 0; transform: translate(-6px, -3px) rotate(60deg) scale(.7); }
+.floating-contact.is-open .floating-contact__trigger-icon--close { opacity: 1; transform: translate(-6px, -3px) rotate(0) scale(1); }
+
+.callback-dialog {
+  position: fixed;
+  inset: auto max(20px, env(safe-area-inset-right)) calc(100px + env(safe-area-inset-bottom)) auto;
+  width: min(390px, calc(100vw - 40px));
+  max-height: calc(100dvh - 128px);
+  margin: 0;
+  padding: 28px;
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 70px rgb(35 41 40 / .24);
+}
+
+.callback-dialog[open] { animation: callback-dialog-in var(--duration-normal) var(--ease-out) both; }
+.callback-dialog::backdrop { background: rgb(20 25 24 / .38); backdrop-filter: blur(3px); }
+.callback-dialog__topline { display: none; }
+
+.callback-dialog__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-soft);
+}
+
+.callback-dialog__close svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.callback-dialog__close:hover { background: var(--surface-tint); }
+.callback-dialog__close:focus-visible,
+.callback-form__submit:focus-visible,
+.callback-form__status a:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
+
+.callback-dialog__header { display: flex; align-items: center; gap: 14px; padding-right: 44px; }
+.callback-dialog__icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  overflow: hidden;
+}
+.callback-dialog__icon img { width: 61px; height: 61px; max-width: none; transform: translate(-6.5px, -3px); }
+.callback-dialog h2 { margin: 0; font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 1.05; }
+
+.callback-form { display: grid; gap: 14px; margin-top: 22px; }
+.callback-field { display: grid; gap: 6px; }
+.callback-field label { font-family: var(--font-body); font-size: 14px; font-weight: 600; }
+.callback-field__optional { margin-left: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 400; }
+.callback-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 24%, transparent);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.callback-field input::placeholder { color: color-mix(in srgb, var(--color-primary) 48%, var(--surface)); }
+.callback-field input:hover { border-color: color-mix(in srgb, var(--color-primary) 45%, transparent); }
+.callback-field input:focus { border-color: var(--action); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 30%, transparent); }
+.callback-field input[aria-invalid="true"] { border-color: #9f2e28; box-shadow: 0 0 0 2px rgb(159 46 40 / .12); }
+.callback-field__error { min-height: 0; color: #8c2823; font-family: var(--font-body); font-size: 12px; line-height: 1.35; }
+.callback-field__error:not(:empty) { min-height: 16px; }
+
+.callback-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50px;
+  margin-top: 2px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--action);
+  color: var(--surface);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease, background var(--duration-fast) ease;
+}
+.callback-form__submit:hover { background: color-mix(in srgb, var(--action) 88%, black); }
+.callback-form__submit:disabled { cursor: wait; opacity: .55; }
+
+.callback-form__status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 9px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--surface-tint);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.callback-form__status[hidden] { display: none; }
+.callback-form__status > span { font-weight: 600; }
+.callback-form__status p { margin: 0; }
+.callback-form__status a { grid-column: 2; width: max-content; margin-top: 4px; border-bottom: 1px solid currentColor; font-weight: 600; }
+
+@keyframes callback-dialog-in {
+  from { opacity: 0; transform: translateY(18px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 600px) {
+  .floating-contact { right: 12px; bottom: max(14px, env(safe-area-inset-bottom)); gap: 16px; }
+  .floating-contact__trigger { width: 50px; height: 50px; }
+  .floating-contact-action { min-height: 52px; font-size: 14px; }
+  .floating-contact-action__icon { width: 44px; height: 44px; }
+  .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .callback-dialog {
+    inset: 50% 10px auto 10px;
+    width: auto;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    padding: 26px 20px 20px;
+    border-radius: 22px;
+    transform: translateY(-50%);
+  }
+  .callback-dialog[open] { animation: callback-dialog-mobile-in var(--duration-normal) var(--ease-out) both; }
+  .callback-dialog__topline { display: block; width: 38px; height: 4px; margin: -15px auto 15px; border-radius: 99px; background: color-mix(in srgb, var(--color-primary) 20%, transparent); }
+  .callback-dialog__close { top: 12px; right: 12px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .floating-contact { bottom: 10px; }
+  .floating-contact__trigger { width: 48px; height: 48px; }
+  .floating-contact__actions { grid-template-columns: repeat(3, auto); }
+  .floating-contact-action { padding-left: 4px; }
+  .floating-contact-action__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .callback-dialog { inset: 50% auto auto 50%; width: min(620px, calc(100vw - 20px)); max-height: none; margin: 0; padding: 22px 64px 18px 24px; transform: translate(-50%, -50%); }
+  .callback-dialog[open] { animation: callback-dialog-landscape-in var(--duration-normal) var(--ease-out) both; }
+  .callback-dialog__topline { display: none; }
+  .callback-dialog__header { padding-right: 0; }
+  .callback-form { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .callback-form__submit, .callback-form__status { grid-column: 1 / -1; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .floating-contact-action:active,
+  .floating-contact__trigger:active,
+  .callback-dialog__close:active,
+  .callback-form__submit:active { transform: scale(.96); opacity: .9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .callback-dialog[open] { animation: none; }
+}
+
+@keyframes callback-dialog-mobile-in {
+  from { opacity: 0; transform: translateY(calc(-50% + 18px)) scale(.98); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+@keyframes callback-dialog-landscape-in {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 18px)) scale(.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}

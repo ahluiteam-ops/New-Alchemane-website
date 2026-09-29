@@ -19,7 +19,7 @@
 
 .shop-concerns__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(14px, 1.8vw, 28px);
 }
 
@@ -92,10 +92,14 @@
 .shop-concerns__card:hover .shop-concerns__card-copy i { transform: rotate(45deg); background: var(--surface, #fff); color: var(--ink); }
 .shop-concerns__card:focus-visible { outline: 3px solid var(--ink); outline-offset: 5px; }
 
+@media (min-width: 701px) and (max-width: 960px) {
+  .shop-concerns__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 700px) {
   .shop-concerns { padding-block: 56px; }
   .shop-concerns__heading { margin-bottom: 26px; text-align: left; }
-  .shop-concerns__grid { grid-template-columns: repeat(3, minmax(224px, 1fr)); overflow-x: auto; padding: 0 0 8px; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .shop-concerns__grid { grid-template-columns: repeat(4, minmax(224px, 1fr)); overflow-x: auto; padding: 0 0 8px; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .shop-concerns__grid::-webkit-scrollbar { display: none; }
   .shop-concerns__card { scroll-snap-align: start; aspect-ratio: 4 / 5; }
   .shop-concerns__card-copy { right: 16px; bottom: 16px; left: 16px; font-size: 28px; }

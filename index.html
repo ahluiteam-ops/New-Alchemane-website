@@ -30,7 +30,7 @@
                 <div class="masthead">
                   <a class="brand" href="#home" aria-label="Alchemane home"><img class="brand-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40" /></a>
                   <nav id="main-navigation" aria-label="Main navigation" class="main-nav">
-                    <a href="#collection">Hair solutions</a><a href="#voices">Client videos</a><a href="#studio">Visit us</a><a href="#consultation">Need Help</a>
+                    <a href="/" aria-current="page">Home</a><a href="/extensions.html">Permanent Extensions</a><a href="/toppers.html">Hair Toppers</a><a href="/wigs.html">Wigs</a>
                   </nav>
                   <div class="header-actions">
                     <a class="header-cta" href="#consultation">Need Consultation</a>
@@ -56,10 +56,61 @@
       </div>
       <!-- homepage-sections -->
     </main>
-    <aside class="floating-contact" aria-label="Quick contact">
-      <a class="floating-contact-link floating-contact-link--whatsapp" href="https://wa.me/919967123333" target="_blank" rel="noopener noreferrer" aria-label="Chat with Alchemane on WhatsApp"><img src="/icons/logos_whatsapp-icon.svg" alt="" width="76" height="76"></a>
-      <a class="floating-contact-link floating-contact-link--call" href="tel:+919967123333" aria-label="Call Alchemane at +91 99671 23333"><img src="/icons/Calling%20icon-1.svg" alt="" width="76" height="76"></a>
+    <aside class="floating-contact" data-contact-widget aria-label="Quick contact">
+      <div class="floating-contact__actions" id="floating-contact-actions" data-contact-actions aria-hidden="true" inert>
+        <button class="floating-contact-action floating-contact-action--callback" type="button" data-contact-callback aria-haspopup="dialog">
+          <span class="floating-contact-action__label">Call us back</span>
+          <span class="floating-contact-action__icon" aria-hidden="true"><img src="/icons/callback.svg" alt="" width="76" height="76"></span>
+        </button>
+        <a class="floating-contact-action floating-contact-action--whatsapp" href="https://wa.me/919967123333" target="_blank" rel="noopener noreferrer">
+          <span class="floating-contact-action__label">WhatsApp</span>
+          <span class="floating-contact-action__icon" aria-hidden="true"><img src="/icons/new%20whatsapp-icon.svg" alt="" width="76" height="76"></span>
+        </a>
+        <a class="floating-contact-action floating-contact-action--call" href="tel:+919967123333">
+          <span class="floating-contact-action__label">Call now</span>
+          <span class="floating-contact-action__icon" aria-hidden="true"><img src="/icons/new%20call.svg" alt="" width="76" height="76"></span>
+        </a>
+      </div>
+      <button class="floating-contact__trigger" type="button" data-contact-trigger aria-expanded="false" aria-controls="floating-contact-actions">
+        <span class="sr-only" data-contact-trigger-label>Open contact options</span>
+        <img class="floating-contact__trigger-icon floating-contact__trigger-icon--main" src="/icons/main.svg" alt="" width="76" height="76" aria-hidden="true">
+        <img class="floating-contact__trigger-icon floating-contact__trigger-icon--close" src="/icons/main%20cross.svg" alt="" width="76" height="76" aria-hidden="true">
+      </button>
     </aside>
+
+    <dialog class="callback-dialog" data-callback-dialog aria-labelledby="callback-title">
+      <div class="callback-dialog__topline" aria-hidden="true"></div>
+      <button class="callback-dialog__close" type="button" data-callback-close aria-label="Close callback form">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="callback-dialog__header">
+        <span class="callback-dialog__icon" aria-hidden="true"><img src="/icons/callback-form.svg" alt="" width="76" height="76"></span>
+        <div><h2 id="callback-title">Request a callback</h2></div>
+      </div>
+      <form class="callback-form" data-callback-form novalidate>
+        <div class="callback-field">
+          <label for="callback-name">Name <span aria-hidden="true">*</span></label>
+          <input id="callback-name" name="name" autocomplete="name" required minlength="2" maxlength="80" placeholder="Your full name" aria-describedby="callback-name-error">
+          <span class="callback-field__error" id="callback-name-error" data-error-for="name" aria-live="polite"></span>
+        </div>
+        <div class="callback-field">
+          <label for="callback-mobile">Mobile number <span aria-hidden="true">*</span></label>
+          <input id="callback-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="+91 98765 43210" aria-describedby="callback-mobile-error">
+          <span class="callback-field__error" id="callback-mobile-error" data-error-for="mobile" aria-live="polite"></span>
+        </div>
+        <div class="callback-field">
+          <label for="callback-email">Email ID <span class="callback-field__optional">Optional</span></label>
+          <input id="callback-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" placeholder="you@example.com" aria-describedby="callback-email-error">
+          <span class="callback-field__error" id="callback-email-error" data-error-for="email" aria-live="polite"></span>
+        </div>
+        <button class="callback-form__submit" type="submit" data-callback-submit>Request my callback <span aria-hidden="true">&rarr;</span></button>
+        <div class="callback-form__status" data-callback-status role="status" hidden>
+          <span aria-hidden="true">✓</span>
+          <p>Your callback request is ready in WhatsApp. Please tap Send to share it with our team.</p>
+          <a data-callback-whatsapp-link target="_blank" rel="noopener noreferrer">Open WhatsApp again</a>
+        </div>
+      </form>
+    </dialog>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

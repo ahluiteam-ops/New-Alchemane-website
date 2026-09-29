@@ -21,6 +21,16 @@ export const reels = {
     link: 'See hair extensions',
     category: 'extensions',
   },
+  wigs: {
+    title: 'How wigs work',
+    description: 'See the fit, the finish and the fitting itself.',
+    poster: '/assets/range/premium-wigs-a.webp',
+    alt: 'An Alchemane premium wig shown on a mannequin head',
+    src: '',
+    captions: '',
+    link: 'See wigs',
+    category: 'wigs',
+  },
 };
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);

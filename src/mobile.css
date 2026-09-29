@@ -56,37 +56,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* ------------------------------------------------------- phone: the layout */
 @media (max-width: 600px) {
-  /* --- Floating WhatsApp / call buttons -----------------------------------
-     Two different destinations were sitting flush against each other (gap: 0),
-     which is a mis-tap waiting to happen, and at 64px each the pair covered a
-     128px column of whatever scrolled underneath. Smaller, separated, and held
-     clear of the home-indicator area. */
-  .floating-contact {
-    right: 12px;
-    bottom: max(14px, env(safe-area-inset-bottom));
-    gap: 12px;
-  }
-  .floating-contact-link {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: none;
-  }
-  /* The SVG artwork has a generous transparent canvas around each circle.
-     Crop that canvas so the page does not read as a white halo. */
-  .floating-contact-link img {
-    width: 126.667%;
-    height: 126.667%;
-    max-width: none;
-    transform: translate(-10.526%, -5.263%);
-  }
-  .floating-contact-link:active { transform: scale(.94); }
-
-  /* The buttons are fixed, so without this the last rows of the footer sit
-     permanently underneath them. */
-  .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
-
   /* --- Story carousel controls -------------------------------------------
      5px apart; WCAG 2.5.8 and every platform guideline ask for 8px minimum
      between separate targets. */
@@ -149,6 +118,4 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .hero-actions { bottom: 4%; gap: 10px; }
   .collection-cta { min-height: 48px; }
   .collection-scene { min-height: 0; padding-block: 36px; }
-  .floating-contact-link { width: 44px; height: 44px; }
-  .floating-contact { gap: 10px; }
 }
