@@ -47,6 +47,8 @@
 .simple-home .voices-controls { display: flex; }
 .simple-home .voices-head h2 { margin-bottom: 0; }
 .simple-home .voices-controls button, .simple-home .story-controls button { min-width: 44px; min-height: 44px; }
+.simple-home .story-controls { position: relative; z-index: 2; pointer-events: auto; }
+.simple-home .story-controls button { touch-action: manipulation; pointer-events: auto; }
 .simple-home .voice-card { width: min(66vw, 260px); flex-basis: min(66vw, 260px); }
 .simple-home .stories-section .section-heading-row { margin-bottom: 32px; }
 .simple-home .stories-section .story-layout { margin-top: 0; }

@@ -49,7 +49,7 @@ try {
     assert.equal(await page.locator('#client-closeups').evaluate(node => node.previousElementSibling.id), 'studio', 'close-up film should follow the studio');
     assert.equal(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.id), 'questions', 'close-up film should sit directly above FAQ');
     await expect(page.locator('.floating-contact-link')).toHaveCount(2);
-    await expect(page.locator('.stories-section .story-action a[href="#consultation"]')).toHaveCount(1);
+    await expect(page.locator('.stories-section .story-action')).toHaveCount(0);
     await expect(page.locator('.section-help')).toHaveCount(0);
     const storyPhoto = await page.locator('.stories-section .story-photo-frame').boundingBox();
     const storyControls = await page.locator('.stories-section .story-image-footer .story-controls').boundingBox();
@@ -176,8 +176,9 @@ try {
         assert(links[1].top - links[0].bottom >= 8, 'floating contact links should have enough tap spacing');
       }
       await page.locator('.stories-section [data-story-direction="1"]').click();
-      await expect(page.locator('#story-image')).toHaveAttribute('src', /ananya-r\.webp/);
+      await expect(page.locator('.stories-section .story-slide').first()).toHaveAttribute('aria-hidden', 'true');
       await page.locator('.stories-section [data-story-direction="-1"]').click();
+      await expect(page.locator('.stories-section .story-slide').first()).toHaveAttribute('aria-hidden', 'false');
       await page.locator('.stories-section').screenshot({ path: `preview/mobile-homepage-qa/stories-${width}.png` });
       await page.locator('#celebrity-picks').scrollIntoViewIfNeeded();
       await page.waitForTimeout(600);

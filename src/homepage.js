@@ -45,32 +45,73 @@ export function initHomepage() {
       });
     }));
   }
-  const stories = [
-    ["No one could tell it wasn't my real hair. My confidence skyrocketed overnight.", 'Priya S.', 'Seamless Clip-In Extensions', 'priya-s', true],
-    ['Finally found a solution that looks real and feels weightless. Simply amazing!', 'Ananya R.', 'Tape Hair Extensions', 'ananya-r', true],
-    ['I can finally style my hair with confidence again. Thank you, Alchemane team!', 'Divya M.', 'Skin Hair Topper 5x6', 'divya-m', true],
-    ["The blend is so natural even my closest friends couldn't tell the difference.", 'Ritika V.', 'Silk Hair Topper 5x3', 'ritika-v', false],
-    // The supplied Meera image has no accompanying approved quote or product.
-    ['', 'Meera K.', '', 'meera-k', false],
-  ];
+  const storySlides = [...document.querySelectorAll('.story-slide')];
+  const storyTrack = document.querySelector('#story-slides');
+  const storyViewport = document.querySelector('.story-photo-frame');
+  const storyStatus = document.querySelector('[data-story-status]');
+  const storyDesktop = matchMedia('(min-width: 701px)');
   let storyIndex = 0;
-  document.querySelectorAll('[data-story-direction]').forEach(button => button.addEventListener('click', () => {
-    storyIndex = (storyIndex + Number(button.dataset.storyDirection) + stories.length) % stories.length;
-    const story = stories[storyIndex];
-    ['#story-text', '#story-person', '#story-product'].forEach((selector, i) => { document.querySelector(selector).textContent = story[i]; });
-    const photo = document.querySelector('#story-image');
-    photo.src = `/assets/stories/${story[3]}.webp`;
-    photo.alt = story[4] ? `${story[1]} before and after her hair transformation` : `${story[1]} — client photograph`;
-    document.querySelector('#story-caption').textContent = story[4] ? 'Before / After' : `${story[1]} · Client photograph`;
-    document.querySelector('#story-text').hidden = !story[0];
-    document.querySelector('.quote-mark').hidden = !story[0];
-    document.querySelector('#story-product').hidden = !story[2];
-    document.querySelector('#story-photo-title').hidden = Boolean(story[0]);
-    document.querySelector('#story-current').textContent = String(storyIndex + 1).padStart(2, '0');
-    document.querySelector('.story-pagination').setAttribute('aria-label', `Story ${storyIndex + 1} of ${stories.length}`);
-    document.querySelector('.story-track i').style.width = `${(storyIndex + 1) / stories.length * 100}%`;
-    if (!reduced()) gsap.fromTo('.story-quote blockquote', { opacity: .25, y: 8 }, { opacity: 1, y: 0, duration: .4, overwrite: true });
-  }));
+  let storyScrollTimeout = 0;
+  const visibleStories = () => storyDesktop.matches ? 3 : 1;
+  const lastStoryIndex = () => Math.max(0, storySlides.length - visibleStories());
+  const updateStoryState = () => {
+    const visibleCount = visibleStories();
+    storyIndex = Math.max(0, Math.min(storyIndex, lastStoryIndex()));
+    storySlides.forEach((slide, index) => {
+      slide.setAttribute('aria-hidden', String(index < storyIndex || index >= storyIndex + visibleCount));
+    });
+    const first = storyIndex + 1;
+    const last = Math.min(storySlides.length, storyIndex + visibleCount);
+    storyStatus.textContent = visibleCount === 1
+      ? `Showing transformation ${first} of ${storySlides.length}`
+      : `Showing transformations ${first} to ${last} of ${storySlides.length}`;
+  };
+  const storyOffset = index => storySlides[index].offsetLeft - storySlides[0].offsetLeft;
+  const closestStoryIndex = () => {
+    const currentOffset = storyViewport.scrollLeft;
+    return storySlides.reduce((closestIndex, slide, index) => (
+      Math.abs(storyOffset(index) - currentOffset) < Math.abs(storyOffset(closestIndex) - currentOffset)
+        ? index
+        : closestIndex
+    ), 0);
+  };
+  const renderStory = (behavior = 'auto') => {
+    const visibleCount = storyDesktop.matches ? 3 : 1;
+    const lastIndex = Math.max(0, storySlides.length - visibleCount);
+    storyIndex = Math.max(0, Math.min(storyIndex, lastIndex));
+    storyTrack.style.transform = '';
+    updateStoryState();
+    storyViewport.scrollTo({ left: storyOffset(storyIndex), behavior });
+  };
+  const changeStory = direction => {
+    const lastIndex = lastStoryIndex();
+    if (direction > 0) storyIndex = storyIndex >= lastIndex ? 0 : storyIndex + 1;
+    else storyIndex = storyIndex <= 0 ? lastIndex : storyIndex - 1;
+    renderStory(reduced() ? 'auto' : 'smooth');
+  };
+  const syncStoryFromScroll = () => {
+    clearTimeout(storyScrollTimeout);
+    storyScrollTimeout = window.setTimeout(() => {
+      storyIndex = Math.min(closestStoryIndex(), lastStoryIndex());
+      updateStoryState();
+    }, 160);
+  };
+  renderStory('auto');
+  document.querySelectorAll('[data-story-direction]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      changeStory(Number(button.dataset.storyDirection));
+    });
+  });
+  storyViewport.addEventListener('scroll', syncStoryFromScroll, { passive: true });
+  const resizeStoryViewport = () => renderStory('auto');
+  storyDesktop.addEventListener('change', resizeStoryViewport);
+  let storyResizeFrame = 0;
+  const resizeStories = () => {
+    cancelAnimationFrame(storyResizeFrame);
+    storyResizeFrame = requestAnimationFrame(resizeStoryViewport);
+  };
+  window.addEventListener('resize', resizeStories);
   document.querySelectorAll('[data-consult-type]').forEach(link => link.addEventListener('click', () => {
     document.querySelector(`[name=meeting][value="${link.dataset.consultType === 'studio' ? 'Khar West studio' : 'Online'}"]`).checked = true;
   }));
@@ -133,5 +174,12 @@ export function initHomepage() {
   });
   // The overture's own scroll behaviour lives in src/sections/overture.js — the
   // portrait is held still there, so no parallax drift on it here.
-  return () => { motion.revert(); };
+  return () => {
+    motion.revert();
+    storyViewport.removeEventListener('scroll', syncStoryFromScroll);
+    storyDesktop.removeEventListener('change', resizeStoryViewport);
+    window.removeEventListener('resize', resizeStories);
+    cancelAnimationFrame(storyResizeFrame);
+    clearTimeout(storyScrollTimeout);
+  };
 }

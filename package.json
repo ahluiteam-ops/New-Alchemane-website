@@ -12,6 +12,7 @@
     "assets:editorial": "node scripts/prepare-editorial-assets.mjs",
     "check:preview": "node scripts/check-preview.mjs",
     "check:homepage": "node scripts/check-mobile-homepage.mjs",
+    "check:stories": "node scripts/check-story-carousel.mjs",
     "check:reels": "node scripts/check-reels.mjs",
     "check:discovery": "node scripts/check-discovery.mjs"
   },

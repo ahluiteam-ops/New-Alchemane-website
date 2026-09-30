@@ -1,0 +1,263 @@
+/* Permanent Extensions page. Mobile first: every rule outside a media query
+   is the phone layout; wider screens are layered on top. Colours and type
+   come from design-tokens.css. */
+
+.pe {
+  --pe-header: 64px;
+  --pe-radius: 14px;
+  --pe-gutter: 20px;
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font: 400 16px/1.5 var(--font-body);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+/* Resets wrapped in :where() so they carry no specificity and never beat a
+   component class (a plain `.pe a { color: inherit }` was turning the dark
+   buttons' white text dark). */
+:where(.pe) *, :where(.pe) *::before, :where(.pe) *::after { box-sizing: border-box; }
+:where(.pe) :where(img, video) { display: block; max-width: 100%; }
+:where(.pe) a { color: inherit; }
+:where(.pe) :where(h1, h2, h3, p, ul, ol, figure) { margin: 0; }
+:where(.pe) :where(ul, ol) { padding: 0; list-style: none; }
+/* border: 0 normally comes from styles.css's own button reset (homepage-only);
+   without it the floating-contact FAB's trigger kept the browser's native
+   button border — a black "outset" ring right around the circular icon. */
+:where(.pe) button { font: inherit; color: inherit; border: 0; appearance: none; }
+.pe :focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+/* .sr-only normally comes from Tailwind (imported only by styles.css, which
+   this hand-rolled page doesn't use) — without it the floating-contact FAB's
+   visually-hidden trigger label rendered as real text next to the icon. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.pe-skip { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 14px; background: var(--action); color: #fff; border-radius: 8px; }
+.pe-skip:focus { top: 12px; }
+html:has(.pe) { scroll-behavior: smooth; scroll-padding-top: calc(var(--pe-header) + 8px); }
+@media (prefers-reduced-motion: reduce) { html:has(.pe) { scroll-behavior: auto; } }
+
+/* ---------- Shared pieces ---------- */
+.pe-wrap { width: min(100%, 1180px); margin-inline: auto; padding-inline: var(--pe-gutter); }
+.pe-section { padding-block: 56px; }
+.pe-section--soft { background: var(--surface-soft); }
+.pe-section--ink { background: var(--action); color: #fff; }
+/* One heading per section: every section has just its h2 (or h1 for the
+   hero), with no eyebrow, step label or lede paragraph around it. */
+.pe h2 { font: 400 clamp(30px, 8vw, 48px)/1.08 var(--font-display); letter-spacing: -.02em; margin-bottom: 20px; }
+.pe h3 { font-size: 17px; font-weight: 600; line-height: 1.3; }
+
+.pe-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 24px; border-radius: 999px; border: 1.5px solid transparent; font-weight: 600; font-size: 16px; text-decoration: none; cursor: pointer; transition: transform var(--duration-fast), background var(--duration-fast); }
+.pe-btn:active { transform: scale(.97); }
+.pe-btn--dark { background: var(--action); color: #fff; }
+.pe-btn--dark:hover { background: #000; }
+.pe-btn--line { border-color: var(--action); background: transparent; color: var(--action); }
+.pe-btn--light { background: var(--color-accent); color: var(--action); }
+.pe-btn--light:hover { background: var(--color-accent-soft); }
+.pe-btn--block { display: flex; width: 100%; }
+.pe-btn--center { display: flex; width: fit-content; margin: 32px auto 0; }
+
+.pe-ico { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--surface-tint); }
+.pe-ico svg { width: 22px; height: 22px; fill: none; stroke: var(--action); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Horizontal swipe rows: the next card always peeks in, so a swipe is obvious. */
+.pe-rail { display: grid; grid-auto-flow: column; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 4px var(--pe-gutter) 12px; scroll-padding-inline: var(--pe-gutter); scrollbar-width: none; }
+.pe-rail::-webkit-scrollbar { display: none; }
+.pe-rail > li { scroll-snap-align: start; }
+
+/* ---------- Header + chapter bar ---------- */
+.pe-header { position: sticky; top: 0; z-index: 50; background: #fffffff2; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+.pe-header__bar { display: flex; align-items: center; gap: 16px; height: var(--pe-header); padding-inline: var(--pe-gutter); max-width: 1180px; margin-inline: auto; }
+.pe-brand img { width: 128px; height: auto; }
+.pe-nav { display: none; }
+.pe-header__cta { display: none; }
+.pe-menu { margin-left: auto; display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; }
+.pe-menu svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.pe-header.is-open .pe-nav { display: grid; position: absolute; top: var(--pe-header); left: 0; right: 0; padding: 8px var(--pe-gutter) 16px; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 16px 30px #10130f1a; }
+.pe-nav a { display: flex; align-items: center; min-height: 48px; text-decoration: none; font-size: 16px; }
+.pe-nav a[aria-current="page"] { font-weight: 600; }
+
+
+/* ---------- Hero ---------- */
+.pe-hero { display: grid; }
+/* Phones: the box matches the film's own 4:5 shape exactly, so it fills the
+   full width with no letterboxing down the sides (a shorter, capped box
+   left the film narrow with white bars either side). */
+.pe-hero__media { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #fff; }
+.pe-hero__video { width: 100%; height: 100%; object-fit: cover; }
+.pe-hero__copy { padding: 24px var(--pe-gutter) 16px; }
+.pe-hero__sub { font-size: 17px; line-height: 1.5; color: var(--text-secondary); }
+.pe-hero__action { padding: 20px var(--pe-gutter) 40px; }
+.pe-hero h1 { font: 400 clamp(34px, 9.4vw, 60px)/1.04 var(--font-display); letter-spacing: -.025em; margin-bottom: 14px; }
+
+/* ---------- 01 For you ---------- */
+.pe-feel { grid-auto-columns: 62%; }
+.pe-feel li { display: grid; gap: 14px; align-content: start; min-height: 150px; padding: 18px; border-radius: var(--pe-radius); background: var(--surface-soft); font-size: 17px; font-weight: 600; line-height: 1.3; }
+
+/* ---------- 02 What it is ---------- */
+.pe-split { display: grid; gap: 28px; }
+.pe-ticks { display: grid; gap: 12px; }
+.pe-ticks li { display: flex; gap: 12px; align-items: center; font-size: 17px; }
+.pe-ticks li::before { content: ''; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--color-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23232928' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 15px no-repeat; }
+
+.pe-film { position: relative; border-radius: var(--pe-radius); overflow: hidden; background: #111; aspect-ratio: 4 / 5; }
+.pe-film video { width: 100%; height: 100%; object-fit: cover; }
+.pe-film__play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: linear-gradient(#0000 55%, #0006); cursor: pointer; }
+.pe-film__play svg { width: 76px; height: 76px; padding: 24px 22px 24px 28px; border-radius: 50%; background: #fffffff2; fill: var(--action); box-shadow: 0 8px 30px #0005; transition: transform var(--duration-fast); }
+.pe-film__play:hover svg { transform: scale(1.06); }
+.pe-film.is-playing .pe-film__play { display: none; }
+
+/* ---------- 03 Compare ---------- */
+
+/* ---------- 04 How it works ---------- */
+
+/* ---------- Video-style rails (consultation + results) ----------
+   Same rail as the homepage's client films (testimonials.css): 9:16 cards,
+   round arrow buttons, a track that lines up with the text on the left and
+   bleeds off the right edge so there's always a card cut off to swipe to. */
+.pe-consult, #results { overflow: hidden; }
+.pe-vhead { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.pe-consult h2 span { display: block; color: var(--color-accent-ink); font-style: italic; }
+.pe-rail-controls { display: none; gap: 10px; flex: none; margin-bottom: 20px; }
+.pe-rail-controls button { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); cursor: pointer; transition: background var(--duration-fast), color var(--duration-fast), opacity var(--duration-fast); }
+.pe-rail-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.pe-rail-controls button:hover:not(:disabled) { background: var(--action); border-color: var(--action); color: #fff; }
+.pe-rail-controls button:disabled { opacity: .35; cursor: default; }
+.pe-vtrack { --card: 68vw; --edge: var(--pe-gutter); display: flex; gap: 12px; margin: 0; padding: 0 var(--edge) 4px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge); scrollbar-width: none; overscroll-behavior-x: contain; scroll-behavior: smooth; }
+.pe-vtrack::-webkit-scrollbar { display: none; }
+.pe-vcard { flex: 0 0 var(--card); aspect-ratio: 9 / 16; scroll-snap-align: start; overflow: hidden; background: var(--text); }
+.pe-vcard img { width: 100%; height: 100%; object-fit: cover; }
+.pe-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+.pe-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--color-line); transition: background var(--duration-fast), width var(--duration-fast); }
+.pe-dots span.is-active { width: 22px; border-radius: 4px; background: var(--action); }
+.pe-consult__info { display: grid; gap: 14px; margin-top: 28px; }
+.pe-both { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--pe-radius); }
+.pe-both h3 { margin-bottom: 12px; }
+.pe-both ul { display: grid; gap: 14px; }
+.pe-both li { display: flex; gap: 12px; align-items: flex-start; }
+.pe-both p { display: grid; gap: 2px; }
+.pe-both span:not(.pe-tick) { color: var(--text-secondary); font-size: 15px; }
+.pe-tick { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--color-accent); }
+.pe-tick svg { width: 16px; height: 16px; fill: none; stroke: var(--action); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.pe-guarantee { display: flex; gap: 16px; align-items: center; padding: 18px; border-radius: var(--pe-radius); background: var(--surface); border: 1px solid var(--border); }
+.pe-guarantee img { width: 72px; height: 72px; flex: none; }
+.pe-guarantee p { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+.pe-consult__cta { margin-top: 6px; }
+@media (prefers-reduced-motion: reduce) { .pe-vtrack { scroll-behavior: auto; } }
+
+/* ---------- 05 Methods ---------- */
+/* Method, result and studio photos are 9:16 frames from the studio's reels, with labels baked in — shown whole, never cropped to another shape. */
+
+/* Method selector: tabs on top, one method at a time below. */
+.pe-mtabs { display: flex; gap: 6px; overflow-x: auto; margin: 0 calc(var(--pe-gutter) * -1) 24px; padding: 0 var(--pe-gutter); border-bottom: 1px solid var(--border); scrollbar-width: none; scroll-snap-type: x proximity; }
+.pe-mtabs::-webkit-scrollbar { display: none; }
+.pe-mtabs button { flex: none; min-height: 48px; padding: 0 12px; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; background: none; font-size: 16px; font-weight: 600; color: #8a908f; cursor: pointer; scroll-snap-align: center; }
+.pe-mtabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--action); }
+.pe-method { display: grid; gap: 20px; justify-items: center; }
+.pe-method[hidden] { display: none; }
+/* Phones: capped to about half the screen so the text and button sit right below it. */
+.pe-method img { height: min(50svh, 460px); width: auto; max-width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--pe-radius); background: var(--surface-soft); }
+.pe-method__copy { display: grid; gap: 10px; width: 100%; max-width: 420px; }
+.pe-method__copy p { font-size: 17px; color: var(--text-secondary); margin-bottom: 8px; }
+
+/* ---------- 06 Results ---------- */
+
+/* ---------- 07 Expert ---------- */
+.pe-badges { display: grid; gap: 10px; margin-bottom: 20px; }
+.pe-badges li { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--surface-soft); font-weight: 600; font-size: 15px; }
+.pe-badges img { width: 64px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
+.pe-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.pe-stats li { display: grid; padding: 14px 8px; border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+.pe-stats strong { font: 400 26px/1.1 var(--font-display); }
+.pe-stats span { font-size: 13px; color: var(--text-secondary); }
+
+/* ---------- 08 Studio ---------- */
+.pe-gallery { grid-auto-columns: 52%; }
+.pe-gallery img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--pe-radius); background: var(--surface-tint); }
+.pe-address { font-style: normal; margin: 16px 0 16px; color: var(--text-secondary); font-size: 15px; }
+.pe-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pe-actions .pe-btn { padding: 0 12px; font-size: 15px; }
+
+/* ---------- FAQ ----------
+   Styled by the homepage's faq-tabs.css; this page's reset strips button
+   borders the homepage gets from its own base styles, so add that back. */
+.faq-tabs button { border: 0; cursor: pointer; }
+.pe .faq-support h3 { font-size: clamp(27px, 2.7vw, 36px); font-weight: 400; line-height: 1.05; }
+.faq-support__link { text-decoration: none; }
+
+/* ---------- 10 Book ---------- */
+.pe-book { max-width: 560px; }
+.pe-form { display: grid; gap: 14px; }
+.pe-field { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
+.pe-field em { font-style: normal; font-weight: 400; opacity: .7; }
+.pe-field input { min-height: 52px; padding: 0 16px; border: 1px solid #ffffff4d; border-radius: 12px; background: #ffffff14; color: #fff; font: inherit; font-size: 16px; }
+.pe-field input:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; border-color: transparent; }
+.pe-field input[aria-invalid="true"] { border-color: #ff9b8f; }
+.pe-meet { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; border: 0; }
+.pe-meet legend { grid-column: 1 / -1; padding: 0; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+.pe-meet label { position: relative; }
+.pe-meet input { position: absolute; opacity: 0; }
+.pe-meet span { display: flex; align-items: center; justify-content: center; min-height: 52px; border: 1px solid #ffffff4d; border-radius: 12px; font-weight: 600; cursor: pointer; }
+.pe-meet input:checked + span { background: #fff; color: var(--action); border-color: #fff; }
+.pe-meet input:focus-visible + span { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.pe-error { color: #ffb4aa; font-size: 14px; }
+.pe-form__note, .pe-status { font-size: 13px; color: #ffffffb3; text-align: center; }
+.pe-status a { color: #fff; }
+.pe-whatsapp { display: block; margin-top: 24px; text-align: center; color: #fff; font-size: 15px; text-underline-offset: 4px; }
+
+/* ---------- Footer ---------- */
+/* Same .site-footer as the homepage (site-footer.css); this page adds its own
+   results disclaimer above the copyright row. The booking dock (below) is
+   already hidden by the time the footer scrolls into view, so the footer
+   needs no extra clearance for it. */
+.pe .pe-disclaimer { width: min(100%, var(--content-width)); margin: 28px auto 0; font-size: 12px; color: var(--text-secondary); }
+
+/* Short phones (SE and similar): a shallower box saves vertical space. */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pe-hero__media { aspect-ratio: 3 / 4; }
+  .pe-hero__copy { padding-top: 16px; }
+  .pe-hero h1 { font-size: 30px; margin-bottom: 10px; }
+  .pe-hero__sub { font-size: 15px; }
+}
+
+/* ---------- Tablet and up ---------- */
+@media (min-width: 700px) {
+  .pe-rail-controls { display: flex; }
+  .pe-dots { display: none; }
+  .pe-vtrack { --card: clamp(210px, 26vw, 288px); --edge: max(32px, calc((100vw - 1116px) / 2)); gap: 20px; }
+  .pe-consult__info { grid-template-columns: 1fr 1.2fr; align-items: stretch; }
+  .pe-consult__cta { grid-column: 1 / -1; justify-self: center; width: fit-content; padding-inline: 40px; }
+  .pe { --pe-gutter: 32px; }
+  .pe-section { padding-block: 80px; }
+  .pe-feel, .pe-gallery { grid-auto-columns: 30%; }
+  .pe-actions { display: flex; }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1000px) {
+  .pe-mtabs { justify-content: center; margin-inline: 0; padding-inline: 0; }
+  .pe-mtabs button { padding: 0 18px; }
+  .pe-method img { height: auto; width: 300px; }
+  .pe-method { grid-template-columns: 300px minmax(0, 420px); justify-content: center; align-items: center; gap: 72px; }
+  .pe-method__copy .pe-btn--block { width: fit-content; padding-inline: 36px; }
+  .pe-method__copy h3 { font: 400 32px/1.1 var(--font-display); }
+  .pe { --pe-header: 76px; }
+  .pe-brand img { width: 150px; }
+  .pe-menu { display: none; }
+  .pe-nav { display: flex; gap: 28px; margin-inline: auto; }
+  .pe-nav a { min-height: 44px; font-size: 15px; }
+  .pe-header__cta { display: inline-flex; min-height: 44px; padding: 0 20px; font-size: 15px; }
+  /* Desktop: text and button on the left, video on the right. */
+  .pe-hero { grid-template-columns: 1.05fr 1fr; grid-template-rows: 1fr auto 1fr; grid-template-areas: "copy media" "action media" ". media"; align-items: start; max-width: 1180px; margin-inline: auto; padding: 32px 32px 64px; column-gap: 56px; }
+  .pe-hero__copy { grid-area: copy; align-self: end; }
+  .pe-hero__action { grid-area: action; padding: 0; margin-top: 8px; }
+  .pe-hero__media { grid-area: media; height: auto; aspect-ratio: 4 / 5; max-height: 78vh; border-radius: 20px; }
+  .pe-hero__copy { padding: 0; }
+  .pe-hero__sub { font-size: 19px; max-width: 34em; }
+  .pe-hero__action .pe-btn--block { width: fit-content; padding-inline: 36px; }
+  .pe-split { grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; }
+  .pe-film { max-width: 440px; justify-self: center; width: 100%; }
+  /* With a mouse there's no swipe, so the rows become plain grids that fit. */
+  .pe-rail { grid-auto-flow: row; overflow: visible; width: min(100%, 1180px); margin-inline: auto; padding: 4px 32px 0; }
+  .pe-feel { grid-template-columns: repeat(6, 1fr); }
+  .pe-gallery { grid-template-columns: repeat(7, 1fr); }
+}

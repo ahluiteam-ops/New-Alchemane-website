@@ -10,7 +10,7 @@ import { renderSolutions } from './src/sections/solutions-data.js';
 
 export default defineConfig({
   // The shop homepage plus one detail page per category with its own explainer: extensions, toppers, wigs.
-  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', toppers: 'toppers.html', wigs: 'wigs.html' } } },
+  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', permanentExtensions: 'permanent-extensions.html', toppers: 'toppers.html', wigs: 'wigs.html' } } },
   plugins: [tailwindcss(), {
     name: 'page-sections',
     transformIndexHtml(html) {

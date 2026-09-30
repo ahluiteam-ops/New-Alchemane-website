@@ -107,20 +107,30 @@
 
   <section class="section-wrap stories-section" aria-labelledby="stories-title">
     <div class="section-heading-row reveal-on-scroll"><h2 id="stories-title">See the difference</h2></div>
-    <div class="story-layout" id="story-content">
+    <div class="story-layout" id="story-content" role="region" aria-roledescription="carousel" aria-label="Client transformations">
       <div class="story-image">
-        <div class="story-photo-frame"><img id="story-image" src="/assets/stories/priya-s.webp" width="1400" height="1048" alt="Priya S. before and after her hair transformation" loading="lazy" decoding="async"></div>
+        <div class="story-photo-frame">
+          <div class="story-slides" id="story-slides">
+            <figure class="story-slide"><img src="/assets/stories/clip-on-extension.webp" width="1440" height="1080" alt="Before and after client transformation with clip-on extensions" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/feather-extension-aashana-panchal.webp" width="1440" height="1080" alt="Before and after Aashana Panchal with feather extensions" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/micro-ring-hair-extensions-upasna.webp" width="1440" height="1080" alt="Before and after Upasna with micro ring hair extensions" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/topper-5.webp" width="1440" height="1080" alt="Before and after client transformation with a hair topper" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/topper-maharukh.webp" width="1440" height="1080" alt="Before and after Maharukh with a hair topper" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/topper-zenith-pintu.webp" width="1440" height="1080" alt="Before and after Zenith Pintu with a hair topper" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/wig-1.webp" width="1440" height="1080" alt="Before and after client wig transformation" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/wig-3.webp" width="1440" height="1080" alt="Before and after client wig transformation" loading="lazy" decoding="async"></figure>
+            <figure class="story-slide"><img src="/assets/stories/wig-7.webp" width="1440" height="1080" alt="Before and after client wig transformation" loading="lazy" decoding="async"></figure>
+          </div>
+        </div>
         <div class="story-image-footer">
-          <p id="story-caption" class="story-caption">Before / After</p>
+          <span class="sr-only" data-story-status aria-live="polite">Showing transformation 1 of 9</span>
           <div class="story-controls" role="group" aria-label="Browse transformations">
-            <button type="button" aria-label="Previous story" aria-controls="story-content" data-story-direction="-1">←</button>
-            <button type="button" aria-label="Next story" aria-controls="story-content" data-story-direction="1">→</button>
+            <button type="button" aria-label="Previous transformation" aria-controls="story-slides" data-story-direction="-1">←</button>
+            <button type="button" aria-label="Next transformation" aria-controls="story-slides" data-story-direction="1">→</button>
           </div>
         </div>
       </div>
-      <div class="story-quote" aria-live="polite"><span class="quote-mark" aria-hidden="true">“</span><blockquote id="story-text">No one could tell it wasn't my real hair. My confidence skyrocketed overnight.</blockquote><p id="story-photo-title" hidden>Meera’s transformation.</p><p id="story-person">Priya S.</p><p id="story-product">Seamless Clip-In Extensions</p><div class="story-pagination" aria-label="Story 1 of 5"><span id="story-current">01</span><span class="story-track" aria-hidden="true"><i></i></span><span>05</span></div></div>
     </div>
-    <div class="story-action"><a class="solid-button" href="#consultation">Need Consultation <span aria-hidden="true">↗</span></a></div>
   </section>
 
   <section class="quality-banner" id="alchemane-standard" aria-label="The Alchemane standard">
