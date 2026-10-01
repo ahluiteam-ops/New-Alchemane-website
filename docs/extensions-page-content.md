@@ -31,7 +31,7 @@ under "Source mapping" below.
 - All fittings take place at the Khar West studio
 - Show the Google rating: 4.9 on Google
 - Do not show an applications-delivered or extensions-delivered number
-- Do not show a wear-time claim for now
+- Wear time: 2–3 months, then removed; the hair can be reused
 - Do not use "No glue. No chemicals."
 - Do not use the celebrity films on this page
 - Not approved: "Happiness guarantee: we'll fix it until it's perfect"
@@ -480,8 +480,8 @@ Extensions.
 
 #### Are permanent extensions actually permanent?
 
-No. They are semi-permanent. They remain fitted between appointments and need
-professional maintenance, refitting or removal as your natural hair grows.
+No. They are semi-permanent. They usually stay in for 2–3 months, after which
+they're removed and can be reused.
 
 #### Can I wash, sleep and style my hair with extensions?
 

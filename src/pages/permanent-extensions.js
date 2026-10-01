@@ -52,9 +52,36 @@ const pauseOthers = current => films.forEach(film => { const video = film.queryS
 films.forEach(film => {
   const video = film.querySelector('video');
   const play = film.querySelector('.pe-film__play');
-  on(play, 'click', () => { video.play(); video.focus({ preventScroll: true }); });
+  on(play, 'click', () => { video.play().catch(() => {}); });
   on(video, 'play', () => { film.classList.add('is-playing'); pauseOthers(video); });
   on(video, 'ended', () => film.classList.remove('is-playing'));
+});
+// Every content video starts with its own clean poster and ONE play button.
+// The browser's native controls (a second play button, the timeline and the
+// three-dot menu) are switched off until playback actually starts, then
+// switched on so the visitor can pause, scrub and go fullscreen.
+const PLAY_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg>';
+document.querySelectorAll('main video:not(.pe-hero__video)').forEach(video => {
+  video.controls = false;
+  video.removeAttribute('controls');
+  const inFilm = Boolean(video.closest('.pe-film'));
+  let button = null;
+  if (!inFilm) {
+    if (video.matches('.pe-method__video')) {
+      const wrap = document.createElement('span');
+      wrap.className = 'pe-vwrap';
+      video.before(wrap);
+      wrap.append(video);
+    }
+    button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'pe-vplay';
+    button.setAttribute('aria-label', `Play video${video.getAttribute('aria-label') ? `: ${video.getAttribute('aria-label')}` : ''}`);
+    button.innerHTML = PLAY_ICON;
+    video.after(button);
+    on(button, 'click', () => { video.play().catch(() => {}); });
+  }
+  on(video, 'play', () => { video.controls = true; if (button) button.hidden = true; });
 });
 const offscreen = new IntersectionObserver(entries => entries.forEach(entry => {
   if (!entry.isIntersecting) entry.target.querySelector('video').pause();
@@ -88,6 +115,51 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   syncRail();
 });
 
+// ---- See the difference carousel ----
+// Same logic as the homepage's stories carousel: native scroll-snap, arrows step
+// one photo and wrap at the ends, and the visible photos (three from 701px up,
+// one on phones) are the only ones exposed to assistive tech.
+const diffSlides = [...document.querySelectorAll('.pe-diff__slide')];
+const diffFrame = document.querySelector('.pe-diff__frame');
+const diffStatus = document.querySelector('[data-diff-status]');
+const diffWide = matchMedia('(min-width: 701px)');
+let diffIndex = 0;
+let diffTimer = 0;
+const diffVisible = () => (diffWide.matches ? 3 : 1);
+const diffLast = () => Math.max(0, diffSlides.length - diffVisible());
+const diffOffset = index => diffSlides[index].offsetLeft - diffSlides[0].offsetLeft;
+const diffUpdate = () => {
+  const visible = diffVisible();
+  diffIndex = Math.max(0, Math.min(diffIndex, diffLast()));
+  diffSlides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i < diffIndex || i >= diffIndex + visible)));
+  const first = diffIndex + 1;
+  const last = Math.min(diffSlides.length, diffIndex + visible);
+  diffStatus.textContent = visible === 1
+    ? `Showing transformation ${first} of ${diffSlides.length}`
+    : `Showing transformations ${first} to ${last} of ${diffSlides.length}`;
+};
+const diffRender = (behavior = 'auto') => {
+  diffIndex = Math.max(0, Math.min(diffIndex, diffLast()));
+  diffUpdate();
+  diffFrame.scrollTo({ left: diffOffset(diffIndex), behavior });
+};
+const diffClosest = () => diffSlides.reduce((best, slide, i) => (
+  Math.abs(diffOffset(i) - diffFrame.scrollLeft) < Math.abs(diffOffset(best) - diffFrame.scrollLeft) ? i : best
+), 0);
+document.querySelectorAll('[data-diff-direction]').forEach(button => on(button, 'click', () => {
+  const direction = Number(button.dataset.diffDirection);
+  if (direction > 0) diffIndex = diffIndex >= diffLast() ? 0 : diffIndex + 1;
+  else diffIndex = diffIndex <= 0 ? diffLast() : diffIndex - 1;
+  diffRender(reduceMotion.matches ? 'auto' : 'smooth');
+}));
+on(diffFrame, 'scroll', () => {
+  clearTimeout(diffTimer);
+  diffTimer = window.setTimeout(() => { diffIndex = Math.min(diffClosest(), diffLast()); diffUpdate(); }, 160);
+}, { passive: true });
+on(diffWide, 'change', () => diffRender('auto'));
+on(window, 'resize', () => diffRender('auto'));
+diffRender('auto');
+
 // ---- Method tabs ----
 const methodTabs = [...document.querySelectorAll('.pe-mtabs [role="tab"]')];
 const selectMethod = (tab, focus = false) => {
@@ -95,7 +167,9 @@ const selectMethod = (tab, focus = false) => {
     const selected = item === tab;
     item.setAttribute('aria-selected', String(selected));
     item.tabIndex = selected ? 0 : -1;
-    document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+    const panel = document.getElementById(item.getAttribute('aria-controls'));
+    panel.hidden = !selected;
+    if (!selected) panel.querySelector('video')?.pause();
   });
   const list = tab.parentElement;
   list.scrollTo({ left: tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
@@ -110,6 +184,44 @@ methodTabs.forEach((tab, index) => {
     selectMethod(methodTabs[(index + step + methodTabs.length) % methodTabs.length], true);
   });
 });
+
+// On phones, the method card follows the same left/right convention as the
+// video rails. The tabs remain available as the visible, keyboard-friendly
+// alternative; a vertical movement is left to normal page scrolling.
+const methods = document.querySelector('.pe-methods');
+let swipeStart;
+on(methods, 'pointerdown', event => {
+  if (!matchMedia('(max-width: 999px)').matches || event.pointerType !== 'touch') return;
+  if (event.target.closest('a, button, video')) return;
+  swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+});
+on(methods, 'pointerup', event => {
+  if (!swipeStart || event.pointerId !== swipeStart.pointerId) return;
+  const deltaX = event.clientX - swipeStart.x;
+  const deltaY = event.clientY - swipeStart.y;
+  swipeStart = undefined;
+  if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+  const current = methodTabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+  const next = (current + (deltaX < 0 ? 1 : -1) + methodTabs.length) % methodTabs.length;
+  selectMethod(methodTabs[next]);
+});
+on(methods, 'pointercancel', () => { swipeStart = undefined; });
+
+// Only one rail clip can play at a time, preventing overlapping audio when a
+// visitor moves through the consultation or client-result stories.
+const railVideos = [...document.querySelectorAll('.pe-vcard video')];
+railVideos.forEach(video => on(video, 'play', () => {
+  railVideos.forEach(other => { if (other !== video) other.pause(); });
+}));
+
+// Spoken-content videos share one playback lane to prevent overlapping audio
+// across sections; an off-screen guide pauses automatically.
+const guideMedia = document.querySelector('.pe-guide__media');
+const contentVideos = [...document.querySelectorAll('main video:not(.pe-hero__video)')];
+contentVideos.forEach(video => on(video, 'play', () => {
+  contentVideos.forEach(other => { if (other !== video) other.pause(); });
+}));
+if (guideMedia) offscreen.observe(guideMedia);
 
 // ---- FAQ tabs ----
 const tabs = [...document.querySelectorAll('[data-faq-tab]')];
@@ -134,6 +246,17 @@ tabs.forEach((tab, index) => {
 const form = document.querySelector('#pe-form');
 const error = form.querySelector('.pe-error');
 const status = form.querySelector('.pe-status');
+const productSelection = form.querySelector('.pe-product-selection');
+let productInterest = '';
+
+// The card identifies where a consultation should begin; it does not present
+// a fitted extension as a self-service purchase.
+document.querySelectorAll('[data-product-interest]').forEach(card => on(card, 'click', () => {
+  productInterest = card.dataset.productInterest;
+  productSelection.textContent = `Interested in ${productInterest}. We’ll talk about it during your consultation.`;
+  productSelection.hidden = false;
+}));
+
 // "Meet online instead" and similar links preselect how to meet.
 document.querySelectorAll('[data-meet]').forEach(link => on(link, 'click', () => {
   const choice = form.querySelector(`input[name="meet"][value="${link.dataset.meet}"]`);
@@ -159,7 +282,7 @@ on(form, 'submit', event => {
     return;
   }
   const city = form.elements.city.value.trim();
-  const message = `Hello Alchemane, I'd like to book a permanent extensions consultation.\n\nName: ${name}\nPhone: ${phone}${city ? `\nCity: ${city}` : ''}\nMeet: ${form.elements.meet.value}`;
+  const message = `Hello Alchemane, I'd like to book a permanent extensions consultation.\n\nName: ${name}\nPhone: ${phone}${city ? `\nCity: ${city}` : ''}${productInterest ? `\nInterested in: ${productInterest}` : ''}\nMeet: ${form.elements.meet.value}`;
   const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
   form.querySelector('#pe-send').href = link;
   status.hidden = false;

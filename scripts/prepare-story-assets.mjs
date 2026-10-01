@@ -19,3 +19,18 @@ for (const [name, slug] of clients) {
     .toFile(output);
   console.log(`${output}: ${result.width} × ${result.height}, ${result.size} bytes`);
 }
+
+// Permanent Extensions page "See the difference" — four extra extension
+// transformations (the clip-on, feather and Upasna micro-ring images already
+// exist above). Source: Images/Client stories In their own words/Extension/.
+const extensionStories = [
+  ['Micro Ring Hair Extensions Lavina', 'micro-ring-hair-extensions-lavina'],
+  ['Micro Ring Hair Extensions-2 Sneha', 'micro-ring-hair-extensions-sneha'],
+  ['Tape in Hair Extensions Jalpa', 'tape-in-hair-extensions-jalpa'],
+  ['Tape in Hair Extensions-1 Navya', 'tape-in-hair-extensions-navya'],
+];
+for (const [name, slug] of extensionStories) {
+  const output = `public/assets/stories/${slug}.webp`;
+  const result = await sharp(`Images/Client stories In their own words/Extension/${name}.png`).webp({ quality: 86, effort: 6 }).toFile(output);
+  console.log(`${output}: ${result.width} × ${result.height}, ${result.size} bytes`);
+}
