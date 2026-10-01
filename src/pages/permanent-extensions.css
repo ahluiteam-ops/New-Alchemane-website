@@ -46,6 +46,14 @@ html:has(.pe) { scroll-behavior: smooth; scroll-padding-top: calc(var(--pe-heade
 .pe h2 { font: 400 clamp(30px, 8vw, 48px)/1.08 var(--font-display); letter-spacing: -.02em; margin-bottom: 20px; }
 .pe h3 { font-size: 17px; font-weight: 600; line-height: 1.3; }
 
+/* ---------- "See real hair transformations" ----------
+   client-feature.css's own layout rules (.client-proof-inner, .client-film,
+   the frame and play badge) are unscoped and apply as-is; only its section
+   padding/background and heading size are scoped to .home-rest on the
+   homepage, so this page supplies its own to match. */
+.pe-transform { padding-block: clamp(56px, 7vw, 88px); background: var(--surface); }
+.pe-transform .client-proof-heading h2 { max-width: 11ch; font: 400 clamp(32px, 5.2vw, 56px)/1.05 var(--font-display); letter-spacing: -.03em; margin-bottom: 0; }
+
 .pe-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 24px; border-radius: 999px; border: 1.5px solid transparent; font-weight: 600; font-size: 16px; text-decoration: none; cursor: pointer; transition: transform var(--duration-fast), background var(--duration-fast); }
 .pe-btn:active { transform: scale(.97); }
 .pe-btn--dark { background: var(--action); color: #fff; }

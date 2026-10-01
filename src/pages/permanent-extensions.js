@@ -2,6 +2,7 @@ import '../design-tokens.css';
 import '../sections/faq-tabs.css';
 import '../sections/site-footer.css';
 import '../sections/floating-contact.css';
+import '../sections/client-feature.css';
 import './permanent-extensions.css';
 import { initFloatingContact } from '../sections/floating-contact';
 
