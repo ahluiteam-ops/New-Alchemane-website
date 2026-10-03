@@ -73,7 +73,7 @@
 .risk-free-banner__benefits li {
   position: relative;
   min-height: 64px;
-  padding: 16px 18px 16px 54px;
+  padding: 16px 18px 16px 64px;
   border: 1px solid rgb(255 255 255 / .14);
   background: rgb(255 255 255 / .08);
   color: rgb(255 255 255 / .9);
@@ -81,20 +81,10 @@
   line-height: 1.5;
 }
 
-.risk-free-banner__benefits li::before {
-  content: '✓';
+.risk-free-banner__check {
   position: absolute;
   top: 18px;
   left: 18px;
-  display: grid;
-  width: 22px;
-  height: 22px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--color-accent);
-  color: var(--action);
-  font-size: 14px;
-  font-weight: 700;
 }
 
 .risk-free-banner__cta {
@@ -149,8 +139,8 @@
   .risk-free-banner__content { padding: 24px 20px; }
   .risk-free-banner__content h3 { font-size: 27px; }
   .risk-free-banner__benefits { gap: 10px; margin-top: 22px; }
-  .risk-free-banner__benefits li { min-height: 0; padding: 15px 14px 15px 48px; font-size: 15px; }
-  .risk-free-banner__benefits li::before { top: 16px; left: 15px; }
+  .risk-free-banner__benefits li { min-height: 0; padding: 15px 14px 15px 56px; font-size: 15px; }
+  .risk-free-banner__check { top: 15px; left: 14px; }
   .risk-free-banner__cta { align-items: stretch; flex-direction: column; gap: 18px; margin-top: 24px; }
   .risk-free-banner__cta p { font-size: 22px; }
   .risk-free-banner__actions { display: grid; grid-template-columns: 1fr 1fr; }

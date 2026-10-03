@@ -23,6 +23,7 @@ import './sections/faq-tabs.css';
 import './sections/studio-visit.css';
 import './sections/hero-cloud.css';
 import './sections/floating-contact.css';
+import './components/check-icon.css';
 import './sections/site-footer.css';
 
 gsap.registerPlugin(ScrollTrigger);

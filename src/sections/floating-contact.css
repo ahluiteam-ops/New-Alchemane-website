@@ -233,7 +233,7 @@
   line-height: 1.4;
 }
 .callback-form__status[hidden] { display: none; }
-.callback-form__status > span { font-weight: 600; }
+.callback-form__status .check-icon { grid-row: 1 / span 2; }
 .callback-form__status p { margin: 0; }
 .callback-form__status a { grid-column: 2; width: max-content; margin-top: 4px; border-bottom: 1px solid currentColor; font-weight: 600; }
 

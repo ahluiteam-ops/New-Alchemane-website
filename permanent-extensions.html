@@ -29,7 +29,7 @@
       <!-- Hero -->
       <section class="pe-hero" aria-labelledby="pe-title">
         <div class="pe-hero__copy">
-          <h1 id="pe-title">Permanent Hair Extensions</h1>
+          <h1 id="pe-title"><span>Permanent Hair</span> <span>Extensions</span></h1>
           <p class="pe-hero__sub">Get longer, fuller, natural-looking hair without clipping extensions every morning. Expert-applied extensions customized to your hair colour, texture, density, and lifestyle.</p>
         </div>
         <div class="pe-hero__media">
@@ -42,15 +42,43 @@
         </div>
       </section>
 
-      <!-- 02 · Why Alchemane -->
-      <section class="pe-section pe-section--soft" id="what" aria-labelledby="what-title">
-        <div class="pe-wrap pe-why">
-          <h2 id="what-title">Why choose Alchemane for extensions?</h2>
-          <figure class="pe-film">
-            <video controls playsinline preload="none" poster="/assets/permanent/why-poster.webp" aria-label="Why most extensions fail"><source src="/assets/permanent/why.mp4" type="video/mp4" /></video>
-            <button class="pe-film__play" type="button" aria-label="Play: Why most extensions fail"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></button>
-          </figure>
-          <a class="pe-btn pe-btn--dark" href="#book">Book your consultation</a>
+      <!-- A specialist-led decision section: the visitor sees how professional
+           guidance helps before, during and after fitting. -->
+      <section class="pe-section pe-section--soft pe-specialist" id="what" aria-labelledby="what-title">
+        <div class="pe-wrap">
+          <header class="pe-specialist__intro">
+            <h2 id="what-title"><span>Why choose a hair</span> <span>extension specialist?</span></h2>
+          </header>
+
+          <div class="pe-specialist__layout">
+            <figure class="pe-specialist__media">
+              <div class="pe-film pe-specialist__film">
+                <video controls playsinline preload="none" poster="/assets/permanent/why-poster.webp" aria-label="Why most hair extensions fail"><source src="/assets/permanent/why.mp4" type="video/mp4"></video>
+                <button class="pe-film__play" type="button" aria-label="Play: Why most hair extensions fail"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg></button>
+              </div>
+            </figure>
+
+            <div class="pe-specialist__copy">
+              <ul class="pe-specialist__reasons" role="list">
+                <li>
+                  <span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+                  <div><h3>Get the right method for your hair</h3><p>Your specialist considers your hair strength, density and lifestyle before recommending a method.</p></div>
+                </li>
+                <li>
+                  <span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+                  <div><h3>Protect your natural hair</h3><p>The right attachment size, weight and placement help reduce pulling and unnecessary damage.</p></div>
+                </li>
+                <li>
+                  <span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+                  <div><h3>Keep your extensions looking their best</h3><p>Professional fitting, timely maintenance and simple aftercare help them last and blend naturally.</p></div>
+                </li>
+              </ul>
+
+              <div class="pe-specialist__action">
+                <a class="pe-btn pe-btn--dark pe-btn--block" href="#book">Book a consultation</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -211,8 +239,8 @@
           <div class="pe-both">
             <h3>Consultation Options:</h3>
             <ul role="list">
-              <li><span class="pe-tick" aria-hidden="true">✓</span><p><strong>In-Person</strong><span>At our Khar West studio, Mumbai.</span></p></li>
-              <li><span class="pe-tick" aria-hidden="true">✓</span><p><strong>Online</strong><span>From the comfort of your home.</span></p></li>
+              <li><span class="check-icon pe-tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><p><strong>In-Person</strong><span>At our Khar West studio, Mumbai.</span></p></li>
+              <li><span class="check-icon pe-tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><p><strong>Online</strong><span>From the comfort of your home.</span></p></li>
             </ul>
           </div>
           <div class="pe-guarantee">
@@ -252,7 +280,7 @@
           <figure class="client-film">
             <div class="client-film-frame">
               <video class="pe-transform__video pe-transform__video--mobile" controls playsinline preload="none" poster="/assets/client-portrait-collage-v2.webp" aria-label="Permanent extension client close-up before-and-after transformations"><source src="/assets/permanent/transformations-mobile.mp4" type="video/mp4"></video>
-              <video class="pe-transform__video pe-transform__video--desktop" controls playsinline preload="none" aria-label="Permanent extension client close-up before-and-after transformations"><source src="/assets/permanent/transformations-desktop.mp4" type="video/mp4"></video>
+              <video class="pe-transform__video pe-transform__video--desktop" controls playsinline preload="none" poster="/assets/client-portrait-collage-v2.webp" aria-label="Permanent extension client close-up before-and-after transformations"><source src="/assets/permanent/transformations-desktop.mp4" type="video/mp4"></video>
             </div>
           </figure>
         </div>
@@ -380,7 +408,7 @@
         </div>
         <button class="callback-form__submit" type="submit" data-callback-submit>Request my callback <span aria-hidden="true">&rarr;</span></button>
         <div class="callback-form__status" data-callback-status role="status" hidden>
-          <span aria-hidden="true">✓</span>
+          <span class="check-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
           <p>Your callback request is ready in WhatsApp. Please tap Send to share it with our team.</p>
           <a data-callback-whatsapp-link target="_blank" rel="noopener noreferrer">Open WhatsApp again</a>
         </div>
