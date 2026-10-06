@@ -45,7 +45,23 @@ sync();
 const heroVideo = document.querySelector('.pe-hero__video');
 if (reduceMotion.matches) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
 
-// ---- Swipe rows (stories, guides, studio) ----
+// ---- YouTube embeds for the wig-types and head-measurement films ----
+// Click-to-load: nothing is fetched from YouTube until the visitor taps play,
+// so the poster image is the only cost on page load.
+document.querySelectorAll('[data-youtube]').forEach(figure => {
+  const button = figure.querySelector('.wg-play');
+  const loadVideo = () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${figure.dataset.youtube}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+    iframe.title = button.getAttribute('aria-label') || 'YouTube video';
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    figure.replaceChildren(iframe);
+  };
+  on(button, 'click', loadVideo);
+});
+
+// ---- Swipe rows (client stories and consultation) ----
 // Arrows (tablet and desktop) scroll one card and grey out at either end; dots
 // (phones) follow the swipe. Controls hide when every card already fits.
 document.querySelectorAll('[data-vrail]').forEach(section => {

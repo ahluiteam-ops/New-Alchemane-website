@@ -41,14 +41,20 @@ try {
     await expect(page.locator('#celebrity-picks .voice-play')).toHaveCount(0);
     assert(await page.locator('#celebrity-picks').evaluate(node => node.previousElementSibling.classList.contains('media-coverage')), 'Celebrity Choice should follow Featured In');
     await expect(page.locator('#client-closeups-title')).toHaveText('See real hair transformations');
-    await expect(page.locator('#client-closeups img')).toHaveAttribute('src', '/assets/client-portrait-collage-v2.webp');
+    await expect(page.locator('#client-closeups img')).toHaveCount(0);
+    await expect(page.locator('#client-closeups video')).toHaveCount(1);
+    await expect(page.locator('#client-closeups video')).toHaveAttribute('controls', '');
+    await expect(page.locator('#client-closeups video')).toHaveAttribute('preload', 'metadata');
+    await expect(page.locator('#client-closeups source')).toHaveCount(2);
+    const expectedTransformationVideo = width <= 700 ? 'client-transformations-mobile.mp4' : 'client-transformations-desktop.mp4';
+    assert((await page.locator('#client-closeups video').evaluate(video => video.currentSrc)).endsWith(expectedTransformationVideo), `incorrect transformation video at ${width}`);
     await expect(page.locator('#client-closeups figcaption')).toHaveCount(0);
     assert.equal(await page.locator('#client-closeups').evaluate(node => getComputedStyle(node).backgroundColor), 'rgb(255, 255, 255)', 'client film section should have a white background');
-    await expect(page.locator('#client-closeups .client-film-play')).toHaveCount(1);
-    await expect(page.locator('#client-closeups video')).toHaveCount(0);
+    await expect(page.locator('#client-closeups .client-film-play')).toHaveCount(0);
     assert.equal(await page.locator('#client-closeups').evaluate(node => node.previousElementSibling.id), 'studio', 'close-up film should follow the studio');
-    assert.equal(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.id), 'questions', 'close-up film should sit directly above FAQ');
-    await expect(page.locator('.floating-contact-link')).toHaveCount(2);
+    assert(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.classList.contains('risk-free-banner')), 'risk-free offer should follow the close-up film');
+    assert.equal(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.nextElementSibling.id), 'questions', 'FAQ should follow the risk-free offer');
+    await expect(page.locator('.floating-contact-action')).toHaveCount(3);
     await expect(page.locator('.stories-section .story-action')).toHaveCount(0);
     await expect(page.locator('.section-help')).toHaveCount(0);
     const storyPhoto = await page.locator('.stories-section .story-photo-frame').boundingBox();
@@ -168,13 +174,17 @@ try {
       await page.locator('#alchemane-standard').scrollIntoViewIfNeeded();
       await expect(page.locator('.floating-contact')).toHaveClass(/is-visible/);
       await expect(page.locator('.floating-contact')).toBeVisible();
-      await expect(page.locator('.floating-contact-link--whatsapp')).toHaveAttribute('href', 'https://wa.me/919967123333');
-      await expect(page.locator('.floating-contact-link--call')).toHaveAttribute('href', 'tel:+919967123333');
+      await page.locator('[data-contact-trigger]').click();
+      await expect(page.locator('[data-contact-trigger]')).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.locator('.floating-contact-action--whatsapp')).toHaveAttribute('href', 'https://wa.me/919967123333');
+      await expect(page.locator('.floating-contact-action--call')).toHaveAttribute('href', 'tel:+919967123333');
       if (width === 390) {
-        const links = await page.locator('.floating-contact-link').evaluateAll(items => items.map(item => item.getBoundingClientRect().toJSON()));
+        const links = await page.locator('.floating-contact-action').evaluateAll(items => items.map(item => item.getBoundingClientRect().toJSON()));
         assert(links.every(link => link.width >= 44 && link.height >= 44), 'floating contact touch targets should be at least 44px');
         assert(links[1].top - links[0].bottom >= 8, 'floating contact links should have enough tap spacing');
       }
+      await page.keyboard.press('Escape');
+      await expect(page.locator('[data-contact-trigger]')).toHaveAttribute('aria-expanded', 'false');
       await page.locator('.stories-section [data-story-direction="1"]').click();
       await expect(page.locator('.stories-section .story-slide').first()).toHaveAttribute('aria-hidden', 'true');
       await page.locator('.stories-section [data-story-direction="-1"]').click();
@@ -187,20 +197,20 @@ try {
       await page.waitForTimeout(600);
       await page.locator('#client-closeups').screenshot({ path: `preview/mobile-homepage-qa/closeups-${width}.png` });
     }
-    await page.locator('.footer-grid [data-catalogue-category="all"]').click();
+    await page.evaluate(() => window.dispatchEvent(new CustomEvent('alchemane:range', { detail: { tab: 'all' } })));
     while (await page.locator('#range [data-show-more]').isVisible()) await page.locator('#range [data-show-more]').click();
     await expect(page.locator('.catalogue-card:visible')).toHaveCount(44);
-    await page.locator('.story-action a[href="#consultation"]').click();
+    await page.locator('.studio-visit__cta').click();
     await expect(page.locator('#consultation')).toBeFocused();
     await expect(page.locator('.floating-contact')).not.toHaveClass(/is-visible/);
-    await page.locator('[name="name"]').fill('Preview Test');
+    await page.locator('#consultation-form [name="name"]').fill('Preview Test');
     await page.locator('#consultation-form [name="phone"]').fill('9999999999');
     await page.locator('#consultation-form button[type="submit"]').click();
     const url = await page.locator('#send-consultation').getAttribute('href');
     assert(url.startsWith('https://wa.me/919967123333?text='));
     assert(decodeURIComponent(url).includes('Preview Test'));
     await expect(page.locator('#send-consultation')).toBeFocused();
-    await page.locator('[name="name"]').fill('Updated Preview');
+    await page.locator('#consultation-form [name="name"]').fill('Updated Preview');
     await expect(page.locator('.consultation-status')).toBeHidden();
     await page.locator('#consultation').screenshot({ path: `preview/mobile-homepage-qa/consultation-${width}.png` });
     await page.locator('#voices').screenshot({ path: `preview/mobile-homepage-qa/videos-${width}.png` });
@@ -209,8 +219,10 @@ try {
     await expect(page.locator('[name="meeting"][value="Online"]')).toBeChecked();
     await page.locator('[data-consult-type="studio"]').click();
     await expect(page.locator('[name="meeting"][value="Khar West studio"]')).toBeChecked();
+    const firstFaq = page.locator('.faq-list details').first();
+    if (await firstFaq.getAttribute('open') !== null) await page.locator('.faq-list summary').first().click();
     await page.locator('.faq-list summary').first().click();
-    await expect(page.locator('.faq-list details').first()).toHaveAttribute('open', '');
+    await expect(firstFaq).toHaveAttribute('open', '');
     // Every fragment on the homepage points somewhere real.
     const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));
     assert.deepEqual(missing, []);

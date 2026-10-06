@@ -38,6 +38,7 @@ Run the preview server, then:
 npm.cmd run build
 npm.cmd run check:homepage
 npm.cmd run check:reels
+npm.cmd run check:wigs
 ```
 
 `BASE_URL` overrides the local URL. The current homepage checks cover mobile through desktop, keyboard controls, catalogue state, consultation and video playback. Results and screenshots: `preview/mobile-homepage-qa`. Older discovery/solutions/quality scripts target archived layouts and are retained as historical checks.

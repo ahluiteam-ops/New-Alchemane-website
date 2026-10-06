@@ -1,8 +1,7 @@
 # Wigs page: content plan
 
-Copy and section plan for the dedicated Hair Wigs page (`/wigs.html`). The
-current Wigs page is a placeholder and is not approved; this replaces it once
-building starts.
+Copy and section plan for the dedicated Hair Wigs page (`/wigs.html`), updated
+to the confirmed ten-section order.
 
 This is a consultation-led service page, not a campaign landing page and not a
 shop page. Wigs are not bought through online checkout. The page should help a
@@ -56,18 +55,16 @@ Permanent Extensions page (for shared decisions).
 
 ## Page order
 
-1. Hero
-2. Real women, real wig stories
-3. Choose a wig for your hair-loss journey
-4. Wig types
-5. Planning your wig before chemotherapy
-6. Step inside a real consultation
-7. Before you order
-8. See the difference
-9. Trusted by hospitals and the expert
-10. Visit the studio or meet online
-11. FAQs
-12. Book your private consultation
+1. Hero + consultation CTA
+2. Find the right wig for your needs
+3. See the difference
+4. Hear from our clients
+5. Which wig type suits you?
+6. Planning before chemotherapy
+7. Your private consultation
+8. How to measure your head
+9. Frequently asked questions
+10. Consultation request form
 
 ## Page meta
 
@@ -79,9 +76,9 @@ consultation online or at our Khar West studio.
 
 ---
 
-## 1. Hero
+## 1. Hero + consultation CTA
 
-**Heading:** Hair Wigs That Help You Feel Like Yourself Again
+**Heading:** Hair Wigs
 
 **Paragraph:** Natural-looking human hair wigs designed for women facing
 alopecia, chemotherapy hair loss, extreme hair loss, or full hair coverage
@@ -95,16 +92,7 @@ needs; with comfort, privacy, and a realistic finish.
 video below, button under it on phones; text and button left, video right on
 desktop.
 
-## 2. Real Women. Real Wig Stories.
-
-Heading only. A swipeable row of client videos (same rail as the homepage's
-"Watch our clients' stories"): five in the Figma, nine available as posters in
-the landing page (`result-1` to `result-9`). Play icon shown but inactive until
-the videos arrive.
-
-**CTA:** Start your wig journey
-
-## 3. Choose a wig for your hair-loss journey
+## 2. Find the right wig for your needs
 
 Heading only. Three image cards (Figma):
 
@@ -125,20 +113,28 @@ Shorten to one line per card when building ("use less text").
 
 **CTA:** Talk to a wig expert
 
-## 4. Wig types
+## 3. See the difference
+
+Same carousel as the homepage and the Permanent Extensions page, using wig
+before/after photos. The homepage already has `wig-1`, `wig-3` and `wig-7`;
+add more from the Figma's before/after cards as they are supplied.
+
+## 4. Hear from our clients
+
+Heading only. A swipeable row of seven supplied client videos (same rail as the
+homepage's "Watch our clients' stories"). Each clip uses its supplied poster,
+does not preload, and starts only when the visitor presses its play button.
+
+## 5. Which wig type suits you?
 
 Heading: Which wig type suits you?
 
-Three cards (landing page): **European Wig**, **Lace Wig**, **Skin-Top Wig**,
-matching the catalogue products. Below them the Figma's explainer video "3 types
-of cancer wigs" (poster: `edu-wig-types`).
+The supplied "3 types of cancer wigs" YouTube explainer appears first, followed
+by three consultation cards: **European Wig**, **Lace Wig**, and **Skin-Top
+Wig**. Each card has a short construction description, no price, and an "I want
+this" action that carries the selection into the consultation form.
 
-Card copy to be written with you; until then each card shows the name and
-photo only. No prices.
-
-**CTA:** Ask an expert
-
-## 5. Planning your wig before chemotherapy
+## 6. Planning before chemotherapy
 
 Heading: Planning your wig before chemotherapy (Figma)
 
@@ -162,68 +158,29 @@ handled with complete sensitivity.
 
 **CTA:** Book your private consultation
 
-## 6. Step Inside a Real Consultation
+## 7. Your private consultation
 
-Reuse the Permanent Extensions section: the consultation video/photo row,
-"We offer both" card (In-Person at our Khar West studio, Mumbai; Online from
-the comfort of your home), and the "100% Consultation fee-back guarantee" card.
+Explain the scalp, face-shape and lifestyle assessment, and how the team helps
+with cap, hairline, colour, length, density and sizing. State that guidance is
+private, without pressure to buy, and photos are never taken without consent.
 
-Add the landing page's two short lists as icon rows (no paragraph):
+Retain the online / Khar West studio options and the 100% consultation fee-back
+guarantee. State that consultations are paid and refundable, with the fee shared
+before booking.
 
-- **What happens:** private, respectful consultation; scalp, face and lifestyle
-  assessment; honest guidance, no pressure; wig options shown for your
-  situation.
-- **What does not:** no forced purchase, no judgement, no upselling, no
-  rushing, no photos without consent.
+Next steps: send the consultation request; the team confirms the fee, meeting
+preference and a suitable time. End with **Request your consultation**.
 
-**CTA:** Book Your Consultation
+The consultation section uses these explanations while its clips are pending;
+empty video cards are not displayed.
 
-## 7. Before you order
+## 8. How to measure your head
 
-Heading: Before you order
+One heading and the supplied **How to Measure Your Head** YouTube video,
+with its original thumbnail always visible. The video loads only after play.
+This section has no ordering video, carousel, or "Before you order" heading.
 
-Two explainer videos side by side on desktop, a swipeable row on phones:
-
-- **How to order your wig** (poster: `edu-place-order`)
-- **Measuring your head for wigs** (poster: `edu-measure-head`)
-
-One line under each. Order: from understanding your hair loss concern to
-choosing the base, hairline, colour, length, density and fit. Measuring: correct
-sizing helps your wig sit comfortably, feel secure and look natural around the
-hairline.
-
-**CTA:** Need guidance
-
-## 8. See the difference
-
-Same carousel as the homepage and the Permanent Extensions page, using wig
-before/after photos. The homepage already has `wig-1`, `wig-3` and `wig-7`;
-add more from the Figma's before/after cards as they are supplied.
-
-## 9. Trusted by hospitals, and the expert
-
-Heading: Trusted where it matters most (or similar; to confirm)
-
-- Hospital row: Tata Memorial, Kokilaben Hospital, Reliance Foundation;
-  "Referred by oncologists and medical professionals across India."
-- Trusted by Bollywood celebrities (text line only, until wig celebrity clients
-  are confirmed).
-- Meet Vinitt Dessai: founder video/photo, 15+ years of expertise, plus the
-  badge row and stat tiles from the Permanent Extensions page: 4.9 on Google,
-  6,330+ clients, 15+ years, Certified safe, Winner of the Bharat Innovators
-  Award.
-
-## 10. Visit the studio or meet online
-
-From the Figma and landing page: studio photo gallery, address (4th Floor,
-Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai 400052),
-Get directions, and Meet online instead.
-
-Line from the Figma: Visit our Mumbai studio for a personalised wig
-consultation; check the fit, scalp comfort, hairline, colour, density, and try
-our hand-picked natural looking wigs before you decide.
-
-## 11. Frequently Asked Questions
+## 9. Frequently asked questions
 
 Same component and wording as the homepage FAQ, two tabs: **Consultation** and
 **Wigs** (the homepage's approved questions). Then the "Still have questions?"
@@ -234,13 +191,13 @@ Candidate extra questions from the Figma and landing page, only with approval
 Can I wear a wig during chemotherapy? Is this suitable for alopecia? Should I
 book a consultation before buying? I need a wig urgently, is that possible?
 
-## 12. Book your private consultation
+## 10. Consultation request form
 
 Same form as the Permanent Extensions page (name, phone, city, studio or online,
 sends to WhatsApp), the floating contact button, and the shared footer with the
 results disclaimer.
 
-**Heading:** Book your private consultation
+**Heading:** Book your consultation
 
 **Helper:** Paid and refundable. Our team tells you the fee when you book. All
 consultations are private and handled with complete sensitivity.
@@ -249,10 +206,4 @@ consultations are private and handled with complete sensitivity.
 
 ## Still needed
 
-- Wig videos: hero, client stories, "3 types of cancer wigs", "how to order",
-  "measuring your head", consultation, founder.
-- YouTube playlist link (if the "Watch our full wigs in action" section is
-  wanted).
-- Wig type card copy and photos for European, Lace and Skin-Top.
-- Confirmation of which celebrities, if any, may be named or shown for wigs.
-- More wig before/after photos.
+- Wig consultation clips, if a consultation video row is added later.

@@ -17,8 +17,6 @@ const jobs = [
   ['location-1.png', 'studio-1', 900],
   ['location-2.png', 'studio-2', 900],
   ['location-3.png', 'studio-3', 900],
-  // result-6 has a censor bar across the face, so it is left out.
-  ...[1, 2, 3, 4, 5, 7, 8, 9].map(n => [`result-${n}.png`, `story-${n}`, 720]),
 ];
 
 await mkdir(OUT, { recursive: true });

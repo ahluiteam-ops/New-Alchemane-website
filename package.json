@@ -15,6 +15,7 @@
     "check:stories": "node scripts/check-story-carousel.mjs",
     "check:reels": "node scripts/check-reels.mjs",
     "check:permanent-videos": "node scripts/check-permanent-videos.mjs",
+    "check:wigs": "node scripts/check-wigs.mjs",
     "check:discovery": "node scripts/check-discovery.mjs"
   },
   "dependencies": {

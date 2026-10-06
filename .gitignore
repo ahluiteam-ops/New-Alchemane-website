@@ -6,6 +6,7 @@ dist/
 # QA scratch: screenshots, probe scripts' output, local preview server logs.
 # The check-*.mjs scripts in scripts/ are tracked; only their output is not.
 preview/
+scratchpad/
 
 # Source media kept outside the repo.
 #
