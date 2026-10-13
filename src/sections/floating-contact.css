@@ -17,7 +17,6 @@
 .floating-contact.is-visible {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
   transform: translateX(0);
 }
 
@@ -100,6 +99,7 @@
   border-radius: 50%;
   background: transparent;
   box-shadow: none;
+  pointer-events: auto;
   transition: transform var(--duration-fast) ease;
 }
 

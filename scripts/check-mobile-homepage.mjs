@@ -209,6 +209,7 @@ try {
     const url = await page.locator('#send-consultation').getAttribute('href');
     assert(url.startsWith('https://wa.me/919967123333?text='));
     assert(decodeURIComponent(url).includes('Preview Test'));
+    assert(decodeURIComponent(url).includes('Meeting: Khar West studio'));
     await expect(page.locator('#send-consultation')).toBeFocused();
     await page.locator('#consultation-form [name="name"]').fill('Updated Preview');
     await expect(page.locator('.consultation-status')).toBeHidden();
@@ -216,9 +217,13 @@ try {
     await page.locator('#voices').screenshot({ path: `preview/mobile-homepage-qa/videos-${width}.png` });
     await page.locator('#range').screenshot({ path: `preview/mobile-homepage-qa/products-${width}.png` });
     await page.locator('[data-consult-type="online"]').click();
-    await expect(page.locator('[name="meeting"][value="Online"]')).toBeChecked();
+    await expect(page.locator('#consultation-form [data-meet-option="Online"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#consultation-form [name="meeting"]')).toHaveValue('Online');
+    await expect(page.locator('#consultation-form [data-meet-note]')).toHaveText('Meet from anywhere.');
     await page.locator('[data-consult-type="studio"]').click();
-    await expect(page.locator('[name="meeting"][value="Khar West studio"]')).toBeChecked();
+    await expect(page.locator('#consultation-form [data-meet-option="Khar West studio"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#consultation-form [name="meeting"]')).toHaveValue('Khar West studio');
+    await expect(page.locator('#consultation-form [data-meet-note]')).toHaveText('In-person at our Khar West studio, Mumbai.');
     const firstFaq = page.locator('.faq-list details').first();
     if (await firstFaq.getAttribute('open') !== null) await page.locator('.faq-list summary').first().click();
     await page.locator('.faq-list summary').first().click();

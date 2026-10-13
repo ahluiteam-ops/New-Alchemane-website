@@ -57,9 +57,8 @@ summary:focus-visible { outline-color: var(--color-primary); }
 .founder-section, .film-band-dark { background: var(--color-primary); color: var(--color-white); }
 .film-band-dark { --line: rgb(255 255 255 / .18); --muted: var(--color-mist); --brass: var(--color-accent-muted); }
 .founder-copy .eyebrow, .film-band-dark .eyebrow { color: var(--color-accent-muted); }
-.founder-copy h2, .film-band-dark h2 { color: var(--color-white); }
-.founder-copy h2 em, .film-band-dark h2 em { color: var(--color-accent-soft); }
-.founder-copy > p:not(.eyebrow), .founder-stats span { color: var(--color-mist); }
+.film-band-dark h2 { color: var(--color-white); }
+.film-band-dark h2 em { color: var(--color-accent-soft); }
 .film-band-dark .solid-button { background: var(--color-white); color: var(--color-primary); }
 .film-band-dark .solid-button:hover { background: var(--color-mist); }
 

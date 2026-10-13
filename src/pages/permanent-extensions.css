@@ -102,7 +102,21 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-hero__action { padding: 20px var(--pe-gutter) 40px; }
 .pe-hero h1 { font: normal 400 clamp(38px, 8vw, 64px)/1.05 var(--font-display); letter-spacing: -.035em; margin-bottom: 16px; }
 
+/* The permanent page keeps its compact service badge and fitting film. */
+.pe-hero--permanent .pe-hero__copy { padding: 28px var(--pe-gutter) 0; }
+.pe-hero--permanent .pe-hero__eyebrow { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 7px 14px; border: 1px solid var(--color-mist); border-radius: 100px; background: var(--color-fog); color: var(--color-accent-ink); font-size: 14px; font-weight: 600; line-height: 1.2; }
+.pe-hero--permanent .pe-hero__eyebrow::before { content: ''; width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--color-accent-ink); box-shadow: 0 0 0 3px var(--color-mist); }
+.pe-hero--permanent h1 { font: normal 400 clamp(34px, 8.4vw, 45px)/1.08 var(--font-display); letter-spacing: -.035em; margin: 16px 0 0; text-wrap: balance; }
+.pe-hero--permanent h1 span { color: var(--color-accent-ink); }
+.pe-hero--permanent .pe-hero__action { padding: 20px var(--pe-gutter) 28px; }
+.pe-hero--permanent .pe-hero__media { width: min(calc(100% - 2 * var(--pe-gutter)), 600px); margin: 0 auto 32px; border: 1px solid var(--border); border-radius: var(--pe-radius); }
+
+@media (max-width: 699px) {
+  .pe-hero--permanent .pe-hero__media { width: 100%; margin: 0 0 32px; border: 0; border-radius: 0; }
+}
+
 /* ---------- 02 Why choose a specialist ---------- */
+.pe-specialist, .pe-methods-section { background: var(--surface); }
 .pe-split { display: grid; gap: 28px; }
 /* Mobile puts the key message before the video; desktop pairs the film and benefits. */
 .pe-specialist__intro { max-width: 760px; margin-bottom: 28px; }
@@ -116,8 +130,8 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-specialist__reasons li { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: 12px; padding: 18px 0 20px; border-bottom: 1px solid var(--border); }
 .pe-specialist__check { margin-top: 1px; }
 .pe-specialist__reasons li > div { display: grid; gap: 4px; }
-.pe-specialist__reasons h3 { font: normal 400 clamp(23px, 5.8vw, 29px)/1.15 var(--font-display); letter-spacing: -.02em; }
-.pe-specialist__reasons p { color: var(--text-secondary); font-size: 16px; line-height: 1.5; }
+.pe-specialist__reasons h3 { font: 600 17px/1.3 var(--font-body); letter-spacing: 0; }
+.pe-specialist__reasons p { max-width: 44ch; color: var(--text-secondary); font-size: 15px; line-height: 1.55; }
 .pe-specialist__action { display: grid; }
 
 .pe-film { position: relative; width: 100%; max-width: 420px; border-radius: var(--pe-radius); overflow: hidden; background: #111; aspect-ratio: 4 / 5; }
@@ -127,7 +141,21 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-film__play:hover svg { transform: scale(1.06); }
 .pe-film.is-playing .pe-film__play { display: none; }
 
-/* ---------- 03 Compare ---------- */
+/* ---------- 03 Salon comparison ---------- */
+.pe-compare { overflow: clip; background: var(--action); color: #fff; }
+.pe-compare__layout { display: grid; gap: 32px; }
+.pe main .pe-compare__intro h2 { max-width: none; margin: 0; color: #fff; line-height: 1.04; }
+.pe-compare__intro h2 span { display: block; color: var(--color-accent-muted); }
+.pe-compare__table-wrap { overflow: hidden; border: 1px solid var(--color-mist); border-radius: var(--pe-radius); background: var(--surface); color: var(--text); box-shadow: 0 18px 44px #0002; }
+.pe-compare__table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.4; }
+.pe-compare__feature-col { width: 29%; }
+.pe-compare__table :is(th, td) { padding: 16px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
+.pe-compare__table tbody tr:last-child > * { border-bottom: 0; }
+.pe-compare__table thead th { background: var(--surface-soft); font-size: 16px; font-weight: 700; line-height: 1.25; }
+.pe-compare__table thead th:last-child { background: var(--color-accent-ink); color: #fff; }
+.pe-compare__table tbody th { font-weight: 600; }
+.pe-compare__table tbody td:nth-child(2) { color: var(--text-secondary); }
+.pe-compare__table tbody td:last-child { background: var(--color-fog); color: var(--text); font-weight: 600; }
 
 /* ---------- 04 How it works ---------- */
 
@@ -136,6 +164,7 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
    native scroll-snap does the scrolling, three 4:3 before/after photos show at
    a time from 701px up and one on phones, and the arrows sit under the image on
    the right. */
+.pe-diff { background: var(--surface-soft); }
 .pe-diff__layout { margin-top: 28px; }
 .pe-diff__frame { overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; background: var(--surface-soft); }
 .pe-diff__frame::-webkit-scrollbar { display: none; }
@@ -184,19 +213,33 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
 .pe-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--color-line); transition: background var(--duration-fast), width var(--duration-fast); }
 .pe-dots span.is-active { width: 22px; border-radius: 4px; background: var(--action); }
-.pe-consult__info { display: grid; gap: 14px; margin-top: 28px; }
+.pe-consult__info { display: grid; gap: 14px; width: min(100%, 560px); margin: 28px auto 0; }
 .pe-both { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--pe-radius); }
-.pe-both h3 { margin-bottom: 12px; }
-.pe-both ul { display: grid; gap: 14px; }
-.pe-both li { display: flex; gap: 12px; align-items: flex-start; }
-.pe-both p { display: grid; gap: 2px; }
-.pe-both span:not(.pe-tick) { color: var(--text-secondary); font-size: 15px; }
-.pe-tick { margin-top: 1px; }
-.pe-guarantee { display: flex; gap: 16px; align-items: center; padding: 18px; border-radius: var(--pe-radius); background: var(--surface); border: 1px solid var(--border); }
-.pe-guarantee img { width: 72px; height: 72px; flex: none; }
-.pe-guarantee p { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+.pe-consult-choice { height: 100%; align-content: start; }
+.pe-consult-choice .consultation-meet__label { margin: 0 0 2px; font-size: 17px; line-height: 1.3; }
+.pe-consult-choice .consultation-meet__options,
+.pe-consult-choice .consultation-meet__note { width: 100%; }
+.pe-consult-choice .consultation-meet__note { display: grid; gap: 2px; }
+.pe-consult-choice .consultation-meet__note strong { font-size: 16px; }
+.pe-consult-choice .consultation-meet__note span { color: var(--text-secondary); font-size: 14px; font-weight: 400; }
 .pe-consult__cta { margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) { .pe-vtrack { scroll-behavior: auto; } }
+
+/* ---------- Consultation promise ---------- */
+.pe-promise { background: var(--surface); }
+.pe-promise__layout { display: grid; gap: 28px; max-width: 560px; }
+.pe-promise__intro { text-align: center; }
+.pe main .pe-promise__intro h2 { max-width: 14ch; margin: 0 auto 18px; }
+.pe-promise__intro h2 span { color: var(--color-accent-ink); }
+.pe-promise__intro > p:not(.pe-promise__availability) { max-width: 38ch; margin-inline: auto; color: var(--text-secondary); font-size: 17px; line-height: 1.6; }
+.pe-promise__availability { display: inline-flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; margin: 26px auto 0; padding: 12px 16px; border-radius: 100px; background: var(--surface-soft); color: var(--color-accent-ink); font-size: 14px; font-weight: 600; line-height: 1.35; text-align: left; }
+.pe-promise__availability svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pe-promise__card { display: grid; justify-items: center; gap: 16px; padding: 30px 24px; border: 1px solid var(--color-mist); border-radius: 12px; background: var(--color-fog); text-align: center; }
+.pe-promise__card img { width: 108px; height: 108px; object-fit: contain; }
+.pe-promise__card h3 { max-width: 18ch; color: var(--text); font: 400 clamp(25px, 6.8vw, 34px)/1.16 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
+.pe-promise__card > p:not(.pe-promise__signature) { max-width: 36ch; color: var(--text-secondary); font-size: 16px; line-height: 1.6; }
+.pe-promise__signature { color: var(--color-accent-ink); font-size: 16px; font-weight: 600; }
+.pe-promise__cta { width: 100%; }
 
 /* ---------- 05 Methods ---------- */
 /* Method, result and studio photos are 9:16 frames from the studio's reels, with labels baked in — shown whole, never cropped to another shape. */
@@ -223,17 +266,92 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-products__intro { max-width: 640px; margin-bottom: 24px; }
 .pe-products__intro h2 { margin-bottom: 10px; }
 .pe-products__intro p { color: var(--text-secondary); font-size: 16px; line-height: 1.5; }
-.pe-product-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.pe-product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
 .pe-product-card { min-width: 0; }
-.pe-product-card > a { display: grid; grid-template-columns: minmax(108px, 36%) minmax(0, 1fr); min-height: 146px; height: 100%; overflow: hidden; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; transition: box-shadow var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast); }
+.pe-product-card > a { display: grid; grid-template-rows: auto 1fr; min-height: 0; height: 100%; overflow: hidden; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; transition: box-shadow var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast); }
 .pe-product-card > a:hover { border-color: var(--text-secondary); box-shadow: 0 12px 28px #10130f12; }
 .pe-product-card > a:active { opacity: .8; }
-.pe-product-card img { display: block; width: 100%; height: clamp(146px, 40vw, 160px); object-fit: cover; background: var(--surface-tint); }
-.pe-product-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; padding: 17px 14px 10px; }
-.pe-product-card__name { font: 400 clamp(21px, 5.5vw, 25px)/1.1 var(--font-display); letter-spacing: -.015em; }
+.pe-product-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: var(--surface-tint); }
+.pe-product-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; padding: 12px 10px 10px; }
+.pe-product-card__name { font: 400 clamp(19px, 5vw, 23px)/1.1 var(--font-display); letter-spacing: -.015em; }
 .pe-product-card__type { color: var(--text-secondary); font-size: 14px; line-height: 1.35; }
-.pe-product-card__action { display: flex; align-items: center; justify-content: center; min-height: 44px; width: fit-content; margin-top: auto; padding-inline: 16px; border-radius: 2px; background: var(--action); color: #fff; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.pe-product-card__action { display: flex; align-items: center; justify-content: center; min-height: 44px; width: 100%; margin-top: auto; padding-inline: 8px; border-radius: 2px; background: var(--action); color: #fff; font-size: 14px; font-weight: 600; white-space: nowrap; }
 .pe-product-card > a:hover .pe-product-card__action { background: #000; }
+.pe-products__help { display: flex; width: 100%; margin-top: 24px; }
+
+/* Phones keep a compact two-column catalogue, with enough space between and
+   within cards for each extension method to read as a distinct choice. */
+@media (max-width: 699px) {
+  .pe-products__intro { margin-bottom: 30px; }
+  .pe-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+  .pe-product-card > a {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    padding: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .pe-product-card > a:hover { border-color: var(--text-secondary); box-shadow: 0 10px 24px #10130f0d; }
+  .pe-product-card img {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+  }
+  .pe-product-card__body {
+    gap: 8px;
+    justify-content: flex-start;
+    min-height: 174px;
+    padding: 14px 4px 2px;
+  }
+  .pe-product-card__name {
+    font-size: clamp(20px, 5.7vw, 23px);
+    line-height: 1.08;
+  }
+  .pe-product-card__type {
+    max-width: none;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .pe-product-card__action {
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    margin-top: auto;
+    padding: 0 8px;
+    border: 0;
+    border-radius: 2px;
+    background: var(--action);
+    color: #fff;
+    font-size: 14px;
+  }
+  .pe-product-card__action::after { margin-left: 8px; content: '\2192'; }
+  .pe-product-card > a:hover .pe-product-card__action { background: #000; }
+  .pe-products__help { margin-top: 30px; }
+}
+
+/* ---------- The Alchemane Promise ---------- */
+.pe-brand-promise { background: var(--action); color: #fff; }
+.pe-brand-promise__layout { display: grid; gap: 32px; }
+.pe-brand-promise__intro { align-self: center; }
+.pe main .pe-brand-promise__intro h2 { max-width: 13ch; margin-bottom: 18px; color: #fff; }
+.pe-brand-promise__intro h2 span { color: var(--color-accent-muted); }
+.pe-brand-promise__intro p { max-width: 34ch; color: #ffffffd9; font-size: 17px; line-height: 1.6; }
+.pe-brand-promise__list { width: 100%; max-width: 720px; border-top: 1px solid #ffffff3d; }
+.pe-brand-promise__list li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: 16px; padding: 19px 0 21px; border-bottom: 1px solid #ffffff3d; }
+.pe-brand-promise__check { margin-top: 2px; background: var(--color-accent-soft); color: var(--action); }
+.pe-brand-promise__list li > div { display: grid; gap: 4px; }
+.pe-brand-promise__list h3 { color: #fff; font-size: 18px; line-height: 1.3; }
+.pe-brand-promise__list p { max-width: 48ch; color: #ffffffcf; font-size: 16px; line-height: 1.5; }
+
+@media (max-width: 699px) {
+  .pe main .pe-brand-promise__intro h2 { max-width: none; white-space: nowrap; }
+  .pe-brand-promise__intro h2 span { display: block; }
+}
 
 /* ---------- Method decision guide ----------
    A focused, dark editorial moment: context, film and one clear next step. */
@@ -312,6 +430,9 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-hero__media { aspect-ratio: 3 / 4; }
   .pe-hero__copy { padding-top: 16px; }
   .pe-hero h1 { margin-bottom: 10px; }
+  .pe-hero--permanent .pe-hero__copy { padding-top: 20px; }
+  .pe-hero--permanent h1 { margin-bottom: 0; }
+  .pe-hero--permanent .pe-hero__action { padding-top: 16px; padding-bottom: 20px; }
 }
 
 /* ---------- Tablet and up ---------- */
@@ -321,11 +442,14 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-rail-controls { display: flex; }
   .pe-dots { display: none; }
   .pe-vtrack { --card: clamp(210px, 26vw, 288px); --edge: max(32px, calc((100vw - 1116px) / 2)); gap: 20px; }
-  .pe-consult__info { grid-template-columns: 1fr 1.2fr; align-items: stretch; }
-  .pe-consult__cta { grid-column: 1 / -1; justify-self: center; width: fit-content; padding-inline: 40px; }
+  .pe-consult__cta { justify-self: center; width: fit-content; padding-inline: 40px; }
   .pe { --pe-gutter: 32px; }
   .pe-section { padding-block: 80px; }
   .pe-specialist__intro { margin-bottom: 40px; }
+  .pe-compare__layout { grid-template-columns: minmax(220px, .75fr) minmax(0, 1.45fr); align-items: center; gap: clamp(40px, 6vw, 80px); }
+  .pe-compare__table { font-size: 15px; }
+  .pe-compare__table :is(th, td) { padding: 18px 16px; }
+  .pe-compare__table thead th { font-size: 18px; }
   .pe-gallery { grid-auto-columns: 30%; }
   .pe-diff__slides { gap: clamp(16px, 1.8vw, 24px); }
   .pe-diff__slide { flex-basis: calc((100% - clamp(32px, 3.6vw, 48px)) / 3); }
@@ -338,15 +462,28 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-transform__video--mobile { display: none; }
   .pe-transform__video--desktop { display: block; }
   .pe-guide__actions .pe-btn { width: auto; }
-  .pe-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .pe-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   .pe-product-card > a { grid-template-columns: 1fr; min-height: 0; }
   .pe-product-card img { height: auto; aspect-ratio: 4 / 5; }
   .pe-product-card__body { min-height: 154px; padding: 16px 15px 12px; }
+  .pe-products__help { display: none; }
 }
 
 /* ---------- Desktop ---------- */
 @media (min-width: 1000px) {
   html:has(.pe) { --pe-header: 76px; }
+  .pe-brand-promise__layout { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-items: center; gap: clamp(56px, 7vw, 100px); }
+  .pe-brand-promise__list { max-width: none; }
+  .pe-brand-promise__list li { padding-block: 22px 24px; }
+  .pe-promise__layout { max-width: 1060px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: 'intro card' 'cta card'; align-items: center; column-gap: clamp(48px, 6vw, 96px); row-gap: 28px; }
+  .pe-promise__intro { grid-area: intro; align-self: end; text-align: left; }
+  .pe main .pe-promise__intro h2 { max-width: 12ch; margin: 0 0 22px; }
+  .pe-promise__intro > p:not(.pe-promise__availability) { margin-inline: 0; }
+  .pe-promise__availability { margin: 28px 0 0; }
+  .pe-promise__card { grid-area: card; min-height: 480px; align-content: center; padding: 48px 36px; }
+  .pe-promise__card img { width: 124px; height: 124px; }
+  .pe-promise__cta { grid-area: cta; align-self: start; justify-self: start; width: fit-content; padding-inline: 32px; }
+  .pe-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   /* Desktop-only editorial rhythm. The mobile-first layout above remains the
      source of truth below this breakpoint. */
   .pe-specialist__intro { max-width: none; margin-bottom: 48px; }
@@ -355,7 +492,7 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-specialist__layout { grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr); align-items: start; gap: clamp(40px, 6vw, 80px); }
   .pe-specialist__media { position: sticky; top: calc(var(--pe-header) + 24px); }
   .pe-specialist__reasons li { padding-block: 24px 26px; }
-  .pe-specialist__reasons h3 { font-size: clamp(24px, 2.2vw, 30px); }
+  .pe-specialist__reasons h3 { font-size: 18px; }
   .pe-specialist__action { justify-items: start; }
   .pe-specialist__action .pe-btn { width: fit-content; padding-inline: 32px; }
   .pe-book { grid-template-columns: minmax(0, .9fr) minmax(440px, 1.1fr); align-items: center; gap: clamp(56px, 8vw, 120px); }
@@ -387,6 +524,11 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-hero h1 span { display: block; }
   .pe-hero__sub { max-width: 31em; font-size: 18px; }
   .pe-hero__action .pe-btn--block { width: fit-content; padding-inline: 36px; }
+  .pe-hero--permanent .pe-hero__copy { padding: 0; }
+  .pe-hero--permanent h1 { font-size: clamp(46px, 3.7vw, 54px); line-height: 1.08; margin: 16px 0 0; }
+  .pe-hero--permanent h1 span { display: inline; }
+  .pe-hero--permanent .pe-hero__action { padding: 0; }
+  .pe-hero--permanent .pe-hero__media { width: 100%; margin: 0; }
   .pe-split { grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; }
   .pe-film { max-width: 440px; justify-self: center; width: 100%; }
   .pe-specialist__film { width: 100%; max-width: none; justify-self: stretch; }

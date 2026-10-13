@@ -29,7 +29,7 @@
   background: var(--surface);
 }
 .client-film-frame img,
-.client-film-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.client-transformations-video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .client-transformations-video { background: var(--text); }
 .client-film-play {
   position: absolute;

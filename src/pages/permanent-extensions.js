@@ -4,6 +4,7 @@ import '../sections/site-footer.css';
 import '../sections/floating-contact.css';
 import '../components/check-icon.css';
 import '../sections/client-feature.css';
+import { initConsultationMeet } from '../sections/consultation-meet.js';
 import './permanent-extensions.css';
 import { initFloatingContact } from '../sections/floating-contact';
 
@@ -193,7 +194,11 @@ const methods = document.querySelector('.pe-methods');
 let swipeStart;
 on(methods, 'pointerdown', event => {
   if (!matchMedia('(max-width: 999px)').matches || event.pointerType !== 'touch') return;
-  if (event.target.closest('a, button, video')) return;
+  // The poster's play button covers the whole film. A paused video can also
+  // be swiped, but leave its native control strip (and active playback) alone.
+  const controlledVideo = event.target.closest('video[controls]');
+  if (controlledVideo && (!controlledVideo.paused
+    || event.clientY >= controlledVideo.getBoundingClientRect().bottom - 56)) return;
   swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
 });
 on(methods, 'pointerup', event => {
@@ -245,10 +250,28 @@ tabs.forEach((tab, index) => {
 
 // ---- Consultation form → WhatsApp ----
 const form = document.querySelector('#pe-form');
+const selectMeeting = initConsultationMeet(form);
 const error = form.querySelector('.pe-error');
 const status = form.querySelector('.pe-status');
 const productSelection = form.querySelector('.pe-product-selection');
+const consultationChoice = document.querySelector('[data-consultation-choice]');
+const consultationChoiceOptions = [...consultationChoice.querySelectorAll('[data-consultation-mode]')];
+const consultationChoiceNote = consultationChoice.querySelector('[data-consultation-choice-note]');
+const consultationChoiceCta = document.querySelector('[data-consultation-choice-cta]');
 let productInterest = '';
+
+const updateConsultationChoice = (value, updateForm = true) => {
+  const isOnline = value === 'Online';
+  consultationChoiceOptions.forEach(option => option.setAttribute('aria-pressed', String(option.dataset.consultationMode === value)));
+  consultationChoiceNote.querySelector('strong').textContent = isOnline ? 'Online' : 'In-person';
+  consultationChoiceNote.querySelector('span').textContent = isOnline ? 'Meet from anywhere.' : 'At our Khar West studio, Mumbai.';
+  consultationChoiceCta.textContent = isOnline ? 'Book an online consultation' : 'Book an offline consultation';
+  if (updateForm) selectMeeting(value);
+};
+
+consultationChoiceOptions.forEach(option => on(option, 'click', () => updateConsultationChoice(option.dataset.consultationMode)));
+on(form.elements.meet, 'input', () => updateConsultationChoice(form.elements.meet.value, false));
+updateConsultationChoice(form.elements.meet.value, false);
 
 // The card identifies where a consultation should begin; it does not present
 // a fitted extension as a self-service purchase.
@@ -260,8 +283,7 @@ document.querySelectorAll('[data-product-interest]').forEach(card => on(card, 'c
 
 // "Meet online instead" and similar links preselect how to meet.
 document.querySelectorAll('[data-meet]').forEach(link => on(link, 'click', () => {
-  const choice = form.querySelector(`input[name="meet"][value="${link.dataset.meet}"]`);
-  if (choice) choice.checked = true;
+  selectMeeting(link.dataset.meet);
 }));
 on(form, 'input', event => {
   event.target.removeAttribute('aria-invalid');

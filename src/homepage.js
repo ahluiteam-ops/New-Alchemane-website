@@ -1,5 +1,6 @@
 import './homepage.css';
 import './sections/client-feature.css';
+import { initConsultationMeet } from './sections/consultation-meet.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -112,8 +113,9 @@ export function initHomepage() {
     storyResizeFrame = requestAnimationFrame(resizeStoryViewport);
   };
   window.addEventListener('resize', resizeStories);
+  const selectMeeting = initConsultationMeet(document.querySelector('#consultation-form'));
   document.querySelectorAll('[data-consult-type]').forEach(link => link.addEventListener('click', () => {
-    document.querySelector(`[name=meeting][value="${link.dataset.consultType === 'studio' ? 'Khar West studio' : 'Online'}"]`).checked = true;
+    selectMeeting(link.dataset.consultType === 'studio' ? 'Khar West studio' : 'Online');
   }));
   document.querySelectorAll('.home-rest a[href^="#"]').forEach(link => {
     if (document.body.classList.contains('simple-home') || ['#home', '#collection'].includes(link.hash) || link.hasAttribute('data-range-open') || link.hasAttribute('data-catalogue-category')) return;

@@ -281,11 +281,15 @@
             <div class="pe-form__row">
               <label class="pe-field"><span>Your city <em>(optional)</em></span><input name="city" autocomplete="address-level2" placeholder="City" maxlength="80" /></label>
             </div>
-            <fieldset class="pe-meet">
-              <legend>How would you like to meet?</legend>
-              <label><input type="radio" name="meet" value="Khar West studio" checked /> Khar West studio</label>
-              <label><input type="radio" name="meet" value="Online" /> Online</label>
-            </fieldset>
+            <div class="consultation-meet" role="group" aria-labelledby="wigs-meet-label" data-consultation-meet>
+              <p class="consultation-meet__label" id="wigs-meet-label">How would you like to meet?</p>
+              <div class="consultation-meet__options">
+                <button type="button" data-meet-option="Online" aria-pressed="false">Online</button>
+                <button type="button" data-meet-option="Khar West studio" aria-pressed="true">Offline</button>
+              </div>
+              <p class="consultation-meet__note" data-meet-note aria-live="polite">In Khar, Mumbai</p>
+              <input type="hidden" name="meet" value="Khar West studio" />
+            </div>
             <p class="pe-error" role="alert" hidden></p>
             <button class="pe-btn pe-btn--dark pe-btn--block" type="submit">Continue to WhatsApp</button>
             <p class="pe-status" role="status" hidden>WhatsApp opened with your request. Didn’t open? <a id="pe-send" target="_blank" rel="noopener noreferrer">Send it here</a>.</p>

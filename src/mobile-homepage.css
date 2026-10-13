@@ -61,11 +61,6 @@
 .simple-home .story-layout { gap: 24px; }
 .simple-home .founder-grid { gap: 28px; }
 .simple-home .founder-image { max-width: 380px; }
-.simple-home .founder-copy h2 { color: var(--surface); }
-.simple-home .founder-copy > p { font-size: 17px; }
-.simple-home .founder-stats { margin-top: 24px; padding-top: 20px; }
-.simple-home .founder-stats strong { font-size: 36px; }
-.simple-home .founder-stats span { font-size: 13px; letter-spacing: 0; }
 .simple-home .studio-section { padding-block: 56px; gap: 28px; }
 .simple-home .studio-card { min-height: 300px; }
 .simple-home .studio-copy .solid-button { width: 100%; }

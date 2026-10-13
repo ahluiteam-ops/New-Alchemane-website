@@ -109,10 +109,16 @@ nav a { font-size: 16px; letter-spacing: 0; }
    rounded and transparent in the file. */
 .founder-image { overflow: visible; }
 .founder-image img { height: auto; aspect-ratio: 1; object-fit: contain; filter: none; transform: none; max-width: 520px; }
-.founder-copy > p:not(.eyebrow) { color: var(--text-secondary); font-size: 17px; line-height: 1.7; }
-.founder-stats { gap: 48px; margin-block: 32px; padding-block: 24px; border-block: 1px solid var(--border); }
-.founder-stats strong { font-family: var(--font-display); font-size: 42px; }
-.founder-stats span { color: var(--text-secondary); font-size: 12px; letter-spacing: .02em; }
+.home-rest .founder-grid { row-gap: 28px; }
+.simple-home .home-rest .founder-heading { grid-column: 1 / -1; margin: 0 0 4px; color: var(--color-white); font-size: clamp(26px, 7.2vw, 52px); line-height: 1.08; }
+.founder-heading span { display: block; white-space: nowrap; }
+.home-rest .founder-copy { width: 100%; max-width: 54ch; }
+.home-rest .founder-highlights { margin: 0; padding: 0; border-top: 1px solid rgb(255 255 255 / .18); list-style: none; }
+.home-rest .founder-highlights li { padding: 16px 0 18px; border-bottom: 1px solid rgb(255 255 255 / .18); color: var(--color-mist); font-size: clamp(16px, 1.35vw, 18px); line-height: 1.55; }
+.home-rest .founder-highlights strong { color: var(--color-white); font-weight: 600; }
+.home-rest .founder-cta { width: 100%; margin-top: 28px; background: var(--color-accent); color: var(--color-primary); }
+.home-rest .founder-cta:hover { background: var(--color-accent-soft); }
+.home-rest .founder-cta:focus-visible { outline-color: var(--color-accent-soft); }
 
 /* Featured In sits between the founder and Celebrity Choice. Its soft
    surface separates the two sections without extra spacer markup. */
@@ -172,7 +178,7 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .form-heading p { font-family: var(--font-display); font-size: 30px; }
 #consultation-form label, #consultation-form legend { font-size: 14px; }
 #consultation-form label > span { font-size: 12px; }
-#consultation-form input:not([type=radio]), #consultation-form select { font-size: 16px; min-height: 48px; }
+#consultation-form input:not([type=hidden]), #consultation-form select { font-size: 16px; min-height: 48px; }
 #consultation-form fieldset { flex-wrap: wrap; gap: 8px 24px; }
 #consultation-form fieldset label { min-height: 44px; }
 .form-privacy { font-size: 13px; }
@@ -288,8 +294,6 @@ nav a { font-size: 16px; letter-spacing: 0; }
   .promise-list span { font-size: 18px; }
   .founder-grid, .story-layout, .studio-section, .faq-section, .consultation-grid { grid-template-columns: 1fr; gap: 32px; }
   .founder-image img { height: auto; max-width: 440px; margin-inline: auto; }
-  .founder-stats { gap: 40px; }
-  .founder-stats span { font-size: 11px; }
   .media-coverage { padding-block: 56px; }
   .media-coverage-logos { grid-template-columns: 1fr; gap: 26px; max-width: 280px; margin-top: 34px; }
   .media-logo { min-height: 54px; }

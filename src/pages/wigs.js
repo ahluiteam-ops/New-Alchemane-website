@@ -4,6 +4,7 @@ import '../sections/site-footer.css';
 import '../sections/floating-contact.css';
 import '../components/check-icon.css';
 import '../sections/client-feature.css';
+import { initConsultationMeet } from '../sections/consultation-meet.js';
 // The Wigs page shares the Permanent Extensions page's layout pieces (header,
 // buttons, rails, carousel, FAQ, booking form), so it builds on that stylesheet.
 import './permanent-extensions.css';
@@ -185,6 +186,7 @@ tabs.forEach((tab, index) => {
 
 // ---- Consultation form → WhatsApp ----
 const form = document.querySelector('#pe-form');
+const selectMeeting = initConsultationMeet(form);
 const error = form.querySelector('.pe-error');
 const status = form.querySelector('.pe-status');
 const productSelection = form.querySelector('.pe-product-selection');
@@ -199,8 +201,7 @@ document.querySelectorAll('[data-product-interest]').forEach(card => on(card, 'c
 
 // "Meet online instead" preselects how to meet.
 document.querySelectorAll('[data-meet]').forEach(link => on(link, 'click', () => {
-  const choice = form.querySelector(`input[name="meet"][value="${link.dataset.meet}"]`);
-  if (choice) choice.checked = true;
+  selectMeeting(link.dataset.meet);
 }));
 on(form, 'input', event => {
   event.target.removeAttribute('aria-invalid');
