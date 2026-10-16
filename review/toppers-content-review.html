@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hair Toppers - Content Review v1 | Alchemane</title>
+  <style>
+    :root { --ink: #202020; --muted: #555; --line: #c9c9c9; --paper: #fff; --canvas: #eee; --soft: #f5f5f5; }
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 20px; }
+    body { margin: 0; color: var(--ink); background: var(--canvas); font: 16px/1.55 Arial, Helvetica, sans-serif; }
+    a { color: inherit; text-underline-offset: 3px; overflow-wrap: anywhere; }
+    a:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+    h1, h2, h3, p, ul, ol { margin-top: 0; }
+    h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin-bottom: 16px; }
+    h2 { font-size: 27px; line-height: 1.22; margin-bottom: 12px; text-wrap: balance; }
+    h3 { font-size: 18px; line-height: 1.3; margin-bottom: 8px; }
+    p { margin-bottom: 14px; }
+    li + li { margin-top: 6px; }
+    .skip { position: absolute; top: -80px; left: 12px; padding: 12px; background: var(--paper); }
+    .skip:focus { top: 12px; }
+    .toolbar { max-width: 1080px; margin: auto; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .toolbar p { margin: 0; font-size: 14px; }
+    .toolbar nav { display: flex; gap: 16px; flex-wrap: wrap; }
+    .toolbar nav a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 0 20px 40px; }
+    .sheet { padding: 40px; margin-bottom: 24px; border: 1px solid var(--line); background: var(--paper); }
+    .section + .section { margin-top: 36px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .tag { margin-bottom: 12px; color: var(--muted); font-size: 12px; font-weight: bold; letter-spacing: .06em; text-transform: uppercase; }
+    .lede { max-width: 70ch; font-size: 18px; }
+    .small { font-size: 13px; color: var(--muted); }
+    .note { padding: 12px 14px; margin-top: 16px; border-left: 3px solid #888; background: var(--soft); font-size: 13px; }
+    .note p:last-child, .note ul:last-child { margin-bottom: 0; }
+    .flow { padding: 18px; border: 1px solid var(--line); font-weight: bold; line-height: 1.8; }
+    .contents { columns: 2; column-gap: 30px; padding-left: 24px; }
+    .contents li { break-inside: avoid; padding-bottom: 4px; }
+    .site-header { padding-bottom: 14px; margin-bottom: 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .site-header span:last-child { font-size: 13px; color: var(--muted); text-align: right; }
+    .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; align-items: center; }
+    .hero h2 { font-size: 32px; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; margin: 16px 0; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 16px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); text-decoration: none; font-size: 14px; font-weight: bold; }
+    .button:hover { background: #444; }
+    .secondary { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+    .media { display: grid; place-items: center; min-height: 150px; padding: 20px; background: var(--soft); border: 1px dashed #999; text-align: center; color: var(--muted); }
+    .media strong { display: block; margin-bottom: 6px; color: var(--ink); }
+    .media small { display: block; max-width: 38ch; font-size: 13px; }
+    .trust { display: flex; gap: 12px 24px; flex-wrap: wrap; padding: 12px 0 0; font-size: 13px; }
+    .products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .product { border: 1px solid var(--line); padding: 14px; display: flex; flex-direction: column; }
+    .product .media { min-height: 82px; margin-bottom: 14px; padding: 10px; font-size: 13px; }
+    .product h3 { font-size: 17px; }
+    .product p { font-size: 14px; }
+    .product .spec { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .product .price { margin-top: auto; font-weight: bold; font-variant-numeric: tabular-nums; }
+    .product .button { width: 100%; font-size: 13px; padding-inline: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .box { padding: 16px; border: 1px solid var(--line); }
+    .box p:last-child { margin-bottom: 0; }
+    .comparison { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 18px 0; font-size: 14px; }
+    .comparison caption { text-align: left; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .comparison th, .comparison td { border: 1px solid var(--line); padding: 12px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+    .comparison thead th { background: var(--soft); }
+    .comparison th:first-child { width: 24%; }
+    .steps { padding-left: 22px; }
+    .steps li { margin-bottom: 16px; padding-left: 4px; }
+    .steps strong { display: block; margin-bottom: 4px; }
+    .steps p { margin: 0; }
+    .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 26px; }
+    .faq article { padding-top: 12px; border-top: 1px solid var(--line); break-inside: avoid; }
+    .faq h3 { font-size: 16px; }
+    .faq p { font-size: 14px; margin: 0; }
+    .footer-copy { padding: 20px; background: var(--soft); font-size: 14px; }
+    .footer-copy h3 { font-size: 16px; }
+    .audit { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+    .audit th, .audit td { padding: 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .audit th { width: 32%; background: var(--soft); }
+    .checklist { padding: 0; list-style: none; }
+    .checklist li { padding-left: 24px; position: relative; margin-bottom: 9px; }
+    .checklist li::before { content: ''; position: absolute; left: 0; top: 6px; width: 13px; height: 13px; border: 1px solid #555; }
+    .sources { font-size: 13px; padding-left: 20px; }
+    .signoff { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 26px; }
+    .signoff p { border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+    @media (max-width: 850px) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sheet { padding: 28px; } }
+    @media (max-width: 600px) {
+      main { padding-inline: 12px; } .sheet { padding: 22px 18px; } .hero, .grid-2, .grid-3, .faq { grid-template-columns: 1fr; }
+      .contents { columns: 1; } .hero h2 { font-size: 28px; } h2 { font-size: 24px; } .comparison th, .comparison td { padding: 8px; font-size: 12px; }
+      .comparison th:first-child { width: 25%; } .site-header { flex-direction: column; align-items: flex-start; } .site-header span:last-child { text-align: left; }
+      .product { padding: 12px; } .product h3 { font-size: 16px; } .product p { font-size: 13px; } .audit { font-size: 13px; }
+    }
+    @media (max-width: 359px) { .products, .signoff { grid-template-columns: 1fr; } }
+    @page { size: A4; margin: 13mm 13mm 16mm; }
+    @media print {
+      body { background: #fff; font-size: 10.5pt; line-height: 1.45; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      main { max-width: none; padding: 0; } .toolbar, .skip { display: none; }
+      .sheet { padding: 0; margin: 0; border: 0; break-after: page; } .sheet:last-child { break-after: auto; }
+      .section + .section { margin-top: 22px; padding-top: 20px; }
+      h1 { font-size: 27pt; } h2 { font-size: 19pt; } h3 { font-size: 12pt; } .hero h2 { font-size: 22pt; }
+      h1, h2, h3 { break-after: avoid; } p, li { orphans: 3; widows: 3; }
+      .lede { font-size: 12pt; } .tag { font-size: 8pt; } .small, .note { font-size: 9pt; }
+      .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .product { padding: 10px; break-inside: avoid; } .product .media { min-height: 38px; margin-bottom: 8px; padding: 6px; }
+      .product h3 { font-size: 11pt; } .product p { font-size: 9pt; margin-bottom: 6px; } .product .spec { font-size: 8pt; }
+      .product .button { min-height: 28px; padding: 5px 10px; font-size: 9pt; }
+      .hero { grid-template-columns: 1.2fr 1fr; gap: 20px; } .media { min-height: 120px; padding: 14px; }
+      .button, .secondary { min-height: 32px; font-size: 10pt; } .actions { margin: 10px 0; }
+      .trust { font-size: 9pt; padding-top: 5px; } .grid-2 { grid-template-columns: 1fr 1fr; } .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .box { padding: 12px; } .note { margin-top: 12px; padding: 10px 12px; }
+      .comparison { font-size: 10pt; } .comparison th, .comparison td { padding: 10px; font-size: 10pt; }
+      .faq { grid-template-columns: 1fr 1fr; gap: 17px 24px; } .faq h3 { font-size: 11pt; } .faq p { font-size: 10pt; }
+      .audit { font-size: 9.5pt; } .audit th, .audit td { padding: 9px; } .footer-copy { font-size: 10pt; }
+      .contents { columns: 2; } .sources { font-size: 9pt; } .signoff { margin-top: 20px; }
+      .sheet--products .site-header { margin-bottom: 12px; padding-bottom: 8px; }
+      .sheet--products p { margin-bottom: 8px; }
+      .sheet--products .section + .section { margin-top: 16px; padding-top: 14px; }
+      .sheet--products .hero .media { min-height: 90px; }
+      .sheet--products .product .media { min-height: 28px; margin-bottom: 6px; }
+      .sheet--products .product { padding: 8px; }
+      .sheet--products .product .button { min-height: 26px; }
+      .sheet--finish .section + .section { margin-top: 16px; padding-top: 14px; }
+      .sheet--finish p { margin-bottom: 9px; }
+      .sheet--finish .footer-copy { padding: 14px; }
+      .sheet--finish .box { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#review">Skip to content review</a>
+  <div class="toolbar">
+    <p><strong>ALCHEMANE</strong> / Internal content review</p>
+    <nav aria-label="Review shortcuts"><a href="#shop">Products</a><a href="#compare">Base comparison</a><a href="#sizing">Size guide</a><a href="#approval">Approval checklist</a></nav>
+  </div>
+  <main id="review">
+    <article class="sheet" id="brief">
+      <p class="tag">Content proposal / Version 1 / 16 October 2026</p>
+      <h1>Hair toppers page<br>Content for approval</h1>
+      <p class="lede">A shopping page for customers who want coverage at the parting or crown, with clear product choices and simple buying guidance.</p>
+      <div class="note"><p><strong>Review status: awaiting senior approval.</strong> This is a basic content layout. Grey frames show proposed media, and the plain styling is for reading. Final website design and development follow content approval.</p></div>
+      <section class="section">
+        <h2>The agreed purchase journey</h2>
+        <p class="flow">Browse toppers &gt; Choose a product &gt; Select options &gt; Add to cart &gt; Checkout</p>
+        <p>Hair toppers are available to buy online. Optional product support helps with size, shade and care. It does not gate the purchase.</p>
+        <p class="small">Wigs and permanent extensions remain consultation-led. This proposal has no topper consultation CTA, booking form, consultation fee or appointment requirement.</p>
+      </section>
+      <section class="section">
+        <h2>Proposed page order</h2>
+        <ol class="contents">
+          <li><a href="#hero">Hero and shopping action</a></li><li><a href="#shop">Shop the four core toppers</a></li>
+          <li><a href="#coverage">Coverage needs</a></li><li><a href="#compare">Silk and skin comparison</a></li>
+          <li><a href="#sizing">Size, shade and length guide</a></li><li><a href="#why">Why Alchemane</a></li>
+          <li><a href="#proof">Results and customer stories</a></li><li><a href="#wear">Wearing and care guide</a></li>
+          <li><a href="#faq">Frequently asked questions</a></li><li><a href="#finish">Shop, support and footer</a></li>
+        </ol>
+      </section>
+      <section class="section">
+        <h2>What to review</h2>
+        <p>Approve the page order and customer copy first. Confirm the product range, price/variant data, attachment and care details, media permissions, and shipping/returns wording before the final build.</p>
+        <p class="small">Numbered sections contain proposed customer copy. Grey reviewer notes are internal and will not appear on the website. Shopping buttons in this preview link to the existing store; no checkout or booking has been built here.</p>
+      </section>
+    </article>
+
+    <article class="sheet sheet--products">
+      <section class="section" id="hero">
+        <div class="site-header"><strong>ALCHEMANE</strong><span>Proposed website header: Home / Shop / Blogs / Contact / Search / Account / Cart</span></div>
+        <p class="tag">01 / Hero / Proposed H1 below</p>
+        <div class="hero">
+          <div>
+            <p class="small">Hair toppers</p>
+            <h2>Hair toppers that blend with your own hair.</h2>
+            <p>Add coverage where you need it, with human hair toppers for a thinning crown or widening parting.</p>
+            <p>Choose your base, size, shade and length. Shop online.</p>
+            <div class="actions"><a class="button" href="#shop">Shop hair toppers</a><a class="secondary" href="#sizing">Measure your coverage</a></div>
+          </div>
+          <div class="media"><div><strong>Hero demonstration</strong><small>Approved topper base, placement and finished blend. Video or still image.</small></div></div>
+        </div>
+        <div class="trust"><span>Human hair</span><span>Silk &amp; skin bases</span><span>Two coverage sizes</span></div>
+      </section>
+      <section class="section" id="shop">
+        <p class="tag">02 / Product grid</p>
+        <h2>Shop hair toppers</h2>
+        <p>Compare the four options below. Open a product to choose your shade and length.</p>
+        <div class="products">
+          <article class="product" id="silk-5x3"><div class="media">Product + base photo</div><h3>Silk Topper 5 x 3</h3><p>Silk-base coverage for a smaller parting area.</p><p class="spec">Base: 5 x 3 inches<br>Hair length: 14 or 16 inches</p><p class="price">From Rs. 28,000</p><a class="button" href="https://alchemane.com/products/silk-hair-toppers" target="_blank" rel="noopener">Choose options<span hidden> for Silk Topper 5 x 3</span></a></article>
+          <article class="product" id="silk-5x6"><div class="media">Product + base photo</div><h3>Silk Topper 5 x 6</h3><p>A larger silk base for wider crown coverage.</p><p class="spec">Base: 5 x 6 inches<br>Hair length: 14 or 16 inches</p><p class="price">From Rs. 38,000</p><a class="button" href="https://alchemane.com/products/silk-hair-toppers-5x6" target="_blank" rel="noopener">Choose options<span hidden> for Silk Topper 5 x 6</span></a></article>
+          <article class="product" id="skin-5x3"><div class="media">Product + base photo</div><h3>Skin Topper 5 x 3</h3><p>A skin-effect base for a smaller coverage area.</p><p class="spec">Base: 5 x 3 inches<br>Hair length: 14, 16 or 18 inches</p><p class="price">From Rs. 28,000</p><a class="button" href="https://alchemane.com/products/skin-topper" target="_blank" rel="noopener">Choose options<span hidden> for Skin Topper 5 x 3</span></a></article>
+          <article class="product" id="skin-5x6"><div class="media">Product + base photo</div><h3>Skin Topper 5 x 6</h3><p>A larger skin-effect base for wider coverage.</p><p class="spec">Base: 5 x 6 inches<br>Hair length: 14, 16 or 18 inches</p><p class="price">From Rs. 38,000</p><a class="button" href="https://alchemane.com/products/skin-topper-5x6" target="_blank" rel="noopener">Choose options<span hidden> for Skin Topper 5 x 6</span></a></article>
+        </div>
+        <p class="small" style="margin-top:12px">Base size is the area the topper covers. Hair length is the length of the hair attached to it. Price varies by shade and length.</p>
+        <div class="note"><p><strong>Reviewer note:</strong> Prices and lengths are store snapshots checked on 16 October 2026, not approved new pricing. Figma prices differ. Use live catalogue data in the final build. Choose options leads to a product page; Add to cart follows variant selection. SKU routing and additional topper models need confirmation; see the final checklist.</p></div>
+      </section>
+    </article>
+
+    <article class="sheet">
+      <section class="section" id="coverage">
+        <p class="tag">03 / Coverage needs</p>
+        <h2>Coverage for your parting and crown</h2>
+        <p>A hair topper covers part of your head and blends with the hair around it. It can help when you want more coverage or fullness on top.</p>
+        <div class="grid-3">
+          <div class="box"><h3>A widening parting</h3><p>Add coverage along a parting that looks more visible.</p></div>
+          <div class="box"><h3>Thinning at the crown</h3><p>Cover the top area while keeping your own hair around it.</p></div>
+          <div class="box"><h3>Less volume on top</h3><p>Add fullness where your hair feels finer or flatter.</p></div>
+        </div>
+        <p class="small" style="margin-top:12px">Match the base to the area you want to cover, not just the hairstyle you want.</p>
+      </section>
+      <section class="section" id="compare">
+        <p class="tag">04 / Product comparison</p>
+        <h2>Silk or skin? Compare the bases</h2>
+        <p>Start with the coverage you need, then compare the base finish.</p>
+        <table class="comparison"><caption>Silk and skin base options in the proposed launch range</caption><thead><tr><th scope="col">What to compare</th><th scope="col">Silk base</th><th scope="col">Skin base</th></tr></thead><tbody>
+          <tr><th scope="row">Base finish</th><td>Fabric base with a scalp-like parting</td><td>Thin base designed for a skin-like finish</td></tr>
+          <tr><th scope="row">Coverage sizes</th><td>5 x 3 and 5 x 6 inches</td><td>5 x 3 and 5 x 6 inches</td></tr>
+          <tr><th scope="row">Listed hair lengths</th><td>14 and 16 inches</td><td>14, 16 and 18 inches</td></tr>
+          <tr><th scope="row">Shade choices</th><td>Natural Black, Dark Brown and a highlight option</td><td>Natural Black, Dark Brown and Highlights</td></tr>
+          <tr><th scope="row">Before choosing</th><td>Check the base close-up, parting and attachment details</td><td>Check the base close-up, parting and attachment details</td></tr>
+        </tbody></table>
+        <p>Finish and fit can vary by product. View the base close-ups and attachment details before choosing.</p>
+        <div class="actions"><a class="secondary" href="#silk-5x3">View silk toppers</a><a class="secondary" href="#skin-5x3">View skin toppers</a></div>
+        <div class="note"><p><strong>Reviewer note:</strong> Verify base construction, parting and supplied attachment for each SKU. Some current descriptions reuse silk wording on skin products. The proposed comparison helps customers choose between our products; it replaces the references' generic-competitor comparison.</p></div>
+      </section>
+    </article>
+
+    <article class="sheet">
+      <section class="section" id="sizing">
+        <p class="tag">05 / Selection guide</p>
+        <h2>Find your size, shade and length</h2>
+        <p>Three details make a difference to how your topper blends.</p>
+        <ol class="steps">
+          <li><strong>Measure your coverage.</strong><p>Measure the area you want to cover from front to back and side to side. Compare those measurements with the product's base dimensions and fitting guide.</p></li>
+          <li><strong>Match your shade.</strong><p>Compare the available shades with your hair in natural daylight. If you are unsure, ask our team about the shade before ordering.</p></li>
+          <li><strong>Choose your length.</strong><p>Select a length that blends with your hairstyle. Base size and hair length are different measurements.</p></li>
+        </ol>
+        <div class="media"><div><strong>How to measure for a hair topper</strong><small>Verified measurement diagram and video to be supplied.</small></div></div>
+        <p class="small" style="margin-top:10px">See how to measure your coverage area and compare it with the available base sizes.</p>
+        <a class="secondary" href="mailto:info@alchemane.com">Get product help</a>
+        <div class="note"><p><strong>Reviewer note:</strong> Approve measurement orientation and fitting guidance. No numerical fitting margins or hair-loss-stage promises are assumed. Product help is optional customer support.</p></div>
+      </section>
+      <section class="section" id="why">
+        <p class="tag">06 / Reasons to choose</p>
+        <h2>Why choose Alchemane toppers?</h2>
+        <div class="grid-2">
+          <div class="box"><h3>Human hair</h3><p>A natural-looking addition to your own hair.</p></div>
+          <div class="box"><h3>Base and coverage choices</h3><p>Compare silk and skin bases in two sizes.</p></div>
+          <div class="box"><h3>Help choosing your shade</h3><p>Ask a product question before placing your order.</p></div>
+          <div class="box"><h3>Care guidance</h3><p>Learn how to wear, remove and look after your topper.</p></div>
+        </div>
+        <div class="note"><p><strong>Reviewer note:</strong> Confirm what is included in an online order. Custom cutting, colouring, salon fitting and unlimited adjustments are not promised in this draft.</p></div>
+      </section>
+    </article>
+
+    <article class="sheet">
+      <section class="section" id="proof">
+        <p class="tag">07 / Results and customer stories</p>
+        <h2>See the coverage. Hear the stories.</h2>
+        <p>Explore topper transformations and hear from women who wear them.</p>
+        <div class="grid-2"><div class="media"><div><strong>Before wearing a topper</strong><small>Approved client photo</small></div></div><div class="media"><div><strong>With a topper</strong><small>Matching client and angle</small></div></div></div>
+        <div class="media" style="margin-top:16px;min-height:120px"><div><strong>A customer's topper experience</strong><small>One or two genuine customer videos</small></div></div>
+        <p class="small" style="margin-top:10px">Results vary with your own hair, fit and styling.</p>
+        <div class="note"><p><strong>Reviewer note:</strong> Approve permission-cleared topper media. Confirm the product before naming it. Figma's sample names, quotes, star ratings and review counts are not reused.</p></div>
+      </section>
+      <section class="section" id="wear">
+        <p class="tag">08 / Wearing and care</p>
+        <h2>How to wear and care for your topper</h2>
+        <p>Follow the guide for your topper's attachment method. For clip-on toppers, start with these three steps.</p>
+        <div class="grid-3">
+          <div><h3>1. Position</h3><p>Follow the fitting guide to place your clip-on topper over the area you want to cover.</p></div>
+          <div><h3>2. Secure</h3><p>Close the clips into your own hair. The fit should feel comfortable, without pulling.</p></div>
+          <div><h3>3. Blend</h3><p>Gently blend the topper with your hair and adjust the parting.</p></div>
+        </div>
+        <div class="media" style="min-height:100px"><div><strong>How to wear a clip-on topper</strong><small>Approved product-specific tutorial</small></div></div>
+        <p style="margin-top:12px">Open the clips gently to remove it. Store it neatly and follow the washing and heat-styling instructions for your product.</p>
+        <div class="note"><p><strong>Reviewer note:</strong> Confirm which variants are supplied with clips and approve their care instructions. This tutorial is for clip-on products, not bonded application.</p></div>
+      </section>
+    </article>
+
+    <article class="sheet">
+      <section class="section" id="faq">
+        <p class="tag">09 / Frequently asked questions / All answers visible for review</p>
+        <h2>Frequently asked questions</h2>
+        <div class="faq">
+          <article><h3>What is a hair topper?</h3><p>A hair topper is a hairpiece for partial coverage, usually at the parting or crown. It blends with the hair you already have.</p></article>
+          <article><h3>How do I choose the right base size?</h3><p>Measure the area you want to cover and compare it with the base dimensions on the product page. Use the measurement guide before choosing between 5 x 3 and 5 x 6 inches.</p></article>
+          <article><h3>Should I choose a silk base or a skin base?</h3><p>Compare the base finish, coverage, parting and attachment details. The comparison above and the product close-ups can help you choose the option you prefer.</p></article>
+          <article><h3>How do I choose my shade?</h3><p>Compare the product shades with your own hair in natural daylight. Contact our team if you need help with the shade before you order.</p></article>
+          <article><h3>Can I style a human hair topper?</h3><p>Follow the styling instructions for your product, including any heat limits. Check with our team if you are unsure which tools or products to use.</p></article>
+          <article><h3>Can I wash my topper?</h3><p>Follow the washing instructions supplied for your topper and its base. Use the recommended care products and handle the base gently.</p></article>
+          <article><h3>Can I wear a clip-on topper every day?</h3><p>It can be worn and removed as needed. Make sure the fit feels comfortable, avoid pulling on your own hair and remove a clip-on topper before sleeping.</p></article>
+          <article><h3>Can I have it cut or coloured?</h3><p>Cutting or colouring should be discussed with our team before you alter the topper. The right approach depends on the product and the finish you want.</p></article>
+          <article><h3>Can I buy a topper online?</h3><p>Yes. Choose a topper, select the available options, add it to your cart and complete checkout.</p></article>
+          <article><h3>What should I check about delivery and returns?</h3><p>Read Shipping and Delivery and Returns and Exchanges before ordering. Check the terms for your chosen product, especially if you request customisation.</p></article>
+        </div>
+        <div class="note"><p><strong>Reviewer note:</strong> Approve the care answers and final policy links. The current store has inconsistent delivery timelines; the landing page's adjustment promise is not a clear returns policy. No fixed delivery promise, free-return claim or satisfaction guarantee is proposed.</p></div>
+      </section>
+    </article>
+
+    <article class="sheet sheet--finish">
+      <section class="section" id="finish">
+        <p class="tag">10 / Final shopping action</p>
+        <h2>Find your everyday coverage.</h2>
+        <p>Choose the base and coverage size that suit your hair, then select your shade and length.</p>
+        <div class="actions"><a class="button" href="#shop">Shop hair toppers</a></div>
+        <div class="box" style="margin-top:20px"><h3>Need help with a product?</h3><p>Ask our team about size, shade or care before you order.</p><a class="secondary" href="mailto:info@alchemane.com">Get product help</a><p class="small">info@alchemane.com / +91 99671 23333</p></div>
+      </section>
+      <section class="section">
+        <p class="tag">Proposed footer content</p>
+        <div class="footer-copy">
+          <div class="grid-2"><div><h3>Solutions</h3><p>Hair Extensions / Hair Wigs / Hair Toppers</p><h3>Shopping information</h3><p>Shipping and Delivery / Returns and Exchanges</p></div><div><h3>Contact</h3><p>+91 99671 23333<br>info@alchemane.com</p><h3>Legal</h3><p>Privacy Policy / Terms of Service</p></div></div>
+          <p><strong>Studio:</strong> 4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</p><p class="small">Copyright Alchemane Hair Extensions. Use the current year.</p>
+        </div>
+      </section>
+      <section class="section">
+        <p class="tag">Internal implementation handoff</p>
+        <h2>Product selection before checkout</h2>
+        <p>The category page leads to product details. Before Add to cart, show base size, available shade and length, selected price, stock and attachment method. Keep delivery and returns information close to the purchase controls.</p>
+        <p class="small">Required options must be selected before purchase. Unavailable stock should show its availability state. Online topper purchases must not be redirected into the wigs/permanent-extensions booking flow.</p>
+      </section>
+      <section class="section">
+        <p class="tag">Page metadata for approval</p>
+        <h3>Title</h3><p>Hair Toppers for Thinning Hair | Shop Silk &amp; Skin | Alchemane</p>
+        <h3>Meta description</h3><p>Shop human hair toppers for a thinning crown or widening parting. Compare silk and skin bases, find your size and shade, and buy online from Alchemane.</p>
+      </section>
+    </article>
+
+    <article class="sheet" id="reference-decisions">
+      <p class="tag">Internal appendix / Reference decisions</p>
+      <h2>What we can use from the references</h2>
+      <p>The landing page was read directly and the supplied desktop Figma PDF was reviewed. The useful education and product ideas are adapted for a direct-purchase page.</p>
+      <table class="audit"><tbody>
+        <tr><th scope="row">Hero + Who Is It For?</th><td>Use the coverage message and three concise concerns. Replace booking actions with Shop hair toppers.</td></tr>
+        <tr><th scope="row">Natural-look videos + client stories</th><td>Combine into one proof section. Use genuine, permission-cleared topper media.</td></tr>
+        <tr><th scope="row">Why Alchemane + The Alchemane Promise</th><td>Condense into specific benefits. Confirm which services come with an online order.</td></tr>
+        <tr><th scope="row">Other / generic topper comparisons</th><td>Replace with a silk-vs-skin comparison that helps the buying decision.</td></tr>
+        <tr><th scope="row">Measuring, wearing and buying guides</th><td>Keep as practical education with short copy and approved videos.</td></tr>
+        <tr><th scope="row">Figma product grid</th><td>Keep four core products near the top. Use current catalogue prices, variants and Choose options.</td></tr>
+        <tr><th scope="row">Repeated transformation sections</th><td>Merge to avoid showing the same message several times.</td></tr>
+        <tr><th scope="row">Consultation blocks and studio appointments</th><td>Exclude from the buying flow. No consultation form, fee refund or weekly appointment limit. Keep Khar West contact details in the footer.</td></tr>
+        <tr><th scope="row">Free guide download</th><td>Exclude until the guide and delivery process exist. Provide the measurement guide on the page.</td></tr>
+        <tr><th scope="row">Celebrity proof, awards, ratings and counts</th><td>Hold until evidence, permission, relevance and current figures are approved. Do not reuse Figma sample reviews.</td></tr>
+        <tr><th scope="row">Absolute product promises</th><td>Hold virgin-origin, no-damage, perfect-blend and unlimited-adjustment claims until verified for the relevant products.</td></tr>
+      </tbody></table>
+      <div class="note"><p><strong>Address check:</strong> The landing page contains both Bandra and Khar West wording. This draft uses the Khar West address.</p></div>
+    </article>
+
+    <article class="sheet" id="approval">
+      <p class="tag">Internal appendix / Approval checklist</p>
+      <h2>Decisions before the final build</h2>
+      <ul class="checklist">
+        <li>Approve the direct-purchase journey and section order.</li>
+        <li>Approve or edit all headings, paragraphs and FAQ answers.</li>
+        <li>Confirm the launch range. Hairline Toppers, Rose Topper, Classic Clip Topper and Mesh Topper have incomplete sale data locally and are not shown as available products here.</li>
+        <li>Confirm prices, variants and stock behaviour. Preserve the live shade labels: Silk 5 x 6 uses Brown Gold Highlights; the other three use Highlights.</li>
+        <li>Confirm SKU routing: the Skin 5 x 3 listing also includes 5 x 6 variants. Decide between separate product destinations or preselected size variants.</li>
+        <li>Verify base construction, parting, supplied attachment and product-specific wearing/care instructions.</li>
+        <li>Confirm whether cutting, colouring, fitting or aftercare services are included or charged separately.</li>
+        <li>Approve hero, measuring, wearing, before/after and customer media with usage permissions.</li>
+        <li>Approve consistent shipping, returns/exchanges and custom-order terms.</li>
+        <li>Confirm support contacts and any optional shade-help process.</li>
+        <li>Approve the content before the final website design and build begins.</li>
+      </ul>
+      <div class="signoff"><p>Reviewed by: __________________</p><p>Date: __________________</p></div>
+      <section class="section">
+        <h3>Sources reviewed on 16 October 2026</h3>
+        <ul class="sources">
+          <li><a href="https://lp.alchemane.com/toppers">Alchemane toppers landing page</a> - coverage, benefits, proof and consultation funnel.</li>
+          <li>Supplied reference: Figma design / Hair Toppers page-desktop v1.pdf - structure, product grid and educational sections.</li>
+          <li><a href="https://alchemane.com/products/silk-hair-toppers">Silk 5 x 3</a> and <a href="https://alchemane.com/products/silk-hair-toppers-5x6">Silk 5 x 6</a> - current product information and public .js product data.</li>
+          <li><a href="https://alchemane.com/products/skin-topper">Skin 5 x 3</a> and <a href="https://alchemane.com/products/skin-topper-5x6">Skin 5 x 6</a> - current product information and public .js product data.</li>
+          <li>Local src/sections/catalogue-products.js - core products and newer models with incomplete sale data.</li>
+        </ul>
+        <p class="small">Prices are a dated reference for review. No stock quantities, unverified ratings or Figma sample testimonials have been copied. The existing website remains separate from this proposal.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

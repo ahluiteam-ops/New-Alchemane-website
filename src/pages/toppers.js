@@ -1,15 +1,10 @@
-import '../styles.css';
-import '../homepage.css';
-import '../sections/discovery.css';
-import '../premium.css';
-import '../design-tokens.css';
-import '../palette.css';
 import './toppers.css';
-import { initFilms } from '../sections/films.js';
 
-const cleanup = initFilms();
-const header = document.querySelector('.shop-header');
-const offset = () => document.documentElement.style.setProperty('--shop-header-height', `${header.offsetHeight}px`);
+// Keep the content fully visible for walkthroughs. Only the sticky-header
+// anchor offset and the footer year need JavaScript on this basic preview.
+const header = document.querySelector('.tp-header');
+const offset = () => document.documentElement.style.setProperty('--tp-header-height', `${header.offsetHeight}px`);
 const observer = new ResizeObserver(offset);
 observer.observe(header); offset();
-if (import.meta.hot) import.meta.hot.dispose(() => { cleanup(); observer.disconnect(); });
+document.querySelector('[data-year]').textContent = String(new Date().getFullYear());
+if (import.meta.hot) import.meta.hot.dispose(() => observer.disconnect());
