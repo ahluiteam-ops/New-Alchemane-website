@@ -472,6 +472,9 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 /* ---------- Desktop ---------- */
 @media (min-width: 1000px) {
   html:has(.pe) { --pe-header: 76px; }
+  .pe-compare__layout { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; gap: 40px; }
+  .pe-compare__intro { text-align: center; }
+  .pe-compare__table-wrap { width: min(100%, 960px); }
   .pe-brand-promise__layout { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-items: center; gap: clamp(56px, 7vw, 100px); }
   .pe-brand-promise__list { max-width: none; }
   .pe-brand-promise__list li { padding-block: 22px 24px; }

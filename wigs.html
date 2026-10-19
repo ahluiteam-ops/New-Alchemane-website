@@ -27,18 +27,18 @@
 
     <main>
       <!-- 1 · Hero and consultation CTA -->
-      <section class="pe-hero" aria-labelledby="pe-title">
+      <section class="pe-hero pe-hero--wigs" aria-labelledby="pe-title">
         <div class="pe-hero__copy">
-          <h1 id="pe-title">Hair Wigs</h1>
-          <p class="pe-hero__sub">Natural-looking human hair wigs for alopecia, chemotherapy and extreme hair loss. Private, comfortable, realistic.</p>
+          <p class="pe-hero__eyebrow">Hair wigs</p>
+          <h1 id="pe-title">Find a wig that <span>looks natural</span> and feels comfortable.</h1>
+        </div>
+        <div class="pe-hero__action">
+          <a class="pe-btn pe-btn--dark pe-btn--block" href="#book" data-hero-cta>Book a private consultation</a>
         </div>
         <div class="pe-hero__media">
           <video class="pe-hero__video" autoplay muted loop playsinline preload="metadata" poster="/assets/wigs/hero-poster.webp" aria-hidden="true" tabindex="-1">
             <source src="/assets/wigs/hero.mp4" type="video/mp4" />
           </video>
-        </div>
-        <div class="pe-hero__action">
-          <a class="pe-btn pe-btn--dark pe-btn--block" href="#book" data-hero-cta>Book private consultation</a>
         </div>
       </section>
 
@@ -66,6 +66,25 @@
               </a>
             </li>
           </ul>
+        </div>
+      </section>
+
+      <!-- Featured product before client transformations. -->
+      <section class="pe-section wg-hairline" id="natural-hairline" aria-labelledby="natural-hairline-title">
+        <div class="pe-wrap wg-hairline__grid">
+          <header class="wg-hairline__intro">
+            <h2 id="natural-hairline-title">Wig with the most <span>natural hairline</span></h2>
+          </header>
+          <figure class="wg-hairline__media">
+            <img src="/assets/wigs/natural-hairline-1200.webp" srcset="/assets/wigs/natural-hairline-640.webp 640w, /assets/wigs/natural-hairline-1200.webp 1200w" sizes="(min-width: 700px) 480px, calc(100vw - 40px)" width="1200" height="1200" alt="AI-generated close-up illustrating a softly graduated wig hairline and realistic side part" loading="lazy" decoding="async">
+            <button class="wg-hairline__play" type="button" disabled aria-label="Natural hairline video coming soon" title="Video coming soon">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z" /></svg>
+            </button>
+          </figure>
+          <div class="wg-hairline__copy">
+            <p>A natural-looking hairline, tailored to you.</p>
+            <a class="pe-btn pe-btn--light pe-btn--block wg-hairline__cta" href="#book" data-product-interest="Natural hairline wigs">I want this</a>
+          </div>
         </div>
       </section>
 
@@ -117,15 +136,77 @@
         <div class="pe-dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       </section>
 
+      <!-- The service comparison follows client stories before visitors explore wig types. -->
+      <section class="pe-section pe-compare wg-compare" id="wig-comparison" aria-labelledby="wig-comparison-title">
+        <div class="pe-wrap pe-compare__layout">
+          <header class="pe-compare__intro">
+            <h2 id="wig-comparison-title">Other Wig Companies <span>vs Alchemane Wigs</span></h2>
+          </header>
+          <div class="pe-compare__table-wrap">
+            <table class="pe-compare__table">
+              <caption class="sr-only">Comparison of other wig companies and Alchemane wigs</caption>
+              <colgroup>
+                <col class="pe-compare__feature-col">
+                <col>
+                <col class="pe-compare__alchemane-col">
+              </colgroup>
+              <thead><tr><th scope="col">Feature &amp; Services</th><th scope="col">Other Wig Companies</th><th scope="col">Alchemane Wigs</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Texture</th><td>Looks artificial</td><td>Natural</td></tr>
+                <tr><th scope="row">Volume</th><td>Too bulky</td><td>Balanced</td></tr>
+                <tr><th scope="row">Hairline</th><td>Visible &amp; artificial</td><td>Ultra natural</td></tr>
+                <tr><th scope="row">Size</th><td>One-size</td><td>Custom</td></tr>
+                <tr><th scope="row">Base Type</th><td>Retail</td><td>Tailored</td></tr>
+                <tr><th scope="row">Movement</th><td>Stiff</td><td>Natural</td></tr>
+                <tr><th scope="row">Fit</th><td>Online, often misfit</td><td>Custom, perfect fit</td></tr>
+                <tr><th scope="row">Hair Type</th><td>Synthetic / mixed</td><td>100% human hair</td></tr>
+                <tr><th scope="row">Comfort</th><td>Heavy &amp; uncomfortable</td><td>Lightweight &amp; breathable</td></tr>
+                <tr><th scope="row">Safety</th><td>Irritation-prone</td><td>Medical-grade lining</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <!-- 5 · Which wig type suits you? -->
       <section class="pe-section" id="types" aria-labelledby="types-title">
         <div class="pe-wrap">
           <h2 id="types-title">Which wig type suits you?</h2>
           <figure class="wg-film wg-youtube" data-youtube="xdWbadk9rtU">
-            <img src="https://img.youtube.com/vi/xdWbadk9rtU/maxresdefault.jpg" width="1280" height="720" alt="Video: three types of wigs explained" loading="lazy" decoding="async">
+            <img src="/assets/wigs/wig-types.webp" width="1100" height="618" alt="Video: three types of wigs explained" loading="lazy" decoding="async">
             <button type="button" class="wg-play" aria-label="Play: three types of wigs explained"></button>
           </figure>
-          <p class="wg-types__hint">Tap “I want this” to request a consultation.</p>
+        </div>
+      </section>
+
+      <!-- Wig decision guide: the media frame stays empty until the film and thumbnail are ready. -->
+      <section class="pe-section pe-guide" id="wig-guide" aria-labelledby="wig-guide-title">
+        <div class="pe-wrap pe-guide__grid">
+          <header class="pe-guide__intro">
+            <h2 id="wig-guide-title">Still unsure which wig is right for you?</h2>
+            <p class="pe-guide__lede">The right wig depends on the fit, hairline, texture and comfort you want for everyday wear. We can help you find the one that feels like you.</p>
+          </header>
+
+          <figure class="pe-guide__media">
+            <div class="pe-guide__video"></div>
+            <button class="wg-guide__play" type="button" disabled aria-label="Wig guide video coming soon" title="Video coming soon">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z" /></svg>
+            </button>
+          </figure>
+
+          <div class="pe-guide__actions">
+            <a class="pe-btn pe-btn--light" href="#book">Book a one-to-one consultation</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wig choices follow the decision guide, as on the Permanent Extensions page. -->
+      <section class="pe-section pe-products" id="wig-options" aria-labelledby="wig-options-title">
+        <div class="pe-wrap">
+          <header class="pe-products__intro">
+            <h2 id="wig-options-title">Choose your real wigs</h2>
+            <p>Tap “I want this” to request a consultation.</p>
+          </header>
           <ul class="pe-product-grid wg-types" role="list">
             <li class="pe-product-card wg-type-card">
               <a href="#book" data-product-interest="a European wig">
@@ -145,15 +226,56 @@
                 <span class="pe-product-card__body"><span class="pe-product-card__name">Skin-Top Wig</span><span class="pe-product-card__type">A skin-like top for a realistic scalp and parting</span><span class="pe-product-card__action">I want this</span></span>
               </a>
             </li>
+            <li class="pe-product-card wg-type-card">
+              <a href="#book" data-product-interest="a wig with a natural hairline">
+                <span class="wg-type-card__media"><img class="wg-type-card__natural-image" src="/assets/wigs/natural-hairline-640.webp" alt="Woman wearing a wig with a natural-looking hairline" width="640" height="640" loading="lazy" decoding="async"></span>
+                <span class="pe-product-card__body"><span class="pe-product-card__name">Wig with Natural Hairline</span><span class="pe-product-card__type">A softly blended, natural-looking hairline</span><span class="pe-product-card__action">I want this</span></span>
+              </a>
+            </li>
+          </ul>
+          <a class="pe-btn pe-btn--line pe-products__help" href="#book">Not sure? Ask an expert <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <!-- Wig-specific promises reinforce the product choices before planning. -->
+      <section class="pe-section pe-brand-promise" id="alchemane-promise" aria-labelledby="alchemane-promise-title">
+        <div class="pe-wrap pe-brand-promise__layout">
+          <header class="pe-brand-promise__intro">
+            <h2 id="alchemane-promise-title">The Alchemane <span>Promise</span></h2>
+            <p>Because your wig should feel like you.</p>
+          </header>
+          <ul class="pe-brand-promise__list" role="list">
+            <li>
+              <span class="check-icon pe-brand-promise__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+              <div><h3>Designed to Match You</h3><p>Matches your original hair’s look and fall.</p></div>
+            </li>
+            <li>
+              <span class="check-icon pe-brand-promise__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+              <div><h3>Emotionally Grounded</h3><p>Restores confidence, not just appearance.</p></div>
+            </li>
+            <li>
+              <span class="check-icon pe-brand-promise__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+              <div><h3>Custom-Crafted</h3><p>Tailored to your face and lifestyle.</p></div>
+            </li>
+            <li>
+              <span class="check-icon pe-brand-promise__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+              <div><h3>Natural Movement</h3><p>Flows and parts like real hair.</p></div>
+            </li>
+            <li>
+              <span class="check-icon pe-brand-promise__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span>
+              <div><h3>Confidence-First</h3><p>You’ll feel like yourself again.</p></div>
+            </li>
           </ul>
         </div>
       </section>
 
       <!-- 6 · Planning before chemotherapy -->
       <section class="pe-section pe-section--soft" id="plan" aria-labelledby="plan-title">
-        <div class="pe-wrap">
-          <h2 id="plan-title">Planning your wig before chemotherapy</h2>
-          <p class="wg-lede">So you feel ready, not rushed.</p>
+        <div class="pe-wrap wg-plan__layout">
+          <div class="wg-plan__intro">
+            <h2 id="plan-title">Planning your wig before chemotherapy</h2>
+            <p class="wg-lede">So you feel ready, not rushed.</p>
+          </div>
           <ol class="wg-steps" role="list">
             <li><span class="wg-steps__n" aria-hidden="true">1</span><div><h3>Plan 15 days ahead</h3><p>A custom wig takes 15 to 30 days to make.</p></div></li>
             <li><span class="wg-steps__n" aria-hidden="true">2</span><div><h3>Your hair guides the wig</h3><p>We study your texture, density and hairline first.</p></div></li>
@@ -166,41 +288,8 @@
         </div>
       </section>
 
-      <!-- 6 · Real consultation: same layout as the Permanent Extensions page -->
-      <section class="pe-section pe-consult" id="how" data-vrail aria-labelledby="how-title">
-        <div class="pe-wrap pe-vhead">
-          <h2 id="how-title">Step inside a <span>real consultation</span></h2>
-          <div class="pe-rail-controls" data-rail-controls>
-            <button type="button" data-rail-dir="-1" aria-label="Previous video" aria-controls="consult-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <button type="button" data-rail-dir="1" aria-label="Next video" aria-controls="consult-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
-          </div>
-        </div>
-        <ul class="pe-vtrack" id="consult-track" role="list" aria-label="Consultation videos">
-          <!-- Empty slots: replace each with <video controls playsinline preload="none" poster="" aria-label=""><source src="" type="video/mp4"></video> when the wig consultation clips arrive. -->
-          <li class="pe-vcard wg-empty" aria-hidden="true"></li>
-          <li class="pe-vcard wg-empty" aria-hidden="true"></li>
-          <li class="pe-vcard wg-empty" aria-hidden="true"></li>
-          <li class="pe-vcard wg-empty" aria-hidden="true"></li>
-        </ul>
-        <div class="pe-dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
-        <div class="pe-wrap pe-consult__info">
-          <div class="pe-both">
-            <h3>Consultation Options:</h3>
-            <ul role="list">
-              <li><span class="check-icon pe-tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><p><strong>In-Person</strong><span>At our Khar West studio, Mumbai.</span></p></li>
-              <li><span class="check-icon pe-tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><p><strong>Online</strong><span>From the comfort of your home.</span></p></li>
-            </ul>
-          </div>
-          <div class="pe-guarantee">
-            <img src="/assets/permanent/fee-back.webp" alt="" width="96" height="96" loading="lazy" decoding="async">
-            <div><h3>100% Consultation fee-back guarantee</h3><p>If you feel the consultation wasn't genuine or valuable, we'll refund the full consultation fee; no questions asked.</p></div>
-          </div>
-          <a class="pe-btn pe-btn--dark pe-btn--block pe-consult__cta" href="#book">Book Your Consultation</a>
-        </div>
-      </section>
-
       <!-- 8 · How to measure your head -->
-      <section class="pe-section pe-section--soft" id="order" aria-labelledby="order-title">
+      <section class="pe-section" id="order" aria-labelledby="order-title">
         <div class="pe-wrap">
           <h2 id="order-title">How to measure your head</h2>
           <figure class="wg-film wg-youtube" data-youtube="IWrdvU82aP4">
@@ -210,17 +299,56 @@
         </div>
       </section>
 
-      <!-- 9 · Real hair transformations. Thumbnail only until the film arrives: swap the img and badge for a
-           portrait <video> (and a landscape one for desktop) inside .client-film-frame, as on the Permanent Extensions page. -->
+      <!-- 9 · Real hair transformations -->
       <section class="client-proof pe-transform" id="transformations" aria-labelledby="transformations-title">
         <div class="pe-wrap client-proof-inner">
           <header class="client-proof-heading"><h2 id="transformations-title">See real hair transformations</h2></header>
           <figure class="client-film">
             <div class="client-film-frame">
-              <img src="/assets/client-portrait-collage-v2.webp" alt="Client close-ups showing before-and-after hair transformations" loading="lazy" decoding="async">
-              <span class="client-film-play" aria-hidden="true"><span class="client-film-badge"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span></span>
+              <video class="pe-transform__video pe-transform__video--mobile" controls playsinline preload="none" poster="/assets/wigs/transformations-mobile.webp" aria-label="Wig client close-up before-and-after transformation, portrait video"><source src="/assets/wigs/transformations-mobile.mp4" type="video/mp4"></video>
+              <video class="pe-transform__video pe-transform__video--desktop" controls playsinline preload="none" poster="/assets/wigs/transformations-desktop.webp" aria-label="Wig client close-up before-and-after transformation, landscape video"><source src="/assets/wigs/transformations-desktop.mp4" type="video/mp4"></video>
             </div>
           </figure>
+        </div>
+      </section>
+
+      <!-- Meet the expert after real results, before the consultation invitation. -->
+      <section class="pe-section wg-founder" id="wig-expert" aria-labelledby="wig-expert-title">
+        <div class="pe-wrap wg-founder__grid">
+          <header class="wg-founder__intro">
+            <h2 id="wig-expert-title">The expert behind Alchemane</h2>
+          </header>
+          <figure class="wg-founder__portrait">
+            <img src="/assets/founder-vinitt-1200.webp" srcset="/assets/founder-vinitt-800.webp 800w, /assets/founder-vinitt-1200.webp 1200w" sizes="(min-width: 1000px) 420px, (min-width: 700px) 380px, calc(100vw - 40px)" width="1200" height="1200" alt="Vinitt Dessai, founder of Alchemane" loading="lazy" decoding="async">
+          </figure>
+          <div class="wg-founder__copy">
+            <ul class="wg-founder__highlights" role="list">
+              <li><strong>15+ years</strong> in non-surgical hair replacement. Specialist in <strong>chemo &amp; alopecia wigs.</strong></li>
+              <li><strong>Helped 3,000+ women</strong> regain confidence after medical hair loss.</li>
+              <li>Works closely with <strong>oncologists &amp; hospitals.</strong></li>
+              <li>Known for creating <strong>natural-looking wigs</strong> worn by celebrities.</li>
+              <li>Leads a team trained specifically for <strong>medical hair loss cases.</strong></li>
+            </ul>
+            <a class="pe-btn pe-btn--light pe-btn--block wg-founder__cta" href="#book">Book a consultation now</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Consultation reassurance leads from real results into FAQs and booking. -->
+      <section class="pe-section pe-promise" id="consultation-promise" aria-labelledby="consultation-promise-title">
+        <div class="pe-wrap pe-promise__layout">
+          <div class="pe-promise__intro">
+            <h2 id="consultation-promise-title">Let's start with a <span>consultation</span></h2>
+            <p>We take on a limited number of new consultations each week so every client gets proper time, clear options, and honest guidance.</p>
+            <p class="pe-promise__availability"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="1.5"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"/></svg><span>Limited to 30 consultations per week</span></p>
+          </div>
+          <div class="pe-promise__card">
+            <img src="/assets/permanent/fee-back.webp" alt="" width="780" height="780" loading="lazy" decoding="async">
+            <h3>100% consultation fee-back guarantee</h3>
+            <p>If your consultation doesn't feel genuine or valuable, we'll refund the full consultation fee &mdash; no questions asked.</p>
+            <p class="pe-promise__signature">We promise!</p>
+          </div>
+          <a class="pe-btn pe-btn--dark pe-btn--block pe-promise__cta" href="#book">Book a consultation now</a>
         </div>
       </section>
 

@@ -6,6 +6,57 @@
 .wg-cta { margin-top: 28px; }
 .wg-lede { margin: -12px 0 28px; color: var(--text-secondary); font-size: 17px; }
 
+/* Highlight the product with the same dark palette as the promise and guide. */
+.wg-hairline { background: var(--action); color: var(--color-white); }
+.wg-hairline__grid { display: grid; grid-template-areas: 'intro' 'media' 'copy'; gap: 24px; }
+.wg-hairline__intro { grid-area: intro; min-width: 0; }
+.pe main .wg-hairline__intro h2 { margin-bottom: 0; color: var(--color-white); }
+.wg-hairline__intro h2 span { color: var(--color-accent-muted); }
+.wg-hairline__media { position: relative; grid-area: media; width: min(100%, 480px); justify-self: center; }
+.wg-hairline__media img { width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--pe-radius); background: var(--surface-soft); }
+.wg-hairline__play { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 50%; background: #fffffff2; box-shadow: 0 8px 30px #0005; transform: translate(-50%, -50%); cursor: default; }
+.wg-hairline__play svg { width: 23px; height: 23px; margin-left: 3px; fill: var(--action); }
+.wg-hairline__copy { grid-area: copy; min-width: 0; color: var(--color-mist); }
+.wg-hairline__cta { margin-top: 24px; }
+.pe .wg-hairline__cta:focus-visible { outline-color: var(--color-accent-soft); }
+@media (min-width: 1000px) {
+  .wg-hairline__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: 'media intro' 'media copy'; column-gap: clamp(40px, 5vw, 64px); row-gap: 16px; }
+  .wg-hairline__media { width: 100%; max-width: 480px; align-self: center; }
+  .wg-hairline__intro { align-self: end; }
+  .wg-hairline__copy { align-self: start; }
+  .wg-hairline__cta { width: fit-content; padding-inline: 32px; }
+}
+
+/* The wig hero follows the Permanent Extensions hero hierarchy: service
+   badge, clear outcome, consultation action, then the existing film. */
+.pe-hero--wigs .pe-hero__copy { padding: 28px var(--pe-gutter) 0; }
+.pe-hero--wigs .pe-hero__eyebrow { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 7px 14px; border: 1px solid var(--color-mist); border-radius: 100px; background: var(--color-fog); color: var(--color-accent-ink); font-size: 14px; font-weight: 600; line-height: 1.2; }
+.pe-hero--wigs .pe-hero__eyebrow::before { content: ''; width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--color-accent-ink); box-shadow: 0 0 0 3px var(--color-mist); }
+.pe-hero--wigs h1 { font: normal 400 clamp(34px, 8.4vw, 45px)/1.08 var(--font-display); letter-spacing: -.035em; margin: 16px 0 0; text-wrap: balance; }
+.pe-hero--wigs h1 span { color: var(--color-accent-ink); }
+.pe-hero--wigs .pe-hero__action { padding: 20px var(--pe-gutter) 28px; }
+.pe-hero--wigs .pe-hero__media { width: min(calc(100% - 2 * var(--pe-gutter)), 600px); margin: 0 auto 32px; border: 1px solid var(--border); border-radius: var(--pe-radius); }
+
+@media (max-width: 699px) {
+  .pe-hero--wigs .pe-hero__media { width: 100%; margin: 0 0 32px; border: 0; border-radius: 0; }
+}
+
+@media (max-width: 699px) and (max-height: 700px) {
+  .pe-hero--wigs .pe-hero__copy { padding-top: 20px; }
+  .pe-hero--wigs h1 { margin-bottom: 0; }
+  .pe-hero--wigs .pe-hero__action { padding-top: 16px; padding-bottom: 20px; }
+}
+
+@media (min-width: 1000px) {
+  .pe-hero--wigs .pe-hero__copy { padding: 0; }
+  .pe-hero--wigs h1 { font-size: clamp(46px, 3.7vw, 54px); line-height: 1.08; margin: 16px 0 0; }
+  .pe-hero--wigs h1 span { display: inline; }
+  .pe-hero--wigs .pe-hero__action { padding: 0; }
+  .pe-hero--wigs .pe-hero__media { width: 100%; margin: 0; background: var(--surface-soft) url('/assets/wigs/hero-poster.webp') center / cover no-repeat; }
+  .pe-hero--wigs .pe-hero__video { opacity: 0; transition: opacity var(--duration-normal); }
+  .pe-hero--wigs .pe-hero__media.is-playing .pe-hero__video { opacity: 1; }
+}
+
 /* Posters stand in for videos until the clips arrive: a round play badge that
    is decoration only. Swap the poster for a <video> and drop the badge then. */
 .wg-poster { position: relative; overflow: hidden; background: var(--text); }
@@ -29,14 +80,33 @@
 .wg-journeys a:active .wg-journeys__action { transform: scale(.97); }
 
 /* ---------- 4 · Wig types ---------- */
-.wg-film { aspect-ratio: 16 / 9; margin-bottom: 24px; border-radius: var(--pe-radius); }
+.wg-film { aspect-ratio: 16 / 9; margin-bottom: 0; border-radius: var(--pe-radius); }
 .wg-film .wg-play { place-items: center; }
-.wg-types__hint { margin-bottom: 24px; color: var(--text-secondary); font-size: 16px; line-height: 1.5; }
-.wg-type-card__media { display: block; height: clamp(146px, 40vw, 160px); overflow: hidden; background: var(--surface-tint); }
+.wg-type-card__media { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface-tint); }
 .pe-product-card .wg-type-card__image { width: 330%; max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
 .wg-type-card__image--european { transform: translateX(0); }
 .wg-type-card__image--lace { transform: translateX(-33.333%); }
 .wg-type-card__image--skin-top { transform: translateX(-66.666%); }
+.wg-type-card__natural-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+@media (min-width: 1000px) {
+  .wigs #wig-options .pe-product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Give the longer wig comparison copy room on phones; the status marks from
+   the reference sit beside each value only when the columns are wide enough. */
+@media (max-width: 699px) {
+  .wigs .wg-compare .pe-compare__table :is(th, td) { padding-inline: 6px; }
+  .wigs .wg-compare .pe-compare__table tbody th { overflow-wrap: normal; }
+}
+@media (min-width: 700px) {
+  .wigs .wg-compare .pe-compare__table tbody td { position: relative; padding-right: 44px; }
+  .wigs .wg-compare .pe-compare__table tbody td::after { position: absolute; top: 50%; right: 16px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; font: 700 14px/1 var(--font-body); transform: translateY(-50%); }
+  .wigs .wg-compare .pe-compare__table tbody td:nth-child(2)::after { content: '×'; background: #a64d43; }
+  .wigs .wg-compare .pe-compare__table tbody td:last-child::after { content: '✓'; background: var(--color-accent-ink); }
+}
+@media (min-width: 700px) and (max-width: 1099px) {
+  .wigs .wg-compare .pe-compare__layout { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* A real YouTube embed: same poster + badge look as .wg-poster, but the badge
    is a working button that swaps itself for the iframe on tap (so nothing
@@ -58,9 +128,29 @@
 .wg-note { display: grid; gap: 16px; margin-top: 36px; padding: 20px; border: 1px solid var(--border); background: var(--surface); }
 .wg-note p { color: var(--text-secondary); font-size: 15px; text-align: center; }
 
+/* Keep the guide frame empty until its film is available. */
+.wigs .pe-guide__media > div.pe-guide__video { aspect-ratio: 3 / 4; }
+.wg-guide__play { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 64px; height: 64px; padding: 0; border-radius: 50%; background: #fffffff2; box-shadow: 0 8px 30px #0005; transform: translate(-50%, -50%); cursor: default; }
+.wg-guide__play svg { width: 23px; height: 23px; margin-left: 3px; fill: var(--action); }
+
+@media (max-width: 699px) {
+  .wigs .pe-guide__actions { justify-self: stretch; width: 100%; }
+}
 
 /* ---------- 8 · Head measurement ---------- */
 #order .wg-film { margin-bottom: 0; }
+
+/* Keep the transformation heading above the film at every width; use the
+   portrait cut on phones and the landscape cut from tablet widths up. */
+.wigs #transformations .client-proof-inner { grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 3vw, 36px); }
+.wigs #transformations .client-proof-heading { width: 100%; margin-inline: auto; text-align: center; }
+.wigs #transformations .client-proof-heading h2 { max-width: none; margin: 0 auto; }
+.wigs #transformations .client-film { width: 100%; max-width: 560px; justify-self: center; }
+.wigs #transformations .pe-transform__video--mobile { display: block; }
+@media (min-width: 700px) {
+  .wigs #transformations .client-film { max-width: 960px; }
+  .wigs #transformations .pe-transform__video--mobile { display: none; }
+}
 
 /* ---------- 9 · Trust ---------- */
 @media (min-width: 700px) {
@@ -70,15 +160,48 @@
   .wg-journeys__media { min-height: 0; aspect-ratio: 4 / 3; }
   .wg-journeys__body { min-height: 178px; padding: 20px 22px; }
   .wg-journeys strong { font-size: clamp(21px, 2.4vw, 25px); }
-  .wg-type-card__media { height: auto; aspect-ratio: 4 / 5; }
   .wg-film { max-width: 760px; margin-inline: auto; }
   .wg-note { grid-template-columns: 1fr auto; align-items: center; gap: 28px; padding: 24px 28px; }
   .wg-note p { text-align: left; font-size: 17px; }
   .wg-note .pe-btn { width: fit-content; padding-inline: 32px; }
 }
 
+@media (min-width: 1000px) {
+  .wigs :is(#types, #order) h2 { text-align: center; }
+  .wigs :is(#types, #order) .wg-film { width: min(100%, 920px); max-width: none; }
+  .wg-plan__layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); column-gap: clamp(56px, 7vw, 112px); align-items: start; }
+  .wg-plan__intro { max-width: 500px; }
+  .wg-plan__intro h2 { max-width: 12ch; }
+  .wg-plan__intro .wg-lede { margin: 0; font-size: 19px; }
+  .wg-steps { padding-top: 8px; }
+  .wg-steps li { padding-bottom: 36px; }
+  .wg-note { grid-column: 1 / -1; margin-top: 36px; }
+}
+
 /* The shared footer row is display:flex, which would override [hidden]. */
 .pe-diff__footer[hidden] { display: none; }
+
+/* The homepage's finished founder portrait and ruled highlights, adapted to
+   wig expertise. Keep the full square so its printed name stays visible. */
+.wg-founder { background: var(--action); color: var(--color-white); }
+.wg-founder__grid { display: grid; grid-template-areas: 'intro' 'portrait' 'copy'; gap: 28px; }
+.wg-founder__intro { grid-area: intro; }
+.pe main .wg-founder__intro h2 { margin: 0; color: var(--color-white); }
+.wg-founder__portrait { grid-area: portrait; width: min(100%, 380px); justify-self: center; }
+.wg-founder__portrait img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: var(--pe-radius); }
+.wg-founder__copy { grid-area: copy; min-width: 0; }
+.wg-founder__highlights { border-top: 1px solid #ffffff2e; }
+.wg-founder__highlights li { padding: 16px 0 18px; border-bottom: 1px solid #ffffff2e; color: var(--color-mist); font-size: var(--text-body); line-height: 1.55; }
+.wg-founder__highlights strong { color: var(--color-white); font-weight: 600; }
+.wg-founder__cta { margin-top: 28px; }
+.pe .wg-founder__cta:focus-visible { outline-color: var(--color-accent-soft); }
+@media (min-width: 1000px) {
+  .wg-founder__grid { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); grid-template-areas: 'portrait intro' 'portrait copy'; column-gap: clamp(48px, 6vw, 80px); row-gap: 28px; }
+  .wg-founder__portrait { width: min(100%, 420px); align-self: center; }
+  .wg-founder__intro { align-self: end; }
+  .wg-founder__copy { align-self: start; }
+  .wg-founder__cta { width: fit-content; padding-inline: 32px; }
+}
 
 /* Empty video slots until the wig consultation clips arrive. */
 .pe-vcard.wg-empty { background: var(--surface-tint); }

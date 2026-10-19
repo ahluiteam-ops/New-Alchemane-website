@@ -4,6 +4,7 @@ import { createServer } from 'vite';
 const port = 4177;
 const base = `http://127.0.0.1:${port}`;
 const files = Array.from({ length: 7 }, (_, index) => index + 1);
+const prefix = process.argv[2] === 'new' ? 'testimonial-new' : 'testimonial';
 const server = await createServer({
   logLevel: 'silent',
   server: { host: '127.0.0.1', port, strictPort: true },
@@ -17,7 +18,7 @@ try {
   await page.goto(base, { waitUntil: 'domcontentloaded' });
 
   for (const number of files) {
-    await page.setContent(`<video muted playsinline src="/assets/permanent/testimonial-${number}.mp4" style="display:block;width:390px;height:auto"></video>`);
+    await page.setContent(`<video muted playsinline src="/assets/permanent/${prefix}-${number}.mp4" style="display:block;width:390px;height:auto"></video>`);
     const video = page.locator('video');
     await video.evaluate(async element => {
       await new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ try {
         element.addEventListener('error', reject, { once: true });
       });
     });
-    await video.screenshot({ path: `public/assets/permanent/testimonial-${number}.jpg`, type: 'jpeg', quality: 84 });
+    await video.screenshot({ path: `public/assets/permanent/${prefix}-${number}.jpg`, type: 'jpeg', quality: 84 });
   }
 } finally {
   await browser.close();

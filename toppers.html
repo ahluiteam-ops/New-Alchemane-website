@@ -2,203 +2,283 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Shop human hair toppers for a thinning crown or widening parting. Compare silk and skin bases, find your size and shade, and buy online from Alchemane.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preload" href="/fonts/source-sans-3-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/source-serif-4-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" as="image" href="/assets/topper-editorial.webp" fetchpriority="high">
     <title>Hair Toppers for Thinning Hair | Shop Silk &amp; Skin | Alchemane</title>
   </head>
-  <body class="tp-page" id="top">
-    <a href="#main" class="tp-skip">Skip to hair toppers</a>
-    <div class="tp-preview">Hair toppers / Content preview</div>
-    <header class="tp-header">
-      <div class="tp-wrap tp-header__inner">
-        <a href="/" class="tp-brand" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
-        <nav class="tp-nav" aria-label="Main navigation">
-          <a href="/">Home</a><a href="#shop">Shop toppers</a><a href="#size-guide">Find your size</a><a href="#product-help">Contact</a>
+  <body class="pe toppers" id="top">
+    <a href="#main" class="pe-skip">Skip to hair toppers</a>
+    <header class="pe-header">
+      <div class="pe-header__bar">
+        <a class="pe-brand" href="/" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
+        <nav class="pe-nav" id="pe-nav" aria-label="Main navigation">
+          <a href="/">Home</a><a href="/permanent-extensions.html">Permanent Extensions</a><a href="/toppers.html" aria-current="page">Hair Toppers</a><a href="/wigs.html">Wigs</a>
         </nav>
+        <a class="pe-btn pe-btn--dark pe-header__cta" href="#shop">Shop toppers</a>
+        <button class="pe-menu" type="button" aria-label="Open menu" aria-controls="pe-nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button>
       </div>
     </header>
     <main id="main">
-      <section class="tp-section tp-hero" aria-labelledby="topper-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">01 / Hair toppers</p>
-          <div class="tp-split">
-            <div>
-              <h1 id="topper-title">Hair toppers that blend with your own hair.</h1>
-              <p class="tp-lede">Add coverage where you need it, with human hair toppers for a thinning crown or widening parting.</p>
-              <p>Choose your base, size, shade and length. Shop online.</p>
-              <div class="tp-actions"><a class="tp-button" href="#shop">Shop hair toppers</a><a class="tp-link" href="#size-guide">Measure your coverage</a></div>
+      <section class="pe-hero pe-hero--permanent tp-hero" aria-labelledby="topper-title">
+        <div class="pe-hero__copy">
+          <p class="pe-hero__eyebrow">Hair toppers</p>
+          <h1 id="topper-title">Cover it instantly with our <span>100% ultra-natural hair toppers.</span></h1>
+        </div>
+        <div class="pe-hero__action">
+          <a class="pe-btn pe-btn--dark pe-btn--block" href="#shop">Shop hair toppers</a>
+        </div>
+        <div class="pe-hero__media">
+          <video class="pe-hero__video" autoplay muted loop playsinline preload="metadata" poster="/assets/topper-slider-hero-poster.webp" aria-label="Client hair topper transformations in a sliding video montage"><source src="/assets/topper-slider-hero.mp4" type="video/mp4"><a href="/assets/topper-slider-hero.mp4">Watch the hair topper film</a></video>
+          <button class="tp-hero-toggle" type="button" aria-label="Pause hair topper film">Pause video</button>
+        </div>
+      </section>
+
+      <section class="pe-section pe-diff" id="difference" aria-labelledby="difference-title">
+        <div class="pe-wrap">
+          <h2 id="difference-title">See the difference</h2>
+          <div class="pe-diff__layout" role="region" aria-roledescription="carousel" aria-label="Hair topper transformations">
+            <div class="pe-diff__frame" tabindex="0">
+              <div class="pe-diff__slides" id="tp-diff-slides">
+                <figure class="pe-diff__slide"><img src="/assets/stories/topper-5.webp" width="1440" height="1080" alt="Before and after client transformation with a hair topper" loading="lazy" decoding="async"><figcaption class="sr-only">Parting and crown coverage</figcaption></figure>
+                <figure class="pe-diff__slide"><img src="/assets/stories/topper-maharukh.webp" width="1440" height="1080" alt="Before and after Maharukh with a hair topper" loading="lazy" decoding="async"><figcaption class="sr-only">Maharukh's topper transformation</figcaption></figure>
+                <figure class="pe-diff__slide"><img src="/assets/stories/topper-zenith-pintu.webp" width="1440" height="1080" alt="Before and after Zenith Pintu with a hair topper" loading="lazy" decoding="async"><figcaption class="sr-only">Zenith Pintu's topper transformation</figcaption></figure>
+              </div>
             </div>
-            <div class="tp-media tp-media--hero"><span class="tp-media__play" aria-hidden="true">&#9654;</span><strong>Topper demonstration</strong><span>Base, placement and finished blend</span><small>Video placeholder</small></div>
+            <div class="pe-diff__footer">
+              <span class="sr-only" data-diff-status aria-live="polite">Showing transformation 1 of 3</span>
+              <div class="pe-diff__controls" role="group" aria-label="Browse transformations">
+                <button type="button" aria-label="Previous transformation" aria-controls="tp-diff-slides" data-diff-direction="-1">←</button>
+                <button type="button" aria-label="Next transformation" aria-controls="tp-diff-slides" data-diff-direction="1">→</button>
+              </div>
+            </div>
           </div>
-          <ul class="tp-features" aria-label="Topper features"><li>Human hair</li><li>Silk &amp; skin bases</li><li>Two coverage sizes</li></ul>
         </div>
       </section>
 
-      <section class="tp-section" id="shop" aria-labelledby="shop-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">02 / Shop the range</p>
-          <h2 id="shop-title">Shop hair toppers</h2>
-          <p class="tp-intro">Compare the four options below. Open a product to choose your shade and length.</p>
-          <div class="tp-products">
-            <article class="tp-product" id="silk-5x3">
-              <div class="tp-media tp-media--product"><span>Product + base photo</span></div>
-              <div class="tp-product__body"><h3>Silk Topper 5 x 3</h3><p>Silk-base coverage for a smaller parting area.</p><dl><div><dt>Base size</dt><dd>5 x 3 inches</dd></div><div><dt>Hair length</dt><dd>14 or 16 inches</dd></div></dl><p class="tp-price">From Rs. 28,000</p><a class="tp-button" href="https://alchemane.com/products/silk-hair-toppers" aria-label="Choose options for Silk Topper 5 x 3">Choose options</a></div>
+      <section class="pe-section pe-specialist" id="why-alchemane" aria-labelledby="why-title">
+        <div class="pe-wrap">
+          <header class="pe-specialist__intro"><h2 id="why-title">Why Alchemane <span>hair toppers?</span></h2></header>
+          <div class="pe-specialist__layout">
+            <figure class="pe-specialist__media">
+              <div class="tp-video-embed">
+                <iframe loading="lazy" title="Why choose an Alchemane hair topper" src="https://play.gumlet.io/embed/689d8773018bc1587c111051?background=false&amp;autoplay=false&amp;loop=false&amp;disable_player_controls=false" referrerpolicy="origin" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write" allowfullscreen></iframe>
+              </div>
+            </figure>
+            <div class="pe-specialist__copy">
+              <ul class="pe-specialist__reasons" role="list">
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Looks natural, never fake</h3><p>We match the size, density, texture and scalp tone, so it looks like it’s growing from your own head.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Flat, lightweight design</h3><p>Low-density toppers that don't feel bulky. Hair lies flat and blends seamlessly.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>No visible gaps</h3><p>Extra hair under the front line hides white patches, even when brushed back.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Free-parting freedom</h3><p>Part it centre, side or zig-zag — it still looks flawless and real.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>100% virgin Brazilian hair</h3><p>Soft, smooth and low maintenance. No frizz. No daily styling stress.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Gentle silicon clips</h3><p>Secure hold without pulling or damaging your natural hair.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Tailored by hair loss stage</h3><p>From 5x3 for early thinning to 5x6 for full coverage, we help you choose what's right.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Fully colorable later</h3><p>Made with natural, unprocessed hair, so you can style or colour as you wish.</p></div></li>
+                <li><span class="check-icon pe-specialist__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"></path></svg></span><div><h3>Expert-guided selection</h3><p>We review your pictures, assess your scalp and guide you step by step. No guesswork.</p></div></li>
+              </ul>
+              <div class="pe-specialist__action"><a class="pe-btn pe-btn--dark pe-btn--block" href="#shop">Shop hair toppers</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pe-section pe-compare" id="base-comparison" aria-labelledby="base-title">
+        <div class="pe-wrap pe-compare__layout">
+          <header class="pe-compare__intro">
+            <h2 id="base-title"><span class="tp-compare-brand">Alchemane toppers</span><span class="tp-compare-versus">vs generic toppers</span></h2>
+          </header>
+          <div class="pe-compare__table-wrap">
+            <table class="pe-compare__table">
+              <caption class="sr-only">A comparison of Alchemane hair toppers and generic toppers</caption>
+              <colgroup><col class="pe-compare__feature-col"><col><col></colgroup>
+              <thead><tr><th scope="col">Feature</th><th scope="col">Generic toppers</th><th scope="col">Alchemane hair toppers</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Hair quality</th><td>Quality may vary</td><td>100% human hair</td></tr>
+                <tr><th scope="row">Natural look</th><td>Not matched well</td><td>Customized</td></tr>
+                <tr><th scope="row">Base selection</th><td>Limited base options</td><td>Silk and skin base options</td></tr>
+                <tr><th scope="row">Colour match</th><td>No</td><td>Yes</td></tr>
+                <tr><th scope="row">Fitting &amp; styling</th><td>Without styling support</td><td>By experts</td></tr>
+                <tr><th scope="row">Comfort</th><td>May feel bulky</td><td>Very comfortable</td></tr>
+                <tr><th scope="row">Aftercare support</th><td>No</td><td>Yes</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="pe-section tp-hairline" id="natural-hairline" aria-labelledby="natural-hairline-title">
+        <div class="pe-wrap">
+          <header class="tp-hairline__header"><h2 id="natural-hairline-title"><span>Toppers with the</span><span>most natural hairline</span></h2></header>
+          <div class="tp-hairline__layout">
+            <div class="tp-hairline__media">
+              <video class="tp-hairline__video" playsinline preload="metadata" poster="/assets/natural-hairline-thumbnail.webp" aria-label="Hair topper placement and finished natural-looking hairline"><source src="/assets/topper-demo.mp4" type="video/mp4"><track kind="descriptions" src="/assets/topper-demo.vtt" srclang="en" label="Visual description"><a href="/assets/topper-demo.mp4">Watch the natural hairline demonstration</a></video>
+              <button class="tp-hairline__play" type="button" aria-label="Play natural hairline video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+            </div>
+            <div class="tp-feature-copy">
+            <p class="tp-feature-lede">A natural-looking hairline, tailored to blend with your own hair.</p>
+            <a class="pe-btn pe-btn--dark pe-btn--block tp-feature-action" href="#shop">Shop hair toppers</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pe-section pe-guide" id="topper-help" aria-labelledby="help-title">
+        <div class="pe-wrap pe-guide__grid">
+          <header class="pe-guide__intro">
+            <h2 id="help-title">Still unsure which topper is right for you?</h2>
+            <p class="pe-guide__lede">There is no single topper for every parting or crown. The right choice depends on your coverage size, colour, texture, base, density and hairstyle.</p>
+          </header>
+          <figure class="pe-guide__media">
+            <video class="pe-guide__video" controls playsinline preload="none" poster="/assets/topper-enquiry-poster.webp" aria-label="Guide to choosing a hair topper">
+              <source src="/assets/topper-enquiry.mp4" type="video/mp4">
+              <a href="/assets/topper-enquiry.mp4">Watch the hair topper selection guide</a>
+            </video>
+          </figure>
+        </div>
+      </section>
+
+      <section class="pe-section pe-products" id="shop" aria-labelledby="shop-title">
+        <div class="pe-wrap">
+          <header class="pe-products__intro"><h2 id="shop-title">Choose your hair topper</h2></header>
+          <div class="pe-product-grid tp-products">
+            <article class="tp-product pe-product-card" id="silk-5x3">
+              <img class="tp-product__image" src="/assets/range/silk-hair-toppers-a.webp" alt="Silk Topper 5 x 3 product and base" loading="lazy" decoding="async">
+              <div class="tp-product__body pe-product-card__body">
+                <h3 class="pe-product-card__name">Silk Topper <span class="tp-product__size">5 x 3</span></h3>
+                <p class="tp-price">From ₹28,000</p>
+                <div class="tp-product__actions">
+                  <a class="tp-product__cta tp-product__cta--outline" href="https://alchemane.com/products/silk-hair-toppers" aria-label="Choose options for Silk Topper 5 x 3 and add to cart">Add to cart</a>
+                  <a class="tp-product__cta tp-product__cta--primary" href="https://alchemane.com/products/silk-hair-toppers" aria-label="Choose options for Silk Topper 5 x 3 and buy now">Buy now</a>
+                </div>
+              </div>
             </article>
-            <article class="tp-product" id="silk-5x6">
-              <div class="tp-media tp-media--product"><span>Product + base photo</span></div>
-              <div class="tp-product__body"><h3>Silk Topper 5 x 6</h3><p>A larger silk base for wider crown coverage.</p><dl><div><dt>Base size</dt><dd>5 x 6 inches</dd></div><div><dt>Hair length</dt><dd>14 or 16 inches</dd></div></dl><p class="tp-price">From Rs. 38,000</p><a class="tp-button" href="https://alchemane.com/products/silk-hair-toppers-5x6" aria-label="Choose options for Silk Topper 5 x 6">Choose options</a></div>
+            <article class="tp-product pe-product-card" id="silk-5x6">
+              <img class="tp-product__image" src="/assets/range/silk-hair-toppers-5x6-a.webp" alt="Silk Topper 5 x 6 product and base" loading="lazy" decoding="async">
+              <div class="tp-product__body pe-product-card__body">
+                <h3 class="pe-product-card__name">Silk Topper <span class="tp-product__size">5 x 6</span></h3>
+                <p class="tp-price">From ₹38,000</p>
+                <div class="tp-product__actions">
+                  <a class="tp-product__cta tp-product__cta--outline" href="https://alchemane.com/products/silk-hair-toppers-5x6" aria-label="Choose options for Silk Topper 5 x 6 and add to cart">Add to cart</a>
+                  <a class="tp-product__cta tp-product__cta--primary" href="https://alchemane.com/products/silk-hair-toppers-5x6" aria-label="Choose options for Silk Topper 5 x 6 and buy now">Buy now</a>
+                </div>
+              </div>
             </article>
-            <article class="tp-product" id="skin-5x3">
-              <div class="tp-media tp-media--product"><span>Product + base photo</span></div>
-              <div class="tp-product__body"><h3>Skin Topper 5 x 3</h3><p>A skin-effect base for a smaller coverage area.</p><dl><div><dt>Base size</dt><dd>5 x 3 inches</dd></div><div><dt>Hair length</dt><dd>14, 16 or 18 inches</dd></div></dl><p class="tp-price">From Rs. 28,000</p><a class="tp-button" href="https://alchemane.com/products/skin-topper" aria-label="Choose options for Skin Topper 5 x 3">Choose options</a></div>
+            <article class="tp-product pe-product-card" id="skin-5x3">
+              <img class="tp-product__image" src="/assets/range/skin-topper-a.webp" alt="Skin Topper 5 x 3 product and base" loading="lazy" decoding="async">
+              <div class="tp-product__body pe-product-card__body">
+                <h3 class="pe-product-card__name">Skin Topper <span class="tp-product__size">5 x 3</span></h3>
+                <p class="tp-price">From ₹28,000</p>
+                <div class="tp-product__actions">
+                  <a class="tp-product__cta tp-product__cta--outline" href="https://alchemane.com/products/skin-topper" aria-label="Choose options for Skin Topper 5 x 3 and add to cart">Add to cart</a>
+                  <a class="tp-product__cta tp-product__cta--primary" href="https://alchemane.com/products/skin-topper" aria-label="Choose options for Skin Topper 5 x 3 and buy now">Buy now</a>
+                </div>
+              </div>
             </article>
-            <article class="tp-product" id="skin-5x6">
-              <div class="tp-media tp-media--product"><span>Product + base photo</span></div>
-              <div class="tp-product__body"><h3>Skin Topper 5 x 6</h3><p>A larger skin-effect base for wider coverage.</p><dl><div><dt>Base size</dt><dd>5 x 6 inches</dd></div><div><dt>Hair length</dt><dd>14, 16 or 18 inches</dd></div></dl><p class="tp-price">From Rs. 38,000</p><a class="tp-button" href="https://alchemane.com/products/skin-topper-5x6" aria-label="Choose options for Skin Topper 5 x 6">Choose options</a></div>
+            <article class="tp-product pe-product-card" id="skin-5x6">
+              <img class="tp-product__image" src="/assets/range/skin-topper-5x6-a.webp" alt="Skin Topper 5 x 6 product and base" loading="lazy" decoding="async">
+              <div class="tp-product__body pe-product-card__body">
+                <h3 class="pe-product-card__name">Skin Topper <span class="tp-product__size">5 x 6</span></h3>
+                <p class="tp-price">From ₹38,000</p>
+                <div class="tp-product__actions">
+                  <a class="tp-product__cta tp-product__cta--outline" href="https://alchemane.com/products/skin-topper-5x6" aria-label="Choose options for Skin Topper 5 x 6 and add to cart">Add to cart</a>
+                  <a class="tp-product__cta tp-product__cta--primary" href="https://alchemane.com/products/skin-topper-5x6" aria-label="Choose options for Skin Topper 5 x 6 and buy now">Buy now</a>
+                </div>
+              </div>
+            </article>
+            <article class="tp-product tp-product--new pe-product-card" id="hairline-toppers">
+              <div class="tp-product__image tp-product__image--placeholder" role="img" aria-label="Hairline Toppers product image not yet available"></div>
+              <div class="tp-product__body pe-product-card__body"><h3 class="pe-product-card__name">Hairline Toppers</h3><p class="tp-price">XXXX</p><div class="tp-product__actions"><button class="tp-product__cta tp-product__cta--outline" type="button" disabled>Add to cart</button><button class="tp-product__cta tp-product__cta--primary" type="button" disabled>Buy now</button></div></div>
+            </article>
+            <article class="tp-product tp-product--new pe-product-card" id="rose-topper">
+              <div class="tp-product__image tp-product__image--placeholder" role="img" aria-label="Rose Topper product image not yet available"></div>
+              <div class="tp-product__body pe-product-card__body"><h3 class="pe-product-card__name">Rose Topper</h3><p class="tp-price">XXXX</p><div class="tp-product__actions"><button class="tp-product__cta tp-product__cta--outline" type="button" disabled>Add to cart</button><button class="tp-product__cta tp-product__cta--primary" type="button" disabled>Buy now</button></div></div>
+            </article>
+            <article class="tp-product tp-product--new pe-product-card" id="classic-clip-topper">
+              <div class="tp-product__image tp-product__image--placeholder" role="img" aria-label="Classic Clip Topper product image not yet available"></div>
+              <div class="tp-product__body pe-product-card__body"><h3 class="pe-product-card__name">Classic Clip Topper</h3><p class="tp-price">XXXX</p><div class="tp-product__actions"><button class="tp-product__cta tp-product__cta--outline" type="button" disabled>Add to cart</button><button class="tp-product__cta tp-product__cta--primary" type="button" disabled>Buy now</button></div></div>
+            </article>
+            <article class="tp-product tp-product--new pe-product-card" id="mesh-topper">
+              <div class="tp-product__image tp-product__image--placeholder" role="img" aria-label="Mesh Topper product image not yet available"></div>
+              <div class="tp-product__body pe-product-card__body"><h3 class="pe-product-card__name">Mesh Topper</h3><p class="tp-price">XXXX</p><div class="tp-product__actions"><button class="tp-product__cta tp-product__cta--outline" type="button" disabled>Add to cart</button><button class="tp-product__cta tp-product__cta--primary" type="button" disabled>Buy now</button></div></div>
             </article>
           </div>
-          <p class="tp-caption">Base size is the area the topper covers. Hair length is the length of the hair attached to it. Price varies by shade and length.</p>
         </div>
       </section>
 
-      <section class="tp-section" id="coverage" aria-labelledby="coverage-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">03 / Coverage needs</p>
-          <h2 id="coverage-title">Coverage for your parting and crown</h2>
-          <p class="tp-intro">A hair topper covers part of your head and blends with the hair around it. It can help when you want more coverage or fullness on top.</p>
-          <div class="tp-grid tp-grid--three">
-            <article class="tp-card"><h3>A widening parting</h3><p>Add coverage along a parting that looks more visible.</p></article>
-            <article class="tp-card"><h3>Thinning at the crown</h3><p>Cover the top area while keeping your own hair around it.</p></article>
-            <article class="tp-card"><h3>Less volume on top</h3><p>Add fullness where your hair feels finer or flatter.</p></article>
+      <section class="client-proof pe-transform" id="transformations" aria-labelledby="transformations-title">
+        <div class="pe-wrap client-proof-inner">
+          <header class="client-proof-heading"><h2 id="transformations-title"><span>See real hair topper</span> <span>transformations</span></h2></header>
+          <figure class="client-film">
+            <div class="client-film-frame tp-transform-film">
+              <video class="pe-transform__video pe-transform__video--mobile" controls playsinline preload="none" poster="/assets/topper-transformations-mobile.webp" aria-label="Hair topper client transformation in portrait format"><source src="/assets/topper-transformations-mobile.mp4" type="video/mp4"><a href="/assets/topper-transformations-mobile.mp4">Watch the hair topper transformation</a></video>
+              <button class="pe-vplay" type="button" aria-label="Play hair topper transformation video"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg></button>
+              <video class="pe-transform__video pe-transform__video--desktop" controls playsinline preload="none" poster="/assets/topper-transformations-desktop.webp" aria-label="Hair topper client before-and-after collage in landscape format"><source src="/assets/topper-transformations-desktop.mp4" type="video/mp4"><a href="/assets/topper-transformations-desktop.mp4">Watch the hair topper transformation collage</a></video>
+              <button class="pe-vplay" type="button" aria-label="Play hair topper transformation video"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg></button>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="pe-section tp-client-stories" id="client-stories" data-vrail aria-labelledby="clients-title">
+        <div class="pe-wrap pe-vhead">
+          <div><h2 id="clients-title">Hear from our clients</h2></div>
+          <div class="pe-rail-controls" role="group" aria-label="Scroll the client films">
+            <button type="button" data-rail-dir="-1" aria-label="Previous films" aria-controls="tp-client-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+            <button type="button" data-rail-dir="1" aria-label="Next films" aria-controls="tp-client-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
           </div>
-          <p class="tp-caption">Match the base to the area you want to cover, not just the hairstyle you want.</p>
         </div>
+        <ul class="pe-vtrack" id="tp-client-track" role="list" tabindex="0" aria-label="Hair topper client videos">
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-02.webp" aria-label="Hair topper client video 1"><source src="/assets/topper-client-reel-02.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-01.webp" aria-label="Hair topper client video 2"><source src="/assets/topper-client-reel-01.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-03.webp" aria-label="Hair topper client video 3"><source src="/assets/topper-client-reel-03.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-04.webp" aria-label="Hair topper client video 4"><source src="/assets/topper-client-reel-04.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-05.webp" aria-label="Hair topper client video 5"><source src="/assets/topper-client-reel-05.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-06.webp" aria-label="Hair topper client video 6"><source src="/assets/topper-client-reel-06.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-07.webp" aria-label="Hair topper client video 7"><source src="/assets/topper-client-reel-07.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-08.webp" aria-label="Hair topper client video 8"><source src="/assets/topper-client-reel-08.mp4" type="video/mp4"></video></li>
+          <li class="pe-vcard tp-client-reel"><video controls playsinline preload="none" poster="/assets/topper-client-reel-09.webp" aria-label="Hair topper client video 9"><source src="/assets/topper-client-reel-09.mp4" type="video/mp4"></video></li>
+        </ul>
+        <div class="pe-dots" aria-hidden="true"></div>
       </section>
 
-      <section class="tp-section" id="base-comparison" aria-labelledby="base-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">04 / Compare the bases</p>
-          <h2 id="base-title">Silk or skin? Compare the bases</h2>
-          <p class="tp-intro">Start with the coverage you need, then compare the base finish.</p>
-          <table class="tp-comparison">
-            <caption class="tp-sr-only">Silk and skin hair topper base options</caption>
-            <thead><tr><th scope="col">What to compare</th><th scope="col">Silk base</th><th scope="col">Skin base</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Base finish</th><td>Fabric base with a scalp-like parting</td><td>Thin base designed for a skin-like finish</td></tr>
-              <tr><th scope="row">Coverage sizes</th><td>5 x 3 and 5 x 6 inches</td><td>5 x 3 and 5 x 6 inches</td></tr>
-              <tr><th scope="row">Listed hair lengths</th><td>14 and 16 inches</td><td>14, 16 and 18 inches</td></tr>
-              <tr><th scope="row">Shade choices</th><td>Natural Black, Dark Brown and a highlight option</td><td>Natural Black, Dark Brown and Highlights</td></tr>
-              <tr><th scope="row">Before choosing</th><td>Check the base close-up, parting and attachment details</td><td>Check the base close-up, parting and attachment details</td></tr>
-            </tbody>
-          </table>
-          <p class="tp-caption">Finish and fit can vary by product. View the base close-ups and attachment details before choosing.</p>
-          <div class="tp-actions"><a class="tp-link" href="#silk-5x3">View silk toppers</a><a class="tp-link" href="#skin-5x3">View skin toppers</a></div>
-        </div>
-      </section>
-
-      <section class="tp-section" id="size-guide" aria-labelledby="size-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">05 / Size, shade and length</p>
-          <h2 id="size-title">Find your size, shade and length</h2>
-          <p class="tp-intro">Three details make a difference to how your topper blends.</p>
-          <div class="tp-split tp-split--guide">
-            <ol class="tp-steps">
-              <li><h3>Measure your coverage.</h3><p>Measure the area you want to cover from front to back and side to side. Compare those measurements with the product's base dimensions and fitting guide.</p></li>
-              <li><h3>Match your shade.</h3><p>Compare the available shades with your hair in natural daylight. If you are unsure, ask our team about the shade before ordering.</p></li>
-              <li><h3>Choose your length.</h3><p>Select a length that blends with your hairstyle. Base size and hair length are different measurements.</p></li>
-            </ol>
-            <figure class="tp-figure"><div class="tp-media"><span class="tp-media__play" aria-hidden="true">&#9654;</span><strong>How to measure for a hair topper</strong><small>Video placeholder</small></div><figcaption>See how to measure your coverage area and compare it with the available base sizes.</figcaption></figure>
-          </div>
-          <a class="tp-link" href="#product-help">Get product help</a>
-        </div>
-      </section>
-
-      <section class="tp-section" id="why-alchemane" aria-labelledby="why-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">06 / Why Alchemane</p>
-          <h2 id="why-title">Why choose Alchemane toppers?</h2>
-          <div class="tp-grid tp-grid--two">
-            <article class="tp-card"><h3>Human hair</h3><p>A natural-looking addition to your own hair.</p></article>
-            <article class="tp-card"><h3>Base and coverage choices</h3><p>Compare silk and skin bases in two sizes.</p></article>
-            <article class="tp-card"><h3>Help choosing your shade</h3><p>Ask a product question before placing your order.</p></article>
-            <article class="tp-card"><h3>Care guidance</h3><p>Learn how to wear, remove and look after your topper.</p></article>
+      <section class="faq-section faq-section--tabs" id="faq" aria-labelledby="faq-title">
+        <div class="faq-section__inner">
+          <header class="faq-intro"><h2 id="faq-title">Frequently asked questions</h2></header>
+          <div class="faq-list tp-faq">
+            <details open><summary>What is a hair topper?<i aria-hidden="true">+</i></summary><p>A hair topper is a hairpiece for partial coverage, usually at the parting or crown. It blends with the hair you already have.</p></details>
+            <details><summary>How do I choose the right base size?<i aria-hidden="true">+</i></summary><p>Measure the area you want to cover and compare it with the base dimensions on the product page. Use the measurement guide before choosing between 5 x 3 and 5 x 6 inches.</p></details>
+            <details><summary>Should I choose a silk base or a skin base?<i aria-hidden="true">+</i></summary><p>Compare the base finish, coverage, parting and attachment details. The comparison above and the product close-ups can help you choose the option you prefer.</p></details>
+            <details><summary>How do I choose my shade?<i aria-hidden="true">+</i></summary><p>Compare the product shades with your own hair in natural daylight. Contact our team if you need help with the shade before you order.</p></details>
+            <details><summary>Can I style a human hair topper?<i aria-hidden="true">+</i></summary><p>Follow the styling instructions for your product, including any heat limits. Check with our team if you are unsure which tools or products to use.</p></details>
+            <details><summary>Can I wash my topper?<i aria-hidden="true">+</i></summary><p>Follow the washing instructions supplied for your topper and its base. Use the recommended care products and handle the base gently.</p></details>
+            <details><summary>Can I wear a clip-on topper every day?<i aria-hidden="true">+</i></summary><p>It can be worn and removed as needed. Make sure the fit feels comfortable, avoid pulling on your own hair and remove a clip-on topper before sleeping.</p></details>
+            <details><summary>Can I have it cut or coloured?<i aria-hidden="true">+</i></summary><p>Cutting or colouring should be discussed with our team before you alter the topper. The right approach depends on the product and the finish you want.</p></details>
+            <details><summary>Can I buy a topper online?<i aria-hidden="true">+</i></summary><p>Yes. Choose a topper, select the available options, add it to your cart and complete checkout.</p></details>
+            <details><summary>What should I check about delivery and returns?<i aria-hidden="true">+</i></summary><p>Read <a href="https://alchemane.com/pages/shipping-delivery">Shipping and Delivery</a> and <a href="https://alchemane.com/pages/returns-and-exchanges">Returns and Exchanges</a> before ordering. Check the terms for your chosen product, especially if you request customisation.</p></details>
           </div>
         </div>
       </section>
 
-      <section class="tp-section" id="results" aria-labelledby="results-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">07 / Results and customer stories</p>
-          <h2 id="results-title">See the coverage. Hear the stories.</h2>
-          <p class="tp-intro">Explore topper transformations and hear from women who wear them.</p>
-          <div class="tp-grid tp-grid--two tp-proof">
-            <div class="tp-media"><strong>Before wearing a topper</strong><small>Client photo placeholder</small></div>
-            <div class="tp-media"><strong>With a topper</strong><small>Matching client photo placeholder</small></div>
-          </div>
-          <div class="tp-media tp-media--story"><span class="tp-media__play" aria-hidden="true">&#9654;</span><strong>A customer's topper experience</strong><small>Customer video placeholder</small></div>
-          <p class="tp-caption">Results vary with your own hair, fit and styling.</p>
-        </div>
-      </section>
-
-      <section class="tp-section" id="wear-and-care" aria-labelledby="wear-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">08 / Wearing and care</p>
-          <h2 id="wear-title">How to wear and care for your topper</h2>
-          <p class="tp-intro">Follow the guide for your topper's attachment method. For clip-on toppers, start with these three steps.</p>
-          <ol class="tp-wear-steps tp-grid tp-grid--three">
-            <li class="tp-card"><h3>1. Position</h3><p>Follow the fitting guide to place your clip-on topper over the area you want to cover.</p></li>
-            <li class="tp-card"><h3>2. Secure</h3><p>Close the clips into your own hair. The fit should feel comfortable, without pulling.</p></li>
-            <li class="tp-card"><h3>3. Blend</h3><p>Gently blend the topper with your hair and adjust the parting.</p></li>
-          </ol>
-          <div class="tp-media tp-media--wear"><span class="tp-media__play" aria-hidden="true">&#9654;</span><strong>How to wear a clip-on topper</strong><small>Video placeholder</small></div>
-          <p class="tp-caption">Open the clips gently to remove it. Store it neatly and follow the washing and heat-styling instructions for your product.</p>
-        </div>
-      </section>
-
-      <section class="tp-section" id="faq" aria-labelledby="faq-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">09 / Frequently asked questions</p>
-          <h2 id="faq-title">Frequently asked questions</h2>
-          <div class="tp-faq tp-grid tp-grid--two">
-            <article><h3>What is a hair topper?</h3><p>A hair topper is a hairpiece for partial coverage, usually at the parting or crown. It blends with the hair you already have.</p></article>
-            <article><h3>How do I choose the right base size?</h3><p>Measure the area you want to cover and compare it with the base dimensions on the product page. Use the measurement guide before choosing between 5 x 3 and 5 x 6 inches.</p></article>
-            <article><h3>Should I choose a silk base or a skin base?</h3><p>Compare the base finish, coverage, parting and attachment details. The comparison above and the product close-ups can help you choose the option you prefer.</p></article>
-            <article><h3>How do I choose my shade?</h3><p>Compare the product shades with your own hair in natural daylight. Contact our team if you need help with the shade before you order.</p></article>
-            <article><h3>Can I style a human hair topper?</h3><p>Follow the styling instructions for your product, including any heat limits. Check with our team if you are unsure which tools or products to use.</p></article>
-            <article><h3>Can I wash my topper?</h3><p>Follow the washing instructions supplied for your topper and its base. Use the recommended care products and handle the base gently.</p></article>
-            <article><h3>Can I wear a clip-on topper every day?</h3><p>It can be worn and removed as needed. Make sure the fit feels comfortable, avoid pulling on your own hair and remove a clip-on topper before sleeping.</p></article>
-            <article><h3>Can I have it cut or coloured?</h3><p>Cutting or colouring should be discussed with our team before you alter the topper. The right approach depends on the product and the finish you want.</p></article>
-            <article><h3>Can I buy a topper online?</h3><p>Yes. Choose a topper, select the available options, add it to your cart and complete checkout.</p></article>
-            <article><h3>What should I check about delivery and returns?</h3><p>Read <a href="https://alchemane.com/pages/shipping-delivery">Shipping and Delivery</a> and <a href="https://alchemane.com/pages/returns-and-exchanges">Returns and Exchanges</a> before ordering. Check the terms for your chosen product, especially if you request customisation.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="tp-section" id="find-your-topper" aria-labelledby="finish-title">
-        <div class="tp-wrap">
-          <p class="tp-chapter">10 / Find your topper</p>
-          <h2 id="finish-title">Find your everyday coverage.</h2>
-          <p class="tp-intro">Choose the base and coverage size that suit your hair, then select your shade and length.</p>
-          <div class="tp-actions"><a class="tp-button" href="#shop">Shop hair toppers</a></div>
-          <aside class="tp-help" id="product-help" aria-labelledby="help-title">
-            <div><h3 id="help-title">Need help with a product?</h3><p>Ask our team about size, shade or care before you order.</p></div>
-            <div><a class="tp-button tp-button--outline" href="mailto:info@alchemane.com">Get product help</a><p class="tp-help__contacts"><a href="mailto:info@alchemane.com">info@alchemane.com</a><a href="tel:+919967123333">+91 99671 23333</a></p></div>
-          </aside>
-        </div>
-      </section>
     </main>
-    <footer class="tp-footer">
-      <div class="tp-wrap">
-        <div class="tp-footer__grid">
-          <div><a href="/" class="tp-brand" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a><address>4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</address></div>
-          <nav aria-label="Hair solutions"><h2>Solutions</h2><a href="/extensions.html">Hair Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html" aria-current="page">Hair Toppers</a></nav>
-          <nav aria-label="Shopping information"><h2>Shopping information</h2><a href="https://alchemane.com/pages/shipping-delivery">Shipping and Delivery</a><a href="https://alchemane.com/pages/returns-and-exchanges">Returns and Exchanges</a><a href="https://alchemane.com/pages/privacy-policy">Privacy Policy</a><a href="https://alchemane.com/pages/terms-of-service">Terms of Service</a></nav>
-          <div><h2>Contact</h2><a href="tel:+919967123333">+91 99671 23333</a><a href="mailto:info@alchemane.com">info@alchemane.com</a></div>
+    <footer class="site-footer" aria-label="Footer">
+      <div class="footer-main">
+        <div class="footer-brand-column">
+          <a class="footer-brand" href="/" aria-label="Alchemane home"><img class="footer-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
+          <address class="footer-address">4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</address>
         </div>
-        <div class="tp-footer__bottom"><span>&copy; <span data-year>2026</span> Alchemane Hair Extensions</span><a href="#top">Back to top</a></div>
+        <nav class="footer-nav-column" aria-label="Hair solutions"><p class="footer-title">Solutions</p><a href="/extensions.html">Hair Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html" aria-current="page">Hair Toppers</a></nav>
+        <nav class="footer-nav-column" aria-label="Shopping information"><p class="footer-title">Shopping information</p><a href="https://alchemane.com/pages/shipping-delivery">Shipping and Delivery</a><a href="https://alchemane.com/pages/returns-and-exchanges">Returns and Exchanges</a><a href="https://alchemane.com/pages/privacy-policy">Privacy Policy</a><a href="https://alchemane.com/pages/terms-of-service">Terms of Service</a></nav>
+        <div class="footer-contact-column"><p class="footer-title">Contact</p><a class="footer-contact-link" href="tel:+919967123333"><img src="/icons/footer/call.svg" alt="" width="24" height="24"><span>+91 99671 23333</span></a><a class="footer-contact-link" href="mailto:info@alchemane.com"><img src="/icons/footer/mail.svg" alt="" width="24" height="24"><span>info@alchemane.com</span></a></div>
       </div>
+      <div class="footer-bottom"><span class="footer-copyright">&copy; <span data-year>2026</span> Alchemane Hair Extensions</span><a class="footer-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
     </footer>
     <script type="module" src="/src/pages/toppers.js"></script>
   </body>

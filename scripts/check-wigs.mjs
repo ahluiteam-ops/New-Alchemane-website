@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test';
 import { createServer } from 'vite';
+import { mkdir } from 'node:fs/promises';
 
 const port = 4177;
 const base = `http://127.0.0.1:${port}`;
@@ -12,6 +13,11 @@ await server.listen();
 const expectedSources = Array.from({ length: 7 }, (_, index) => `/assets/wigs/testimonial-${index + 1}.mp4`);
 const expectedPosters = Array.from({ length: 7 }, (_, index) => `/assets/wigs/testimonial-${index + 1}.webp`);
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
+await mkdir('preview/wig-guide-qa', { recursive: true });
+await mkdir('preview/wigs-hero-qa', { recursive: true });
+await mkdir('preview/wigs-transformations-qa', { recursive: true });
+await mkdir('preview/wigs-products-qa', { recursive: true });
+await mkdir('preview/wigs-new-sections-qa', { recursive: true });
 
 try {
   for (const setup of [
@@ -35,10 +41,29 @@ try {
     await page.goto(`${base}/wigs.html`, { waitUntil: 'domcontentloaded' });
 
     if (await page.locator('h1').count() !== 1) throw new Error('Wigs page must have exactly one h1.');
+    const hero = page.locator('.pe-hero');
+    if (await hero.locator('.pe-hero__eyebrow').textContent() !== 'Hair wigs'
+      || !(await hero.locator('h1').textContent()).includes('looks natural and feels comfortable')) {
+      throw new Error('The wigs hero must identify the service and its natural, comfortable fit.');
+    }
+    if (await hero.locator('.pe-hero__sub').count() !== 0) throw new Error('The hero paragraph should be removed.');
+    if (await hero.locator('[data-hero-cta]').getAttribute('href') !== '#book') {
+      throw new Error('The wigs hero consultation action is incorrect.');
+    }
+    const heroAction = await hero.locator('.pe-hero__action').boundingBox();
+    const heroMedia = await hero.locator('.pe-hero__media').boundingBox();
+    if (setup.width < 1000 && heroAction.y + heroAction.height > heroMedia.y + 1) {
+      throw new Error(`The hero consultation action must sit above the video at ${setup.width}px.`);
+    }
+    await hero.screenshot({ path: `preview/wigs-hero-qa/hero-${setup.width}.png` });
     const sectionOrder = await page.locator('main > section').evaluateAll(sections => sections.map(section => section.id || 'hero'));
-    const expectedOrder = ['hero', 'journey', 'difference', 'stories', 'types', 'plan', 'how', 'order', 'transformations', 'faq', 'book'];
+    const expectedOrder = ['hero', 'journey', 'natural-hairline', 'difference', 'stories', 'wig-comparison', 'types', 'wig-guide', 'wig-options', 'alchemane-promise', 'plan', 'order', 'transformations', 'wig-expert', 'consultation-promise', 'faq', 'book'];
     if (sectionOrder.join(',') !== expectedOrder.join(',')) {
       throw new Error(`Wigs section order is incorrect: ${sectionOrder.join(', ')}.`);
+    }
+    const hairlinePlay = page.locator('#natural-hairline').getByRole('button', { name: 'Natural hairline video coming soon', disabled: true });
+    if (await hairlinePlay.count() !== 1 || !await hairlinePlay.isDisabled()) {
+      throw new Error('The natural-hairline feature needs one disabled play button until its video is available.');
     }
     if (await page.locator('#stories-track video').count() !== 7) throw new Error('Expected seven client testimonial videos.');
     if (await page.locator('#stories-track .pe-vplay').count() !== 7) throw new Error('Each testimonial needs a play control.');
@@ -51,11 +76,123 @@ try {
     if (preload.some(value => value !== 'none')) throw new Error('Testimonials must not preload their video files.');
 
     if (await page.locator('.wg-journeys > li').count() !== 3) throw new Error('Expected three hair-loss journey cards.');
-    if (await page.locator('.wg-types > li').count() !== 3) throw new Error('Expected three wig-type cards.');
+    if (await page.locator('#types .wg-youtube').count() !== 1 || await page.locator('#types .pe-product-card').count() !== 0) {
+      throw new Error('The wig-types section should contain only its explainer video.');
+    }
+    const wigProducts = page.locator('#wig-options');
+    if (await wigProducts.getByRole('heading', { name: 'Choose your real wigs' }).count() !== 1
+      || await wigProducts.locator('.pe-product-grid > li').count() !== 4) {
+      throw new Error('The separate wig options section needs its heading and four product cards.');
+    }
+    const wigProductNames = await wigProducts.locator('.pe-product-card__name').allTextContents();
+    if (wigProductNames.join(',') !== 'European Wig,Lace Wig,Skin-Top Wig,Wig with Natural Hairline') {
+      throw new Error('The wig product cards are missing or out of order.');
+    }
+    if (await wigProducts.locator('.pe-products__help').getAttribute('href') !== '#book') {
+      throw new Error('The wig options expert-help link is incorrect.');
+    }
+    await wigProducts.locator('img').evaluateAll(images => Promise.all(images.map(image => {
+      image.loading = 'eager';
+      return image.decode();
+    })));
+    await wigProducts.screenshot({ path: `preview/wigs-products-qa/products-${setup.width}.png` });
+    const wigComparison = page.locator('#wig-comparison');
+    if (await wigComparison.getByRole('heading', { name: 'Other Wig Companies vs Alchemane Wigs' }).count() !== 1
+      || await wigComparison.locator('tbody tr').count() !== 10) {
+      throw new Error('The wig comparison heading or ten comparison rows are missing.');
+    }
+    const comparisonRows = await wigComparison.locator('tbody tr').evaluateAll(rows => rows.map(row => [...row.cells].map(cell => cell.textContent.trim())));
+    const expectedComparison = [
+      ['Texture', 'Looks artificial', 'Natural'],
+      ['Volume', 'Too bulky', 'Balanced'],
+      ['Hairline', 'Visible & artificial', 'Ultra natural'],
+      ['Size', 'One-size', 'Custom'],
+      ['Base Type', 'Retail', 'Tailored'],
+      ['Movement', 'Stiff', 'Natural'],
+      ['Fit', 'Online, often misfit', 'Custom, perfect fit'],
+      ['Hair Type', 'Synthetic / mixed', '100% human hair'],
+      ['Comfort', 'Heavy & uncomfortable', 'Lightweight & breathable'],
+      ['Safety', 'Irritation-prone', 'Medical-grade lining'],
+    ];
+    if (JSON.stringify(comparisonRows) !== JSON.stringify(expectedComparison)) throw new Error('The wig comparison differs from the supplied content.');
+    const wigPromise = page.locator('#alchemane-promise');
+    const promiseItems = await wigPromise.locator('li').evaluateAll(items => items.map(item =>
+      `${item.querySelector('h3').textContent.trim()} ${item.querySelector('p').textContent.trim()}`));
+    const expectedPromiseItems = [
+      'Designed to Match You Matches your original hair’s look and fall.',
+      'Emotionally Grounded Restores confidence, not just appearance.',
+      'Custom-Crafted Tailored to your face and lifestyle.',
+      'Natural Movement Flows and parts like real hair.',
+      'Confidence-First You’ll feel like yourself again.',
+    ];
+    if (await wigPromise.getByRole('heading', { name: 'The Alchemane Promise' }).count() !== 1
+      || !await wigPromise.textContent().then(text => text.includes('Because your wig should feel like you.'))
+      || JSON.stringify(promiseItems) !== JSON.stringify(expectedPromiseItems)) {
+      throw new Error('The wig-specific Alchemane Promise is incomplete.');
+    }
+    const consultationPromise = page.locator('#consultation-promise');
+    if (await consultationPromise.getByRole('heading', { name: "Let's start with a consultation" }).count() !== 1
+      || await consultationPromise.getByRole('link', { name: 'Book a consultation now' }).getAttribute('href') !== '#book') {
+      throw new Error('The consultation reassurance section is incomplete.');
+    }
+    await consultationPromise.locator('img').evaluate(image => {
+      image.loading = 'eager';
+      return image.decode();
+    });
+    await wigComparison.evaluate(section => section.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    const comparisonTitleBox = await wigComparison.locator('h2').boundingBox();
+    const stickyHeaderBox = await page.locator('.pe-header').boundingBox();
+    if (comparisonTitleBox.y < stickyHeaderBox.y + stickyHeaderBox.height - 1) {
+      throw new Error(`The wig comparison heading is obscured by the header at ${setup.width}px.`);
+    }
+    await page.screenshot({ path: `preview/wigs-new-sections-qa/comparison-viewport-${setup.width}.png` });
+    await wigComparison.screenshot({ path: `preview/wigs-new-sections-qa/comparison-${setup.width}.png` });
+    await wigPromise.screenshot({ path: `preview/wigs-new-sections-qa/promise-${setup.width}.png` });
+    await consultationPromise.screenshot({ path: `preview/wigs-new-sections-qa/consultation-${setup.width}.png` });
+    const wigExpert = page.locator('#wig-expert');
+    await wigExpert.locator('img').evaluate(image => {
+      image.loading = 'eager';
+      return image.decode();
+    });
+    await wigExpert.evaluate(section => section.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    await wigExpert.screenshot({
+      path: `preview/wigs-new-sections-qa/expert-${setup.width}.png`,
+      style: '.pe-header, .floating-contact { visibility: hidden !important; }',
+    });
     if (await page.locator('[data-youtube]').count() !== 2) throw new Error('Expected the wig-types and head-measurement videos.');
     if (await page.locator('#trust, #studio').count() !== 0) throw new Error('Removed trust and studio sections are still rendered.');
 
-    if (await page.locator('#consult-track > li').count() !== 4) throw new Error('Expected four consultation video slots.');
+    const wigGuide = page.locator('#wig-guide');
+    if (await wigGuide.getByRole('heading', { name: 'Still unsure which wig is right for you?' }).count() !== 1) {
+      throw new Error('The wig decision guide heading is missing.');
+    }
+    if (await wigGuide.locator('.pe-guide__media').isHidden()) throw new Error('The wig guide frame is not visible.');
+    if (await wigGuide.locator('img, video, source').count() !== 0) {
+      throw new Error('The wig guide frame must remain free of media until the film is available.');
+    }
+    const guidePlay = wigGuide.getByRole('button', { name: 'Wig guide video coming soon', disabled: true });
+    if (await guidePlay.count() !== 1 || !await guidePlay.isDisabled()) {
+      throw new Error('The unavailable wig guide needs one disabled play button.');
+    }
+    const guideFrame = await wigGuide.locator('.pe-guide__video').boundingBox();
+    const playBadge = await guidePlay.boundingBox();
+    if (Math.abs(playBadge.x + playBadge.width / 2 - guideFrame.x - guideFrame.width / 2) > 1
+      || Math.abs(playBadge.y + playBadge.height / 2 - guideFrame.y - guideFrame.height / 2) > 1) {
+      throw new Error(`The wig guide play button is off-center at ${setup.width}px.`);
+    }
+    if (Math.abs(guideFrame.height - guideFrame.width * 4 / 3) > 2) {
+      throw new Error(`The empty wig guide frame has the wrong proportions at ${setup.width}px.`);
+    }
+    if (await wigGuide.getByRole('link', { name: 'Book a one-to-one consultation' }).getAttribute('href') !== '#book') {
+      throw new Error('The wig guide consultation link is incorrect.');
+    }
+    if (setup.width < 700) {
+      const cta = await wigGuide.locator('.pe-guide__actions .pe-btn').boundingBox();
+      if (Math.abs(cta.x - guideFrame.x) > 1 || Math.abs(cta.width - guideFrame.width) > 1) {
+        throw new Error(`The wig guide CTA should fill the padded content width at ${setup.width}px.`);
+      }
+    }
+    await wigGuide.screenshot({ path: `preview/wig-guide-qa/guide-${setup.width}.png` });
     const measurement = page.locator('#order [data-youtube]');
     if (!await measurement.isVisible() || await measurement.locator('iframe').count() !== 0) {
       throw new Error('The head-measurement poster must be visible before playback.');
@@ -66,9 +203,49 @@ try {
     if (!(await measurement.locator('iframe').getAttribute('src'))?.startsWith('https://www.youtube-nocookie.com/embed/IWrdvU82aP4?')) {
       throw new Error('The head-measurement play control did not load the correct video.');
     }
-    if (await page.locator('#transformations h2').textContent() !== 'See real hair transformations') {
+    const transformation = page.locator('#transformations');
+    const transformationHeading = transformation.locator('h2');
+    if (await transformationHeading.textContent() !== 'See real hair transformations') {
       throw new Error('The real hair transformations section is missing.');
     }
+    const transformationVideos = transformation.locator('video');
+    if (await transformationVideos.count() !== 2) throw new Error('The transformations section needs both responsive video cuts.');
+    const transformationSources = await transformationVideos.locator('source').evaluateAll(sources => sources.map(source => source.getAttribute('src')));
+    if (transformationSources.join(',') !== '/assets/wigs/transformations-mobile.mp4,/assets/wigs/transformations-desktop.mp4') {
+      throw new Error('The transformations section uses the wrong video sources.');
+    }
+    const transformationPosters = await transformationVideos.evaluateAll(videos => videos.map(video => video.getAttribute('poster')));
+    if (transformationPosters.join(',') !== '/assets/wigs/transformations-mobile.webp,/assets/wigs/transformations-desktop.webp') {
+      throw new Error('The transformation posters should match their video cuts.');
+    }
+    if ((await transformationVideos.evaluateAll(videos => videos.map(video => video.preload))).some(value => value !== 'none')) {
+      throw new Error('Transformation videos should not preload.');
+    }
+    const selectedVideo = transformationVideos.nth(setup.width < 700 ? 0 : 1);
+    const inactiveVideo = transformationVideos.nth(setup.width < 700 ? 1 : 0);
+    if (!await selectedVideo.isVisible() || !await inactiveVideo.isHidden()) {
+      throw new Error(`The wrong transformation video is visible at ${setup.width}px.`);
+    }
+    const titleBox = await transformationHeading.boundingBox();
+    const filmBox = await transformation.locator('.client-film-frame').boundingBox();
+    if (titleBox.y + titleBox.height > filmBox.y || Math.abs(titleBox.x + titleBox.width / 2 - filmBox.x - filmBox.width / 2) > 2) {
+      throw new Error(`The transformation heading must be centered above the film at ${setup.width}px.`);
+    }
+    const targetRatio = setup.width < 700 ? 4 / 5 : 16 / 9;
+    if (Math.abs(filmBox.width / filmBox.height - targetRatio) > .015) {
+      throw new Error(`The transformation film has the wrong aspect ratio at ${setup.width}px.`);
+    }
+    const playTransformation = transformation.locator('.client-film-frame .pe-vplay');
+    if (await playTransformation.count() !== 2 || !await playTransformation.nth(setup.width < 700 ? 0 : 1).isVisible()) {
+      throw new Error(`The transformation film needs a visible play button at ${setup.width}px.`);
+    }
+    await transformation.screenshot({ path: `preview/wigs-transformations-qa/transformations-${setup.width}.png` });
+    await playTransformation.nth(setup.width < 700 ? 0 : 1).click();
+    await page.waitForFunction(index => {
+      const video = document.querySelectorAll('#transformations video')[index];
+      return !video.paused && video.currentTime > 0 && video.controls;
+    }, setup.width < 700 ? 0 : 1, { timeout: 20000 });
+    await selectedVideo.evaluate(video => video.pause());
 
     await page.getByRole('button', { name: 'Next transformation', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('[data-diff-status]').textContent.includes('2'));
@@ -80,7 +257,7 @@ try {
       throw new Error('Wig-types video did not create the privacy-enhanced YouTube embed.');
     }
 
-    await page.locator('.wg-type-card').first().locator('a').click();
+    await wigProducts.locator('.wg-type-card').first().locator('a').click();
     const selection = page.locator('.pe-product-selection');
     const selectionText = await selection.textContent();
     if (await selection.isHidden() || !selectionText?.includes('a European wig')) {

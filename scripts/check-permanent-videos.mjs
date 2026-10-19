@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test';
 import { createServer } from 'vite';
+import { mkdir } from 'node:fs/promises';
 
 const port = 4176;
 const base = `http://127.0.0.1:${port}`;
@@ -8,6 +9,7 @@ const server = await createServer({
   server: { host: '127.0.0.1', port, strictPort: true },
 });
 await server.listen();
+await mkdir('preview/permanent-reels-qa', { recursive: true });
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
@@ -66,7 +68,7 @@ try {
     const methodVideos = page.locator('.pe-method__video');
     const railVideos = page.locator('.pe-vcard video');
     if (await methodVideos.count() !== 6) throw new Error('Expected six method videos.');
-    if (await railVideos.count() !== 11) throw new Error('Expected four consultation and seven client-result videos.');
+    if (await railVideos.count() !== 18) throw new Error('Expected four consultation and fourteen client-result videos.');
     const consultationSources = await page.locator('#consult-track source').evaluateAll(sources => sources.map(source => source.getAttribute('src')));
     if (consultationSources.join(',') !== [
       '/assets/permanent/consult-1.mp4',
@@ -83,6 +85,7 @@ try {
     ].join(',')) throw new Error('Consultation video posters do not match their clips.');
     const testimonialSources = await page.locator('#results-track source').evaluateAll(sources => sources.map(source => source.getAttribute('src')));
     if (testimonialSources.join(',') !== [
+      ...Array.from({ length: 7 }, (_, index) => `/assets/permanent/testimonial-new-${index + 1}.mp4`),
       '/assets/permanent/testimonial-1.mp4',
       '/assets/permanent/testimonial-2.mp4',
       '/assets/permanent/testimonial-3.mp4',
@@ -93,6 +96,7 @@ try {
     ].join(',')) throw new Error('Client testimonial video order is incorrect.');
     const testimonialPosters = await page.locator('#results-track video').evaluateAll(videos => videos.map(video => video.getAttribute('poster')));
     if (testimonialPosters.join(',') !== [
+      ...Array.from({ length: 7 }, (_, index) => `/assets/permanent/testimonial-new-${index + 1}.jpg`),
       '/assets/permanent/testimonial-1.jpg',
       '/assets/permanent/testimonial-2.jpg',
       '/assets/permanent/testimonial-3.jpg',
@@ -101,6 +105,18 @@ try {
       '/assets/permanent/testimonial-6.jpg',
       '/assets/permanent/testimonial-7.jpg',
     ].join(',')) throw new Error('Client testimonial posters do not match their clips.');
+    if (await page.locator('#results .pe-dots span').count() !== 14) throw new Error('Each client video needs a navigation dot.');
+    if (setup.width === 390 || setup.width === 1440) {
+      await page.locator('#results').screenshot({ path: `preview/permanent-reels-qa/results-${setup.width}.png` });
+    }
+    if (setup.width === 390) {
+      await page.locator('#results-track .pe-vplay').first().click();
+      await page.waitForFunction(() => {
+        const video = document.querySelector('#results-track video');
+        return !video.paused && video.readyState >= 2;
+      }, null, { timeout: 15000 });
+      await page.locator('#results-track video').first().evaluate(video => video.pause());
+    }
     if (await page.locator('#mpanel-tape source').getAttribute('src') !== '/assets/permanent/method-tape.mp4') {
       throw new Error('Tape method video is not mapped correctly.');
     }

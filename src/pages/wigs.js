@@ -45,6 +45,11 @@ sync();
 // ---- Hero loop: plays muted, except for reduced motion ----
 const heroVideo = document.querySelector('.pe-hero__video');
 if (reduceMotion.matches) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
+// The opening seconds of the film are mostly white. Keep its poster visible
+// until the first client footage appears on wide screens.
+on(heroVideo, 'timeupdate', () => {
+  heroVideo.parentElement.classList.toggle('is-playing', heroVideo.currentTime >= 2.5);
+});
 
 // ---- YouTube embeds for the wig-types and head-measurement films ----
 // Click-to-load: nothing is fetched from YouTube until the visitor taps play,
@@ -91,12 +96,12 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   syncRail();
 });
 
-// ---- Consultation videos ----
+// ---- Client videos, including the responsive transformation film ----
 // Each clip shows its clean poster and one play button; the browser's native
 // controls only appear once it plays. One clip plays at a time, and a clip
 // pauses when scrolled out of view.
 const PLAY_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg>';
-const clips = [...document.querySelectorAll('.pe-vcard video')];
+const clips = [...document.querySelectorAll('.pe-vcard video, #transformations video')];
 const offscreen = new IntersectionObserver(entries => entries.forEach(entry => {
   if (!entry.isIntersecting) entry.target.pause();
 }), { threshold: 0.15 });
