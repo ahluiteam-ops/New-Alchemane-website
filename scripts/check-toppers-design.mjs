@@ -21,7 +21,11 @@ try {
       page.locator('#difference-title').evaluate(element => getComputedStyle(element).fontFamily),
     ]);
     assert.equal(heroHeadingFont, sectionHeadingFont, 'Hero heading should use the same display typeface as section headings');
-    await expect(page.locator('.tp-product')).toHaveCount(8);
+    await expect(page.locator('.tp-product')).toHaveCount(11);
+    await expect(page.locator('#shop .tp-product')).toHaveCount(7);
+    await expect(page.locator('#shop #hairline-toppers')).toHaveCount(0);
+    await expect(page.locator('#hairline-toppers')).toHaveCount(1);
+    await expect(page.locator('#hairline-series .tp-product h3')).toHaveText(['Hairline Toppers', '3 inch Hairline Topper', '6 inch Hairline Topper', '11 inch Hairline Topper']);
     await expect(page.locator('.tp-client-reel video')).toHaveCount(9);
     await expect(page.locator('#client-stories .pe-dots span')).toHaveCount(9);
     await expect(page.locator('.pe-diff__slide')).toHaveCount(3);
@@ -47,14 +51,24 @@ try {
       assert(await page.locator('.pe-diff__frame').evaluate(frame => frame.scrollLeft > 0), 'Next transformation should move the photograph');
       const positions = await page.locator('.tp-product').evaluateAll(cards => cards.slice(0, 2).map(card => card.getBoundingClientRect().x));
       assert(positions[1] > positions[0], 'Phone catalogue should show two products side by side');
-      assert(await page.locator('.pe-vtrack').evaluate(track => track.scrollWidth > track.clientWidth), 'Phone client films should swipe');
+      const hairlinePositions = await page.locator('#hairline-series .tp-product').evaluateAll(cards => cards.map(card => ({ x: card.getBoundingClientRect().x, y: card.getBoundingClientRect().y })));
+      assert(hairlinePositions[1].x > hairlinePositions[0].x && hairlinePositions[1].y === hairlinePositions[0].y && hairlinePositions[2].y > hairlinePositions[0].y, 'Phone hairline series should use two columns');
+      assert(await page.locator('#tp-client-track').evaluate(track => track.scrollWidth > track.clientWidth), 'Phone client films should swipe');
     }
-    await page.locator('.tp-faq details').nth(1).locator('summary').click();
-    await expect(page.locator('.tp-faq details').nth(1)).toHaveAttribute('open', '');
+    await expect(page.locator('#faq-tab-consultation')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#faq-panel-consultation')).toBeVisible();
+    await page.locator('#faq-tab-toppers').click();
+    await expect(page.locator('#faq-panel-toppers')).toBeVisible();
+    await expect(page.locator('#faq-panel-consultation')).toBeHidden();
+    await page.locator('#faq-panel-toppers details').nth(1).locator('summary').click();
+    await expect(page.locator('#faq-panel-toppers details').nth(1)).toHaveAttribute('open', '');
+    await page.locator('#faq-tab-toppers').press('ArrowLeft');
+    await expect(page.locator('#faq-tab-consultation')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#faq-panel-consultation')).toBeVisible();
     assert.equal(await page.locator('.tp-product a[href^="https://alchemane.com/products/"]').count(), 8);
-    assert.equal(await page.locator('.tp-product__cta').count(), 16);
-    assert.equal(await page.locator('.tp-product__cta:disabled').count(), 8);
-    assert.equal(await page.locator('.tp-product__image--placeholder').count(), 4);
+    assert.equal(await page.locator('.tp-product__cta').count(), 22);
+    assert.equal(await page.locator('.tp-product__cta:disabled').count(), 14);
+    assert.equal(await page.locator('.tp-product__image--placeholder').count(), 7);
     assert.equal(await page.locator('.tp-product__image--placeholder:not(:empty)').count(), 0);
     assert.equal(await page.locator('.tp-product__body > p:not(.tp-price)').count(), 0);
     const missingAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));
@@ -84,7 +98,7 @@ try {
     assert.deepEqual(errors, []);
     assert(await page.evaluate(width => document.documentElement.scrollWidth <= width, width), `Overflow after interaction at ${width}`);
     await page.addStyleTag({ content: '.pe-header { visibility: hidden !important; } .pe-specialist__media { position: static !important; }' });
-    for (const [id, name] of [['difference', 'difference'], ['base-comparison', 'comparison'], ['why-alchemane', 'why'], ['natural-hairline', 'hairline'], ['topper-help', 'guide'], ['shop', 'shop'], ['transformations', 'transformations'], ['client-stories', 'stories'], ['faq', 'faq']]) {
+    for (const [id, name] of [['difference', 'difference'], ['base-comparison', 'comparison'], ['why-alchemane', 'why'], ['natural-hairline', 'hairline'], ['topper-help', 'guide'], ['shop', 'shop'], ['hairline-series', 'hairline-series'], ['transformations', 'transformations'], ['client-stories', 'stories'], ['faq', 'faq']]) {
       await page.locator(`#${id}`).screenshot({ path: `${out}/${name}-${width}.png` });
     }
     if (width === 320 || width === 390) {

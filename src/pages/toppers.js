@@ -3,8 +3,11 @@ import '../sections/faq-tabs.css';
 import '../sections/site-footer.css';
 import '../components/check-icon.css';
 import '../sections/client-feature.css';
+import '../sections/consultation-meet.css';
+import '../components/consultation-submit.css';
 import './permanent-extensions.css';
 import './toppers-design.css';
+import './topper-consultation.js';
 
 const abort = new AbortController();
 const on = (target, type, handler, options = {}) => target.addEventListener(type, handler, { signal: abort.signal, ...options });
@@ -109,41 +112,69 @@ on(document, 'visibilitychange', () => {
   if (document.hidden) transformationVideos.forEach(video => video.pause());
 });
 
-// Client reels show still previews until requested; only one reel plays at a time.
-const clientReels = [...document.querySelectorAll('.tp-client-reel video')];
+// Consultation and client reels share the reference page's playback controls.
+const reelVideos = [...document.querySelectorAll('.tp-client-reel video, .tp-consult-reel video')];
 const reelPlayIcon = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg>';
-clientReels.forEach((video, index) => {
+reelVideos.forEach(video => {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'pe-vplay';
-  button.setAttribute('aria-label', `Play hair topper client video ${index + 1}`);
+  button.setAttribute('aria-label', `Play ${video.getAttribute('aria-label')}`);
   button.innerHTML = reelPlayIcon;
   video.after(button);
   video.controls = false;
   on(button, 'click', () => video.play().catch(() => { button.hidden = false; }));
   on(video, 'play', () => {
-    clientReels.forEach(other => { if (other !== video) other.pause(); });
     video.controls = true;
     button.hidden = true;
   });
   on(video, 'ended', () => {
     video.controls = false;
     button.hidden = false;
-    button.setAttribute('aria-label', `Replay hair topper client video ${index + 1}`);
+    button.setAttribute('aria-label', `Replay ${video.getAttribute('aria-label')}`);
   });
 });
-const clientTrack = document.querySelector('#tp-client-track');
-const reelVisibility = new IntersectionObserver(entries => {
-  entries.forEach(entry => { if (!entry.isIntersecting) entry.target.querySelector('video').pause(); });
-}, { root: clientTrack, threshold: .15 });
-document.querySelectorAll('.tp-client-reel').forEach(card => reelVisibility.observe(card));
-const clientSectionVisibility = new IntersectionObserver(entries => {
-  if (!entries[0].isIntersecting) clientReels.forEach(video => video.pause());
-}, { threshold: .05 });
-clientSectionVisibility.observe(document.querySelector('#client-stories'));
-on(document, 'visibilitychange', () => {
-  if (document.hidden) clientReels.forEach(video => video.pause());
+const reelObservers = [];
+document.querySelectorAll('#client-stories, #how').forEach(section => {
+  const track = section.querySelector('.pe-vtrack');
+  const videos = [...track.querySelectorAll('video')];
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (!entry.isIntersecting) entry.target.querySelector('video').pause(); });
+  }, { root: track, threshold: .15 });
+  track.querySelectorAll('.pe-vcard').forEach(card => cardObserver.observe(card));
+  const sectionObserver = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) videos.forEach(video => video.pause());
+  }, { threshold: .05 });
+  sectionObserver.observe(section);
+  reelObservers.push(cardObserver, sectionObserver);
 });
+const contentVideos = [...document.querySelectorAll('main video:not(.pe-hero__video)')];
+on(document, 'play', event => {
+  if (contentVideos.includes(event.target)) contentVideos.forEach(video => { if (video !== event.target) video.pause(); });
+}, { capture: true });
+on(document, 'visibilitychange', () => {
+  if (document.hidden) reelVideos.forEach(video => video.pause());
+});
+
+// Keep the meeting choice below the videos in sync with the booking form.
+const bookingForm = document.querySelector('#topper-consultation-form');
+const consultationChoice = document.querySelector('[data-consultation-choice]');
+const syncConsultationChoice = () => {
+  const mode = bookingForm.elements.meeting.value;
+  const studio = mode === 'studio';
+  consultationChoice.querySelectorAll('[data-consultation-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.consultationMode === mode)));
+  const note = consultationChoice.querySelector('[data-consultation-choice-note]');
+  note.querySelector('strong').textContent = studio ? 'In-person' : 'Online';
+  note.querySelector('span').textContent = studio ? 'At our Khar West studio, Mumbai.' : 'Meet from anywhere.';
+  document.querySelector('[data-consultation-choice-cta]').textContent = studio ? 'Book an offline consultation' : 'Book an online consultation';
+  document.querySelector('#tp-book-meeting-note').textContent = studio ? 'In-person at our Khar West studio, Mumbai.' : 'Meet from anywhere.';
+};
+consultationChoice.querySelectorAll('[data-consultation-mode]').forEach(button => on(button, 'click', () => {
+  bookingForm.elements.meeting.value = button.dataset.consultationMode;
+  bookingForm.querySelector('[name="meeting"]:checked').dispatchEvent(new Event('change', { bubbles: true }));
+}));
+bookingForm.querySelectorAll('[name="meeting"]').forEach(input => on(input, 'change', syncConsultationChoice));
+syncConsultationChoice();
 
 // Native swipe, arrow controls and screen-reader status match the reference.
 const diffSlides = [...document.querySelectorAll('.pe-diff__slide')];
@@ -220,11 +251,30 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   syncRail();
 });
 
+// Match the consultation/product FAQ tabs used on the other product pages.
+const faqTabs = [...document.querySelectorAll('#faq [data-faq-tab]')];
+const selectFaqTab = selectedTab => faqTabs.forEach(tab => {
+  const selected = tab === selectedTab;
+  tab.setAttribute('aria-selected', String(selected));
+  tab.tabIndex = selected ? 0 : -1;
+  document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+});
+faqTabs.forEach((tab, index) => {
+  on(tab, 'click', () => selectFaqTab(tab));
+  on(tab, 'keydown', event => {
+    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    if (!step) return;
+    event.preventDefault();
+    const next = faqTabs[(index + step + faqTabs.length) % faqTabs.length];
+    selectFaqTab(next);
+    next.focus();
+  });
+});
+
 if (import.meta.hot) import.meta.hot.dispose(() => {
   abort.abort();
   heroVisibility.disconnect();
   transformationVisibility.disconnect();
-  reelVisibility.disconnect();
-  clientSectionVisibility.disconnect();
+  reelObservers.forEach(observer => observer.disconnect());
   clearTimeout(diffTimer);
 });

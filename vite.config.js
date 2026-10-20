@@ -9,8 +9,8 @@ import { renderTestimonials, renderCelebrityPicks } from './src/sections/testimo
 import { renderSolutions } from './src/sections/solutions-data.js';
 
 export default defineConfig({
-  // The shop homepage plus one detail page per category with its own explainer: extensions, toppers, wigs.
-  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', permanentExtensions: 'permanent-extensions.html', toppers: 'toppers.html', wigs: 'wigs.html' } } },
+  // Shop and category pages, plus the optional hair topper consultation flow.
+  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', permanentExtensions: 'permanent-extensions.html', toppers: 'toppers.html', topperConsultation: 'topper-consultation.html', wigs: 'wigs.html' } } },
   plugins: [tailwindcss(), {
     name: 'page-sections',
     transformIndexHtml(html) {

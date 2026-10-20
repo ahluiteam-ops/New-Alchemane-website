@@ -49,12 +49,25 @@
 .tp-product__cta:focus-visible { outline: 2px solid var(--color-accent-ink); outline-offset: 3px; }
 .tp-product__cta:disabled { border-color: var(--border); background: var(--surface-soft); color: var(--text-secondary); cursor: not-allowed; }
 .tp-product__cta--primary:disabled { border-color: var(--action); background: var(--action); color: #fff; }
+.tp-book-meeting { min-width: 0; margin: 0; padding: 0; border: 0; }
+.tp-book-meeting legend { margin-bottom: 12px; padding: 0; }
+.tp-meet-choice { position: relative; display: grid; place-items: center; min-height: 44px; padding: 8px 16px; border-radius: 999px; color: var(--text-secondary); font-size: 15px; font-weight: 600; cursor: pointer; }
+.tp-meet-choice:has(input:checked) { background: var(--action); color: var(--surface); }
+.tp-meet-choice:has(input:focus-visible) { outline: 2px solid var(--color-accent-ink); outline-offset: 3px; }
+.tp-meet-choice:active { opacity: .8; }
+.tp-book-address { color: var(--text-secondary); font-size: 14px; font-style: normal; font-weight: 400; }
+.tp-book-errors { padding: 16px; border: 2px solid var(--action); background: var(--surface-soft); scroll-margin-top: calc(var(--pe-header) + 24px); }
+.tp-book-errors ul { margin-top: 8px; }
+.tp-book-errors a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
+.tp-book-section .pe-field { min-width: 0; }
+.tp-book-section .pe-field input { min-width: 0; max-width: 100%; scroll-margin-block: calc(var(--pe-header) + 24px) 32px; }
+.tp-book-section input[type="date"] { min-height: 48px; appearance: none; -webkit-appearance: none; }
+.tp-book-section input[type="date"]::-webkit-date-and-time-value { min-height: 24px; text-align: left; }
 .toppers .tp-transform-film { aspect-ratio: 4 / 5; }
 .toppers .pe-transform__video { width: 100%; height: 100%; object-fit: cover; }
 .toppers .pe-transform__video--mobile + .pe-vplay { display: grid; }
 .toppers .pe-transform__video--desktop + .pe-vplay { display: none; }
 .tp-client-stories { overflow: hidden; }
-.toppers .tp-faq { margin-top: 30px; }
 .toppers .site-footer a { text-decoration: none; }
 .toppers .site-footer a:hover { text-decoration: underline; }
 .toppers [hidden] { display: none !important; }

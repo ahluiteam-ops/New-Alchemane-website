@@ -1,0 +1,2 @@
+/* A single, compact label keeps the booking action and fee together. */
+button.consultation-submit { display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; white-space: nowrap; }

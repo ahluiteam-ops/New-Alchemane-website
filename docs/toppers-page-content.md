@@ -1,5 +1,35 @@
 # Hair toppers page: content for approval
 
+## Current direction — 20 October 2026
+
+The topper page now separates the catalogue into **Choose your hair topper**
+(seven cards) and **Our Hairline series** (Hairline Toppers, 3 inch Hairline
+Topper, 6 inch Hairline Topper and 11 inch Hairline Topper). Hairline Toppers
+appears only in the hairline section on this page. Both sections use the same
+two-column phone / four-column desktop grid. The new size cards retain neutral
+image placeholders, unconfirmed prices and disabled purchase controls until
+their commercial details are supplied.
+
+The current topper page includes an optional consultation video row after the
+product grid, headed **Prefer a consultation before you buy**, using the three
+supplied consultation reels. Its online/offline choice stays in sync with the
+**Book your consultation.** form at `#book`. The **Let's start with a consultation**
+section uses the same full consultation fee-back guarantee and limit of 30 new
+consultations per week as the permanent extensions page, explicitly confirmed
+in chat. Online and Khar West studio consultations cost **₹299**.
+The form prepares a WhatsApp draft for
+the visitor to review and send to Alchemane at +91 99671 23333, containing their
+name, WhatsApp number, meeting preference, optional preferred date and the fee.
+The team confirms availability, appointment time and payment details. Preferred
+dates are requests, not live bookable slots. Direct purchasing remains available.
+This update supersedes the no-consultation guidance in the historical proposal
+below. The WhatsApp payload and destination were explicitly approved in chat.
+The separate `/topper-consultation.html` booking page keeps the image and fee above the fold, uses one short form,
+and opens the draft directly for review in WhatsApp. Its footer matches the
+topper page.
+
+---
+
 Version 1 | 16 October 2026 | Status: awaiting senior review
 
 This is a content proposal, not an approved website page. The accompanying

@@ -20,6 +20,26 @@ The original full-screen hero and layered clouds are restored. On phones, clouds
 
 Full explainers live on `/toppers.html` and `/extensions.html`. Their approved MP4 and caption URLs are still pending in `src/sections/reel-data.js`. The homepage keeps the supplied, playable client videos. No video autoplays.
 
+The topper product grid is followed by three supplied consultation reels and an
+optional ₹299 online or Khar West studio consultation. The meeting selector is
+synced with the on-page booking form at `#book`. The following consultation
+promise repeats the approved full fee-back guarantee and limit of 30 new
+consultations per week. The separate `/topper-consultation.html` page remains
+available. Customers can select online or Khar West studio,
+enter their contact details and an optional preferred date, then open their
+WhatsApp draft to review and send. The team confirms time and payment details; this
+page does not reserve live slots or collect payments. On mobile, the photograph,
+title and fee appear together in the first screen, followed by a short form.
+The page uses the same footer as the topper page. Run
+`npm.cmd run check:topper-consultation` to check the booking flow.
+Run `npm.cmd run check:topper-consultation-sections` for the on-page reels,
+meeting choice and booking. Rebuild their posters from the supplied clips with
+`node scripts/prepare-topper-consultation.mjs`.
+
+All consultation form submit buttons display the approved ₹299 fee inside the
+CTA, with a WhatsApp confirmation note underneath. This applies to the homepage,
+permanent extensions, wigs, toppers and the dedicated topper booking page.
+
 ## Source
 
 - `index.html`, `src/main.js`, `src/mobile-homepage.css`: homepage opening, navigation and responsive refinements.

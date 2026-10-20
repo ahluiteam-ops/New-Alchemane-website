@@ -1,0 +1,100 @@
+import { chromium, expect } from '@playwright/test';
+import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+
+const base = process.env.BASE_URL ?? 'http://127.0.0.1:5173';
+const out = 'preview/consultation-qa';
+await mkdir(out, { recursive: true });
+const browser = await chromium.launch({ headless: true });
+try {
+  for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [844, 390], [961, 900], [1000, 900], [1440, 1000]]) {
+    const page = await browser.newPage({ viewport: { width, height }, isMobile: width < 700, hasTouch: width < 700, reducedMotion: 'reduce', timezoneId: 'America/Los_Angeles' });
+    const failures = [];
+    const outgoing = [];
+    page.on('pageerror', error => failures.push(error.message));
+    page.on('response', response => {
+      if (response.url().startsWith(base) && response.status() >= 400) failures.push(`${response.status()} ${response.url()}`);
+    });
+    page.on('request', request => { if (!request.url().startsWith(base)) outgoing.push(request.url()); });
+    await page.addInitScript(() => {
+      // Capture the destination without opening WhatsApp or sending test data.
+      window.__bookingDrafts = [];
+      window.open = url => { window.__bookingDrafts.push(String(url)); return null; };
+    });
+    // India is already on the next date. Minimum dates must not use the browser's timezone.
+    await page.clock.setFixedTime(new Date('2026-10-20T18:45:00Z'));
+    await page.goto(`${base}/topper-consultation.html`, { waitUntil: 'networkidle' });
+    await expect(page.locator('#topper-consultation-form')).toBeVisible();
+    await expect(page.locator('#booking-date')).toHaveAttribute('min', '2026-10-21');
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Initial overflow at ${width}`);
+    const inputs = await page.locator('.tc-field input').evaluateAll(nodes => nodes.map(node => ({ height: node.getBoundingClientRect().height, font: parseFloat(getComputedStyle(node).fontSize) })));
+    assert(inputs.every(input => input.height >= 48 && input.font >= 16), 'Fields must be comfortable to tap and avoid iOS input zoom');
+    const choices = await page.locator('.tc-choice').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().height));
+    assert(choices.every(height => height >= 44));
+    const photo = await page.locator('.tc-photo').boundingBox();
+    assert(photo.y < height / 2, 'Consultation image should start in the first screen');
+    if (width < 700) assert(photo.y + photo.height <= height, 'The whole photo should be above the fold on portrait phones');
+    await page.locator('.tc-photo img').evaluate(image => image.decode());
+    await expect(page.locator('.site-footer .footer-nav-column')).toHaveCount(2);
+    await expect(page.locator('.footer-contact-link')).toHaveCount(2);
+    await page.screenshot({ path: `${out}/booking-${width}.png` });
+    await page.locator('#booking-submit').click();
+    await expect(page.locator('#booking-errors')).toBeFocused();
+    await expect(page.locator('#booking-name-error')).toBeVisible();
+    await expect(page.locator('#booking-phone-error')).toBeVisible();
+    await expect(page.locator('#booking-status')).toBeHidden();
+    assert.equal(await page.evaluate(() => window.__bookingDrafts.length), 0, 'Invalid forms must not open WhatsApp');
+    await page.locator('#booking-name').fill('QA & <Test>');
+    await page.locator('#booking-phone').fill('+91 90000 00000');
+    await page.locator('#booking-date').fill('2026-10-20');
+    await page.locator('#booking-submit').click();
+    await expect(page.locator('#booking-date-error')).toHaveText('Choose today or a later date.');
+    await page.locator('#booking-date').fill('2026-10-22');
+    await page.locator('[name="meeting"][value="online"]').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('[name="meeting"][value="studio"]')).toBeChecked();
+    await expect(page.locator('#studio-address')).toBeVisible();
+    await page.locator('#booking-submit').click();
+    await expect(page.locator('#booking-status')).toBeVisible();
+    await expect(page.locator('#topper-consultation-form')).toBeVisible();
+    await expect(page.locator('#booking-name')).toHaveValue('QA & <Test>');
+    const draftUrl = new URL(await page.locator('#booking-message').getAttribute('href'));
+    assert.equal(await page.evaluate(() => window.__bookingDrafts[0]), draftUrl.href, 'The CTA must open the prepared draft directly');
+    assert.equal(draftUrl.origin, 'https://wa.me');
+    assert.equal(draftUrl.pathname, '/919967123333');
+    const draft = draftUrl.searchParams.get('text');
+    for (const text of ['QA & <Test>', '+91 90000 00000', 'In person', '₹299', '22 Oct 2026']) assert(draft.includes(text), `Draft missing ${text}`);
+    assert.deepEqual(outgoing, [], 'Preparing a draft must not send customer details over the network');
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Form overflow at ${width}`);
+    if (width === 390 || width === 1440) await page.screenshot({ path: `${out}/page-${width}.png`, fullPage: true });
+    await page.locator('[name="meeting"][value="online"]').check();
+    await expect(page.locator('#studio-address')).toBeHidden();
+    await expect(page.locator('#booking-status')).toBeHidden();
+    await page.locator('#booking-date').fill('');
+    await page.locator('#booking-submit').click();
+    const updatedDraft = new URL(await page.locator('#booking-message').getAttribute('href')).searchParams.get('text');
+    assert(updatedDraft.includes('No preference') && updatedDraft.includes('Online') && !updatedDraft.includes('In person'), 'Changing the form must replace the previous draft');
+    assert.deepEqual(failures, []);
+    console.log(`Passed consultation ${width} × ${height}`);
+    await page.close();
+  }
+  const linkPage = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  await linkPage.goto(`${base}/toppers.html`, { waitUntil: 'networkidle' });
+  const footerLinks = await linkPage.locator('.site-footer a').evaluateAll(links => links.map(link => ({ text: link.textContent.trim(), href: link.getAttribute('href') })));
+  const offer = linkPage.locator('#how');
+  await expect(offer).not.toContainText('₹299');
+  await offer.locator('[data-consultation-choice-cta]').click();
+  await expect(linkPage).toHaveURL(/\/toppers\.html#book$/);
+  await expect(linkPage.locator('#topper-consultation-form')).toBeVisible();
+  await linkPage.goto(`${base}/topper-consultation.html`);
+  assert.deepEqual(await linkPage.locator('.site-footer a').evaluateAll(links => links.map(link => ({ text: link.textContent.trim(), href: link.getAttribute('href') }))), footerLinks, 'Booking and topper pages should share the same footer links');
+  await linkPage.goto(`${base}/topper-consultation.html?meeting=studio`);
+  await expect(linkPage.locator('[name="meeting"][value="studio"]')).toBeChecked();
+  await linkPage.close();
+  const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  await noScript.goto(`${base}/topper-consultation.html`);
+  await expect(noScript.getByRole('link', { name: 'message us on WhatsApp' })).toBeVisible();
+  await expect(noScript.locator('h1')).toHaveCSS('font-family', /Source Serif 4/);
+  await noScript.close();
+  console.log('Passed topper CTA navigation, studio deep link and no-JavaScript contact fallback. No messages were sent.');
+} finally { await browser.close(); }

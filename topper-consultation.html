@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Need help choosing a hair topper? Arrange a ₹299 consultation online or at Alchemane's Khar West studio, Mumbai, for guidance on base, size and shade.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preload" href="/fonts/source-sans-3-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/source-serif-4-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" as="image" href="/assets/wigs/consultation.webp" fetchpriority="high">
+    <link rel="stylesheet" href="/src/design-tokens.css">
+    <link rel="stylesheet" href="/src/sections/site-footer.css">
+    <link rel="stylesheet" href="/src/pages/topper-consultation.css">
+    <link rel="stylesheet" href="/src/components/consultation-submit.css">
+    <title>Book a Hair Topper Consultation | Alchemane</title>
+  </head>
+  <body class="tc" id="top">
+    <a class="tc-skip" href="#main">Skip to consultation</a>
+    <header class="tc-header">
+      <div class="tc-wrap tc-header__inner">
+        <a class="tc-brand" href="/" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" width="160" height="40" alt=""></a>
+        <a class="tc-back" href="/toppers.html#shop"><span aria-hidden="true">←</span> Back to toppers</a>
+      </div>
+    </header>
+    <main class="tc-wrap" id="main">
+      <div class="tc-layout">
+        <header class="tc-intro">
+          <h1>Hair topper<br>consultation</h1>
+          <p class="tc-price"><strong>₹299</strong><span>per consultation</span></p>
+          <p class="tc-lede">Get help choosing your base, size and shade.</p>
+        </header>
+        <figure class="tc-photo"><img src="/assets/wigs/consultation.webp" width="358" height="636" alt="An Alchemane specialist helping a client with her hair at the studio" fetchpriority="high" decoding="async"></figure>
+        <section class="tc-booking" id="booking" aria-label="Arrange your consultation" data-consultation-fee="299">
+          <form class="tc-form" id="topper-consultation-form" hidden>
+            <div class="tc-errors" id="booking-errors" role="alert" tabindex="-1" hidden><h2>Check these details</h2><ul></ul></div>
+            <fieldset class="tc-meeting">
+              <legend>Choose your consultation</legend>
+              <div class="tc-meeting__options">
+                <label class="tc-choice">
+                  <input type="radio" name="meeting" value="online" checked>
+                  <span class="tc-choice__body"><strong>Online</strong><span>Video call</span></span>
+                </label>
+                <label class="tc-choice">
+                  <input type="radio" name="meeting" value="studio">
+                  <span class="tc-choice__body"><strong>In person</strong><span>Khar West, Mumbai</span></span>
+                </label>
+              </div>
+              <address class="tc-studio-address" id="studio-address" aria-live="polite" hidden>4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai 400052. <a href="https://www.google.com/maps/search/?api=1&amp;query=Alchemane+Empressa+Building+Khar+West+Mumbai" target="_blank" rel="noopener noreferrer">Get directions <span aria-hidden="true">↗</span></a></address>
+            </fieldset>
+            <div class="tc-fields">
+              <h2>Your details</h2>
+              <div class="tc-field">
+                <label for="booking-name">Your name</label>
+                <input id="booking-name" name="name" autocomplete="name" required maxlength="80" aria-describedby="booking-name-error">
+                <p class="tc-field-error" id="booking-name-error" hidden></p>
+              </div>
+              <div class="tc-field">
+                <label for="booking-phone">WhatsApp number</label>
+                <input id="booking-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="24" aria-describedby="booking-phone-hint booking-phone-error">
+                <p class="tc-hint" id="booking-phone-hint">Include your country code, e.g. +91.</p>
+                <p class="tc-field-error" id="booking-phone-error" hidden></p>
+              </div>
+              <div class="tc-field">
+                <label for="booking-date">Preferred date <span>(optional)</span></label>
+                <input id="booking-date" name="date" type="date" aria-describedby="booking-date-error">
+                <p class="tc-field-error" id="booking-date-error" hidden></p>
+              </div>
+            </div>
+            <button class="tc-button consultation-submit" id="booking-submit" type="submit">Book now — ₹299</button>
+            <p class="tc-hint tc-submit-note">We’ll confirm your slot and payment details on WhatsApp.</p>
+            <p class="tc-status" id="booking-status" role="status" hidden>Message ready. If WhatsApp didn’t open, <a id="booking-message" target="_blank" rel="noopener noreferrer">open your message</a>.</p>
+          </form>
+          <noscript><p>To arrange your ₹299 online or studio consultation, <a href="https://wa.me/919967123333">message us on WhatsApp</a> or call <a href="tel:+919967123333">+91 99671 23333</a>.</p></noscript>
+        </section>
+      </div>
+      <section class="tc-faq" id="consultation-faq" aria-labelledby="consultation-faq-title">
+        <h2 id="consultation-faq-title">Before your consultation</h2>
+        <details><summary>Should I choose online or in person?<span aria-hidden="true">+</span></summary><p>Choose an online video call for guidance from home. Choose an in-person consultation if you would prefer to discuss your options at our Khar West studio in Mumbai.</p></details>
+        <details><summary>Do I need a consultation to buy a topper?<span aria-hidden="true">+</span></summary><p>A consultation is optional. If you already know your preferred base, size and shade, you can <a href="/toppers.html#shop">shop hair toppers directly</a>.</p></details>
+        <details><summary>When is my appointment confirmed?<span aria-hidden="true">+</span></summary><p>After you send your request, our team will confirm availability, your appointment time and payment details on WhatsApp. Choosing a preferred date does not reserve a slot.</p></details>
+      </section>
+    </main>
+    <footer class="site-footer" aria-label="Footer">
+      <div class="footer-main">
+        <div class="footer-brand-column">
+          <a class="footer-brand" href="/" aria-label="Alchemane home"><img class="footer-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
+          <address class="footer-address">4th floor, Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</address>
+        </div>
+        <nav class="footer-nav-column" aria-label="Hair solutions"><p class="footer-title">Solutions</p><a href="/extensions.html">Hair Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html">Hair Toppers</a></nav>
+        <nav class="footer-nav-column" aria-label="Shopping information"><p class="footer-title">Shopping information</p><a href="https://alchemane.com/pages/shipping-delivery">Shipping and Delivery</a><a href="https://alchemane.com/pages/returns-and-exchanges">Returns and Exchanges</a><a href="https://alchemane.com/pages/privacy-policy">Privacy Policy</a><a href="https://alchemane.com/pages/terms-of-service">Terms of Service</a></nav>
+        <div class="footer-contact-column"><p class="footer-title">Contact</p><a class="footer-contact-link" href="tel:+919967123333"><img src="/icons/footer/call.svg" alt="" width="24" height="24"><span>+91 99671 23333</span></a><a class="footer-contact-link" href="mailto:info@alchemane.com"><img src="/icons/footer/mail.svg" alt="" width="24" height="24"><span>info@alchemane.com</span></a></div>
+      </div>
+      <div class="footer-bottom"><span class="footer-copyright">&copy; <span data-year>2026</span> Alchemane Hair Extensions</span><a class="footer-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
+    </footer>
+    <script type="module" src="/src/pages/topper-consultation.js"></script>
+  </body>
+</html>

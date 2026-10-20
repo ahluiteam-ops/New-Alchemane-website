@@ -1,4 +1,5 @@
 import './consultation-meet.css';
+import '../components/consultation-submit.css';
 
 export function initConsultationMeet(form) {
   const group = form.querySelector('[data-consultation-meet]');

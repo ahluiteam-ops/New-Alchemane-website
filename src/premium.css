@@ -175,6 +175,7 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .consultation-copy > p:not(.eyebrow) { font-size: 18px; line-height: 1.7; max-width: 360px; }
 .phone-link { font-size: 16px; margin-top: 16px; }
 #consultation-form { padding: 40px; background: var(--surface); }
+.consultation-submit-note { margin-top: 12px; color: var(--text-secondary); font-size: 14px; line-height: 1.5; text-align: center; }
 .form-heading p { font-family: var(--font-display); font-size: 30px; }
 #consultation-form label, #consultation-form legend { font-size: 14px; }
 #consultation-form label > span { font-size: 12px; }
