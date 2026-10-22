@@ -6,16 +6,7 @@
   grid-template-areas: 'copy media';
   min-height: clamp(560px, 45vw, 720px);
   overflow: clip;
-  background: #f4f1eb;
-}
-
-.studio-visit::before {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  z-index: -1;
-  width: 9px;
-  background: var(--color-accent);
+  background: var(--surface-soft);
 }
 
 .studio-visit__copy {
@@ -103,12 +94,6 @@
     grid-template-columns: 1fr;
     grid-template-areas: 'media' 'copy';
     min-height: 0;
-  }
-
-  .studio-visit::before {
-    inset: 0 0 auto;
-    width: auto;
-    height: 6px;
   }
 
   .studio-visit__media {

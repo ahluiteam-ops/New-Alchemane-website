@@ -18,9 +18,10 @@ const needsConsultation = product => ['permanent-extensions', 'wigs'].includes(p
 
 function card(product) {
   const consultation = needsConsultation(product);
+  const productUrl = product.handle === 'silk-hair-toppers' ? '/products/silk-hair-toppers/' : product.url;
   const showPrice = !consultation;
   return `<li class="catalogue-card" data-handle="${product.handle}">
-    <a class="catalogue-product${showPrice ? '' : ' catalogue-product--without-price'}" href="${consultation ? '#consultation' : esc(product.url ?? enquiryUrl(product))}"${!consultation && product.isNew ? ' target="_blank" rel="noopener noreferrer"' : ''}>
+    <a class="catalogue-product${showPrice ? '' : ' catalogue-product--without-price'}" href="${consultation ? '#consultation' : esc(productUrl ?? enquiryUrl(product))}"${!consultation && product.isNew ? ' target="_blank" rel="noopener noreferrer"' : ''}>
       <span class="catalogue-photo${product.image ? '' : ' is-placeholder'}">${product.image ? `<img src="${esc(product.image)}" alt="${esc(product.alt || product.name)}" width="720" height="900" loading="lazy" decoding="async">` : '<span class="sr-only">Product photograph not yet available</span>'}${product.isNew ? '<span class="new-label">New addition</span>' : ''}</span>
       <h3>${esc(product.name)}</h3>
       ${showPrice ? `<span class="catalogue-price">${priceLabel(product)}</span>` : ''}

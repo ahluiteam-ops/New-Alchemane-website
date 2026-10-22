@@ -1,8 +1,9 @@
 .best-sellers {
   padding-block: var(--section-space);
   overflow: hidden;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: var(--action);
+  color: var(--surface);
+  border-bottom: 1px solid rgb(255 255 255 / .16);
 }
 
 .best-sellers__inner {
@@ -15,7 +16,7 @@
   text-align: center;
 }
 
-.home-rest .best-sellers__heading h2 { margin: 0; }
+.home-rest .best-sellers__heading h2 { margin: 0; color: var(--surface); }
 
 .best-sellers__track {
   display: grid;
@@ -50,7 +51,7 @@
 }
 
 .best-seller-card__category {
-  color: var(--text-secondary);
+  color: var(--color-accent-muted);
   font-size: 12px;
   line-height: 1.4;
   letter-spacing: .08em;
@@ -61,6 +62,8 @@
   margin: 7px 0 6px;
   font: 600 clamp(17px, 1.35vw, 20px)/1.35 var(--font-body);
 }
+
+.home-rest .best-seller-card h3 { color: var(--surface); }
 
 .best-seller-card__price { font-size: 16px; line-height: 1.5; }
 

@@ -47,6 +47,18 @@ export function initHomepage() {
     }));
   }
   const storySlides = [...document.querySelectorAll('.story-slide')];
+  // The collage thumbnail is a 4:5 portrait, so it only fits the mobile cut; desktop keeps its first frame.
+  const transformationVideo = document.querySelector('#client-closeups video');
+  if (transformationVideo) {
+    const phone = matchMedia('(max-width: 700px)');
+    const syncTransformationPoster = () => {
+      if (phone.matches) transformationVideo.poster = '/assets/homepage/client-transformations-mobile-poster.webp';
+      else transformationVideo.removeAttribute('poster');
+    };
+    syncTransformationPoster();
+    phone.addEventListener('change', syncTransformationPoster);
+  }
+
   const storyTrack = document.querySelector('#story-slides');
   const storyViewport = document.querySelector('.story-photo-frame');
   const storyStatus = document.querySelector('[data-story-status]');

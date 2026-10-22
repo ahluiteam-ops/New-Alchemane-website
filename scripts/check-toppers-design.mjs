@@ -7,7 +7,7 @@ const out = 'preview/toppers-design-qa';
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
-  for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [1440, 900]]) {
+  for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [1024, 768], [1280, 800], [1440, 900]]) {
     const page = await browser.newPage({ viewport: { width, height }, isMobile: width < 700, hasTouch: width < 700, reducedMotion: 'reduce' });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -15,6 +15,7 @@ try {
       if (response.status() >= 400 && response.url().startsWith(base)) errors.push(`${response.status()} ${response.url()}`);
     });
     await page.goto(`${base}/toppers.html`, { waitUntil: 'networkidle' });
+    if (width === 1440) await page.screenshot({ path: `${out}/full-page-1440.png`, fullPage: true });
     await expect(page.locator('#topper-title')).toBeVisible();
     const [heroHeadingFont, sectionHeadingFont] = await Promise.all([
       page.locator('#topper-title').evaluate(element => getComputedStyle(element).fontFamily),
@@ -25,6 +26,16 @@ try {
     await expect(page.locator('#shop .tp-product')).toHaveCount(7);
     await expect(page.locator('#shop #hairline-toppers')).toHaveCount(0);
     await expect(page.locator('#hairline-toppers')).toHaveCount(1);
+    const productSectionOrder = await page.locator('main > section').evaluateAll(sections => sections.map(section => section.id));
+    assert.equal(productSectionOrder.indexOf('hairline-series'), productSectionOrder.indexOf('shop') + 1, 'Hairline series should follow the topper catalogue');
+    const [shopBackground, hairlineBackground, consultationBackground] = await Promise.all([
+      page.locator('#shop').evaluate(section => getComputedStyle(section).backgroundColor),
+      page.locator('#hairline-series').evaluate(section => getComputedStyle(section).backgroundColor),
+      page.locator('#how').evaluate(section => getComputedStyle(section).backgroundColor),
+    ]);
+    assert.notEqual(hairlineBackground, shopBackground, 'Hairline series should use the dark Alchemane background');
+    assert.equal(await page.locator('#hairline-series-title').evaluate(title => getComputedStyle(title).color), 'rgb(255, 255, 255)', 'Hairline series heading should remain legible on the dark background');
+    assert.equal(consultationBackground, shopBackground, 'Consultation section should use the white surface background');
     await expect(page.locator('#hairline-series .tp-product h3')).toHaveText(['Hairline Toppers', '3 inch Hairline Topper', '6 inch Hairline Topper', '11 inch Hairline Topper']);
     await expect(page.locator('.tp-client-reel video')).toHaveCount(9);
     await expect(page.locator('#client-stories .pe-dots span')).toHaveCount(9);
@@ -65,7 +76,8 @@ try {
     await page.locator('#faq-tab-toppers').press('ArrowLeft');
     await expect(page.locator('#faq-tab-consultation')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#faq-panel-consultation')).toBeVisible();
-    assert.equal(await page.locator('.tp-product a[href^="https://alchemane.com/products/"]').count(), 8);
+    assert.equal(await page.locator('.tp-product a[href^="https://alchemane.com/products/"]').count(), 6);
+    assert.equal(await page.locator('.tp-product a[href="/products/silk-hair-toppers/"]').count(), 2);
     assert.equal(await page.locator('.tp-product__cta').count(), 22);
     assert.equal(await page.locator('.tp-product__cta:disabled').count(), 14);
     assert.equal(await page.locator('.tp-product__image--placeholder').count(), 7);
@@ -98,7 +110,7 @@ try {
     assert.deepEqual(errors, []);
     assert(await page.evaluate(width => document.documentElement.scrollWidth <= width, width), `Overflow after interaction at ${width}`);
     await page.addStyleTag({ content: '.pe-header { visibility: hidden !important; } .pe-specialist__media { position: static !important; }' });
-    for (const [id, name] of [['difference', 'difference'], ['base-comparison', 'comparison'], ['why-alchemane', 'why'], ['natural-hairline', 'hairline'], ['topper-help', 'guide'], ['shop', 'shop'], ['hairline-series', 'hairline-series'], ['transformations', 'transformations'], ['client-stories', 'stories'], ['faq', 'faq']]) {
+    for (const [id, name] of [['difference', 'difference'], ['base-comparison', 'comparison'], ['why-alchemane', 'why'], ['natural-hairline', 'hairline'], ['topper-help', 'guide'], ['shop', 'shop'], ['hairline-series', 'hairline-series'], ['how', 'consultation'], ['transformations', 'transformations'], ['client-stories', 'stories'], ['faq', 'faq']]) {
       await page.locator(`#${id}`).screenshot({ path: `${out}/${name}-${width}.png` });
     }
     if (width === 320 || width === 390) {
@@ -131,6 +143,10 @@ try {
       await lastReel.locator('video').evaluate(video => video.pause());
     }
     if (width === 1440) {
+      const reasonPositions = await page.locator('.pe-specialist__reasons li').evaluateAll(items => items.slice(0, 3).map(item => ({ x: item.getBoundingClientRect().x, y: item.getBoundingClientRect().y })));
+      assert(reasonPositions[1].x > reasonPositions[0].x && reasonPositions[1].y === reasonPositions[0].y && reasonPositions[2].y > reasonPositions[0].y, 'Desktop reasons should use a compact two-column grid');
+      const hairlineHeadingLines = await page.locator('#natural-hairline-title span').evaluateAll(spans => spans.map(span => span.getBoundingClientRect().top));
+      assert(hairlineHeadingLines[1] > hairlineHeadingLines[0], 'Desktop natural-hairline heading should render as two intentional lines');
       await page.locator('#client-stories [data-rail-dir="1"]').click();
       await expect.poll(() => page.locator('#tp-client-track').evaluate(track => track.scrollLeft > 0)).toBe(true);
     }

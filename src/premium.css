@@ -102,7 +102,7 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .ruled-accordions summary { font-size: 18px; padding-block: 22px; gap: 16px; }
 .ruled-accordions details > p { font-size: 16px; line-height: 1.7; }
 
-.founder-section { padding-block: var(--section-space); background: var(--surface-soft); color: var(--text); }
+.founder-section { padding-block: var(--section-space); background: var(--surface); color: var(--text); }
 .founder-grid { grid-template-columns: .8fr 1fr; gap: 12%; }
 /* The founder portrait is a finished square with his name set into the lower
    third, so it is shown whole: no crop, no zoom. Its corners are already
@@ -110,19 +110,19 @@ nav a { font-size: 16px; letter-spacing: 0; }
 .founder-image { overflow: visible; }
 .founder-image img { height: auto; aspect-ratio: 1; object-fit: contain; filter: none; transform: none; max-width: 520px; }
 .home-rest .founder-grid { row-gap: 28px; }
-.simple-home .home-rest .founder-heading { grid-column: 1 / -1; margin: 0 0 4px; color: var(--color-white); font-size: clamp(26px, 7.2vw, 52px); line-height: 1.08; }
+.simple-home .home-rest .founder-heading { grid-column: 1 / -1; margin: 0 0 4px; color: var(--text); font-size: clamp(26px, 7.2vw, 52px); line-height: 1.08; }
 .founder-heading span { display: block; white-space: nowrap; }
 .home-rest .founder-copy { width: 100%; max-width: 54ch; }
-.home-rest .founder-highlights { margin: 0; padding: 0; border-top: 1px solid rgb(255 255 255 / .18); list-style: none; }
-.home-rest .founder-highlights li { padding: 16px 0 18px; border-bottom: 1px solid rgb(255 255 255 / .18); color: var(--color-mist); font-size: clamp(16px, 1.35vw, 18px); line-height: 1.55; }
-.home-rest .founder-highlights strong { color: var(--color-white); font-weight: 600; }
-.home-rest .founder-cta { width: 100%; margin-top: 28px; background: var(--color-accent); color: var(--color-primary); }
-.home-rest .founder-cta:hover { background: var(--color-accent-soft); }
-.home-rest .founder-cta:focus-visible { outline-color: var(--color-accent-soft); }
+.home-rest .founder-highlights { margin: 0; padding: 0; border-top: 1px solid var(--border); list-style: none; }
+.home-rest .founder-highlights li { padding: 16px 0 18px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: clamp(16px, 1.35vw, 18px); line-height: 1.55; }
+.home-rest .founder-highlights strong { color: var(--text); font-weight: 600; }
+.home-rest .founder-cta { width: 100%; margin-top: 28px; background: var(--action); color: var(--surface); }
+.home-rest .founder-cta:hover { background: var(--color-accent-ink); }
+.home-rest .founder-cta:focus-visible { outline-color: var(--action); }
 
 /* Featured In sits between the founder and Celebrity Choice. Its soft
    surface separates the two sections without extra spacer markup. */
-.home-rest #voices { background: var(--color-white); }
+.home-rest #voices { background: var(--surface-soft); }
 .media-coverage { padding-block: clamp(56px, 6vw, 88px); background: var(--surface-soft); }
 .media-coverage-inner { text-align: center; }
 .home-rest .media-coverage h2 { margin: 0; }

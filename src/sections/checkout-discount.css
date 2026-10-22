@@ -2,8 +2,9 @@
   position: relative;
   overflow: hidden;
   padding-block: clamp(44px, 5vw, 72px);
-  background: var(--surface-tint);
-  border-bottom: 1px solid var(--border);
+  background: var(--action);
+  color: var(--surface);
+  border-bottom: 1px solid rgb(255 255 255 / .16);
 }
 
 .checkout-discount::before {
@@ -12,7 +13,7 @@
   inset: auto -8vw -22vw auto;
   width: min(44vw, 580px);
   aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--color-accent) 44%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 62%, transparent);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -36,6 +37,7 @@
   line-height: 1.06;
   letter-spacing: -.035em;
   text-wrap: balance;
+  color: var(--surface);
 }
 
 .checkout-discount__form {
@@ -56,24 +58,24 @@
 }
 
 .checkout-discount__form input[type='tel']::placeholder { color: var(--text-secondary); opacity: 1; }
-.checkout-discount__form input[type='tel']:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+.checkout-discount__form input[type='tel']:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
 
 .checkout-discount__form button {
   min-width: 142px;
   min-height: 54px;
   padding-inline: 24px;
-  border: 1px solid var(--action);
+  border: 1px solid var(--color-accent);
   border-radius: 3px;
-  background: var(--action);
-  color: var(--surface);
+  background: var(--color-accent);
+  color: var(--action);
   font: 600 14px/1 var(--font-body);
   letter-spacing: .1em;
   transition: background var(--duration-fast), transform var(--duration-fast);
 }
 
-.checkout-discount__form button:hover { background: var(--text); }
+.checkout-discount__form button:hover { background: var(--color-accent-soft); }
 .checkout-discount__form button:active { transform: scale(.98); }
-.checkout-discount__form button:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.checkout-discount__form button:focus-visible { outline: 2px solid var(--surface); outline-offset: 3px; }
 
 .checkout-discount__consent {
   display: flex;
@@ -82,7 +84,7 @@
   justify-content: flex-start;
   gap: 10px;
   min-height: 28px;
-  color: var(--text-secondary);
+  color: var(--color-mist);
   font-size: 14px;
   line-height: 1.45;
   cursor: pointer;
@@ -93,7 +95,7 @@
   width: 18px;
   height: 18px;
   margin: 0;
-  accent-color: var(--action);
+  accent-color: var(--color-accent);
 }
 
 @media (max-width: 760px) {

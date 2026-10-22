@@ -239,8 +239,12 @@ try {
     if (!setup.isMobile) {
       const heading = await page.locator('#transformations-title').boundingBox();
       const player = await page.locator(shown).boundingBox();
-      const placementFailed = setup.width >= 1000 ? heading?.x >= player?.x : heading?.y >= player?.y;
-      if (!heading || !player || placementFailed || Math.abs(player.width / player.height - 16 / 9) > .03) {
+      const section = await page.locator('#transformations .client-proof-inner').boundingBox();
+      const headingAlign = await page.locator('#transformations .client-proof-heading').evaluate(element => getComputedStyle(element).textAlign);
+      const playerCentreOffset = section && player
+        ? Math.abs((section.x + section.width / 2) - (player.x + player.width / 2))
+        : Infinity;
+      if (!heading || !player || !section || heading.y >= player.y || headingAlign !== 'center' || playerCentreOffset > 1 || Math.abs(player.width / player.height - 16 / 9) > .03) {
         throw new Error(`Desktop transformation heading or landscape player layout failed at ${setup.width}px: ${JSON.stringify({ heading, player })}.`);
       }
     }

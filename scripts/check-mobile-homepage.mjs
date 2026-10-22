@@ -22,6 +22,7 @@ try {
     page.on('response', response => { if (response.status() >= 400 && response.url().startsWith(base)) errors.push(`${width}: ${response.status()} ${response.url()}`); });
     await page.goto(base, { waitUntil: 'networkidle' });
     await expect(page.locator('.catalogue-card:visible')).toHaveCount(Math.min(4, products.filter(product => productBelongsToCategory(product, 'hairline-series')).length));
+    await expect(page.locator('.catalogue-card:visible h3')).toHaveText(['Hairline Toppers', '3 inch Hairline Topper', '6 inch Hairline Topper', '7-Inch Hairline Topper']);
     await expect(page.locator('#collection .solutions-tab')).toHaveCount(6);
     await expect(page.locator('#collection [data-solution="hairline-series"]')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#range-title')).toHaveText('Hairline Series');
@@ -33,7 +34,24 @@ try {
     }
     await expect(page.locator('.solutions-orbit, .editorial-overture, .offer-popup, .reel-section')).toHaveCount(0);
     await expect(page.locator('.cloud-layer')).toHaveCount(6);
+    await expect(page.locator('.shop-concerns__card')).toHaveCount(4);
+    await expect(page.locator('.shop-concerns__card-copy i')).toHaveCount(0);
+    await expect(page.locator('.shop-concerns__arrow[aria-hidden="true"] svg[focusable="false"]')).toHaveCount(4);
+    const concernArrowStyles = await page.locator('.shop-concerns__arrow svg').evaluateAll(icons => icons.map(icon => {
+      const style = getComputedStyle(icon);
+      return { fill: style.fill, stroke: style.stroke, width: icon.getBoundingClientRect().width };
+    }));
+    assert(concernArrowStyles.every(icon => icon.fill === 'none' && icon.stroke !== 'none' && icon.width >= 18), 'Concern cards should use visible outlined SVG arrows');
     await expect(page.locator('#voices-title')).toHaveText('Watch our clients’ stories');
+    const playButtonOffsets = await page.locator('#voices .voice-card').evaluateAll(cards => cards.map(card => {
+      const frame = card.getBoundingClientRect();
+      const badge = card.querySelector('.voice-badge').getBoundingClientRect();
+      return {
+        x: Math.abs((frame.left + frame.width / 2) - (badge.left + badge.width / 2)),
+        y: Math.abs((frame.top + frame.height / 2) - (badge.top + badge.height / 2)),
+      };
+    }));
+    assert(playButtonOffsets.every(offset => offset.x <= 1 && offset.y <= 1), 'Every client-story play button should be centred in its frame');
     await expect(page.locator('#alchemane-standard .quality-banner-picture img')).toHaveCount(1);
     await expect(page.locator('#alchemane-standard .quality-banner-list li')).toHaveCount(3);
     await expect(page.locator('#celebrity-picks-title')).toHaveText('Celebrity Choice');
@@ -43,9 +61,45 @@ try {
     await expect(page.locator('#client-closeups-title')).toHaveText('See real hair transformations');
     await expect(page.locator('#client-closeups img')).toHaveCount(0);
     await expect(page.locator('#client-closeups video')).toHaveCount(1);
+    const sectionBackgrounds = await page.evaluate(() => {
+      const background = selector => getComputedStyle(document.querySelector(selector)).backgroundColor;
+      const probe = document.createElement('div');
+      probe.style.background = 'var(--surface-soft)';
+      document.body.append(probe);
+      const light = getComputedStyle(probe).backgroundColor;
+      probe.style.background = 'var(--action)';
+      const dark = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return {
+        bestSellers: background('.best-sellers'),
+        discount: background('.checkout-discount'),
+        voices: background('#voices'),
+        celebrity: background('#celebrity-picks'),
+        studio: background('.studio-visit'),
+        founder: background('.founder-section'),
+        bestSellersHeading: getComputedStyle(document.querySelector('.best-sellers h2')).color,
+        discountHeading: getComputedStyle(document.querySelector('.checkout-discount h2')).color,
+        celebrityHeading: getComputedStyle(document.querySelector('#celebrity-picks h2')).color,
+        studioAccent: getComputedStyle(document.querySelector('.studio-visit'), '::before').content,
+        light,
+        dark,
+      };
+    });
+    assert.equal(sectionBackgrounds.bestSellers, sectionBackgrounds.dark);
+    assert.equal(sectionBackgrounds.discount, sectionBackgrounds.dark);
+    assert.equal(sectionBackgrounds.voices, sectionBackgrounds.light);
+    assert.equal(sectionBackgrounds.celebrity, 'rgb(255, 255, 255)');
+    assert.equal(sectionBackgrounds.studio, sectionBackgrounds.light);
+    assert.equal(sectionBackgrounds.founder, 'rgb(255, 255, 255)');
+    assert.equal(sectionBackgrounds.bestSellersHeading, 'rgb(255, 255, 255)');
+    assert.equal(sectionBackgrounds.discountHeading, 'rgb(255, 255, 255)');
+    assert.equal(sectionBackgrounds.celebrityHeading, 'rgb(35, 41, 40)');
+    assert.equal(sectionBackgrounds.studioAccent, 'none');
     await expect(page.locator('#client-closeups video')).toHaveAttribute('controls', '');
     await expect(page.locator('#client-closeups video')).toHaveAttribute('preload', 'metadata');
     await expect(page.locator('#client-closeups source')).toHaveCount(2);
+    if (width <= 700) await expect(page.locator('#client-closeups video')).toHaveAttribute('poster', '/assets/homepage/client-transformations-mobile-poster.webp');
+    else await expect(page.locator('#client-closeups video')).not.toHaveAttribute('poster', /.*/);
     const expectedTransformationVideo = width <= 700 ? 'client-transformations-mobile.mp4' : 'client-transformations-desktop.mp4';
     assert((await page.locator('#client-closeups video').evaluate(video => video.currentSrc)).endsWith(expectedTransformationVideo), `incorrect transformation video at ${width}`);
     await expect(page.locator('#client-closeups figcaption')).toHaveCount(0);
@@ -199,7 +253,7 @@ try {
     }
     await page.evaluate(() => window.dispatchEvent(new CustomEvent('alchemane:range', { detail: { tab: 'all' } })));
     while (await page.locator('#range [data-show-more]').isVisible()) await page.locator('#range [data-show-more]').click();
-    await expect(page.locator('.catalogue-card:visible')).toHaveCount(44);
+    await expect(page.locator('.catalogue-card:visible')).toHaveCount(46);
     await page.locator('.studio-visit__cta').click();
     await expect(page.locator('#consultation')).toBeFocused();
     await expect(page.locator('.floating-contact')).not.toHaveClass(/is-visible/);

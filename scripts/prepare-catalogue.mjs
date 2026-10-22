@@ -24,7 +24,9 @@ const additions = [
   ['Velcro Fringes', 'fringes'], ['V-Shape Fringes', 'fringes'], ['Fringes Filler', 'fringes'],
   ['European Full Wig', 'wigs'], ['Skin Top Wig', 'wigs'], ['Lace Wig', 'wigs'],
   ['Feather Extension', 'permanent-extensions'], ['V-Light Extension', 'permanent-extensions'], ['Ice Extension', 'permanent-extensions'],
-  ['7-Inch Hairline', 'hairline-series'], ['11-Inch Hairline', 'hairline-series'], ['Hairline Toppers', 'toppers', ['hairline-series']],
+  ['Hairline Toppers', 'toppers', ['hairline-series']], ['3 inch Hairline Topper', 'hairline-series'], ['6 inch Hairline Topper', 'hairline-series'],
+  ['7-Inch Hairline Topper', 'hairline-series'], ['11-Inch Hairline Topper', 'hairline-series'],
+  ['7-Inch Hairline', 'hairline-series'], ['11-Inch Hairline', 'hairline-series'],
   ['Rose Topper', 'toppers'], ['Classic Clip Topper', 'toppers'], ['Mesh Topper', 'toppers'],
 ].map(([name, category, categories]) => ({ handle: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, ...(categories ? { categories } : {}), group: 'unconfirmed', price: null, image: null,
   description: 'Ask our team about this new addition', aliases: '', shades: [], url: null, isNew: true }));

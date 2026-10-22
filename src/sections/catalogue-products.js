@@ -580,38 +580,38 @@ export const products = [
     "isNew": true
   },
   {
-    "handle": "7-inch-hairline",
-    "name": "7-Inch Hairline",
-    "category": "hairline-series",
-    "group": "unconfirmed",
-    "price": null,
-    "image": null,
-    "description": "Ask our team about this new addition",
-    "aliases": "",
-    "shades": [],
-    "url": null,
-    "isNew": true
-  },
-  {
-    "handle": "11-inch-hairline",
-    "name": "11-Inch Hairline",
-    "category": "hairline-series",
-    "group": "unconfirmed",
-    "price": null,
-    "image": null,
-    "description": "Ask our team about this new addition",
-    "aliases": "",
-    "shades": [],
-    "url": null,
-    "isNew": true
-  },
-  {
     "handle": "hairline-toppers",
     "name": "Hairline Toppers",
     "category": "toppers",
     "categories": [
       "hairline-series"
     ],
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "3-inch-hairline-topper",
+    "name": "3 inch Hairline Topper",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "6-inch-hairline-topper",
+    "name": "6 inch Hairline Topper",
+    "category": "hairline-series",
     "group": "unconfirmed",
     "price": null,
     "image": null,
@@ -637,6 +637,32 @@ export const products = [
   {
     "handle": "11-inch-hairline-topper",
     "name": "11-Inch Hairline Topper",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "7-inch-hairline",
+    "name": "7-Inch Hairline",
+    "category": "hairline-series",
+    "group": "unconfirmed",
+    "price": null,
+    "image": null,
+    "description": "Ask our team about this new addition",
+    "aliases": "",
+    "shades": [],
+    "url": null,
+    "isNew": true
+  },
+  {
+    "handle": "11-inch-hairline",
+    "name": "11-Inch Hairline",
     "category": "hairline-series",
     "group": "unconfirmed",
     "price": null,

@@ -1,0 +1,427 @@
+{
+  "source": "https://alchemane.com/products/silk-hair-toppers.js",
+  "fetchedAt": "2026-10-21T13:15:56.400Z",
+  "product": {
+    "id": 7289853280315,
+    "title": "Silk Topper 5x3",
+    "handle": "silk-hair-toppers",
+    "description": "<h3>SILK HAIR TOPPERS FOR WOMEN</h3>\n<p><a href=\"https://alchemane.com/products/silk-hair-toppers\">Silk Hair Toppers</a> are Designed to conceal hair loss at various stages and different areas of the scalp, <a href=\"https://alchemane.com/products/silk-hair-toppers\">hair toppers</a> come in many shapes and sizes. Some oﬀer more coverage on the top, while others are speciﬁcally designed for the sole purpose of adding volume to thin or ﬁne hair. Hair toppers help conceal thinning hair, hair loss and balding in the crown of the head. As It’s light weight, it’s easy to install and you’ll feel beautiful and conﬁdent after you put it in.</p>\n<p><a href=\"https://alchemane.com/products/silk-hair-toppers\">Alchemane Toppers</a> have a thin net at the bottom for comfort, then a lace fabric wherein each individual strand of hair is knotted and then a silk layer on top which looks exactly like your own skin after parting the hair. Hair toppers can help you regain your conﬁdence.</p>\n<!---->",
+    "published_at": "2024-07-04T04:22:39-04:00",
+    "created_at": "2024-07-04T04:22:39-04:00",
+    "vendor": "Alchemane Hair Extensions",
+    "type": "Silk Hair Topper",
+    "tags": [
+      "Clip in Extensions"
+    ],
+    "price": 2800000,
+    "price_min": 2800000,
+    "price_max": 3200000,
+    "available": true,
+    "price_varies": true,
+    "compare_at_price": null,
+    "compare_at_price_min": 0,
+    "compare_at_price_max": 0,
+    "compare_at_price_varies": false,
+    "variants": [
+      {
+        "id": 41758814142523,
+        "title": "5x3 / 14 inches / Natural Black",
+        "option1": "5x3",
+        "option2": "14 inches",
+        "option3": "Natural Black",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 14 inches / Natural Black",
+        "public_title": "5x3 / 14 inches / Natural Black",
+        "options": [
+          "5x3",
+          "14 inches",
+          "Natural Black"
+        ],
+        "price": 2800000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      },
+      {
+        "id": 41758814175291,
+        "title": "5x3 / 14 inches / Dark Brown",
+        "option1": "5x3",
+        "option2": "14 inches",
+        "option3": "Dark Brown",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 14 inches / Dark Brown",
+        "public_title": "5x3 / 14 inches / Dark Brown",
+        "options": [
+          "5x3",
+          "14 inches",
+          "Dark Brown"
+        ],
+        "price": 2800000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      },
+      {
+        "id": 41758814208059,
+        "title": "5x3 / 14 inches / Highlights",
+        "option1": "5x3",
+        "option2": "14 inches",
+        "option3": "Highlights",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 14 inches / Highlights",
+        "public_title": "5x3 / 14 inches / Highlights",
+        "options": [
+          "5x3",
+          "14 inches",
+          "Highlights"
+        ],
+        "price": 3000000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      },
+      {
+        "id": 41758814240827,
+        "title": "5x3 / 16 inches / Natural Black",
+        "option1": "5x3",
+        "option2": "16 inches",
+        "option3": "Natural Black",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 16 inches / Natural Black",
+        "public_title": "5x3 / 16 inches / Natural Black",
+        "options": [
+          "5x3",
+          "16 inches",
+          "Natural Black"
+        ],
+        "price": 3000000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      },
+      {
+        "id": 41758814273595,
+        "title": "5x3 / 16 inches / Dark Brown",
+        "option1": "5x3",
+        "option2": "16 inches",
+        "option3": "Dark Brown",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 16 inches / Dark Brown",
+        "public_title": "5x3 / 16 inches / Dark Brown",
+        "options": [
+          "5x3",
+          "16 inches",
+          "Dark Brown"
+        ],
+        "price": 3000000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      },
+      {
+        "id": 41758814306363,
+        "title": "5x3 / 16 inches / Highlights",
+        "option1": "5x3",
+        "option2": "16 inches",
+        "option3": "Highlights",
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": false,
+        "featured_image": null,
+        "available": true,
+        "name": "Silk Topper 5x3 - 5x3 / 16 inches / Highlights",
+        "public_title": "5x3 / 16 inches / Highlights",
+        "options": [
+          "5x3",
+          "16 inches",
+          "Highlights"
+        ],
+        "price": 3200000,
+        "weight": 0,
+        "compare_at_price": null,
+        "inventory_management": "shopify",
+        "barcode": null,
+        "quantity_rule": {
+          "min": 1,
+          "max": null,
+          "increment": 1
+        },
+        "quantity_price_breaks": [],
+        "requires_selling_plan": false,
+        "selling_plan_allocations": []
+      }
+    ],
+    "images": [
+      "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-809210.png?v=1748151250",
+      "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-660272.png?v=1748151249",
+      "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-356725.png?v=1748151250",
+      "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-936428.png?v=1748151250",
+      "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-501568.png?v=1748151249"
+    ],
+    "featured_image": "//cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-809210.png?v=1748151250",
+    "options": [
+      {
+        "name": "Base Size",
+        "position": 1,
+        "values": [
+          "5x3"
+        ]
+      },
+      {
+        "name": "Length",
+        "position": 2,
+        "values": [
+          "14 inches",
+          "16 inches"
+        ]
+      },
+      {
+        "name": "Colour",
+        "position": 3,
+        "values": [
+          "Natural Black",
+          "Dark Brown",
+          "Highlights"
+        ]
+      }
+    ],
+    "url": "/products/silk-hair-toppers",
+    "media": [
+      {
+        "alt": null,
+        "id": 24731291811899,
+        "position": 1,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/preview_images/f5da713372254d33bc14c1f3a03bd12e.thumbnail.0000000000.jpg?v=1723194376"
+        },
+        "aspect_ratio": 0.563,
+        "duration": 13120,
+        "media_type": "video",
+        "sources": [
+          {
+            "format": "mp4",
+            "height": 480,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/f5da713372254d33bc14c1f3a03bd12e/f5da713372254d33bc14c1f3a03bd12e.SD-480p-1.5Mbps-32985314.mp4",
+            "width": 270
+          },
+          {
+            "format": "mp4",
+            "height": 1080,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/f5da713372254d33bc14c1f3a03bd12e/f5da713372254d33bc14c1f3a03bd12e.HD-1080p-7.2Mbps-32985314.mp4",
+            "width": 606
+          },
+          {
+            "format": "mp4",
+            "height": 720,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/f5da713372254d33bc14c1f3a03bd12e/f5da713372254d33bc14c1f3a03bd12e.HD-720p-4.5Mbps-32985314.mp4",
+            "width": 404
+          },
+          {
+            "format": "m3u8",
+            "height": 1080,
+            "mime_type": "application/x-mpegURL",
+            "url": "https://cdn.shopify.com/videos/c/vp/f5da713372254d33bc14c1f3a03bd12e/f5da713372254d33bc14c1f3a03bd12e.m3u8",
+            "width": 606
+          }
+        ]
+      },
+      {
+        "alt": "Silk Topper 5x3 - Alchemane Hair Extensions",
+        "id": 24731291713595,
+        "position": 2,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-809210.png?v=1748151250"
+        },
+        "aspect_ratio": 0.563,
+        "height": 1920,
+        "media_type": "image",
+        "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-809210.png?v=1748151250",
+        "width": 1080
+      },
+      {
+        "alt": "Silk Topper 5x3 - Alchemane Hair Extensions",
+        "id": 24731291648059,
+        "position": 3,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-660272.png?v=1748151249"
+        },
+        "aspect_ratio": 0.563,
+        "height": 1920,
+        "media_type": "image",
+        "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-660272.png?v=1748151249",
+        "width": 1080
+      },
+      {
+        "alt": "Silk Topper 5x3 - Alchemane Hair Extensions",
+        "id": 24731291680827,
+        "position": 4,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-356725.png?v=1748151250"
+        },
+        "aspect_ratio": 0.563,
+        "height": 1920,
+        "media_type": "image",
+        "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-356725.png?v=1748151250",
+        "width": 1080
+      },
+      {
+        "alt": "Silk Topper 5x3 - Alchemane Hair Extensions",
+        "id": 24731291746363,
+        "position": 5,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-936428.png?v=1748151250"
+        },
+        "aspect_ratio": 0.563,
+        "height": 1920,
+        "media_type": "image",
+        "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-936428.png?v=1748151250",
+        "width": 1080
+      },
+      {
+        "alt": "Silk Topper 5x3 - Alchemane Hair Extensions",
+        "id": 24731291779131,
+        "position": 6,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-501568.png?v=1748151249"
+        },
+        "aspect_ratio": 0.563,
+        "height": 1920,
+        "media_type": "image",
+        "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/silk-topper-5x3-501568.png?v=1748151249",
+        "width": 1080
+      },
+      {
+        "alt": null,
+        "id": 24768769261627,
+        "position": 7,
+        "preview_image": {
+          "aspect_ratio": 0.563,
+          "height": 1920,
+          "width": 1080,
+          "src": "https://cdn.shopify.com/s/files/1/0583/1180/2939/files/preview_images/0496aecb01a449c68dc2d158eea4a3b3.thumbnail.0000000000.jpg?v=1725083874"
+        },
+        "aspect_ratio": 0.563,
+        "duration": 79000,
+        "media_type": "video",
+        "sources": [
+          {
+            "format": "mp4",
+            "height": 480,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/0496aecb01a449c68dc2d158eea4a3b3/0496aecb01a449c68dc2d158eea4a3b3.SD-480p-1.5Mbps-34011029.mp4",
+            "width": 270
+          },
+          {
+            "format": "mp4",
+            "height": 1080,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/0496aecb01a449c68dc2d158eea4a3b3/0496aecb01a449c68dc2d158eea4a3b3.HD-1080p-7.2Mbps-34011029.mp4",
+            "width": 606
+          },
+          {
+            "format": "mp4",
+            "height": 720,
+            "mime_type": "video/mp4",
+            "url": "https://cdn.shopify.com/videos/c/vp/0496aecb01a449c68dc2d158eea4a3b3/0496aecb01a449c68dc2d158eea4a3b3.HD-720p-4.5Mbps-34011029.mp4",
+            "width": 404
+          },
+          {
+            "format": "m3u8",
+            "height": 1080,
+            "mime_type": "application/x-mpegURL",
+            "url": "https://cdn.shopify.com/videos/c/vp/0496aecb01a449c68dc2d158eea4a3b3/0496aecb01a449c68dc2d158eea4a3b3.m3u8",
+            "width": 606
+          }
+        ]
+      }
+    ],
+    "requires_selling_plan": false,
+    "selling_plan_groups": []
+  }
+}

@@ -457,7 +457,12 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-diff__controls { gap: 12px; }
   .pe-diff__controls button { width: 52px; height: 52px; }
   .pe-actions { display: flex; }
-  .pe-transform .client-film { max-width: 960px; }
+  /* Match the topper page: the section title leads, then the film sits centred
+     below it instead of competing with the video in a two-column split. */
+  .pe-transform .client-proof-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .pe-transform .client-proof-heading { width: 100%; margin-inline: auto; text-align: center; }
+  .pe-transform .client-proof-heading h2 { max-width: none; margin-inline: auto; font-size: var(--text-title); line-height: 1.1; }
+  .pe-transform .client-film { width: min(100%, 960px); max-width: 960px; justify-self: center; }
   .pe-transform .client-film-frame { aspect-ratio: 16 / 9; }
   .pe-transform__video--mobile { display: none; }
   .pe-transform__video--desktop { display: block; }
@@ -535,10 +540,6 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
   .pe-split { grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; }
   .pe-film { max-width: 440px; justify-self: center; width: 100%; }
   .pe-specialist__film { width: 100%; max-width: none; justify-self: stretch; }
-  .pe-transform .client-proof-inner { grid-template-columns: minmax(360px, .62fr) minmax(0, 1fr); gap: clamp(48px, 6vw, 80px); align-items: center; }
-  .pe-transform .client-proof-heading { width: auto; margin: 0; }
-  .pe-transform .client-proof-heading h2 { max-width: 10ch; margin: 0; font-size: clamp(48px, 3.8vw, 56px); line-height: 1.02; }
-  .pe-transform .client-film { width: 100%; max-width: 760px; justify-self: end; }
   /* With a mouse there's no swipe, so the rows become plain grids that fit. */
   .pe-rail { grid-auto-flow: row; overflow: visible; width: min(100%, 1180px); margin-inline: auto; padding: 4px 32px 0; }
   .pe-gallery { grid-template-columns: repeat(7, 1fr); }

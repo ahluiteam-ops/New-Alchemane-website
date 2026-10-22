@@ -104,7 +104,7 @@ export function initOfferPopup() {
   const open = () => {
     // Don't interrupt: wait while another dialog is open, a film is playing,
     // or the tab isn't visible.
-    const busy = document.querySelector('dialog[open]:not(.offer-dialog)')
+    const busy = document.querySelector('dialog[open]:not(.offer-dialog), #shop-navigation:popover-open')
       || [...document.querySelectorAll('video')].some(v => !v.paused)
       || document.hidden;
     if (busy) { timer = setTimeout(open, RETRY_MS); return; }

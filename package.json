@@ -19,7 +19,9 @@
     "check:topper-consultation-sections": "node scripts/check-topper-consultation-sections.mjs",
     "check:permanent-videos": "node scripts/check-permanent-videos.mjs",
     "check:wigs": "node scripts/check-wigs.mjs",
-    "check:discovery": "node scripts/check-discovery.mjs"
+    "check:discovery": "node scripts/check-discovery.mjs",
+    "check:product": "node scripts/check-product-page.mjs",
+    "check:shop-navigation": "node scripts/check-shop-navigation.mjs"
   },
   "dependencies": {
     "gsap": "^3.13.0"

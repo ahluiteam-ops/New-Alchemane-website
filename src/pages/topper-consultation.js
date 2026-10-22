@@ -89,7 +89,8 @@ on(form, 'submit', event => {
     phone: data.get('phone').trim(),
     date: preferredDate(data.get('date')),
   };
-  const message = `Hello Alchemane, I’d like to request a hair topper consultation.\n\nConsultation: ${summary.meeting}\nConsultation fee: ${fee}\nName: ${summary.name}\nWhatsApp number: ${summary.phone}\nPreferred date: ${summary.date}\n\nPlease confirm availability and payment details.`;
+  const productContext = data.get('product') ? `Product: ${data.get('product')}\nSelected options: ${data.get('selection')}\n` : '';
+  const message = `Hello Alchemane, I’d like to request a hair topper consultation.\n\n${productContext}Consultation: ${summary.meeting}\nConsultation fee: ${fee}\nName: ${summary.name}\nWhatsApp number: ${summary.phone}\nPreferred date: ${summary.date}\n\nPlease confirm availability and payment details.`;
   whatsapp.href = `https://wa.me/919967123333?text=${encodeURIComponent(message)}`;
   status.hidden = false;
   window.open(whatsapp.href, '_blank', 'noopener,noreferrer');

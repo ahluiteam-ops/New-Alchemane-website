@@ -53,10 +53,12 @@ summary:focus-visible { outline-color: var(--color-primary); }
 .transformation-section, .range-band, .consultation-section, .ext-cta,
 .catalogue-empty { background: var(--surface-soft); }
 
-/* Dark editorial moments use one ink field and pale-teal hierarchy. */
-.founder-section, .film-band-dark { background: var(--color-primary); color: var(--color-white); }
+/* The founder story stays light; dark films retain the ink treatment. */
+.founder-section { background: var(--color-white); color: var(--color-primary); }
+.film-band-dark { background: var(--color-primary); color: var(--color-white); }
 .film-band-dark { --line: rgb(255 255 255 / .18); --muted: var(--color-mist); --brass: var(--color-accent-muted); }
-.founder-copy .eyebrow, .film-band-dark .eyebrow { color: var(--color-accent-muted); }
+.founder-copy .eyebrow { color: var(--color-accent-ink); }
+.film-band-dark .eyebrow { color: var(--color-accent-muted); }
 .film-band-dark h2 { color: var(--color-white); }
 .film-band-dark h2 em { color: var(--color-accent-soft); }
 .film-band-dark .solid-button { background: var(--color-white); color: var(--color-primary); }
