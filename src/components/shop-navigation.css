@@ -53,6 +53,9 @@
 .shopnav__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 8px 24px; border-top: 1px solid var(--border); }
 .shopnav__footer > a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; }
 .shopnav__footer > a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.shopnav__masthead-links { display: flex; align-items: center; justify-content: flex-end; gap: clamp(18px, 3vw, 40px); }
+.shopnav__blog-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: none; }
+.shopnav__blog-link:hover { text-decoration: underline; text-underline-offset: 5px; }
 
 @media (min-width: 1000px) {
   .site-header .main-nav { gap: clamp(18px, 2vw, 32px); }
@@ -93,6 +96,7 @@
   .site-header .menu-toggle { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; background: transparent; }
   .site-header .menu-toggle svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
   .shop-header .header-help { display: none; }
+  .shopnav__blog-link { display: none; }
 }
 @media (max-width: 370px) {
   .pd-header .pd-header__inner { width: calc(100% - 24px); }

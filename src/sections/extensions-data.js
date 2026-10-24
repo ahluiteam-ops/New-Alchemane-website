@@ -93,7 +93,7 @@ export const aftercare = [
   ['Reusable', 'Three to four times with proper care.'],
   ['Removal', 'Around an hour, depending on the method.'],
   ['Servicing', 'Cleaning, re-taping, rebonding or refitting after removal.'],
-  ['Where', 'Fitted at Alchemane, 4th floor, Empressa Building, Khar West, Mumbai.'],
+  ['Where', 'Fitted at Alchemane, 4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.'],
 ];
 
 // Questions from the Figma. Only the first arrived with an answer; the rest are
@@ -112,7 +112,7 @@ export const questions = [
   ['Can the hair be reused?',
     'Yes — three to four times with proper care. After removal the hair is cleaned and re-taped, rebonded or refitted.'],
   ['Where do you fit them?',
-    'At our studio on the 4th floor of the Empressa Building, 2nd Road, Ram Krishna Nagar, Khar West, Mumbai 400052.'],
+    'At our studio at 4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.'],
 ];
 
 // The range, split the way someone shopping actually thinks about it.

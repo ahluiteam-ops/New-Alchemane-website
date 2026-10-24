@@ -1,0 +1,36 @@
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--color-primary); background: #fff; font-family: var(--font-body); font-size: 17px; line-height: 1.65; }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--color-accent-ink); outline-offset: 4px; border-radius: 2px; }
+.policy-skip { position: absolute; z-index: 20; top: -100px; left: 16px; padding: 12px 18px; background: var(--color-primary); color: #fff; }
+.policy-skip:focus { top: 12px; }
+.policy-header { border-bottom: 1px solid var(--color-line); background: #fff; }
+.policy-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: min(100% - 2 * var(--page-gutter), var(--content-width)); min-height: 86px; margin: auto; }
+.policy-brand img { display: block; width: 164px; height: auto; }
+.policy-header__nav { display: flex; align-items: center; gap: clamp(18px, 2.3vw, 38px); }
+.policy-header__nav a { font-size: 14px; font-weight: 600; text-decoration: none; }
+.policy-header__nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.policy-header__menu { display: none; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.policy-header__menu svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.policy-main { padding: 30px var(--page-gutter) clamp(90px, 9vw, 150px); }
+.policy-wrap { width: min(100%, var(--content-width)); margin-inline: auto; }
+.policy-breadcrumb { display: flex; align-items: center; gap: 10px; color: var(--color-muted); font-size: 14px; }
+.policy-breadcrumb a { text-decoration: none; }
+.policy-breadcrumb a:hover { text-decoration: underline; }
+.policy-layout { display: grid; grid-template-columns: minmax(230px, .78fr) minmax(0, 1.45fr); gap: clamp(45px, 7vw, 130px); margin-top: clamp(54px, 7vw, 110px); }
+.policy-intro { align-self: start; position: sticky; top: 38px; }
+.policy-intro h1 { max-width: 540px; margin: 0; font-family: var(--font-display); font-size: clamp(44px, 5.4vw, 76px); font-weight: 400; letter-spacing: -.045em; line-height: 1.04; text-wrap: balance; }
+.policy-body { max-width: 740px; min-width: 0; overflow-wrap: anywhere; }
+.policy-body > :first-child { margin-top: 0; }
+.policy-body h2 { margin: 46px 0 12px; padding-top: 24px; border-top: 1px solid var(--color-line); font-family: var(--font-display); font-size: clamp(25px, 2.5vw, 32px); font-weight: 400; line-height: 1.2; }
+.policy-body h3 { margin: 28px 0 10px; font-size: 18px; font-weight: 600; }
+.policy-body p { margin: 0 0 19px; }
+.policy-body ul, .policy-body ol { margin: 0 0 22px; padding-left: 1.5em; }
+.policy-body li { padding-left: .25em; margin-bottom: 8px; }
+.policy-body a { color: var(--color-accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.footer-nav-column a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 800px) { .policy-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 56px; } .policy-intro { position: static; } .policy-body { max-width: 720px; } }
+@media (max-width: 1050px) { .policy-header__inner { min-height: 70px; } .policy-header__menu { display: grid; } .policy-header__nav { display: none; position: absolute; z-index: 10; top: 100%; left: 0; right: 0; padding: 10px var(--page-gutter) 18px; background: #fff; border-top: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); box-shadow: 0 14px 30px #0001; } .policy-header.is-open .policy-header__nav { display: grid; } .policy-header__nav a { min-height: 48px; } .policy-header { position: relative; } }
+@media (max-width: 700px) { .policy-brand img { width: 150px; } .policy-main { padding-top: 20px; padding-bottom: 80px; } .policy-layout { margin-top: 42px; gap: 38px; } .policy-intro h1 { font-size: clamp(40px, 11vw, 56px); } .policy-body h2 { margin-top: 36px; padding-top: 20px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

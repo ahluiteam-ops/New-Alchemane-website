@@ -28,7 +28,7 @@ function renderPanel(isProductPage) {
         </section>`).join('')}
       </div>
     </div>
-    <div class="shopnav__footer"><a href="/?category=all#range">Explore all products ${arrow}</a><a href="${isProductPage ? '#consultation' : '/#consultation'}">Need help choosing? ${arrow}</a></div>
+    <div class="shopnav__footer"><a href="/?category=all#range">Explore all products ${arrow}</a><a href="/blogs.html">Blogs ${arrow}</a><a href="/consultation.html">Book A Consultation ${arrow}</a></div>
   </nav>`;
 }
 
@@ -37,9 +37,9 @@ export function addShopNavigation(html) {
   const isProductPage = /<body[^>]*class="[^"]*\bpd\b/.test(html);
   html = html.replace(/<header class="(site-header|pe-header|pd-header|shop-header)"[^>]*>[\s\S]*?<\/header>/, (header, type) => {
     decorated = true;
+    header = header.replace(/(<a href="\/consultation\.html"[^>]*>Book A Consultation<\/a>)/, '<a href="/blogs.html">Blogs</a>$1');
     header = header.replace(/(<nav[^>]*class="(?:main-nav|pe-nav|pd-nav|shop-nav)"[^>]*>)(\s*<a href="\/"[^>]*>Home<\/a>)?/, (_, opening, home = '') => opening + home + trigger(false));
-    if (type === 'site-header') header = header.replace('</nav>', '<a class="shopnav__mobile-help" href="#consultation">Book a consultation</a></nav>');
-    if (type === 'shop-header') header = header.replace('<a class="header-help"', `${trigger(true)}<a class="header-help"`);
+    if (type === 'shop-header') header = header.replace(/(<a class="header-help"[\s\S]*?<\/a>)/, `<div class="shopnav__masthead-links"><a class="shopnav__blog-link" href="/blogs.html">Blogs</a>${trigger(true)}$1</div>`);
     else header = header.replace(/<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"/, match => trigger(true) + match);
     return header.replace('</header>', `${renderPanel(isProductPage)}</header>`);
   });

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Book a private Alchemane hair consultation online or at our Khar West studio in Mumbai. Contact our team to arrange a time.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/source-sans-3-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="/fonts/source-serif-4-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <title>Book A Consultation | Alchemane</title>
+</head>
+<body id="top">
+  <a class="consult-skip" href="#main">Skip to consultation</a>
+  <header class="consult-header"><div class="consult-header__inner">
+    <a class="consult-brand" href="/" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
+    <nav class="consult-nav" id="consult-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/permanent-extensions.html">Permanent Extensions</a><a href="/toppers.html">Hair Toppers</a><a href="/wigs.html">Wigs</a><a href="/blogs.html">Blogs</a><a href="/consultation.html" aria-current="page">Book A Consultation</a></nav>
+    <button class="consult-menu" type="button" aria-label="Open navigation menu" aria-controls="consult-nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div></header>
+  <nav class="site-breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page"><span class="site-breadcrumb__current">Book A Consultation</span></li></ol></nav>
+  <main id="main">
+    <section class="consult-hero" aria-labelledby="consult-title"><div class="consult-hero__copy">
+      <h1 id="consult-title">Find the right hair option for you.</h1>
+      <p>Talk one-to-one with an Alchemane specialist about your hair needs, lifestyle, and preferences. Meet online or at our Khar West studio.</p>
+      <a class="consult-hero__cta" href="#booking">Book a consultation — ₹299 <span aria-hidden="true">→</span></a>
+    </div><picture class="consult-hero__media">
+      <source media="(max-width: 800px)" srcset="/assets/studio-visit/consultation-mobile-640.webp 640w, /assets/studio-visit/consultation-mobile-1024.webp 1024w" sizes="100vw">
+      <img src="/assets/studio-visit/consultation-desktop-1774.webp" srcset="/assets/studio-visit/consultation-desktop-1100.webp 1100w, /assets/studio-visit/consultation-desktop-1774.webp 1774w" sizes="100vw" width="1774" height="887" alt="An Alchemane specialist consulting with a client in the studio" fetchpriority="high">
+    </picture></section>
+
+    <section class="consult-booking" id="booking" aria-labelledby="booking-title"><div class="consult-booking__inner">
+      <div class="consult-booking__intro">
+        <h2 id="booking-title">Book your consultation.</h2>
+        <p>Meet us online or at our Mumbai studio. We’ll help you find the extension method that suits your hair and routine.</p>
+        <a class="consult-call" href="tel:+919967123333">Prefer to call us? +91 99671 23333</a>
+      </div>
+      <form class="consult-booking__form" id="consultation-booking-form" novalidate>
+        <div class="consult-booking__fields">
+          <div class="consult-booking__field"><label for="booking-name">Your name</label><input id="booking-name" name="name" autocomplete="name" placeholder="Full name" maxlength="80" required aria-describedby="booking-name-error"><span class="consult-booking__error" id="booking-name-error" hidden></span></div>
+          <div class="consult-booking__field"><label for="booking-phone">Phone number</label><input id="booking-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="24" required aria-describedby="booking-phone-error"><span class="consult-booking__error" id="booking-phone-error" hidden></span></div>
+          <div class="consult-booking__field"><label for="booking-city">Your city <span>(optional)</span></label><input id="booking-city" name="city" autocomplete="address-level2" placeholder="City" maxlength="80"></div>
+        </div>
+        <div class="consultation-meet" role="group" aria-labelledby="booking-meet-label" data-consultation-meet>
+          <p class="consultation-meet__label" id="booking-meet-label">How would you like to meet?</p>
+          <div class="consultation-meet__options"><button type="button" data-meet-option="Online" aria-pressed="false">Online</button><button type="button" data-meet-option="Khar West studio" aria-pressed="true">Offline</button></div>
+          <p class="consultation-meet__note" data-meet-note aria-live="polite">In-person at our Khar West studio, Mumbai.</p>
+          <input type="hidden" name="meeting" value="Khar West studio">
+        </div>
+        <button class="consult-booking__submit" type="submit">Book now — ₹299</button>
+        <p class="consult-booking__note">We’ll confirm your slot and payment details on WhatsApp.</p>
+        <div class="consult-booking__status" role="status" aria-live="polite" hidden><p>Your request is ready. Your name, number, city (if given), and meeting choice will be added to a WhatsApp draft. Review it before sending.</p><a id="booking-whatsapp-link" target="_blank" rel="noopener noreferrer">Continue to WhatsApp with my details <span aria-hidden="true">↗</span></a></div>
+      </form>
+    </div></section>
+
+    <section class="consult-location" aria-labelledby="location-title"><div class="consult-location__inner"><div class="consult-location__copy">
+      <p class="consult-eyebrow">The Mumbai studio</p>
+      <h2 id="location-title">Find us in Khar West.</h2>
+      <div class="consult-location__contacts" aria-label="Contact and visit the studio">
+        <a class="consult-location__contact" href="tel:+919967123333">
+          <span class="consult-location__icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg></span>
+          <span class="consult-location__contact-copy"><span class="consult-location__label">Call us</span><span class="consult-location__value">+91 9967123333</span></span>
+          <span class="consult-location__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="consult-location__contact consult-location__contact--whatsapp" href="https://wa.me/918591116455" target="_blank" rel="noopener noreferrer">
+          <span class="consult-location__icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg></span>
+          <span class="consult-location__contact-copy"><span class="consult-location__label">WhatsApp us</span><span class="consult-location__value">+91 8591116455</span></span>
+          <span class="consult-location__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="consult-location__contact" href="mailto:info@alchemane.com">
+          <span class="consult-location__icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/></svg></span>
+          <span class="consult-location__contact-copy"><span class="consult-location__label">Email us</span><span class="consult-location__value">info@alchemane.com</span></span>
+          <span class="consult-location__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="consult-location__contact consult-location__contact--address" href="https://maps.app.goo.gl/JnHWeEEPoYzHk7E36" target="_blank" rel="noopener noreferrer">
+          <span class="consult-location__icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg></span>
+          <span class="consult-location__contact-copy"><span class="consult-location__label">Locate us</span><span class="consult-location__value">4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</span><span class="consult-location__map-label">Open in Google Maps</span><span class="consult-location__hours"><strong>Opening hours</strong><span>Tuesday to Sunday · 11 AM–8 PM</span><span>Monday closed</span></span></span>
+          <span class="consult-location__arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div><div class="consult-location__map"><iframe title="Google Map showing Alchemane Salon in Khar West, Mumbai" src="https://www.google.com/maps?q=Alchemane+Salon+%7C+Hair+Extensions%2C+19.0701981%2C+72.8383453&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div></section>
+  </main>
+  <footer class="site-footer" aria-label="Footer"><div class="footer-main"><div class="footer-brand-column"><a class="footer-brand" href="/" aria-label="Alchemane home"><img class="footer-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40"></a><address class="footer-address"><strong>Address</strong> – 4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</address></div><nav class="footer-nav-column" aria-label="Solutions"><p class="footer-title">Solutions</p><a href="/extensions.html">Hair Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html">Hair Toppers</a></nav><nav class="footer-nav-column" aria-label="Shopping information"><p class="footer-title">Shopping information</p><a href="/pages/privacy-policy/">Privacy Policy</a><a href="/pages/returns-and-exchanges/">Returns and Exchanges</a><a href="/pages/shipping-delivery/">Shipping and Delivery</a><a href="/pages/terms-of-service/">Terms of Service</a></nav><div class="footer-contact-column"><p class="footer-title">Contact Us</p><a class="footer-contact-link" href="tel:+919967123333">+91 99671 23333</a><a class="footer-contact-link" href="mailto:info@alchemane.com">info@alchemane.com</a></div></div><div class="footer-bottom"><span class="footer-copyright">© <span data-year>2026</span> Alchemane Hair Extensions</span><a class="footer-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a></div></footer>
+  <script type="module" src="/src/pages/consultation.js"></script>
+</body>
+</html>

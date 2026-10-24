@@ -52,3 +52,23 @@
   --stone: var(--surface-soft);
   --brass: var(--action);
 }
+
+/* Shared wayfinding for every internal page. The current label may shorten
+   visually on narrow screens, while its complete text remains in the DOM. */
+.site-breadcrumb {
+  width: min(calc(100% - 2 * var(--page-gutter)), var(--content-width));
+  margin-inline: auto;
+  color: var(--color-muted);
+  font: 600 13px/1.3 var(--font-body);
+}
+.site-breadcrumb ol { display: flex; min-width: 0; align-items: center; gap: 9px; margin: 0; padding: 10px 0; list-style: none; }
+.site-breadcrumb li { display: flex; min-width: 0; align-items: center; gap: 9px; }
+.site-breadcrumb li:not(:last-child) { flex: none; }
+.site-breadcrumb li + li::before { content: '/'; color: currentColor; opacity: .55; }
+.site-breadcrumb li:last-child { flex: 1; overflow: hidden; }
+.site-breadcrumb a { display: inline-flex; min-height: 44px; align-items: center; color: inherit; text-underline-offset: 4px; }
+.site-breadcrumb__current { display: block; min-width: 0; overflow: hidden; color: var(--color-primary); text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 700px) {
+  .site-breadcrumb { width: calc(100% - 2 * var(--page-gutter)); }
+  .site-breadcrumb ol { padding-block: 7px; }
+}
