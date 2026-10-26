@@ -78,7 +78,7 @@ try {
     await page.goto(`${base}/extensions.html`, { waitUntil: 'domcontentloaded' });
     if (name === 'mobile') {
       await page.locator('.shopnav__mobile-trigger').click();
-      assert.equal(await page.locator('.shopnav__footer a[href="/blogs.html"]').isVisible(), true, 'Shop menu includes Blogs');
+      assert.equal(await page.locator('#shop-navigation a[href="/blogs.html"]').count(), 0, 'Shop menu lists only product categories');
     } else {
       assert.equal(await page.locator('.shopnav__blog-link').isVisible(), true, 'Shop-style header includes Blogs');
     }

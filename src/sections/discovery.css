@@ -94,8 +94,10 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
   .catalogue-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
 }
 @media (max-width: 900px) {
-  .shop-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-inline: 12px; }
-  .shop-nav a { justify-content: center; }
+  /* One swipeable row keeps the sticky header short instead of stacking the categories. */
+  .shop-nav { display: flex; justify-content: flex-start; gap: 0; padding-inline: 8px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain; mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent); }
+  .shop-nav::-webkit-scrollbar { display: none; }
+  .shop-nav a { flex: none; justify-content: center; padding-inline: 12px; scroll-snap-align: start; }
   .shop-nav a::after { left: 12px; right: 12px; }
 }
 @media (max-width: 700px) {
@@ -107,8 +109,7 @@ input:focus-visible, select:focus-visible { outline: 2px solid var(--action); ou
   .shop-masthead .brand-name { font-size: 27px; }
   .shop-masthead .brand-caption { font-size: 8px; letter-spacing: 2px; }
   .header-help { grid-column: 2; grid-row: 1; font-size: 13px; }
-  .shop-nav { justify-content: center; gap: 0; display: grid; grid-template-columns: repeat(3, 1fr); padding: 0 12px; }
-  .shop-nav a { font-size: 13px; min-height: 44px; justify-content: center; }
+  .shop-nav a { font-size: 14px; min-height: 44px; }
   .shop-nav a::after { left: 12px; right: 12px; bottom: 3px; }
   .shop-hero { grid-template-columns: 1fr; min-height: auto; }
   .shop-hero-copy { padding: 28px 20px 0; }

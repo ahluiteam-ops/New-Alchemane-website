@@ -105,7 +105,8 @@ try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await page.goto(`${base}/extensions.html`, { waitUntil: 'domcontentloaded' });
     await page.locator('.shopnav__mobile-trigger').click();
-    await expect(page.locator('.shopnav__footer a[href="/consultation.html"]')).toBeVisible();
+    await expect(page.locator('#shop-navigation')).toBeVisible();
+    await expect(page.locator('#shop-navigation a[href="/consultation.html"]')).toHaveCount(0);
     await page.close();
     console.log('Mobile shop menu passed on /extensions.html');
   }
@@ -115,7 +116,8 @@ try {
       await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded' });
       const menu = page.locator('.menu-toggle, .pe-menu, .pd-menu, .policy-header__menu').first();
       if (await menu.isVisible()) await menu.click();
-      await expect(page.locator('nav a[href="/consultation.html"]').first()).toBeVisible();
+      // Desktop headers offer consultation once: the nav link, or the header button that replaces it.
+      await expect(page.locator('header').getByRole('link', { name: /consultation/i }).filter({ visible: true })).toHaveCount(1);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${route} overflows at ${width}px`);
       await page.close();
     }

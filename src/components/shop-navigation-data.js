@@ -3,6 +3,7 @@ import { categories, products, productBelongsToCategory } from '../sections/cata
 const escape = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>';
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
+const menuIcon ='<svg class="nav-menu-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="nav-menu-icon__open" d="M4 7h16M4 12h16M4 17h16"/><path class="nav-menu-icon__close" d="m6 6 12 12M6 18 18 6"/></svg>';
 
 // Only published local product pages belong here. Catalogue entries can remain
 // visible before their pages are ready without linking to unfinished routes.
@@ -23,12 +24,11 @@ function renderPanel(isProductPage) {
             const route = productRoutes[product.handle];
             return `<li>${route
               ? `<a class="shopnav__product shopnav__product--available" href="${route}"${isProductPage ? ' aria-current="page"' : ''}><span>${escape(product.name)}</span><span class="shopnav__product-action">${isProductPage ? 'Current product' : 'View product'} ${arrow}</span></a>`
-              : `<span class="shopnav__product shopnav__product--soon" role="link" aria-disabled="true"><span>${escape(product.name)}</span><span class="shopnav__soon">Coming soon</span></span>`}</li>`;
+              : `<span class="shopnav__product shopnav__product--soon" role="link" aria-disabled="true"><span>${escape(product.name)}</span></span>`}</li>`;
           }).join('')}</ul>
         </section>`).join('')}
       </div>
     </div>
-    <div class="shopnav__footer"><a href="/?category=all#range">Explore all products ${arrow}</a><a href="/blogs.html">Blogs ${arrow}</a><a href="/consultation.html">Book A Consultation ${arrow}</a></div>
   </nav>`;
 }
 
@@ -40,7 +40,10 @@ export function addShopNavigation(html) {
     header = header.replace(/(<a href="\/consultation\.html"[^>]*>Book A Consultation<\/a>)/, '<a href="/blogs.html">Blogs</a>$1');
     header = header.replace(/(<nav[^>]*class="(?:main-nav|pe-nav|pd-nav|shop-nav)"[^>]*>)(\s*<a href="\/"[^>]*>Home<\/a>)?/, (_, opening, home = '') => opening + home + trigger(false));
     if (type === 'shop-header') header = header.replace(/(<a class="header-help"[\s\S]*?<\/a>)/, `<div class="shopnav__masthead-links"><a class="shopnav__blog-link" href="/blogs.html">Blogs</a>${trigger(true)}$1</div>`);
-    else header = header.replace(/<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"/, match => trigger(true) + match);
+    else header = header
+      .replace(/<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"/, match => trigger(true) + match)
+      // One icon with both states, so the open menu shows a close (X) in the same place.
+      .replace(/(<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"[^>]*>)\s*<svg[\s\S]*?<\/svg>/, `$1${menuIcon}`);
     return header.replace('</header>', `${renderPanel(isProductPage)}</header>`);
   });
   return decorated ? html.replace('</body>', '<script type="module" src="/src/components/shop-navigation.js"></script></body>') : html;

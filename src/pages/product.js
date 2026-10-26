@@ -2,6 +2,7 @@ import { productPages, formatPrice } from '../products/product-content.js';
 import { escapeHtml as e, icon } from '../products/render-product.js';
 import { initConsultationMeet } from '../sections/consultation-meet.js';
 import { initProductReviews } from '../products/product-reviews.js';
+import { topperVideos } from '../products/topper-videos.js';
 import '../sections/faq-tabs.css';
 
 const product = JSON.parse(document.querySelector('#product-data').textContent);
@@ -24,7 +25,24 @@ const consultationForm = document.querySelector('#topper-consultation-form');
 const consultationError = consultationForm.querySelector('#booking-errors');
 const consultationStatus = consultationForm.querySelector('#booking-status');
 const consultationLink = consultationForm.querySelector('#booking-message');
-initConsultationMeet(consultationForm);
+const selectConsultationMeeting = initConsultationMeet(consultationForm);
+const consultationOfferChoice = document.querySelector('[data-product-consultation-choice]');
+if (consultationOfferChoice) {
+  const offerButtons = [...consultationOfferChoice.querySelectorAll('[data-product-consultation-mode]')];
+  const offerNote = consultationOfferChoice.querySelector('[data-product-consultation-note]');
+  const offerCta = consultationOfferChoice.querySelector('[data-product-consultation-cta]');
+  const syncConsultationOffer = () => {
+    const meeting = consultationForm.elements.meeting.value;
+    const online = meeting === 'Online';
+    offerButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.productConsultationMode === meeting)));
+    offerNote.querySelector('strong').textContent = online ? 'Online' : 'In-person';
+    offerNote.querySelector('span').textContent = online ? 'Meet from anywhere.' : 'At our Khar West studio, Mumbai.';
+    offerCta.textContent = online ? 'Book an online consultation' : 'Book an offline consultation';
+  };
+  offerButtons.forEach(button => on(button, 'click', () => selectConsultationMeeting(button.dataset.productConsultationMode)));
+  on(consultationForm.elements.meeting, 'input', syncConsultationOffer);
+  syncConsultationOffer();
+}
 on(consultationForm, 'input', event => {
   event.target.removeAttribute('aria-invalid');
   const fieldError = event.target.getAttribute('aria-describedby');
@@ -203,6 +221,204 @@ on(lightbox, 'keydown', event => {
 on(zoomFrame, 'click', event => {
   if (event.target.matches('img')) zoomFrame.classList.toggle('is-zoomed');
 });
+
+// Circular previews play silently while visible. The selected clip opens in a
+// modal carousel so purchase controls stay in their original place.
+const productVideoPicker = document.querySelector('[data-product-videos]');
+let productVideoObserver;
+if (productVideoPicker) {
+  const videoChoices = [...productVideoPicker.querySelectorAll('[data-product-video-select]')];
+  const previewVideos = [...productVideoPicker.querySelectorAll('video[data-preview-src]')];
+  const videoDialog = document.querySelector('#product-video-dialog');
+  const currentFrame = videoDialog.querySelector('.pd-product-video-dialog__current');
+  let videoPlayer = videoDialog.querySelector('[data-product-video-player]');
+  const videoStatus = videoDialog.querySelector('[data-product-video-status]');
+  const videoTitle = videoDialog.querySelector('[data-product-video-title]');
+  const previousImage = videoDialog.querySelector('[data-product-video-previous]');
+  const nextImage = videoDialog.querySelector('[data-product-video-next]');
+  const previousButton = previousImage.closest('button');
+  const nextButton = nextImage.closest('button');
+  const sidePreviews = [...videoDialog.querySelectorAll('.pd-product-video-dialog__preview')];
+  const videoSources = topperVideos.map(({ file }) => `/assets/topper-consultation/${file}.mp4`);
+  const videoPosters = videoSources.map(source => source.replace('.mp4', '.webp'));
+  let activeVideo = 0;
+  const visibleChoices = new Set();
+  let transitionState;
+  let queuedDirection = 0;
+  const syncPreviews = () => {
+    const keyboardFocus = productVideoPicker.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
+    const shouldPlay = !reducedMotion.matches && !videoDialog.open && !document.hidden && !keyboardFocus;
+    previewVideos.forEach((video, index) => {
+      if (shouldPlay && visibleChoices.has(videoChoices[index])) {
+        if (!video.src) video.src = video.dataset.previewSrc;
+        const started = video.play();
+        if (started?.catch) started.catch(() => { /* Poster remains visible if autoplay is blocked. */ });
+      } else {
+        video.pause();
+        // Free the large preview streams before loading the selected modal clip.
+        if (videoDialog.open && video.hasAttribute('src')) {
+          video.removeAttribute('src');
+          video.load();
+        }
+      }
+    });
+  };
+  productVideoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) visibleChoices.add(entry.target);
+      else visibleChoices.delete(entry.target);
+    });
+    syncPreviews();
+  }, { threshold: .45 });
+  videoChoices.forEach(choice => productVideoObserver.observe(choice));
+  on(productVideoPicker, 'focusin', syncPreviews);
+  on(productVideoPicker, 'focusout', () => requestAnimationFrame(syncPreviews));
+  on(document, 'visibilitychange', syncPreviews);
+  on(reducedMotion, 'change', syncPreviews);
+  const syncVideoDetails = () => {
+    const previousIndex = (activeVideo - 1 + topperVideos.length) % topperVideos.length;
+    const nextIndex = (activeVideo + 1) % topperVideos.length;
+    previousImage.src = videoPosters[previousIndex];
+    nextImage.src = videoPosters[nextIndex];
+    previousButton.setAttribute('aria-label', `View ${topperVideos[previousIndex].title}`);
+    nextButton.setAttribute('aria-label', `View ${topperVideos[nextIndex].title}`);
+    videoTitle.textContent = topperVideos[activeVideo].title;
+    videoStatus.textContent = `Playing ${topperVideos[activeVideo].title}, video ${activeVideo + 1} of ${topperVideos.length}.`;
+  };
+  const showProductVideo = index => {
+    activeVideo = (index + videoSources.length) % videoSources.length;
+    videoPlayer.pause();
+    videoPlayer.muted = true;
+    videoPlayer.src = videoSources[activeVideo];
+    videoPlayer.poster = videoPosters[activeVideo];
+    videoPlayer.load();
+    syncVideoDetails();
+    const started = videoPlayer.play();
+    if (started?.catch) started.catch(() => { /* The visible controls remain available if playback is blocked. */ });
+  };
+  const clearVideoTransition = () => {
+    transitionState?.animations.forEach(animation => animation.cancel());
+    if (transitionState?.incoming) {
+      transitionState.incoming.pause();
+      transitionState.incoming.removeAttribute('src');
+      transitionState.incoming.load();
+      transitionState.incoming.remove();
+    }
+    transitionState = null;
+    delete videoDialog.dataset.videoTransitioning;
+  };
+  const navigateVideo = async direction => {
+    if (!videoDialog.open) return;
+    if (transitionState) { queuedDirection += direction; return; }
+    const nextIndex = (activeVideo + direction + videoSources.length) % videoSources.length;
+    const incoming = document.createElement('video');
+    incoming.className = 'pd-product-video-dialog__incoming';
+    incoming.controls = true;
+    incoming.playsInline = true;
+    incoming.muted = true;
+    incoming.preload = 'auto';
+    incoming.poster = videoPosters[nextIndex];
+    incoming.src = videoSources[nextIndex];
+    incoming.style.transform = `translateX(${direction * 100}%)`;
+    currentFrame.insertBefore(incoming, currentFrame.querySelector('[data-close]'));
+    transitionState = { incoming, animations: [] };
+    videoDialog.dataset.videoTransitioning = String(direction);
+    // Keep the outgoing clip on screen until the incoming clip has a decoded frame.
+    const ready = new Promise(resolve => {
+      if (incoming.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) { resolve(true); return; }
+      const finish = playable => {
+        incoming.removeEventListener('loadeddata', onLoaded);
+        incoming.removeEventListener('error', onError);
+        clearTimeout(timeout);
+        resolve(playable);
+      };
+      const onLoaded = () => finish(true);
+      const onError = () => finish(false);
+      const timeout = setTimeout(() => finish(false), 8000);
+      incoming.addEventListener('loadeddata', onLoaded, { once: true });
+      incoming.addEventListener('error', onError, { once: true });
+    });
+    const started = incoming.play();
+    if (started?.catch) started.catch(() => { /* A decoded frame can still be shown if autoplay is blocked. */ });
+    const playable = await ready;
+    if (!playable || !videoDialog.open || transitionState?.incoming !== incoming) {
+      if (transitionState?.incoming === incoming) clearVideoTransition();
+      return;
+    }
+    if (reducedMotion.matches) {
+      incoming.style.transform = '';
+    } else {
+      const timing = { duration: 560, easing: 'cubic-bezier(.45, 0, .55, 1)', fill: 'forwards' };
+      const animations = [
+        videoPlayer.animate([
+          { transform: 'translateX(0)', opacity: 1 },
+          { transform: `translateX(${direction * -100}%)`, opacity: .55 },
+        ], timing),
+        incoming.animate([
+          { transform: `translateX(${direction * 100}%)`, opacity: .72 },
+          { transform: 'translateX(0)', opacity: 1 },
+        ], timing),
+        ...sidePreviews.map(button => button.animate([
+          { transform: 'translateX(0)', opacity: .62 },
+          { transform: `translateX(${direction * -22}px)`, opacity: .28 },
+        ], timing)),
+      ];
+      transitionState.animations = animations;
+      await Promise.allSettled(animations.map(animation => animation.finished));
+      if (!videoDialog.open || transitionState?.incoming !== incoming) return;
+      animations.forEach(animation => animation.cancel());
+    }
+    videoPlayer.pause();
+    videoPlayer.removeAttribute('data-product-video-player');
+    videoPlayer.removeAttribute('src');
+    videoPlayer.load();
+    videoPlayer.remove();
+    incoming.style.transform = '';
+    incoming.classList.remove('pd-product-video-dialog__incoming');
+    incoming.dataset.productVideoPlayer = '';
+    videoPlayer = incoming;
+    activeVideo = nextIndex;
+    syncVideoDetails();
+    transitionState = null;
+    delete videoDialog.dataset.videoTransitioning;
+    if (queuedDirection) {
+      const nextDirection = Math.sign(queuedDirection);
+      queuedDirection -= nextDirection;
+      void navigateVideo(nextDirection);
+    }
+  };
+  videoChoices.forEach((choice, index) => on(choice, 'click', () => {
+    openDialog(videoDialog);
+    syncPreviews();
+    showProductVideo(index);
+  }));
+  videoDialog.querySelectorAll('[data-product-video-direction]').forEach(button => on(button, 'click', () => { void navigateVideo(Number(button.dataset.productVideoDirection)); }));
+  let touchStart;
+  on(currentFrame, 'touchstart', event => {
+    const touch = event.touches[0];
+    touchStart = touch && touch.clientY < currentFrame.getBoundingClientRect().bottom - 72
+      ? { x: touch.clientX, y: touch.clientY } : null;
+  }, { passive: true });
+  on(currentFrame, 'touchend', event => {
+    if (!touchStart || !event.changedTouches[0]) return;
+    const deltaX = event.changedTouches[0].clientX - touchStart.x;
+    const deltaY = event.changedTouches[0].clientY - touchStart.y;
+    touchStart = null;
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) void navigateVideo(deltaX < 0 ? 1 : -1);
+  }, { passive: true });
+  on(currentFrame, 'touchcancel', () => { touchStart = null; }, { passive: true });
+  on(videoDialog, 'click', event => {
+    if (event.target === videoDialog || event.target === videoDialog.querySelector('.pd-product-video-dialog__stage')) videoDialog.close();
+  });
+  on(videoDialog, 'close', () => {
+    queuedDirection = 0;
+    clearVideoTransition();
+    videoPlayer.pause();
+    videoPlayer.removeAttribute('src');
+    videoPlayer.load();
+    syncPreviews();
+  });
+}
 
 // Variant is the single source of truth for price, direct checkout and bag actions.
 const quantityInput = form.elements.quantity;
@@ -399,6 +615,7 @@ document.querySelectorAll('[data-open]').forEach(button => on(button, 'click', (
 const stickyBar = document.querySelector('.pd-mobile-purchase');
 const purchase = document.querySelector('#purchase-actions');
 const consultation = document.querySelector('#consultation');
+const consultationOptions = document.querySelector('#consultation-options');
 document.querySelectorAll('a[href="#consultation"]').forEach(link => on(link, 'click', event => {
   event.preventDefault();
   consultation.focus({ preventScroll: true });
@@ -407,9 +624,11 @@ document.querySelectorAll('a[href="#consultation"]').forEach(link => on(link, 'c
 let stickyFrame;
 const syncStickyBar = () => {
   const consultationBounds = consultation.getBoundingClientRect();
+  const consultationOptionsBounds = consultationOptions?.getBoundingClientRect();
   const headerHeight = header.getBoundingClientRect().height;
   const isConsulting = (consultationBounds.top < innerHeight && consultationBounds.bottom > headerHeight) || consultation.contains(document.activeElement);
-  const hidden = isConsulting || purchase.getBoundingClientRect().bottom > headerHeight;
+  const isChoosingConsultation = consultationOptionsBounds && consultationOptionsBounds.top < innerHeight && consultationOptionsBounds.bottom > headerHeight;
+  const hidden = isConsulting || isChoosingConsultation || purchase.getBoundingClientRect().bottom > headerHeight;
   if (stickyBar.hidden !== hidden) stickyBar.hidden = hidden;
 };
 on(window, 'scroll', () => {
@@ -421,4 +640,4 @@ on(consultation, 'focusin', syncStickyBar);
 on(consultation, 'focusout', () => { stickyFrame = requestAnimationFrame(syncStickyBar); });
 syncStickyBar();
 
-if (import.meta.hot) import.meta.hot.dispose(() => { abort.abort(); stopReviews(); galleryResize.disconnect(); clearTimeout(differenceTimer); cancelAnimationFrame(scrollFrame); cancelAnimationFrame(stickyFrame); });
+if (import.meta.hot) import.meta.hot.dispose(() => { abort.abort(); stopReviews(); galleryResize.disconnect(); productVideoObserver?.disconnect(); clearTimeout(differenceTimer); cancelAnimationFrame(scrollFrame); cancelAnimationFrame(stickyFrame); });

@@ -45,26 +45,63 @@
 .shopnav__list > li { min-width: 0; border-bottom: 1px solid var(--border); }
 .shopnav .shopnav__product { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; min-height: 68px; padding: 10px 8px; font-size: 15px; line-height: 1.35; }
 .shopnav__product--soon { color: var(--text-secondary); cursor: default; }
-.shopnav .shopnav__soon { color: var(--text-secondary); font-size: 12px; }
 .shopnav .shopnav__product--available { color: var(--text); background: var(--surface-soft); font-weight: 600; }
 .shopnav .shopnav__product--available:hover { background: var(--surface-tint); }
 .shopnav__product-action { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 400; }
 .shopnav__product-action > svg { width: 15px; height: 15px; }
-.shopnav__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 8px 24px; border-top: 1px solid var(--border); }
-.shopnav__footer > a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; }
-.shopnav__footer > a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .shopnav__masthead-links { display: flex; align-items: center; justify-content: flex-end; gap: clamp(18px, 3vw, 40px); }
 .shopnav__blog-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: none; }
 .shopnav__blog-link:hover { text-decoration: underline; text-underline-offset: 5px; }
+/* The menu button swaps to a close icon while its menu is open. */
+[aria-expanded="true"] > .nav-menu-icon .nav-menu-icon__open,
+[aria-expanded="false"] > .nav-menu-icon .nav-menu-icon__close { display: none; }
 
 @media (min-width: 1000px) {
   .site-header .main-nav { gap: clamp(18px, 2vw, 32px); }
   .pd-header .pd-nav { gap: clamp(16px, 1.6vw, 24px); }
+  /* The header's consultation button already covers this link, so don't offer it twice. */
+  .site-header .main-nav > a[href="/consultation.html"],
+  .pe-header:has(.pe-header__cta[href="#book"]) .pe-nav > a[href="/consultation.html"] { display: none; }
+}
+@media (min-width: 1151px) {
+  .pd-header .pd-nav > a[href="/consultation.html"] { display: none; }
 }
 @media (max-width: 999px) {
   .shopnav__trigger.shopnav__mobile-trigger { display: inline-flex; }
   .shopnav__trigger.shopnav__desktop-trigger { display: none; }
-  .shopnav { width: 100%; max-height: calc(100dvh - var(--shopnav-top, 66px) - env(safe-area-inset-bottom)); border-inline: 0; border-radius: 0; }
+  /* Menus float as inset cards with a gap beneath the header instead of spanning the full width. */
+  :root { --menu-inset: 12px; --menu-inset-left: 28px; --menu-gap: 8px; --menu-radius: 16px; }
+  .shopnav {
+    inset-block-start: calc(var(--shopnav-top, 66px) + var(--menu-gap));
+    width: calc(100% - var(--menu-inset-left) - var(--menu-inset)); margin-inline: var(--menu-inset-left) var(--menu-inset);
+    max-height: calc(100dvh - var(--shopnav-top, 66px) - var(--menu-gap) * 2 - env(safe-area-inset-bottom));
+    border: 1px solid var(--border); border-radius: var(--menu-radius);
+  }
+  html .site-header.is-menu-open .main-nav, html .pe-header.is-open .pe-nav, html .pd-header.is-open .pd-nav {
+    left: var(--menu-inset-left); right: var(--menu-inset);
+    border: 1px solid var(--border); border-radius: var(--menu-radius);
+    box-shadow: 0 16px 40px rgb(35 41 40 / .14);
+  }
+  html .site-header.is-menu-open .main-nav { top: calc(100% + var(--menu-gap)); grid-template-columns: minmax(0, 1fr); justify-content: stretch; padding: 8px 20px; }
+  html .pe-header.is-open .pe-nav { top: calc(var(--pe-header) + var(--menu-gap)); padding: 8px 20px; }
+  html .pd-header.is-open .pd-nav { top: calc(100% + var(--menu-gap)); padding: 8px 20px; }
+  /* Mobile menu rows: one 48px tap target each, divided for scanning, with the
+     consultation link promoted to the menu's single primary button at the end. */
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) { gap: 0; padding-bottom: 16px; }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a {
+    display: flex; align-items: center; min-height: 52px; padding: 0 4px;
+    border-bottom: 1px solid var(--border); color: var(--text);
+    font-size: 16px; letter-spacing: 0; text-decoration: none;
+  }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a::after { display: none; }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a:active { background: var(--surface-soft); }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a[aria-current="page"] { font-weight: 600; color: var(--color-accent-ink); }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a:has(+ a[href="/consultation.html"]) { border-bottom: 0; }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a[href="/consultation.html"] {
+    justify-content: center; margin-top: 12px; border: 0; border-radius: 8px;
+    background: var(--action); color: var(--surface); font-weight: 600;
+  }
+  html :is(.site-header .main-nav, .pe-header .pe-nav, .pd-header .pd-nav) > a[href="/consultation.html"]:active { background: var(--color-accent-ink); }
   .shopnav__heading { min-height: 56px; padding-inline: 20px; }
   .shopnav__layout { display: block; }
   .shopnav__categories { padding: 8px 20px 16px; background: var(--surface); }
@@ -80,10 +117,8 @@
   .shopnav .shopnav__list { grid-template-columns: 1fr; margin-top: 16px; }
   .shopnav .shopnav__product { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 12px 8px; }
   .shopnav__product > span:first-child { max-width: 70%; }
-  .shopnav__soon { flex: none; }
   .shopnav__product-action { flex: none; font-size: 0; }
   .shopnav__product-action > svg { width: 20px; height: 20px; }
-  .shopnav__footer { padding-inline: 20px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
   .pe-header .shopnav__mobile-trigger { margin-left: auto; }
   .pe-header .pe-menu { margin-left: 0; }
   .pd-header__inner, .pd-header__actions { gap: 8px; }

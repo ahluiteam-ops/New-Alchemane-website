@@ -18,6 +18,14 @@ import { initFilms } from '../sections/films.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// On phones the category row scrolls sideways; start it with the current category in view.
+const shopNav = document.querySelector('.shop-nav');
+const currentCategory = shopNav?.querySelector('[aria-current]');
+if (currentCategory && shopNav.scrollWidth > shopNav.clientWidth) {
+  const offset = currentCategory.getBoundingClientRect().left - shopNav.getBoundingClientRect().left;
+  shopNav.scrollLeft += offset - (shopNav.clientWidth - currentCategory.offsetWidth) / 2;
+}
+
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Method tabs ---------- */

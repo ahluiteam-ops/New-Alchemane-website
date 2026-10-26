@@ -43,7 +43,7 @@ try {
     await page.addInitScript(() => { window.consultationRequests = []; window.open = url => { window.consultationRequests.push(url); return null; }; });
     page.on('pageerror', error => failures.push(`${width}: ${error.message}`));
     page.on('response', response => { if (response.url().startsWith(base) && response.status() >= 400) failures.push(`${width}: ${response.status()} ${response.url()}`); });
-    await page.goto(base + path, { waitUntil: 'networkidle' });
+    await page.goto(base + path, { waitUntil: 'domcontentloaded' });
     await page.locator('.pd-gallery__slide img').first().evaluate(image => image.decode());
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Silk Topper 5×3');
@@ -51,9 +51,55 @@ try {
     await expect(page.locator('[data-product-rating-average]')).toHaveText('4.5');
     await expect(page.locator('[data-stock]')).toHaveText('5 in stock');
     await expect(page.locator('.pd-details .pd-accordions summary')).toHaveText([
-      'Description', 'How to wear?', 'Need Customization?', 'Shipping & Return', 'Is this topper right for me?', 'Care & storage',
+      'Description', 'Need Customization?', 'Shipping & Return', 'Is this topper right for me?', 'Care & storage',
     ]);
-    await expect(page.locator('.pd-wear-video iframe')).toHaveAttribute('src', /p9oQLty95TE/);
+    const productVideos = page.locator('[data-product-videos]');
+    await expect(productVideos.locator('[data-product-video-select]')).toHaveCount(5);
+    await expect(productVideos.locator('.pd-product-videos__title')).toHaveText([
+      'Real-life result', 'How to wear', 'Natural parting', 'Coverage close-up', 'Size & clips',
+    ]);
+    await expect(productVideos.locator('[data-product-video-pause]')).toHaveCount(0);
+    await expect(productVideos.locator('[data-product-video-select] svg')).toHaveCount(0);
+    await expect(productVideos.locator('video[muted][autoplay][loop][playsinline]')).toHaveCount(5);
+    await expect(page.locator('#product-video-dialog')).not.toBeVisible();
+    assert(await page.locator('#product-form').evaluate((form, selector) => form.nextElementSibling?.matches(selector), '[data-product-videos]'), 'Video circles should sit directly below the purchase form');
+    await productVideos.scrollIntoViewIfNeeded();
+    await expect(productVideos.locator('video').first()).toHaveAttribute('src', /consult-1\.mp4$/);
+    await expect.poll(() => productVideos.locator('video').first().evaluate(video => video.paused)).toBe(false);
+    await productVideos.getByRole('button', { name: 'Watch How to wear', exact: true }).click();
+    const videoDialog = page.locator('#product-video-dialog');
+    await expect(videoDialog).toBeVisible();
+    await expect(videoDialog.locator('[data-product-video-player]')).toHaveAttribute('src', /consult-2\.mp4$/);
+    await expect(videoDialog.locator('[data-product-video-title]')).toHaveText('How to wear');
+    await expect(videoDialog.locator('[data-product-video-status]')).toHaveText('Playing How to wear, video 2 of 5.');
+    await videoDialog.getByRole('button', { name: 'Next topper video', exact: true }).click();
+    await expect(videoDialog).toHaveAttribute('data-video-transitioning', '1');
+    const incomingVideo = videoDialog.locator('video.pd-product-video-dialog__incoming');
+    await expect(incomingVideo).toBeVisible();
+    await expect.poll(() => incomingVideo.evaluate(video => video.readyState)).toBeGreaterThanOrEqual(2);
+    if (width === 390 || width === 1440) {
+      await page.waitForTimeout(240);
+      await videoDialog.screenshot({ path: `preview/product-page/video-swipe-${width}.png` });
+    }
+    await expect(videoDialog.locator('[data-product-video-player]')).toHaveAttribute('src', /consult-3\.mp4$/);
+    await expect(videoDialog.locator('[data-product-video-title]')).toHaveText('Natural parting');
+    await expect.poll(() => videoDialog.locator('[data-product-video-player]').evaluate(video => video.readyState)).toBeGreaterThanOrEqual(2);
+    await expect(videoDialog.locator('.pd-product-video-dialog__incoming')).toHaveCount(0);
+    await videoDialog.screenshot({ path: `preview/product-page/video-overlay-${width}.png` });
+    await videoDialog.getByRole('button', { name: 'Previous topper video', exact: true }).click();
+    await expect(videoDialog).toHaveAttribute('data-video-transitioning', '-1');
+    await expect(videoDialog.locator('[data-product-video-player]')).toHaveAttribute('src', /consult-2\.mp4$/);
+    await page.keyboard.press('Escape');
+    await expect(videoDialog).not.toBeVisible();
+    await expect(videoDialog.locator('[data-product-video-player]')).not.toHaveAttribute('src');
+    await expect(productVideos.getByRole('button', { name: 'Watch How to wear', exact: true })).toBeFocused();
+    if (width === 390) {
+      await productVideos.getByRole('button', { name: 'Watch Size & clips', exact: true }).click();
+      await expect(videoDialog.locator('[data-product-video-title]')).toHaveText('Size & clips');
+      await videoDialog.getByRole('button', { name: 'Next topper video', exact: true }).click();
+      await expect(videoDialog.locator('[data-product-video-title]')).toHaveText('Real-life result');
+      await page.keyboard.press('Escape');
+    }
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Horizontal overflow at ${width}`);
     await page.screenshot({ path: `preview/product-page/top-${width}.png` });
 
@@ -98,7 +144,7 @@ try {
     await expect(page.locator('.pd-bag__item')).toContainText('Natural Wave');
     await page.screenshot({ path: `preview/product-page/bag-${width}.png` });
     await page.keyboard.press('Escape');
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('[data-price]')).toHaveText('₹32,000');
     await expect(page.locator('[data-bag-count]')).toHaveText('2');
     await page.getByRole('button', { name: 'Open shopping bag, 2 items' }).click();
@@ -107,8 +153,20 @@ try {
     await expect(page.locator('.pd-bag__summary')).not.toBeVisible();
     await page.keyboard.press('Escape');
 
-    await page.getByRole('button', { name: 'Size guide', exact: true }).click();
+    const sizeGuide = page.getByRole('button', { name: /^Size guide/ });
+    await expect(sizeGuide).toHaveCount(1);
+    const sizeGuideBox = await sizeGuide.boundingBox();
+    const summaryBox = await page.locator('.pd-summary').boundingBox();
+    assert(sizeGuideBox.height >= 56 && sizeGuideBox.width >= summaryBox.width - 1, `Size guide should be a full-width card at ${width}px`);
+    await sizeGuide.click();
     await expect(page.locator('#size-guide')).toBeVisible();
+    if (width < 701) {
+      // Poll past the slide-up animation before measuring where the sheet settles.
+      await expect.poll(async () => {
+        const sheet = await page.locator('#size-guide').boundingBox();
+        return Math.round(sheet.y + sheet.height);
+      }, { message: 'Size guide should open as a bottom sheet on phones' }).toBe(page.viewportSize().height);
+    }
     await page.keyboard.press('Escape');
     await page.locator('.pd-texture-options label.pd-choice:has(input[value="Straight"])').click();
 
@@ -133,6 +191,21 @@ try {
       await expect(difference.locator('[data-difference-status]')).toHaveText('Showing transformations 1 to 3 of 3');
     }
     await difference.screenshot({ path: `preview/product-page/difference-${width}.png` });
+    const consultationOffer = page.locator('#consultation-options');
+    await expect(consultationOffer.getByRole('heading', { name: 'Prefer a consultation before you buy?', exact: true })).toBeVisible();
+    const consultationHeadingLines = await consultationOffer.locator('h2 span').evaluateAll(spans => spans.map(span => ({ top: span.getBoundingClientRect().top, right: span.getBoundingClientRect().right })));
+    assert.equal(consultationHeadingLines.length, 2);
+    assert(consultationHeadingLines[1].top > consultationHeadingLines[0].top, 'Consultation heading should use two intentional lines');
+    assert(consultationHeadingLines.every(line => line.right <= width), `Consultation heading should fit at ${width}px`);
+    await expect(consultationOffer.locator('video')).toHaveCount(0);
+    await consultationOffer.getByRole('button', { name: 'Online', exact: true }).click();
+    await expect(page.locator('#topper-consultation-form [name="meeting"]')).toHaveValue('Online');
+    await expect(consultationOffer.locator('[data-product-consultation-note]')).toContainText('Meet from anywhere.');
+    await expect(consultationOffer.locator('[data-product-consultation-cta]')).toHaveText('Book an online consultation');
+    await consultationOffer.getByRole('button', { name: 'Offline', exact: true }).click();
+    await expect(page.locator('#topper-consultation-form [name="meeting"]')).toHaveValue('Khar West studio');
+    await expect(consultationOffer.locator('[data-product-consultation-cta]')).toHaveText('Book an offline consultation');
+    await consultationOffer.screenshot({ path: `preview/product-page/consultation-offer-${width}.png` });
     await expect(page.getByText('Life with a hair topper.', { exact: true })).toHaveCount(0);
     const relatedToppers = page.locator('.pd-related');
     await expect(relatedToppers.locator('.pd-related__card')).toHaveCount(7);
@@ -177,7 +250,7 @@ try {
     await expect(reviews.getByRole('link', { name: /Write a review on Alchemane/ })).toHaveAttribute('href', 'https://alchemane.com/products/silk-hair-toppers?pb=0#vstar-reviews');
     await expect(reviews.getByRole('link', { name: /See reviews on Alchemane/ })).toHaveCount(0);
     assert(await reviews.evaluate(node => node.nextElementSibling?.id === 'consultation'), 'Customer reviews should sit directly above consultation');
-    assert.deepEqual(await page.locator('main > section').evaluateAll(nodes => nodes.map(node => node.classList.contains('pd-difference') ? 'difference' : node.classList.contains('pd-related') ? 'related' : node.classList.contains('pd-faq') ? 'faq' : node.classList.contains('pd-reviews') ? 'reviews' : node.classList.contains('pd-consult') ? 'consultation' : node.classList.contains('pd-may-like') ? 'may-like' : 'unknown')), ['difference', 'related', 'faq', 'reviews', 'consultation', 'may-like']);
+    assert.deepEqual(await page.locator('main > section').evaluateAll(nodes => nodes.map(node => node.classList.contains('pd-difference') ? 'difference' : node.classList.contains('pd-consult-offer') ? 'consultation-offer' : node.classList.contains('pd-related') ? 'related' : node.classList.contains('pd-faq') ? 'faq' : node.classList.contains('pd-reviews') ? 'reviews' : node.classList.contains('pd-consult') ? 'consultation' : node.classList.contains('pd-may-like') ? 'may-like' : 'unknown')), ['difference', 'consultation-offer', 'related', 'faq', 'reviews', 'consultation', 'may-like']);
     await reviews.screenshot({ path: `preview/product-page/reviews-${width}.png` });
     // Consultation is completed on this product page before broader product discovery.
     await expect(page.locator('a[href*="topper-consultation.html"]')).toHaveCount(0);
@@ -189,9 +262,6 @@ try {
       await expect(card.locator('img')).toBeVisible();
     }
     await mayLike.screenshot({ path: `preview/product-page/you-may-also-like-${width}.png` });
-    await page.locator('.pd-expert').click();
-    await expect(page.locator('#consultation')).toBeFocused();
-    if (width < 701) await expect(page.locator('.pd-mobile-purchase')).toBeHidden();
     const consultationForm = page.locator('#topper-consultation-form');
     await consultationForm.locator('button[type="submit"]').click();
     await expect(page.locator('#booking-errors')).toBeVisible();
@@ -227,12 +297,17 @@ try {
   await expect(staticPage.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(staticPage.locator('[data-buy-now]')).toHaveAttribute('href', /41758814142523/);
   await expect(staticPage.getByRole('link', { name: 'Choose options in store' })).toBeVisible();
+  await expect(staticPage.locator('[data-product-videos]')).not.toBeVisible();
   await staticContext.close();
   const reducedContext = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
   const reducedPage = await reducedContext.newPage();
   await reducedPage.route('https://api.trustoo.io/api/v1/reviews/get_product_reviews?*', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ code: 0, data: { page: { total_page: 1, count: 20 }, list: reviewFixture } }) }));
   await reducedPage.goto(base + path);
   assert.equal(await reducedPage.locator('html').evaluate(node => getComputedStyle(node).scrollBehavior), 'auto');
+  await reducedPage.getByRole('button', { name: 'Watch Real-life result' }).click();
+  await reducedPage.getByRole('button', { name: 'Next topper video', exact: true }).click();
+  await expect(reducedPage.locator('#product-video-dialog [data-product-video-player]')).toHaveAttribute('src', /consult-2\.mp4$/);
+  await expect(reducedPage.locator('#product-video-dialog')).not.toHaveAttribute('data-video-transitioning', '1');
   await reducedContext.close();
   assert.deepEqual(failures, [], 'No browser errors or missing local assets');
   console.log('Product page passed: responsive layout, six variants, gallery/zoom, bag persistence, checkout handoff, four-at-a-time reviews, dialogs, FAQs, mobile purchase bar, no-JS and reduced motion.');

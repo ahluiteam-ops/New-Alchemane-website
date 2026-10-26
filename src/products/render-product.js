@@ -1,5 +1,6 @@
 import { productPages, formatPrice } from './product-content.js';
 import { products } from '../sections/catalogue-products.js';
+import { topperVideos } from './topper-videos.js';
 
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const e = escapeHtml;
@@ -18,7 +19,6 @@ const paths = {
   chat: '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2v-9.5A8.5 8.5 0 0 1 10.5 4H13a8 8 0 0 1 8 7.5Z"/><path d="M7 11h9M7 15h6"/>',
   ruler: '<path d="m3 15 12-12 6 6L9 21l-6-6Zm5-5 3 3m1-7 3 3M5 13l3 3"/>',
   fileText: '<path d="M6 3h8l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 0v5h5M8 12h8M8 16h6"/>',
-  circlePlay: '<circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/>',
   sliders: '<path d="M4 7h8m4 0h4M4 17h4m4 0h8"/><circle cx="14" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>',
   circleHelp: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4.3 1.7c-.8.7-1.8 1.1-1.8 2.8M12 17h.01"/>',
   archive: '<path d="M4 4h16v4H4zM6 8v12h12V8M10 12h4"/>',
@@ -27,7 +27,6 @@ const paths = {
 export const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths[name]}</svg>`;
 const detailIcons = {
   Description: 'fileText',
-  'How to wear?': 'circlePlay',
   'Need Customization?': 'sliders',
   'Shipping & Return': 'truck',
   'Is this topper right for me?': 'circleHelp',
@@ -46,6 +45,50 @@ export function renderProductPage(handle) {
   const relatedImage = item => item.image || (item.handle === 'skin-topper-5x6' ? '/assets/range/skin-topper-5x6-a.webp' : '');
   const relatedHref = item => item.url || `https://wa.me/919967123333?text=${encodeURIComponent(`Hello Alchemane, I would like to know more about ${item.name}. Please share the price, available options and fitting details.`)}`;
   const recommendations = (product.recommendations || []).map(({ handle: id, label }) => ({ ...products.find(p => p.handle === id), label })).filter(item => item.handle && item.image && item.url && item.price);
+  const productVideos = product.category === 'Hair Toppers' ? topperVideos : [];
+  const productVideoPicker = productVideos.length ? `
+              <section class="pd-product-videos" aria-label="Watch the topper in motion" data-product-videos>
+                <div class="pd-product-videos__choices" role="group" aria-label="Choose a topper video">
+                  ${productVideos.map((video, index) => `<button class="pd-product-videos__choice" type="button" data-product-video-select="${index}" aria-label="Watch ${e(video.title)}"><span class="pd-product-videos__circle"><video muted loop playsinline autoplay preload="none" poster="/assets/topper-consultation/${video.file}.webp" data-preview-src="/assets/topper-consultation/${video.file}.mp4" aria-hidden="true" tabindex="-1"></video></span><span class="pd-product-videos__title" aria-hidden="true">${e(video.title)}</span></button>`).join('')}
+                </div>
+              </section>` : '';
+  const productVideoDialog = productVideos.length ? `
+    <dialog class="pd-product-video-dialog" id="product-video-dialog" aria-label="Topper videos">
+      <div class="pd-product-video-dialog__stage">
+        <button class="pd-product-video-dialog__arrow pd-product-video-dialog__arrow--previous" type="button" data-product-video-direction="-1" aria-label="Previous topper video">${icon('left')}</button>
+        <button class="pd-product-video-dialog__preview pd-product-video-dialog__preview--previous" type="button" data-product-video-direction="-1" aria-label="View ${e(productVideos.at(-1).title)}"><img src="/assets/topper-consultation/${productVideos.at(-1).file}.webp" alt="" width="240" height="420" data-product-video-previous></button>
+        <div class="pd-product-video-dialog__center">
+          <div class="pd-product-video-dialog__current">
+            <video data-product-video-player controls playsinline preload="none" poster="/assets/topper-consultation/${productVideos[0].file}.webp"></video>
+            <button class="pd-product-video-dialog__close" type="button" data-close aria-label="Close topper video">${icon('close')}</button>
+          </div>
+          <p class="pd-product-video-dialog__title" data-product-video-title>${e(productVideos[0].title)}</p>
+        </div>
+        <button class="pd-product-video-dialog__preview pd-product-video-dialog__preview--next" type="button" data-product-video-direction="1" aria-label="View ${e(productVideos[1].title)}"><img src="/assets/topper-consultation/${productVideos[1].file}.webp" alt="" width="240" height="420" data-product-video-next></button>
+        <button class="pd-product-video-dialog__arrow pd-product-video-dialog__arrow--next" type="button" data-product-video-direction="1" aria-label="Next topper video">${icon('right')}</button>
+      </div>
+      <p class="pd-sr-only" data-product-video-status aria-live="polite"></p>
+    </dialog>` : '';
+  const consultationOffer = product.category === 'Hair Toppers' ? `
+      <section class="pd-consult-offer pd-section" id="consultation-options" aria-labelledby="consultation-options-title">
+        <div class="pd-wrap">
+          <div class="pd-consult-offer__intro">
+            <div class="pd-consult-offer__copy">
+              <h2 id="consultation-options-title"><span>Prefer a consultation</span> <span>before you buy?</span></h2>
+              <p>Choose a private video call from anywhere, or meet our team at the Khar West studio in Mumbai.</p>
+            </div>
+            <div class="pd-consult-offer__choice" role="group" aria-labelledby="consultation-offer-meet-label" data-product-consultation-choice>
+              <p class="consultation-meet__label" id="consultation-offer-meet-label">How would you like to meet?</p>
+              <div class="consultation-meet__options">
+                <button type="button" data-product-consultation-mode="Online" aria-pressed="false">Online</button>
+                <button type="button" data-product-consultation-mode="Khar West studio" aria-pressed="true">Offline</button>
+              </div>
+              <p class="consultation-meet__note" data-product-consultation-note aria-live="polite"><strong>In-person</strong><span>At our Khar West studio, Mumbai.</span></p>
+              <a class="pd-button" href="#consultation" data-product-consultation-cta>Book an offline consultation</a>
+            </div>
+          </div>
+        </div>
+      </section>` : '';
   return `
     <a class="pd-skip" href="#main">Skip to product</a>
     <header class="pd-header">
@@ -78,7 +121,7 @@ export function renderProductPage(handle) {
             <p class="pd-payment">${icon('card')} UPI &amp; cards accepted</p>
             <form id="product-form" action="https://alchemane.com/cart/add" method="post">
               <input type="hidden" name="id" value="${initial.id}">
-              <div class="pd-base-meta"><span>${e(product.base)} silk base</span><button class="pd-text-button" type="button" data-open="size-guide">Size guide ${icon('arrow')}</button></div>
+              <button class="pd-size-card" type="button" data-open="size-guide" aria-haspopup="dialog"><span class="pd-size-card__icon">${icon('ruler')}</span><span class="pd-size-card__copy"><strong>Size guide</strong><span>${e(product.base)} silk base · check your fit</span></span><span class="pd-size-card__chevron">${icon('right')}</span></button>
               <fieldset class="pd-options"><legend>Hair length <span data-length-label hidden>${e(initial.length)}</span></legend><div class="pd-lengths">${product.lengths.map((length, i) => `<label class="pd-choice"><input type="radio" name="length" value="${e(length)}" ${i === 0 ? 'checked' : ''}><span>${e(length)}</span></label>`).join('')}</div></fieldset>
               <fieldset class="pd-options"><legend>Colour <span data-colour-label hidden>${e(initial.colour)}</span></legend><div class="pd-colours">${product.colours.map((colour, i) => `<label class="pd-colour"><input type="radio" name="colour" value="${e(colour.name)}" ${i === 0 ? 'checked' : ''}><span class="pd-swatch pd-swatch--${colour.swatch}">${icon('check')}</span><span>${e(colour.name)}</span></label>`).join('')}</div></fieldset>
               <fieldset class="pd-options pd-texture-options"><legend>Texture <span data-texture-label hidden>Choose a texture</span></legend><div class="pd-textures">${product.textures.map(texture => `<label class="pd-choice"><input type="radio" name="texture" value="${e(texture)}"><span>${e(texture)}</span></label>`).join('')}</div></fieldset>
@@ -89,9 +132,9 @@ export function renderProductPage(handle) {
                 <p class="pd-form-status" role="status" data-product-status></p>
               </div>
             </form>
-            <noscript><style>#product-form, .pd-bag-button, .pd-menu, .pd-gallery__zoom, .pd-gallery__controls, .pd-thumbnails { display: none !important; }</style><p>Choose your length, colour and texture on the Alchemane store.</p><a class="pd-button" href="https://alchemane.com/products/${e(handle)}">Choose options in store</a></noscript>
+            ${productVideoPicker}
+            <noscript><style>#product-form, .pd-bag-button, .pd-menu, .pd-gallery__zoom, .pd-gallery__controls, .pd-thumbnails, .pd-product-videos { display: none !important; }</style><p>Choose your length, colour and texture on the Alchemane store.</p><a class="pd-button" href="https://alchemane.com/products/${e(handle)}">Choose options in store</a></noscript>
             <p class="pd-delivery">${icon('truck')} Free shipping across India</p>
-            <a class="pd-expert" href="#consultation">Need help choosing? Book a consultation ${icon('arrow')}</a>
           </div>
         </section>
         <section class="pd-details" aria-labelledby="product-details-title">
@@ -100,6 +143,7 @@ export function renderProductPage(handle) {
         </section>
       </div>
       ${product.differences?.length ? `<section class="pd-difference pd-section" id="difference" aria-labelledby="difference-title"><div class="pd-wrap"><h2 id="difference-title">See the difference</h2><div class="pd-difference__layout" role="region" aria-roledescription="carousel" aria-label="Hair topper client transformations"><div class="pd-difference__frame"><div class="pd-difference__slides" id="difference-slides">${product.differences.map(item => `<figure class="pd-difference__slide"><img src="${e(item.image)}" alt="${e(item.alt)}" width="1440" height="1080" loading="lazy" decoding="async"></figure>`).join('')}</div></div><div class="pd-difference__footer"><span class="pd-sr-only" data-difference-status aria-live="polite">Showing transformation 1 of ${product.differences.length}</span><div class="pd-difference__controls" role="group" aria-label="Browse transformations"><button class="pd-icon-button" type="button" aria-label="Previous transformation" aria-controls="difference-slides" data-difference-direction="-1">${icon('left')}</button><button class="pd-icon-button" type="button" aria-label="Next transformation" aria-controls="difference-slides" data-difference-direction="1">${icon('right')}</button></div></div></div></div></section>` : ''}
+      ${consultationOffer}
       <section class="pd-section pd-related" aria-labelledby="related-title"><div class="pd-wrap"><header class="pd-section-heading"><h2 id="related-title">Explore other toppers</h2></header><div class="pd-related__grid">${related.map(item => { const image = relatedImage(item); const isEnquiry = !item.url; return `<a class="pd-related__card" href="${e(relatedHref(item))}"${isEnquiry ? ' target="_blank" rel="noopener noreferrer"' : ''}><div class="pd-related__media${image ? '' : ' is-placeholder'}">${image ? `<img src="${e(image)}" alt="${e(item.alt || item.name)}" width="720" height="900" loading="lazy" decoding="async">` : `<span class="pd-related__placeholder"><small>New addition</small><span>Product image coming soon</span></span>`}${icon('arrow')}</div><h3>${e(item.name)}</h3><p>${e(item.description)}</p><strong>${item.price === null ? 'Enquire for price' : `From ${formatPrice(item.price)}`}</strong></a>`; }).join('')}</div></div></section>
       <section class="faq-section faq-section--tabs pd-faq" id="faq" aria-labelledby="faq-title"><div class="faq-section__inner"><header class="faq-intro"><h2 id="faq-title">Frequently asked questions</h2></header><div class="faq-panels"><div class="faq-panel"><div class="faq-list">${product.faqs.map((faq, i) => `<details${i === 0 ? ' open' : ''}><summary>${e(faq.question)}<i aria-hidden="true">+</i></summary><p>${e(faq.answer)}</p></details>`).join('')}</div></div></div><aside class="faq-support" aria-labelledby="faq-support-title"><div><h3 id="faq-support-title">Still have questions?</h3><p>Tell us what you need help with. Our hair experts will guide you on fit, size and shade.</p></div><a href="${e(enquiry)}" class="faq-support__link" target="_blank" rel="noopener noreferrer">Talk to our team <span aria-hidden="true">↗</span></a></aside></div></section>
       ${product.reviews ? `<section class="pd-reviews pd-section" id="customer-reviews" aria-labelledby="reviews-title"><div class="pd-wrap"><h2 id="reviews-title">Customer Reviews</h2><div data-review-content hidden><div class="pd-reviews__summary"><div class="pd-reviews__rating"><strong data-review-average></strong><div data-review-stars></div><span data-review-count></span></div><div class="pd-reviews__breakdown" data-review-breakdown role="group" aria-label="Filter reviews by star rating"></div><div class="pd-reviews__photos" data-review-photos aria-label="Customer review photos"></div><a class="pd-reviews__write" href="${e(product.reviews.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Write a review on Alchemane (opens in a new tab)">Write a review</a></div><div class="pd-reviews__results"><p data-review-results></p><button type="button" data-review-clear hidden>Show all reviews</button></div><div class="pd-reviews__grid" data-review-list></div><div class="pd-reviews__actions"><button class="pd-reviews__show-less" type="button" data-review-show-less hidden>Show less</button><button class="pd-reviews__show-more" type="button" data-review-show-more>Show more</button></div></div><p class="pd-reviews__loading" data-review-loading role="status">Loading customer reviews…</p><p class="pd-reviews__error" data-review-error hidden>Reviews couldn’t load right now. <a href="${e(product.reviews.sourceUrl)}" target="_blank" rel="noopener noreferrer">Read them on Alchemane</a>.</p><p class="pd-sr-only" data-review-announcement role="status" aria-live="polite"></p><noscript><style>#customer-reviews [data-review-loading]{display:none}</style><p><a href="${e(product.reviews.sourceUrl)}">Read customer reviews on Alchemane</a>.</p></noscript></div></section>` : ''}
@@ -144,6 +188,7 @@ export function renderProductPage(handle) {
     <dialog class="pd-dialog pd-size-guide" id="size-guide" aria-labelledby="size-title">${dialogHeader('Find your base size', 'size-title')}<div class="pd-dialog__body"><p>A comfortable fit starts with the area you want to cover.</p><div class="pd-measure"><div class="pd-measure__base"><span>${e(product.base)}</span></div><span>Base dimensions · diagram not to scale</span></div><ol><li>Measure your thinning area from front to back.</li><li>Measure the widest point from side to side.</li><li>Check that the clips will sit on surrounding hair with a comfortable hold.</li></ol><p>A bigger base may be needed if your thinning area extends beyond this size. If your roots are fragile, ask us about attachment comfort first.</p><a class="pd-button" href="${e(enquiry)}" target="_blank" rel="noopener noreferrer">Help me choose ${icon('chat')}</a></div></dialog>
     <dialog class="pd-dialog pd-lightbox" id="image-dialog" aria-labelledby="image-title"><div class="pd-dialog__head"><h2 class="pd-sr-only" id="image-title">Product image</h2><span data-zoom-count>1 / ${gallery.length}</span><button class="pd-icon-button" type="button" data-close aria-label="Close enlarged image">${icon('close')}</button></div><div class="pd-lightbox__image"><img src="${gallery[0].src}" alt="${e(gallery[0].alt)}" width="1080" height="1920" data-zoom-image></div><div class="pd-lightbox__footer"><button class="pd-icon-button" type="button" data-zoom-step="-1" aria-label="Previous enlarged image">${icon('left')}</button><p data-zoom-caption>${e(gallery[0].caption)}</p><button class="pd-icon-button" type="button" data-zoom-step="1" aria-label="Next enlarged image">${icon('right')}</button></div></dialog>
     <dialog class="pd-dialog pd-bag" id="bag-dialog" aria-labelledby="bag-title">${dialogHeader('Your bag', 'bag-title')}<div class="pd-dialog__body"><p class="pd-bag__confirmation" role="status" data-bag-message></p><div data-bag-items></div><div class="pd-bag__summary" hidden><div><span>Subtotal</span><strong data-bag-subtotal></strong></div><p>Includes 18% GST. Final availability and delivery are confirmed at checkout.</p><a class="pd-button" data-checkout>Continue to checkout ${icon('arrow')}</a><p class="pd-purchase-note">You’ll continue on the Alchemane store.</p></div><button class="pd-text-button" type="button" data-close>Continue shopping ${icon('arrow')}</button></div></dialog>
+    ${productVideoDialog}
     <script id="product-data" type="application/json">${JSON.stringify({ ...product, gallery }).replace(/</g, '\\u003c')}</script>
   `;
 }
