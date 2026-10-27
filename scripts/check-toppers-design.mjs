@@ -100,11 +100,13 @@ try {
       await expect(page.locator('.tp-hairline__play')).toBeVisible();
       assert.equal(await page.locator('.tp-hairline__video').evaluate(video => video.controls), false, 'Paused hairline film should show one play control');
       const guideVideo = page.locator('#topper-help .pe-guide__video');
+      const guidePlay = page.locator('#topper-help .pe-vplay');
       await expect(guideVideo.locator('source')).toHaveAttribute('src', '/assets/topper-enquiry.mp4');
       await expect(guideVideo).toHaveAttribute('poster', '/assets/topper-enquiry-poster.webp');
-      await guideVideo.scrollIntoViewIfNeeded();
-      await guideVideo.evaluate(video => video.play());
+      await expect(guidePlay).toBeVisible();
+      await guidePlay.click();
       await expect.poll(() => guideVideo.evaluate(video => !video.paused && video.readyState >= 2)).toBe(true);
+      await expect(guidePlay).toBeHidden();
       await guideVideo.evaluate(video => video.pause());
     }
     assert.deepEqual(errors, []);

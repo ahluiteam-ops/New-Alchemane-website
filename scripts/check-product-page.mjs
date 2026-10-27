@@ -42,7 +42,7 @@ try {
       'Real-life result', 'How to wear', 'Natural parting', 'Coverage close-up', 'Size & clips',
     ]);
     await expect(productVideos.locator('[data-product-video-pause]')).toHaveCount(0);
-    await expect(productVideos.locator('[data-product-video-select] svg')).toHaveCount(0);
+    await expect(productVideos.locator('.pd-product-videos__play svg')).toHaveCount(5);
     await expect(productVideos.locator('video[muted][autoplay][loop][playsinline]')).toHaveCount(5);
     await expect(page.locator('#product-video-dialog')).not.toBeVisible();
     assert(await page.locator('#product-form').evaluate((form, selector) => form.nextElementSibling?.matches(selector), '[data-product-videos]'), 'Video circles should sit directly below the purchase form');

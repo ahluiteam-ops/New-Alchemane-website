@@ -112,8 +112,8 @@ on(document, 'visibilitychange', () => {
   if (document.hidden) transformationVideos.forEach(video => video.pause());
 });
 
-// Consultation and client reels share the reference page's playback controls.
-const reelVideos = [...document.querySelectorAll('.tp-client-reel video, .tp-consult-reel video')];
+// Consultation, client reels and the topper guide share the same visible play control.
+const reelVideos = [...document.querySelectorAll('.tp-client-reel video, .tp-consult-reel video, .pe-guide__video')];
 const reelPlayIcon = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg>';
 reelVideos.forEach(video => {
   const button = document.createElement('button');

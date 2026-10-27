@@ -49,7 +49,7 @@ export function renderProductPage(handle) {
   const productVideoPicker = productVideos.length ? `
               <section class="pd-product-videos" aria-label="Watch the topper in motion" data-product-videos>
                 <div class="pd-product-videos__choices" role="group" aria-label="Choose a topper video">
-                  ${productVideos.map((video, index) => `<button class="pd-product-videos__choice" type="button" data-product-video-select="${index}" aria-label="Watch ${e(video.title)}"><span class="pd-product-videos__circle"><video muted loop playsinline autoplay preload="none" poster="/assets/topper-consultation/${video.file}.webp" data-preview-src="/assets/topper-consultation/${video.file}.mp4" aria-hidden="true" tabindex="-1"></video></span><span class="pd-product-videos__title" aria-hidden="true">${e(video.title)}</span></button>`).join('')}
+                  ${productVideos.map((video, index) => `<button class="pd-product-videos__choice" type="button" data-product-video-select="${index}" aria-label="Watch ${e(video.title)}"><span class="pd-product-videos__circle"><video muted loop playsinline autoplay preload="none" poster="/assets/topper-consultation/${video.file}.webp" data-preview-src="/assets/topper-consultation/${video.file}.mp4" aria-hidden="true" tabindex="-1"></video><span class="pd-product-videos__play" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span></span><span class="pd-product-videos__title" aria-hidden="true">${e(video.title)}</span></button>`).join('')}
                 </div>
               </section>` : '';
   const productVideoDialog = productVideos.length ? `

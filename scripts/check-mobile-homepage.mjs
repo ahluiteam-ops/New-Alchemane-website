@@ -95,7 +95,7 @@ try {
     assert.equal(sectionBackgrounds.discountHeading, 'rgb(255, 255, 255)');
     assert.equal(sectionBackgrounds.celebrityHeading, 'rgb(35, 41, 40)');
     assert.equal(sectionBackgrounds.studioAccent, 'none');
-    await expect(page.locator('#client-closeups video')).toHaveAttribute('controls', '');
+    await expect(page.locator('#client-closeups video')).not.toHaveAttribute('controls', '');
     await expect(page.locator('#client-closeups video')).toHaveAttribute('preload', 'metadata');
     await expect(page.locator('#client-closeups source')).toHaveCount(2);
     if (width <= 700) await expect(page.locator('#client-closeups video')).toHaveAttribute('poster', '/assets/homepage/client-transformations-mobile-poster.webp');
@@ -104,7 +104,7 @@ try {
     assert((await page.locator('#client-closeups video').evaluate(video => video.currentSrc)).endsWith(expectedTransformationVideo), `incorrect transformation video at ${width}`);
     await expect(page.locator('#client-closeups figcaption')).toHaveCount(0);
     assert.equal(await page.locator('#client-closeups').evaluate(node => getComputedStyle(node).backgroundColor), 'rgb(255, 255, 255)', 'client film section should have a white background');
-    await expect(page.locator('#client-closeups .client-film-play')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Play real client hair transformations' })).toBeVisible();
     assert.equal(await page.locator('#client-closeups').evaluate(node => node.previousElementSibling.id), 'studio', 'close-up film should follow the studio');
     assert(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.classList.contains('risk-free-banner')), 'risk-free offer should follow the close-up film');
     assert.equal(await page.locator('#client-closeups').evaluate(node => node.nextElementSibling.nextElementSibling.id), 'questions', 'FAQ should follow the risk-free offer');

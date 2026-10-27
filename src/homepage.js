@@ -50,6 +50,21 @@ export function initHomepage() {
   // The collage thumbnail is a 4:5 portrait, so it only fits the mobile cut; desktop keeps its first frame.
   const transformationVideo = document.querySelector('#client-closeups video');
   if (transformationVideo) {
+    const playButton = document.querySelector('.client-film-play');
+    transformationVideo.controls = false;
+    playButton.addEventListener('click', () => {
+      if (transformationVideo.ended) transformationVideo.currentTime = 0;
+      transformationVideo.play().catch(() => { playButton.hidden = false; });
+    });
+    transformationVideo.addEventListener('play', () => {
+      transformationVideo.controls = true;
+      playButton.hidden = true;
+    });
+    transformationVideo.addEventListener('ended', () => {
+      transformationVideo.controls = false;
+      playButton.hidden = false;
+      playButton.setAttribute('aria-label', 'Replay real client hair transformations');
+    });
     const phone = matchMedia('(max-width: 700px)');
     const syncTransformationPoster = () => {
       if (phone.matches) transformationVideo.poster = '/assets/homepage/client-transformations-mobile-poster.webp';
