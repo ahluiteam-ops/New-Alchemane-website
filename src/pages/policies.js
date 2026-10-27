@@ -144,7 +144,7 @@ document.querySelector('#app').innerHTML = `
   </div></main>
   <footer class="site-footer" aria-label="Footer"><div class="footer-main">
     <div class="footer-brand-column"><a class="footer-brand" href="/" aria-label="Alchemane home"><img class="footer-logo" src="/icons/new%20logo.svg" alt="" width="160" height="40"></a><address class="footer-address"><strong>Address</strong> – 4th floor Empressa Building, 2nd Rd, Khar, Ram Krishna Nagar, Khar West, Mumbai, Maharashtra 400052.</address></div>
-    <nav class="footer-nav-column" aria-label="Solutions"><p class="footer-title">Solutions</p><a href="/extensions.html">Hair Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html">Hair Toppers</a></nav>
+    <nav class="footer-nav-column" aria-label="Solutions"><p class="footer-title">Solutions</p><a href="/permanent-extensions.html">Permanent Extensions</a><a href="/wigs.html">Hair Wigs</a><a href="/toppers.html">Hair Toppers</a></nav>
     <nav class="footer-nav-column" aria-label="Shopping information"><p class="footer-title">Shopping information</p>${policyLinks}</nav>
     <div class="footer-contact-column"><p class="footer-title">Contact Us</p><a class="footer-contact-link" href="tel:+919967123333">+91 9967123333</a><a class="footer-contact-link" href="mailto:info@alchemane.com">info@alchemane.com</a></div>
   </div><div class="footer-bottom"><span class="footer-copyright">© ${new Date().getFullYear()} - Alchemane Hair Extensions</span><a class="footer-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a></div></footer>`;
