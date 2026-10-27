@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Review your Alchemane order and enter delivery details.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preload" href="/fonts/source-sans-3-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/source-serif-4-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <title>Checkout | Alchemane</title>
+  </head>
+  <body class="checkout-page">
+    <a class="co-skip" href="#main">Skip to checkout</a>
+    <header class="co-header"><div class="co-header__inner"><a class="co-brand" href="/" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a></div></header>
+    <main id="main" class="co-layout">
+      <div class="co-content">
+        <div class="co-intro"><a class="co-back" href="/products/silk-hair-toppers/"><span aria-hidden="true">←</span> Back to your product</a><h1>Checkout</h1><p class="co-intro__note" id="intro-note" hidden></p></div>
+        <div class="co-empty" id="checkout-empty" hidden><h2>Your bag is empty.</h2><p>Choose a hair piece to get started.</p><a class="co-button" href="/toppers.html#shop">Explore hair toppers</a></div>
+        <noscript><p>Enable JavaScript to review your bag and enter delivery details.</p><style>#checkout-form,.co-aside{display:none}</style></noscript>
+
+        <form class="co-form" id="checkout-form" novalidate>
+          <div class="co-error-summary" id="checkout-errors" role="alert" tabindex="-1" hidden><h2>Check these details</h2><ul></ul></div>
+          <section class="co-section" aria-labelledby="contact-title"><div class="co-section__head"><h2 id="contact-title">Contact</h2><p>We’ll use these details for your order and delivery.</p></div><div class="co-fields">
+            <div class="co-field"><label for="checkout-email">Email address</label><input id="checkout-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="checkout-email-error"><p class="co-field__error" id="checkout-email-error" hidden></p></div>
+            <div class="co-field"><label for="checkout-phone">Mobile number</label><div class="co-phone"><label class="co-visually-hidden" for="checkout-phone-country">Country calling code</label><select id="checkout-phone-country" name="phoneCountry" aria-label="Country calling code"></select><input id="checkout-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Mobile number" required aria-describedby="checkout-phone-error"></div><p class="co-field__error" id="checkout-phone-error" hidden></p></div>
+          </div></section>
+
+          <section class="co-section" aria-labelledby="delivery-title"><div class="co-section__head"><h2 id="delivery-title">Delivery address</h2></div><div class="co-fields">
+            <div class="co-field"><label for="checkout-country">Country or region</label><select id="checkout-country" name="country" autocomplete="country" required aria-describedby="checkout-country-error"></select><p class="co-field__error" id="checkout-country-error" hidden></p></div>
+            <div class="co-field"><label for="checkout-name">Full name</label><input id="checkout-name" name="fullName" autocomplete="name" required aria-describedby="checkout-name-error"><p class="co-field__error" id="checkout-name-error" hidden></p></div>
+            <div class="co-field"><label for="checkout-address">Street address</label><input id="checkout-address" name="address" autocomplete="address-line1" required aria-describedby="checkout-address-error"><p class="co-field__error" id="checkout-address-error" hidden></p></div>
+            <div class="co-field"><label for="checkout-apartment">Apartment, suite or building <span class="co-optional">Optional</span></label><input id="checkout-apartment" name="apartment" autocomplete="address-line2"></div>
+            <div class="co-field-row"><div class="co-field"><label for="checkout-city">City or locality</label><input id="checkout-city" name="city" autocomplete="address-level2" required aria-describedby="checkout-city-error"><p class="co-field__error" id="checkout-city-error" hidden></p></div><div class="co-field"><label for="checkout-region"><span id="checkout-region-label">State</span><span class="co-optional" id="checkout-region-optional" hidden>Optional</span></label><input id="checkout-region" name="region" autocomplete="address-level1" required aria-describedby="checkout-region-error"><p class="co-field__error" id="checkout-region-error" hidden></p></div></div>
+            <div class="co-field co-field--pin"><label for="checkout-postal"><span id="checkout-postal-label">PIN code</span><span class="co-optional" id="checkout-postal-optional" hidden>Optional</span></label><input id="checkout-postal" name="postal" autocomplete="postal-code" inputmode="numeric" required aria-describedby="checkout-postal-error"><p class="co-field__error" id="checkout-postal-error" hidden></p></div>
+            <p class="co-shipping" id="shipping-status" role="status">Free shipping across India.</p>
+          </div></section>
+
+          <section class="co-section" aria-labelledby="billing-title"><div class="co-section__head"><h2 id="billing-title">Billing address</h2></div><label class="co-check co-billing-toggle"><input type="checkbox" id="billing-different" name="billingDifferent"><span>Use a different billing address</span></label><fieldset class="co-billing-fields" id="billing-fields" disabled hidden><legend class="co-visually-hidden">Different billing address</legend>
+            <div class="co-field"><label for="billing-country">Country or region</label><select id="billing-country" name="billingCountry" autocomplete="billing country" aria-describedby="billing-country-error"></select><p class="co-field__error" id="billing-country-error" hidden></p></div>
+            <div class="co-field"><label for="billing-name">Full name</label><input id="billing-name" name="billingName" autocomplete="billing name" aria-describedby="billing-name-error"><p class="co-field__error" id="billing-name-error" hidden></p></div>
+            <div class="co-field"><label for="billing-address">Street address</label><input id="billing-address" name="billingAddress" autocomplete="billing address-line1" aria-describedby="billing-address-error"><p class="co-field__error" id="billing-address-error" hidden></p></div>
+            <div class="co-field"><label for="billing-apartment">Apartment, suite or building <span class="co-optional">Optional</span></label><input id="billing-apartment" name="billingApartment" autocomplete="billing address-line2"></div>
+            <div class="co-field-row"><div class="co-field"><label for="billing-city">City or locality</label><input id="billing-city" name="billingCity" autocomplete="billing address-level2" aria-describedby="billing-city-error"><p class="co-field__error" id="billing-city-error" hidden></p></div><div class="co-field"><label for="billing-region"><span id="billing-region-label">State</span><span class="co-optional" id="billing-region-optional" hidden>Optional</span></label><input id="billing-region" name="billingRegion" autocomplete="billing address-level1" aria-describedby="billing-region-error"><p class="co-field__error" id="billing-region-error" hidden></p></div></div>
+            <div class="co-field co-field--pin"><label for="billing-postal"><span id="billing-postal-label">PIN code</span><span class="co-optional" id="billing-postal-optional" hidden>Optional</span></label><input id="billing-postal" name="billingPostal" autocomplete="billing postal-code" inputmode="numeric" aria-describedby="billing-postal-error"><p class="co-field__error" id="billing-postal-error" hidden></p></div>
+          </fieldset></section>
+
+          <section class="co-section" aria-labelledby="payment-title"><div class="co-section__head"><h2 id="payment-title">Payment</h2></div><div class="co-payment" aria-label="Payment preview"><div class="co-payment__method"><span class="co-payment__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.75" y="5" width="18.5" height="14" rx="2"></rect><path d="M2.75 10h18.5"></path></svg></span><div class="co-payment__copy"><strong>Pay online</strong><span>Available methods will appear here</span></div><span class="co-payment__brand">Razorpay</span></div><p class="co-payment__notice"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg><span>Payment is being set up. No payment details are collected yet.</span></p></div></section>
+          <div class="co-submit"><p id="checkout-status" role="status">Preview only. “Pay now” reviews your details; it will not place an order or charge you.</p><button class="co-button" type="submit" aria-describedby="checkout-status">Pay now</button></div>
+        </form>
+        <footer class="co-footer"><p>Need help? <a href="mailto:info@alchemane.com">Email Alchemane</a></p><button type="button" id="policy-open">Terms and policies</button></footer>
+      </div>
+
+      <aside class="co-aside" aria-label="Order information"><details class="co-summary" id="order-summary"><summary><span class="co-summary__title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-1 12H5L4 8Zm4 0V6a4 4 0 0 1 8 0v2"></path></svg> Order summary <svg class="co-summary__chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 7 6 6 6-6"></path></svg></span><span class="co-summary__amount"><strong id="summary-toggle-total">₹0</strong><small id="summary-tax-short">Includes 18% GST</small></span></summary><div class="co-summary__body"><div id="summary-items"></div><dl class="co-totals"><div><dt>Items subtotal</dt><dd id="summary-subtotal">₹0</dd></div><div><dt>Shipping</dt><dd id="summary-shipping">Free in India</dd></div></dl><p class="co-summary__note" id="summary-tax-note">Includes 18% GST in item prices. No GST is added here.</p></div></details></aside>
+    </main>
+
+    <dialog class="co-dialog" id="review-dialog" aria-labelledby="review-title"><div class="co-dialog__head"><h2 id="review-title">Review your details</h2><button type="button" class="co-dialog__close" data-close-dialog aria-label="Close review">×</button></div><div class="co-dialog__body"><dl id="review-details"></dl><div class="co-dialog__notice">Payment is not available yet. Your details stay in this browser tab and are not submitted.</div><button type="button" class="co-button" data-close-dialog>Back to checkout</button></div></dialog>
+    <dialog class="co-dialog co-dialog--policies" id="policy-dialog" aria-labelledby="policy-title"><div class="co-dialog__head"><h2 id="policy-title">Terms and policies</h2><button type="button" class="co-dialog__close" data-close-dialog aria-label="Close policies">×</button></div><div class="co-dialog__body"><p>Read the full policies before ordering.</p><nav aria-label="Alchemane policies"><a href="/pages/shipping-delivery/">Shipping and delivery <span aria-hidden="true">↗</span></a><a href="/pages/returns-and-exchanges/">Returns and exchanges <span aria-hidden="true">↗</span></a><a href="/pages/privacy-policy/">Privacy policy <span aria-hidden="true">↗</span></a><a href="/pages/terms-of-service/">Terms of service <span aria-hidden="true">↗</span></a></nav></div></dialog>
+    <script type="module" src="/src/pages/checkout.js"></script>
+  </body>
+</html>

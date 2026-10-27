@@ -15,7 +15,6 @@ export const products = [
     "shades": [
       "5x3"
     ],
-    "url": "https://alchemane.com/products/silk-hair-toppers",
     "isNew": false
   },
   {
@@ -34,7 +33,6 @@ export const products = [
       "18 inch",
       "22 inch"
     ],
-    "url": "https://alchemane.com/products/halo-hair-extensions",
     "isNew": false
   },
   {
@@ -51,7 +49,6 @@ export const products = [
     "shades": [
       "Regular"
     ],
-    "url": "https://alchemane.com/products/fringe-with-sides",
     "isNew": false
   },
   {
@@ -68,7 +65,6 @@ export const products = [
     "shades": [
       "10 inch"
     ],
-    "url": "https://alchemane.com/products/premium-wigs",
     "isNew": false
   },
   {
@@ -85,7 +81,6 @@ export const products = [
     "shades": [
       "5x6"
     ],
-    "url": "https://alchemane.com/products/silk-hair-toppers-5x6",
     "isNew": false
   },
   {
@@ -103,7 +98,6 @@ export const products = [
       "5x3",
       "5x6"
     ],
-    "url": "https://alchemane.com/products/skin-topper",
     "isNew": false
   },
   {
@@ -120,7 +114,6 @@ export const products = [
     "shades": [
       "5x6"
     ],
-    "url": "https://alchemane.com/products/skin-topper-5x6",
     "isNew": false
   },
   {
@@ -140,7 +133,6 @@ export const products = [
       "22 inch",
       "24 inch"
     ],
-    "url": "https://alchemane.com/products/tape-hair-extensions",
     "isNew": false
   },
   {
@@ -160,7 +152,6 @@ export const products = [
       "22 inch",
       "24 inch"
     ],
-    "url": "https://alchemane.com/products/micro-ring-hair-extensions",
     "isNew": false
   },
   {
@@ -180,7 +171,6 @@ export const products = [
       "22 inch",
       "24 inch"
     ],
-    "url": "https://alchemane.com/products/keratin-bond-hair-extensions",
     "isNew": false
   },
   {
@@ -199,7 +189,6 @@ export const products = [
       "18 inch",
       "22 inch"
     ],
-    "url": "https://alchemane.com/products/one-set-clip-in-hair-extensions",
     "isNew": false
   },
   {
@@ -218,7 +207,6 @@ export const products = [
       "18 inch",
       "22 inch"
     ],
-    "url": "https://alchemane.com/products/two-set-clip-in-extensions",
     "isNew": false
   },
   {
@@ -237,7 +225,6 @@ export const products = [
       "18 Inch",
       "22 Inch"
     ],
-    "url": "https://alchemane.com/products/u-shaped-extensions",
     "isNew": false
   },
   {
@@ -256,7 +243,6 @@ export const products = [
       "16 inches",
       "18 inches"
     ],
-    "url": "https://alchemane.com/products/2-clip-side-hair-extensions",
     "isNew": false
   },
   {
@@ -275,7 +261,6 @@ export const products = [
       "18 inch",
       "22 inch"
     ],
-    "url": "https://alchemane.com/products/pony-tail-hair-extensions",
     "isNew": false
   },
   {
@@ -294,7 +279,6 @@ export const products = [
       "16 inches",
       "18 inches"
     ],
-    "url": "https://alchemane.com/products/filler-clip-on-hair-extensions",
     "isNew": false
   },
   {
@@ -313,7 +297,6 @@ export const products = [
       "16 inches",
       "18 inches"
     ],
-    "url": "https://alchemane.com/products/single-clip-on-hair-extensions",
     "isNew": false
   },
   {
@@ -330,7 +313,6 @@ export const products = [
     "shades": [
       "Natural Black"
     ],
-    "url": "https://alchemane.com/products/scrunchies",
     "isNew": false
   },
   {
@@ -347,7 +329,6 @@ export const products = [
     "shades": [
       "Regular"
     ],
-    "url": "https://alchemane.com/products/fringe-1",
     "isNew": false
   },
   {
@@ -364,7 +345,6 @@ export const products = [
     "shades": [
       "Regular"
     ],
-    "url": "https://alchemane.com/products/fringe-2",
     "isNew": false
   },
   {
@@ -381,7 +361,6 @@ export const products = [
     "shades": [
       "Regular"
     ],
-    "url": "https://alchemane.com/products/full-fringe-with-sides",
     "isNew": false
   },
   {

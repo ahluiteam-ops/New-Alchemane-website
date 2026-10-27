@@ -18,7 +18,7 @@ const blogArticleInputs = Object.fromEntries(findBlogEntries('blogs').map(file =
 
 export default defineConfig({
   // Shop and category pages, plus the optional hair topper consultation flow.
-  build: { rollupOptions: { input: { main: 'index.html', extensions: 'extensions.html', permanentExtensions: 'permanent-extensions.html', toppers: 'toppers.html', topperConsultation: 'topper-consultation.html', consultation: 'consultation.html', blogs: 'blogs.html', wigs: 'wigs.html', silkTopper: 'products/silk-hair-toppers/index.html', privacyPolicy: 'pages/privacy-policy/index.html', returnsAndExchanges: 'pages/returns-and-exchanges/index.html', shippingDelivery: 'pages/shipping-delivery/index.html', termsOfService: 'pages/terms-of-service/index.html', ...blogArticleInputs } } },
+  build: { rollupOptions: { input: { main: 'index.html', checkout: 'checkout.html', extensions: 'extensions.html', permanentExtensions: 'permanent-extensions.html', toppers: 'toppers.html', topperConsultation: 'topper-consultation.html', consultation: 'consultation.html', blogs: 'blogs.html', wigs: 'wigs.html', silkTopper: 'products/silk-hair-toppers/index.html', privacyPolicy: 'pages/privacy-policy/index.html', returnsAndExchanges: 'pages/returns-and-exchanges/index.html', shippingDelivery: 'pages/shipping-delivery/index.html', termsOfService: 'pages/terms-of-service/index.html', ...blogArticleInputs } } },
   plugins: [tailwindcss(), {
     name: 'page-sections',
     transformIndexHtml: { order: 'pre', handler(html) {

@@ -1,0 +1,118 @@
+/* Shared desktop wayfinding. Compact layouts keep their existing navigation. */
+@media (min-width: 1051px) {
+  :is(.site-header, .pe-header, .blog-header, .consult-header) {
+    height: 88px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: none;
+  }
+  :is(.site-header .masthead, .pe-header .pe-header__bar, .blog-header .blog-header__inner, .consult-header .consult-header__inner) {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) auto minmax(160px, 1fr);
+    align-items: center;
+    gap: 20px;
+    width: min(calc(100% - 2 * var(--page-gutter)), var(--content-width));
+    max-width: var(--content-width);
+    height: 100%;
+    min-height: 0;
+    margin-inline: auto;
+    padding: 0;
+  }
+  :is(.site-header .brand, .pe-header .pe-brand, .blog-header .blog-brand, .consult-header .consult-brand) {
+    grid-column: 1;
+    justify-self: start;
+  }
+  :is(.site-header .brand-logo, .pe-header .pe-brand img, .blog-header .blog-brand img, .consult-header .consult-brand img) {
+    display: block;
+    width: 160px;
+    height: auto;
+  }
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(17px, 1.8vw, 30px);
+    height: 100%;
+    margin: 0;
+  }
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > a,
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > .shopnav__trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font: 400 15px/1.3 var(--font-body);
+    letter-spacing: 0;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > a::after,
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > .shopnav__trigger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-fast) ease;
+  }
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > :is(a, .shopnav__trigger):is(:hover, :focus-visible, [aria-current="page"], [aria-expanded="true"])::after {
+    transform: scaleX(1);
+  }
+  :is(.site-header .main-nav, .pe-header .pe-nav, .blog-header .blog-nav, .consult-header .consult-nav) > a[href="/consultation.html"] {
+    display: none;
+  }
+  .site-header .header-actions,
+  :is(.pe-header .pe-header__cta, .blog-header .desktop-header-cta, .consult-header .desktop-header-cta) {
+    grid-column: 3;
+    justify-self: end;
+  }
+  :is(.site-header .header-cta, .pe-header .pe-header__cta, .blog-header .desktop-header-cta, .consult-header .desktop-header-cta) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 161px;
+    min-height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 4px;
+    background: var(--action);
+    color: var(--surface);
+    box-shadow: none;
+    font: 600 15px/1 var(--font-body);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--duration-fast) ease;
+  }
+  :is(.site-header .header-cta, .pe-header .pe-header__cta, .blog-header .desktop-header-cta, .consult-header .desktop-header-cta):hover {
+    background: var(--color-accent-ink);
+    color: var(--surface);
+    transform: none;
+    box-shadow: none;
+  }
+  :is(.site-header .header-cta, .pe-header .pe-header__cta, .blog-header .desktop-header-cta, .consult-header .desktop-header-cta):focus-visible {
+    outline: 2px solid var(--action);
+    outline-offset: 4px;
+  }
+  .consult-header .desktop-header-cta[aria-current="page"] {
+    box-shadow: inset 0 -3px var(--color-accent-muted);
+  }
+  .blog-header .blog-menu,
+  .consult-header .consult-menu { display: none; }
+}
+@media (max-width: 1050px) {
+  :is(.blog-header, .consult-header) .desktop-header-cta { display: none; }
+  :is(.blog-header, .consult-header) .shopnav__desktop-trigger { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.site-header, .pe-header, .blog-header, .consult-header) :is(a, .shopnav__trigger)::after { transition: none; }
+}

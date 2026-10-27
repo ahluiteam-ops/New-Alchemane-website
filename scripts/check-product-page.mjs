@@ -13,15 +13,6 @@ const reviewFixture = Array.from({ length: 20 }, (_, index) => ({
   content: index === 0 ? 'A comfortably fitted silk topper with a natural looking parting. '.repeat(5) : `Product review ${index + 1} about the silk topper.`,
   resources: [],
 }));
-const stockFixture = [
-  ['41758814142523', 5], ['41758814175291', 5], ['41758814208059', 5],
-  ['41758814240827', 3], ['41758814273595', 5], ['41758814306363', 5],
-];
-const expectTextureLink = async (locator, id, count, texture) => {
-  const url = new URL(await locator.getAttribute('href'));
-  assert.equal(url.pathname, `/cart/${id}:${count}`);
-  assert.equal(JSON.parse(Buffer.from(url.searchParams.get('properties'), 'base64url').toString()).Texture, texture);
-};
 await mkdir('preview/product-page', { recursive: true });
 try {
   for (const [width, height] of [[320, 740], [375, 812], [390, 844], [768, 1024], [1440, 1000], [844, 390]]) {
@@ -32,14 +23,6 @@ try {
       contentType: 'application/json',
       body: JSON.stringify({ code: 0, data: { page: { total_page: 1, count: 20 }, list: reviewFixture } }),
     }));
-    await page.route('https://alchemane.com/products/silk-hair-toppers.js', route => route.fulfill({
-      status: 200, contentType: 'application/json',
-      body: JSON.stringify({ variants: stockFixture.map(([id]) => ({ id, available: true })) }),
-    }));
-    await page.route('https://alchemane.com/products/silk-hair-toppers?pb=0', route => route.fulfill({
-      status: 200, contentType: 'text/html',
-      body: `<variant-inventory>${stockFixture.map(([id, count]) => `<span data-variant-id="${id}" data-quantity="${count}"></span>`).join('')}</variant-inventory>`,
-    }));
     await page.addInitScript(() => { window.consultationRequests = []; window.open = url => { window.consultationRequests.push(url); return null; }; });
     page.on('pageerror', error => failures.push(`${width}: ${error.message}`));
     page.on('response', response => { if (response.url().startsWith(base) && response.status() >= 400) failures.push(`${width}: ${response.status()} ${response.url()}`); });
@@ -49,7 +32,7 @@ try {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Silk Topper 5×3');
     await expect(page.locator('[data-product-rating]')).toBeVisible();
     await expect(page.locator('[data-product-rating-average]')).toHaveText('4.5');
-    await expect(page.locator('[data-stock]')).toHaveText('5 in stock');
+    await expect(page.locator('[data-stock]')).toHaveText('Choose your options');
     await expect(page.locator('.pd-details .pd-accordions summary')).toHaveText([
       'Description', 'Need Customization?', 'Shipping & Return', 'Is this topper right for me?', 'Care & storage',
     ]);
@@ -116,10 +99,10 @@ try {
     if (width < 701) await page.getByRole('button', { name: 'Previous product image', exact: true }).click();
     else await page.getByRole('button', { name: 'View image 1:', exact: false }).click();
 
-    // Texture is required and travels to Shopify with every purchasable option.
+    // Texture is required before adding the selection to the local bag.
     await page.locator('.pd-texture-options label.pd-choice:has(input[value="Natural Wave"])').click();
     await expect(page.locator('[data-texture-label]')).toHaveText('Natural Wave');
-    // Every purchasable option produces the verified price and Shopify variant.
+    // Every purchasable option produces its local catalogue price and variant.
     const variants = [
       ['14 inches', 'Natural Black', '₹28,000', '41758814142523'],
       ['14 inches', 'Dark Brown', '₹28,000', '41758814175291'],
@@ -132,15 +115,15 @@ try {
       await page.locator(`label.pd-choice:has(input[value="${length}"])`).click();
       await page.locator(`label.pd-colour:has(input[value="${colour}"])`).click();
       await expect(page.locator('[data-price]')).toHaveText(price);
-      await expectTextureLink(page.locator('[data-buy-now]'), id, 1, 'Natural Wave');
-      if (id === '41758814240827') await expect(page.locator('[data-stock]')).toHaveText('3 in stock');
+      await expect(page.locator('[data-buy-now]')).toHaveAttribute('href', '/checkout.html');
+      await expect(page.locator('[data-stock]')).toHaveText('Choose your options');
     }
     await page.locator('#product-quantity').fill('2');
     await page.locator('#product-quantity').dispatchEvent('change');
     await page.locator('#product-form [data-add-to-bag]').click();
     await expect(page.locator('#bag-dialog')).toBeVisible();
     await expect(page.locator('[data-bag-subtotal]')).toHaveText('₹64,000');
-    await expectTextureLink(page.locator('[data-checkout]'), '41758814306363', 2, 'Natural Wave');
+    await expect(page.locator('[data-checkout]')).toHaveAttribute('href', '/checkout.html');
     await expect(page.locator('.pd-bag__item')).toContainText('Natural Wave');
     await page.screenshot({ path: `preview/product-page/bag-${width}.png` });
     await page.keyboard.press('Escape');
@@ -247,7 +230,7 @@ try {
     await reviews.locator('.pd-review__more').first().click();
     await expect(reviews.locator('.pd-review__more').first()).toHaveAttribute('aria-expanded', 'true');
     await reviews.locator('.pd-review__more').first().click();
-    await expect(reviews.getByRole('link', { name: /Write a review on Alchemane/ })).toHaveAttribute('href', 'https://alchemane.com/products/silk-hair-toppers?pb=0#vstar-reviews');
+    await expect(reviews.getByRole('link', { name: /Write a review on Alchemane/ })).toHaveCount(0);
     await expect(reviews.getByRole('link', { name: /See reviews on Alchemane/ })).toHaveCount(0);
     assert(await reviews.evaluate(node => node.nextElementSibling?.id === 'consultation'), 'Customer reviews should sit directly above consultation');
     assert.deepEqual(await page.locator('main > section').evaluateAll(nodes => nodes.map(node => node.classList.contains('pd-difference') ? 'difference' : node.classList.contains('pd-consult-offer') ? 'consultation-offer' : node.classList.contains('pd-related') ? 'related' : node.classList.contains('pd-faq') ? 'faq' : node.classList.contains('pd-reviews') ? 'reviews' : node.classList.contains('pd-consult') ? 'consultation' : node.classList.contains('pd-may-like') ? 'may-like' : 'unknown')), ['difference', 'consultation-offer', 'related', 'faq', 'reviews', 'consultation', 'may-like']);
@@ -258,7 +241,7 @@ try {
     await expect(mayLike.getByRole('heading', { name: 'You May Also Like', exact: true })).toBeVisible();
     await expect(mayLike.locator('.pd-may-like__card')).toHaveCount(4);
     for (const card of await mayLike.locator('.pd-may-like__card').all()) {
-      await expect(card).toHaveAttribute('href', /https:\/\/alchemane\.com\/products\//);
+      await expect(card).toHaveAttribute('href', /https:\/\/wa\.me\//);
       await expect(card.locator('img')).toBeVisible();
     }
     await mayLike.screenshot({ path: `preview/product-page/you-may-also-like-${width}.png` });
@@ -295,8 +278,7 @@ try {
   const staticPage = await staticContext.newPage();
   await staticPage.goto(base + path);
   await expect(staticPage.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(staticPage.locator('[data-buy-now]')).toHaveAttribute('href', /41758814142523/);
-  await expect(staticPage.getByRole('link', { name: 'Choose options in store' })).toBeVisible();
+  await expect(staticPage.locator('[data-buy-now]')).toHaveAttribute('href', '/checkout.html');
   await expect(staticPage.locator('[data-product-videos]')).not.toBeVisible();
   await staticContext.close();
   const reducedContext = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
@@ -310,7 +292,7 @@ try {
   await expect(reducedPage.locator('#product-video-dialog')).not.toHaveAttribute('data-video-transitioning', '1');
   await reducedContext.close();
   assert.deepEqual(failures, [], 'No browser errors or missing local assets');
-  console.log('Product page passed: responsive layout, six variants, gallery/zoom, bag persistence, checkout handoff, four-at-a-time reviews, dialogs, FAQs, mobile purchase bar, no-JS and reduced motion.');
+  console.log('Product page passed: responsive layout, six variants, gallery/zoom, local bag and checkout, reviews, dialogs, FAQs, mobile purchase bar, no-JS and reduced motion.');
 } finally {
   await browser.close();
 }

@@ -17,8 +17,8 @@ const RETRY_MS = 10000;
 const SNOOZE_DAYS = 14; // after a plain close, stay quiet this long
 const STORE_KEY = 'alchemane-offer';
 const WHATSAPP = '919967123333';
-const PRIVACY_URL = 'https://alchemane.com/policies/privacy-policy';
-const TERMS_URL = 'https://alchemane.com/policies/terms-of-service';
+const PRIVACY_URL = '/pages/privacy-policy/';
+const TERMS_URL = '/pages/terms-of-service/';
 
 const wa = text => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
 

@@ -1,12 +1,16 @@
+import { desktopShopTrigger, renderShopPanel } from '../components/shop-navigation-data.js';
+import { initShopNavigation } from '../components/shop-navigation.js';
+
 export function blogHeader(active = '') {
   return `<a class="blog-skip" href="#main">Skip to content</a>
     <header class="blog-header"><div class="blog-header__inner">
       <a class="blog-brand" href="/" aria-label="Alchemane home"><img src="/icons/new%20logo.svg" alt="" width="160" height="40"></a>
       <nav class="blog-nav" id="blog-nav" aria-label="Main navigation">
-        <a href="/">Home</a><a href="/permanent-extensions.html">Permanent Extensions</a><a href="/toppers.html">Hair Toppers</a><a href="/wigs.html">Wigs</a><a href="/blogs.html"${active === 'blogs' ? ' aria-current="page"' : ''}>Blogs</a><a href="/consultation.html">Book A Consultation</a>
+        <a href="/">Home</a>${desktopShopTrigger()}<a href="/permanent-extensions.html">Permanent Extensions</a><a href="/toppers.html">Hair Toppers</a><a href="/wigs.html">Wigs</a><a href="/blogs.html"${active === 'blogs' ? ' aria-current="page"' : ''}>Blogs</a><a href="/consultation.html">Book A Consultation</a>
       </nav>
+      <a class="desktop-header-cta" href="/consultation.html">Book consultation</a>
       <button class="blog-menu" type="button" aria-label="Open navigation menu" aria-controls="blog-nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    </div></header>`;
+    </div>${renderShopPanel()}</header>`;
 }
 
 export function blogFooter() {
@@ -14,6 +18,7 @@ export function blogFooter() {
 }
 
 export function initBlogShell() {
+  initShopNavigation();
   const header = document.querySelector('.blog-header');
   const menu = document.querySelector('.blog-menu');
   const nav = document.querySelector('.blog-nav');

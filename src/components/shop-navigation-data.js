@@ -10,8 +10,9 @@ const menuIcon ='<svg class="nav-menu-icon" viewBox="0 0 24 24" aria-hidden="tru
 const productRoutes = { 'silk-hair-toppers': '/products/silk-hair-toppers/' };
 
 const trigger = mobile => `<button class="shopnav__trigger shopnav__${mobile ? 'mobile' : 'desktop'}-trigger" type="button" popovertarget="shop-navigation" aria-controls="shop-navigation" aria-expanded="false">Shop ${chevron}</button>`;
+export const desktopShopTrigger = () => trigger(false);
 
-function renderPanel(isProductPage) {
+export function renderShopPanel(isProductPage = false) {
   return `<nav class="shopnav" id="shop-navigation" popover="auto" aria-label="Shop by category">
     <div class="shopnav__heading"><span id="shop-navigation-title">Shop by category</span><button class="shopnav__close" type="button" popovertarget="shop-navigation" popovertargetaction="hide" aria-label="Close shop menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div>
     <div class="shopnav__layout">
@@ -35,16 +36,17 @@ function renderPanel(isProductPage) {
 export function addShopNavigation(html) {
   let decorated = false;
   const isProductPage = /<body[^>]*class="[^"]*\bpd\b/.test(html);
-  html = html.replace(/<header class="(site-header|pe-header|pd-header|shop-header)"[^>]*>[\s\S]*?<\/header>/, (header, type) => {
+  html = html.replace(/<header class="(site-header|pe-header|pd-header|shop-header|consult-header)"[^>]*>[\s\S]*?<\/header>/, (header, type) => {
     decorated = true;
-    header = header.replace(/(<a href="\/consultation\.html"[^>]*>Book A Consultation<\/a>)/, '<a href="/blogs.html">Blogs</a>$1');
-    header = header.replace(/(<nav[^>]*class="(?:main-nav|pe-nav|pd-nav|shop-nav)"[^>]*>)(\s*<a href="\/"[^>]*>Home<\/a>)?/, (_, opening, home = '') => opening + home + trigger(false));
+    if (type !== 'consult-header') header = header.replace(/(<a href="\/consultation\.html"[^>]*>Book A Consultation<\/a>)/, '<a href="/blogs.html">Blogs</a>$1');
+    header = header.replace(/(<nav[^>]*class="(?:main-nav|pe-nav|pd-nav|shop-nav|consult-nav)"[^>]*>)(\s*<a href="\/"[^>]*>Home<\/a>)?/, (_, opening, home = '') => opening + home + trigger(false));
     if (type === 'shop-header') header = header.replace(/(<a class="header-help"[\s\S]*?<\/a>)/, `<div class="shopnav__masthead-links"><a class="shopnav__blog-link" href="/blogs.html">Blogs</a>${trigger(true)}$1</div>`);
+    else if (type === 'consult-header') header = header.replace(/(<button class="consult-menu")/, '<a class="desktop-header-cta" href="#booking" aria-current="page">Book consultation</a>$1');
     else header = header
       .replace(/<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"/, match => trigger(true) + match)
       // One icon with both states, so the open menu shows a close (X) in the same place.
       .replace(/(<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"[^>]*>)\s*<svg[\s\S]*?<\/svg>/, `$1${menuIcon}`);
-    return header.replace('</header>', `${renderPanel(isProductPage)}</header>`);
+    return header.replace('</header>', `${renderShopPanel(isProductPage)}</header>`);
   });
   return decorated ? html.replace('</body>', '<script type="module" src="/src/components/shop-navigation.js"></script></body>') : html;
 }

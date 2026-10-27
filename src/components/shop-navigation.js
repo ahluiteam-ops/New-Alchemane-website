@@ -1,7 +1,9 @@
 import './shop-navigation.css';
+import './desktop-header.css';
 
-const panel = document.querySelector('#shop-navigation');
-if (panel) {
+export function initShopNavigation() {
+  const panel = document.querySelector('#shop-navigation');
+  if (!panel) return;
   const abort = new AbortController();
   const on = (target, type, listener, options = {}) => target.addEventListener(type, listener, { ...options, signal: abort.signal });
   const header = panel.parentElement;
@@ -77,3 +79,5 @@ if (panel) {
 
   if (import.meta.hot) import.meta.hot.dispose(() => { close(); abort.abort(); });
 }
+
+initShopNavigation();

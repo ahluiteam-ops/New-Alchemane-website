@@ -420,17 +420,10 @@ if (productVideoPicker) {
   });
 }
 
-// Variant is the single source of truth for price, direct checkout and bag actions.
+// Variant is the local source of truth for price and bag actions.
 const quantityInput = form.elements.quantity;
 const quantity = () => Math.min(10, Math.max(1, Number.parseInt(quantityInput.value, 10) || 1));
-const cartLink = (id, count, texture) => {
-  const properties = btoa(JSON.stringify({ Texture: texture })).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  return `https://alchemane.com/cart/${id}:${count}?properties=${properties}&checkout`;
-};
 const stock = document.querySelector('[data-stock]');
-const liveAvailability = new Map();
-const stockCounts = new Map();
-let stockChecked = false;
 const initialVariant = product.variants.find(v => v.id === new URLSearchParams(location.search).get('variant'));
 if (initialVariant) {
   lengthInputs.value = initialVariant.length;
@@ -450,17 +443,16 @@ const syncSelection = () => {
   document.querySelector('[data-texture-label]').textContent = textureInputs.value || 'Choose a texture';
   document.querySelector('#topper-consultation-form [name="selection"]').value = `${product.base} / ${selected.length} / ${selected.colour}${textureInputs.value ? ` / ${textureInputs.value}` : ''}`;
   const buyNow = document.querySelector('[data-buy-now]');
-  const available = liveAvailability.get(selected.id) ?? selected.available;
-  const count = stockCounts.get(selected.id);
+  const available = selected.available;
   if (!available) {
     stock.textContent = 'Currently unavailable';
     stock.dataset.state = 'unavailable';
   } else {
-    stock.textContent = Number.isInteger(count) && count > 0 ? `${count} in stock` : stockChecked ? 'Available to order; confirm at checkout' : 'Checking availability…';
-    stock.dataset.state = stockChecked ? 'available' : 'checking';
+    stock.textContent = 'Choose your options';
+    stock.dataset.state = 'available';
   }
   if (available) {
-    buyNow.href = textureInputs.value ? cartLink(selected.id, quantity(), textureInputs.value) : '#product-form';
+    buyNow.href = textureInputs.value ? '/checkout.html' : '#product-form';
     buyNow.removeAttribute('aria-disabled');
   } else {
     buyNow.removeAttribute('href');
@@ -488,36 +480,7 @@ document.querySelectorAll('[data-quantity-step]').forEach(button => on(button, '
 }));
 syncSelection();
 
-on(document.querySelector('[data-buy-now]'), 'click', event => {
-  if (textureInputs.value) return;
-  event.preventDefault();
-  status.textContent = 'Choose a texture before continuing to checkout.';
-  form.querySelector('[name="texture"]').focus();
-});
-
-// Shopify publishes variant availability and current stock in its storefront.
-// Keep the local purchase controls in sync when that source is reachable.
-const refreshStock = async () => {
-  const source = `https://alchemane.com/products/${product.handle}`;
-  const [variantsResult, inventoryResult] = await Promise.allSettled([
-    fetch(`${source}.js`, { signal: abort.signal, cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Variant availability unavailable'); return response.json(); }),
-    fetch(`${source}?pb=0`, { signal: abort.signal, cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Inventory unavailable'); return response.text(); }),
-  ]);
-  if (abort.signal.aborted) return;
-  if (variantsResult.status === 'fulfilled') variantsResult.value.variants?.forEach(variant => liveAvailability.set(String(variant.id), Boolean(variant.available)));
-  if (inventoryResult.status === 'fulfilled') {
-    const sourcePage = new DOMParser().parseFromString(inventoryResult.value, 'text/html');
-    sourcePage.querySelectorAll('variant-inventory [data-variant-id][data-quantity]').forEach(node => {
-      const count = Number.parseInt(node.dataset.quantity, 10);
-      if (Number.isInteger(count)) stockCounts.set(node.dataset.variantId, count);
-    });
-  }
-  stockChecked = true;
-  syncSelection();
-};
-refreshStock();
-
-// The bag is local to this preview. Texture travels to Shopify as a line item property.
+// The bag is local to this website.
 const bagKey = 'alchemane-product-bag-v2';
 let bag = [];
 try {
@@ -545,7 +508,7 @@ const renderBag = () => {
     return `<article class="pd-bag__item"><img src="${e(itemProduct.gallery[0].display || `/assets/products/${itemProduct.handle}/${itemProduct.gallery[0].file}.webp`)}" alt="" width="80" height="100"><div><h3>${e(itemProduct.name)}</h3><p>${e(itemProduct.base)} · ${e(variant.length)}</p><p>${e(variant.colour)} · ${e(item.texture)}</p><strong>${formatPrice(variant.price * item.quantity)}</strong><div class="pd-bag__item-controls"><div class="pd-quantity" role="group" aria-label="Quantity for ${e(variant.length)} ${e(variant.colour)} ${e(item.texture)}"><button type="button" data-bag-step="-1" data-key="${e(key)}" aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>${icon('minus')}</button><span>${item.quantity}</span><button type="button" data-bag-step="1" data-key="${e(key)}" aria-label="Increase quantity" ${item.quantity >= 10 ? 'disabled' : ''}>${icon('plus')}</button></div><button class="pd-text-button" type="button" data-remove="${e(key)}">Remove</button></div></div></article>`;
   }).join('');
   document.querySelector('[data-bag-subtotal]').textContent = formatPrice(subtotal);
-  document.querySelector('[data-checkout]').href = bag.length === 1 ? cartLink(bag[0].id, bag[0].quantity, bag[0].texture) : 'https://alchemane.com/cart';
+  document.querySelector('[data-checkout]').href = '/checkout.html';
 };
 const bagItemKey = item => `${item.id}-${item.texture}`;
 on(bagItems, 'click', event => {
@@ -563,49 +526,34 @@ on(bagItems, 'click', event => {
   const restoreTarget = focusId ? [...bagItems.querySelectorAll('[data-bag-step]')].find(button => button.dataset.key === focusId && button.dataset.bagStep === step.dataset.bagStep && !button.disabled) : null;
   (restoreTarget || bagDialog.querySelector('[data-close]')).focus();
 });
-on(form, 'submit', event => {
-  event.preventDefault();
-  if (!selected || !(liveAvailability.get(selected.id) ?? selected.available)) return;
+const addSelectionToBag = () => {
+  if (!selected || !selected.available) return false;
   if (!textureInputs.value) {
-    status.textContent = 'Choose a texture before adding this topper to your bag.';
+    status.textContent = 'Choose a texture before continuing.';
     form.querySelector('[name="texture"]').focus();
-    return;
+    return false;
   }
   const existing = bag.find(item => item.id === selected.id && item.texture === textureInputs.value);
   if (existing && existing.quantity + quantity() > 10) {
     status.textContent = 'You already have this option in your bag. You can order up to 10 of each option, or contact us for a larger order.';
-    return;
+    return false;
   }
   if (existing) existing.quantity += quantity();
   else bag.push({ handle: product.handle, id: selected.id, texture: textureInputs.value, quantity: quantity() });
   saveBag(); renderBag();
+  return true;
+};
+on(form, 'submit', event => {
+  event.preventDefault();
+  if (!addSelectionToBag()) return;
   document.querySelector('[data-bag-message]').textContent = `${quantity()} ${quantity() === 1 ? 'item' : 'items'} added to your bag.`;
   openDialog(bagDialog);
 });
-renderBag();
-on(document.querySelector('[data-checkout]'), 'click', event => {
-  if (bag.length < 2) return;
+on(document.querySelector('[data-buy-now]'), 'click', event => {
   event.preventDefault();
-  const checkoutForm = document.createElement('form');
-  checkoutForm.action = 'https://alchemane.com/cart/add';
-  checkoutForm.method = 'post';
-  checkoutForm.hidden = true;
-  const addField = (name, value) => {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
-    checkoutForm.append(input);
-  };
-  bag.forEach((item, index) => {
-    addField(`items[${index}][id]`, item.id);
-    addField(`items[${index}][quantity]`, item.quantity);
-    addField(`items[${index}][properties][Texture]`, item.texture);
-  });
-  addField('return_to', '/checkout');
-  document.body.append(checkoutForm);
-  checkoutForm.submit();
+  if (addSelectionToBag()) location.assign('/checkout.html');
 });
+renderBag();
 document.querySelectorAll('[data-open]').forEach(button => on(button, 'click', () => {
   if (button.dataset.open === 'bag-dialog') document.querySelector('[data-bag-message]').textContent = '';
   openDialog(document.getElementById(button.dataset.open));

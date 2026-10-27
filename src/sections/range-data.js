@@ -1,7 +1,9 @@
 // Product catalogue for "The full range". Source: alchemane.com/products.json
 // (Shopify), read on 18 Sep 2026. Prices are the lowest variant price in INR.
 // Change a price or shade here and the static cards regenerate at build time.
-export const STORE_URL = 'https://alchemane.com/products/';
+const productLink = item => item.handle === 'silk-hair-toppers'
+  ? '/products/silk-hair-toppers/'
+  : `https://wa.me/919967123333?text=${encodeURIComponent(`Hello Alchemane, I would like to know more about ${item.name}. Please share the available options and fitting details.`)}`;
 
 const shadeSwatch = {
   'Natural Black': '#1c1917',
@@ -62,8 +64,8 @@ function card(item, flag, extra = '') {
   const group = item.group ? ` data-group="${item.group}"` : '';
   const dots = item.shades.map(s => `<i style="--shade:${shadeSwatch[s]}" title="${esc(s)}"></i>`).join('');
   return `<li class="range-card" data-handle="${esc(item.handle)}"${group}${alt}>
-  <a class="range-link" href="${STORE_URL}${esc(item.handle)}">
-    <span class="range-media"><img class="range-photo" src="/assets/range/${esc(item.handle)}-a.webp" width="600" height="800" alt="${esc(item.alt)}" loading="lazy" decoding="async"><span class="range-flag">${esc(flag)}</span><span class="range-view" aria-hidden="true">View on alchemane.com <b>↗</b></span></span>
+  <a class="range-link" href="${esc(productLink(item))}"${item.handle === 'silk-hair-toppers' ? '' : ' target="_blank" rel="noopener noreferrer"'}>
+    <span class="range-media"><img class="range-photo" src="/assets/range/${esc(item.handle)}-a.webp" width="600" height="800" alt="${esc(item.alt)}" loading="lazy" decoding="async"><span class="range-flag">${esc(flag)}</span><span class="range-view" aria-hidden="true">${item.handle === 'silk-hair-toppers' ? 'View product' : 'Ask for details'} <b>↗</b></span></span>
     <span class="range-title"><span class="range-name">${esc(item.name)}</span><span class="range-price">${price}</span></span>
     <span class="range-spec">${extra}<span>${esc(item.spec)}</span></span>
     <span class="range-shades">${dots}<span class="sr-only">Shades: ${esc(item.shades.join(', '))}</span></span>

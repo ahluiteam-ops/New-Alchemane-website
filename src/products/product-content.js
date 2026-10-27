@@ -1,5 +1,5 @@
 // One content record per product; the page renderer and interactions are shared.
-// Prices are INR, variant IDs match the official Shopify feed (21 October 2026).
+// Prices are INR. Variant IDs are local catalogue identifiers for the bag.
 export const productPages = {
   'silk-hair-toppers': {
     handle: 'silk-hair-toppers',
@@ -40,12 +40,11 @@ export const productPages = {
     reviews: {
       shopId: '58311802939',
       productId: '7289853280315',
-      sourceUrl: 'https://alchemane.com/products/silk-hair-toppers?pb=0#vstar-reviews',
     },
     details: [
       { title: 'Description', html: '<p>This lightweight silk topper adds coverage and volume to a widening parting or thinning crown while blending with your own hair.</p><p>A soft net and individually knotted lace sit beneath the silk top. The silk conceals the knots to create a scalp-like parting.</p><dl class="pd-specs"><div><dt>Base</dt><dd>Silk, 5×3 inches</dd></div><div><dt>Hair length</dt><dd>14 or 16 inches</dd></div><div><dt>Textures</dt><dd>Natural Wave or Straight</dd></div><div><dt>Colours</dt><dd>Natural Black, Dark Brown, Highlights</dd></div><div><dt>Attachment</dt><dd>Clips that secure to your existing hair</dd></div><div><dt>Coverage</dt><dd>Parting and crown; suitability depends on your area of thinning</dd></div></dl>' },
       { title: 'Need Customization?', html: '<p>Need help with a different finish, shade or fit? Our team can guide you through the options before you order.</p><a href="tel:+919967123333">Call +91 99671 23333</a> · <a href="https://wa.me/919967123333?text=Hello%20Alchemane%2C%20I%20would%20like%20help%20customising%20the%20Silk%20Topper%205x3." target="_blank" rel="noopener noreferrer">Ask on WhatsApp</a>' },
-      { title: 'Shipping & Return', html: '<p>Shipping is free across India. Orders ship from Mumbai; processing and delivery time depend on the selected topper and any customisation. Our team can confirm the timing before you order.</p><p>Customised orders cannot be returned. Please review the full policies for other return conditions and international shipping charges.</p><a href="https://alchemane.com/pages/shipping-delivery">Shipping policy</a> · <a href="https://alchemane.com/pages/returns-and-exchanges">Returns & exchanges</a>' },
+      { title: 'Shipping & Return', html: '<p>Shipping is free across India. Orders ship from Mumbai; processing and delivery time depend on the selected topper and any customisation. Our team can confirm the timing before you order.</p><p>Customised orders cannot be returned. Please review the full policies for other return conditions and international shipping charges.</p><a href="/pages/shipping-delivery/">Shipping policy</a> · <a href="/pages/returns-and-exchanges/">Returns & exchanges</a>' },
       { title: 'Is this topper right for me?', html: '<p>A topper covers part of the scalp and blends with the hair you already have. The clips need enough surrounding hair for a comfortable hold.</p><p>If your thinning extends beyond the base, or your roots feel fragile, ask our team to assess the fit before ordering.</p><a href="#consultation">Get personalised guidance</a>' },
       { title: 'Care & storage', html: '<p>Gently detangle before and after wear. Close the clips before storing your topper, and keep it dry in its storage pouch.</p><p>Ask our team for washing, heat-styling and colour advice for your chosen finish.</p>' },
     ],

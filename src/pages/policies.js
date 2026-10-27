@@ -96,7 +96,7 @@ const policies = {
   'terms-of-service': {
     title: 'Terms of Service',
     content: `
-      <p>“Before utilizing the services of (<a href="https://alchemane.com/">https://alchemane.com/</a>) users are required to accept the terms and conditions stated herein. By accessing the website through any device, such as mobile phones or computer systems, users acknowledge and consent to these terms. They also agree that Alchemane Hair Extensions Private Limited reserves the right to alter these terms at any given time without prior notification.</p>
+      <p>“Before utilizing the services of (https://alchemane.com/) users are required to accept the terms and conditions stated herein. By accessing the website through any device, such as mobile phones or computer systems, users acknowledge and consent to these terms. They also agree that Alchemane Hair Extensions Private Limited reserves the right to alter these terms at any given time without prior notification.</p>
       <p>It is the responsibility of the users to periodically review this page for any updates and comply with any changes to the terms.”</p>
       <h2>DESCRIPTION OF SERVICE</h2>
       <p>“Alchemane Hair Extensions Private Limited specializes in a range of hair extensions and hair care products. With a focus on originality, all our products are uniquely designed in-house. We offer these exclusive hair solutions primarily through our online platform, ensuring a specialized and accessible shopping experience for our customers.”</p>
