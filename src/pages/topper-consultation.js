@@ -2,7 +2,9 @@ const form = document.querySelector('#topper-consultation-form');
 const errors = document.querySelector('#booking-errors');
 const status = document.querySelector('#booking-status');
 const whatsapp = document.querySelector('#booking-message');
-const fields = { name: form.elements.name, phone: form.elements.phone, date: form.elements.date };
+const fields = { name: form.elements.name, phone: form.elements.phone };
+if (form.elements.date) fields.date = form.elements.date;
+if (form.elements.city) fields.city = form.elements.city;
 const fee = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
   .format(Number(document.querySelector('[data-consultation-fee]').dataset.consultationFee));
 const abort = new AbortController();
@@ -23,7 +25,7 @@ const updateMeeting = () => {
 form.querySelectorAll('[name="meeting"]').forEach(input => on(input, 'change', updateMeeting));
 if (new URLSearchParams(location.search).get('meeting') === 'studio') form.elements.meeting.value = 'studio';
 updateMeeting();
-fields.date.min = todayInIndia();
+if (fields.date) fields.date.min = todayInIndia();
 document.querySelector('[data-year]').textContent = todayInIndia().slice(0, 4);
 
 const validationMessage = name => {
@@ -77,7 +79,7 @@ const focusSection = (section, focusTarget) => {
 // The customer reviews the draft in WhatsApp and chooses whether to send it.
 on(form, 'submit', event => {
   event.preventDefault();
-  fields.date.min = todayInIndia();
+  if (fields.date) fields.date.min = todayInIndia();
   if (updateErrorSummary()) {
     focusSection(errors, errors);
     return;
@@ -87,10 +89,12 @@ on(form, 'submit', event => {
     meeting: data.get('meeting') === 'studio' ? 'In person · Khar West, Mumbai' : 'Online · Video call',
     name: data.get('name').trim(),
     phone: data.get('phone').trim(),
-    date: preferredDate(data.get('date')),
   };
+  const locationDetail = fields.city
+    ? (fields.city.value.trim() ? `\nCity: ${fields.city.value.trim()}` : '')
+    : `\nPreferred date: ${preferredDate(data.get('date'))}`;
   const productContext = data.get('product') ? `Product: ${data.get('product')}\nSelected options: ${data.get('selection')}\n` : '';
-  const message = `Hello Alchemane, I’d like to request a hair topper consultation.\n\n${productContext}Consultation: ${summary.meeting}\nConsultation fee: ${fee}\nName: ${summary.name}\nWhatsApp number: ${summary.phone}\nPreferred date: ${summary.date}\n\nPlease confirm availability and payment details.`;
+  const message = `Hello Alchemane, I’d like to request a hair topper consultation.\n\n${productContext}Consultation: ${summary.meeting}\nConsultation fee: ${fee}\nName: ${summary.name}\nWhatsApp number: ${summary.phone}${locationDetail}\n\nPlease confirm availability and payment details.`;
   whatsapp.href = `https://wa.me/919967123333?text=${encodeURIComponent(message)}`;
   status.hidden = false;
   window.open(whatsapp.href, '_blank', 'noopener,noreferrer');

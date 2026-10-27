@@ -30,6 +30,8 @@ try {
     await expect(page.locator('#consultation-promise')).toContainText('100% consultation fee-back guarantee');
     await expect(page.locator('#consultation-promise')).toContainText('Limited to 30 consultations per week');
     await expect(page.locator('#book-title')).toHaveText('Book your consultation.');
+    await expect(page.getByRole('textbox', { name: 'Your city (optional)' })).toHaveAttribute('autocomplete', 'address-level2');
+    await expect(page.locator('#booking-date')).toHaveCount(0);
     await expect(page.locator('#book')).toContainText('₹299');
     await section.locator('[data-consultation-mode="studio"]').click();
     await expect(page.locator('#book [value="studio"]')).toBeChecked();
@@ -41,9 +43,11 @@ try {
     assert.equal(await page.evaluate(() => window.__drafts.length), 0);
     await page.locator('#booking-name').fill('Topper QA');
     await page.locator('#booking-phone').fill('+91 90000 00000');
+    await page.locator('#booking-city').fill('London');
     await page.locator('#booking-submit').click();
     const request = new URL(await page.evaluate(() => window.__drafts[0]));
     assert.equal(request.pathname, '/919967123333');
+    assert(request.searchParams.get('text').includes('City: London') && !request.searchParams.get('text').includes('Preferred date:'));
     assert(request.searchParams.get('text').includes('In person') && request.searchParams.get('text').includes('₹299'));
     await page.locator('#book .tp-meet-choice').filter({ hasText: 'Online' }).click();
     await expect(section.locator('[data-consultation-mode="online"]')).toHaveAttribute('aria-pressed', 'true');
