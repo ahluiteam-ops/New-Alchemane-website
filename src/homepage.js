@@ -141,6 +141,20 @@ export function initHomepage() {
   };
   window.addEventListener('resize', resizeStories);
   const selectMeeting = initConsultationMeet(document.querySelector('#consultation-form'));
+  const studioChoice = document.querySelector('[data-studio-meet]');
+  const studioCta = document.querySelector('.studio-visit__cta');
+  const studioNote = studioChoice.querySelector('[data-studio-meet-note]');
+  const studioOptions = [...studioChoice.querySelectorAll('[data-studio-meet-option]')];
+  const selectStudioMeeting = value => {
+    const online = value === 'Online';
+    studioOptions.forEach(option => option.setAttribute('aria-pressed', String(option.dataset.studioMeetOption === value)));
+    studioNote.querySelector('strong').textContent = online ? 'Online' : 'In person';
+    studioNote.querySelector('span').textContent = online ? 'Meet from anywhere.' : 'At our Khar West studio, Mumbai.';
+    studioCta.textContent = online ? 'Book an online consultation' : 'Book an in-person consultation';
+    studioCta.dataset.consultType = online ? 'online' : 'studio';
+  };
+  studioOptions.forEach(option => option.addEventListener('click', () => selectStudioMeeting(option.dataset.studioMeetOption)));
+  selectStudioMeeting('Online');
   document.querySelectorAll('[data-consult-type]').forEach(link => link.addEventListener('click', () => {
     selectMeeting(link.dataset.consultType === 'studio' ? 'Khar West studio' : 'Online');
   }));

@@ -30,7 +30,7 @@
   scrollbar-width: none; overscroll-behavior-x: contain;
 }
 .voices-track::-webkit-scrollbar { display: none; }
-.voices-track:focus { outline: none; }
+.voices-track:focus-visible { outline: 2px solid var(--action); outline-offset: -2px; }
 
 .voice-card { position: relative; flex: 0 0 var(--card); aspect-ratio: 9 / 16; scroll-snap-align: start; overflow: hidden; background: var(--text); }
 .voice-card video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--text); }
@@ -51,30 +51,65 @@
 .voice-badge svg { width: 20px; height: 20px; margin-left: 2px; fill: currentColor; }
 .voice-time { position: absolute; right: 16px; bottom: 16px; font-size: 13px; letter-spacing: .04em; font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px #10130f99; }
 .voice-play:hover .voice-badge { transform: scale(1.08); background: var(--action); color: var(--surface); }
+.voice-card.is-previewing .voice-badge { opacity: 0; }
 
-/* Once a film has started the poster overlay steps aside and the native
-   controls take over. */
-.voice-card.is-playing .voice-play { opacity: 0; pointer-events: none; }
 .voice-note { position: absolute; left: 16px; right: 16px; bottom: 76px; z-index: 1; margin: 0; color: #fff; font-size: 14px; line-height: 1.4; pointer-events: none; }
 
-/* Unreleased celebrity films have a neutral, non-interactive 9:16 card. */
+/* Unreleased celebrity films show the same play symbol with an honest
+   unavailable state until their actual videos are supplied. */
 .voice-card--pending { background: var(--surface-soft); border: 1px solid var(--border); }
-.voice-pending { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-.voice-pending::before { content: ''; width: 64px; height: 1px; background: var(--border); }
+.voice-play--pending { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: none; cursor: default; pointer-events: none; }
+.voice-play--pending:disabled { opacity: 1; }
+.voice-play--pending:hover .voice-badge { transform: none; background: var(--surface); color: var(--action); }
 .voice-pending-label { font-size: 16px; color: var(--text-secondary); }
 #celebrity-picks { background: var(--surface); }
-#celebrity-picks .voices-track { --card: clamp(240px, 26vw, 320px); }
+#flagship-store { background: var(--surface); border-bottom: 1px solid var(--border); }
+#celebrity-picks .voices-track,
+#flagship-store .voices-track { --card: clamp(240px, 26vw, 320px); }
 
 @media (max-width: 700px) {
   .voices-head { align-items: start; flex-direction: column; gap: 22px; }
-  .voices-controls { display: none; } /* swipe is the gesture on a phone */
+  .voices-controls { display: none; }
   .voices-track { --card: 68vw; }
-  #celebrity-picks .voices-track { --card: 72vw; }
   .voice-badge { width: 46px; height: 46px; }
+
+  /* Keep neighboring films at 80% of the selected frame so each remains easy
+     to see while the active film has a subtle, consistent emphasis. */
+  #voices .voices-track,
+  #celebrity-picks .voices-track,
+  #flagship-store .voices-track,
+  #product-videos .voices-track {
+    --active-card: clamp(160px, 48vw, 240px);
+    --peek-card: calc(var(--active-card) * .8);
+    align-items: center;
+    gap: 16px;
+    min-height: calc(var(--active-card) * 1.77778);
+    padding-inline: calc((100vw - var(--active-card)) / 2);
+    scroll-padding-inline: 0;
+  }
+  #voices .voice-card,
+  #celebrity-picks .voice-card,
+  #flagship-store .voice-card,
+  #product-videos .voice-card {
+    width: auto;
+    flex-basis: var(--peek-card);
+    border-radius: 4px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: flex-basis 160ms var(--ease-out);
+  }
+  #voices .voice-card.is-active,
+  #celebrity-picks .voice-card.is-active,
+  #flagship-store .voice-card.is-active,
+  #product-videos .voice-card.is-active { flex-basis: var(--active-card); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .voices-track { scroll-behavior: auto; }
   .voice-badge, .voice-play { transition: none; }
+  #voices .voice-card,
+  #celebrity-picks .voice-card,
+  #flagship-store .voice-card,
+  #product-videos .voice-card { transition: none; }
   .voice-play:hover .voice-badge { transform: none; }
 }

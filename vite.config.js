@@ -6,8 +6,9 @@ import { renderRangePlaceholders } from './src/sections/range-data.js';
 import { renderReels } from './src/sections/reel-data.js';
 import { renderCatalogue } from './src/sections/catalogue-data.js';
 import { renderExtensions } from './src/sections/extensions-data.js';
-import { renderTestimonials, renderCelebrityPicks } from './src/sections/testimonials-data.js';
+import { renderTestimonials, renderCelebrityPicks, renderFlagshipStore } from './src/sections/testimonials-data.js';
 import { renderSolutions } from './src/sections/solutions-data.js';
+import { renderProductVideos } from './src/sections/product-videos-data.js';
 import { renderProductPage } from './src/products/render-product.js';
 import { addShopNavigation } from './src/components/shop-navigation-data.js';
 
@@ -25,11 +26,17 @@ export default defineConfig({
       // Every product grid is rendered from the data modules at build time so it
       // ships as static, crawlable HTML rather than appearing after hydration.
       const sections = renderReels(renderRangePlaceholders(readFileSync(new URL('./src/homepage.html', import.meta.url), 'utf8')))
+        .replace('<!-- product-videos -->', renderProductVideos())
         .replace('<!-- testimonials -->', renderTestimonials())
         .replace('<!-- celebrity-picks -->', renderCelebrityPicks())
+        .replace('<!-- flagship-store -->', renderFlagshipStore())
         .replace('<!-- hair-solutions -->', renderSolutions());
       return addShopNavigation(renderReels(html.replace(/<!-- product-page:([a-z0-9-]+) -->/g, (_, handle) => renderProductPage(handle))
         .replace('<!-- homepage-sections -->', sections)
+        .replace('<!-- hero-wordmark-vector -->', readFileSync(new URL('./public/assets/hero-your-match.svg', import.meta.url), 'utf8')
+          .replace('<svg ', '<svg class="hero-wordmark-vector hero-wordmark-vector--compact" aria-hidden="true" focusable="false" width="1488" height="212" shape-rendering="geometricPrecision" ')
+          + readFileSync(new URL('./public/assets/hero-your-match-desktop.svg', import.meta.url), 'utf8')
+            .replace('<svg ', '<svg class="hero-wordmark-vector hero-wordmark-vector--desktop" aria-hidden="true" focusable="false" width="1488" height="212" shape-rendering="geometricPrecision" '))
         .replace('<!-- hair-solutions -->', renderSolutions())
         .replace('<!-- product-discovery -->', renderCatalogue())
         .replace('<!-- extensions-sections -->', renderExtensions())));

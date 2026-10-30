@@ -205,3 +205,37 @@
 
 /* Empty video slots until the wig consultation clips arrive. */
 .pe-vcard.wg-empty { background: var(--surface-tint); }
+
+/* Phone client stories follow the homepage reel hierarchy: one clear active
+   film, quieter neighbouring previews and the same compact play control. */
+@media (max-width: 699px) {
+  #stories .pe-vtrack {
+    --active-card: clamp(160px, 48vw, 240px);
+    --peek-card: calc(var(--active-card) * .8);
+    align-items: center;
+    gap: 16px;
+    min-height: calc(var(--active-card) * 1.77778);
+    padding-inline: calc((100vw - var(--active-card)) / 2);
+    scroll-padding-inline: 0;
+  }
+  #stories .pe-vcard {
+    width: auto;
+    flex-basis: var(--peek-card);
+    border-radius: 4px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: flex-basis 160ms var(--ease-out);
+  }
+  #stories .pe-vcard.is-active { flex-basis: var(--active-card); }
+  #stories .pe-vplay svg {
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+    padding: 13px 11px 13px 15px;
+  }
+  #stories .pe-vcard.is-previewing .pe-vplay svg { opacity: 0; }
+}
+
+@media (max-width: 699px) and (prefers-reduced-motion: reduce) {
+  #stories .pe-vcard { transition: none; }
+}

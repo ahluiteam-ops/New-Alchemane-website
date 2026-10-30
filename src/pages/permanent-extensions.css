@@ -223,7 +223,35 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-consult-choice .consultation-meet__note strong { font-size: 16px; }
 .pe-consult-choice .consultation-meet__note span { color: var(--text-secondary); font-size: 14px; font-weight: 400; }
 .pe-consult__cta { margin-top: 6px; }
+@media (max-width: 699px) {
+  #results .pe-vtrack {
+    --active-card: clamp(160px, 48vw, 240px);
+    --peek-card: calc(var(--active-card) * .8);
+    align-items: center;
+    gap: 16px;
+    min-height: calc(var(--active-card) * 1.77778);
+    padding-inline: calc((100vw - var(--active-card)) / 2);
+    scroll-padding-inline: 0;
+  }
+  #results .pe-vcard {
+    width: auto;
+    flex-basis: var(--peek-card);
+    border-radius: 4px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: flex-basis 160ms var(--ease-out);
+  }
+  #results .pe-vcard.is-active { flex-basis: var(--active-card); }
+  #results .pe-vplay svg {
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+    padding: 13px 11px 13px 15px;
+  }
+  #results .pe-vcard.is-previewing .pe-vplay svg { opacity: 0; }
+}
 @media (prefers-reduced-motion: reduce) { .pe-vtrack { scroll-behavior: auto; } }
+@media (max-width: 699px) and (prefers-reduced-motion: reduce) { #results .pe-vcard { transition: none; } }
 
 /* ---------- Consultation promise ---------- */
 .pe-promise { background: var(--surface); }

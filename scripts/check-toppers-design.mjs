@@ -38,7 +38,8 @@ try {
     assert.equal(consultationBackground, shopBackground, 'Consultation section should use the white surface background');
     await expect(page.locator('#hairline-series .tp-product h3')).toHaveText(['Hairline Toppers', '3 inch Hairline Topper', '6 inch Hairline Topper', '11 inch Hairline Topper']);
     await expect(page.locator('.tp-client-reel video')).toHaveCount(9);
-    await expect(page.locator('#client-stories .pe-dots span')).toHaveCount(9);
+    await expect(page.locator('#client-stories .pe-dots')).toHaveCount(0);
+    await expect(page.locator('#how .pe-dots span')).toHaveCount(3);
     await expect(page.locator('.pe-diff__slide')).toHaveCount(3);
     assert.equal(await page.evaluate(() => innerWidth), width, `Layout viewport must match the device at ${width}`);
     assert(await page.evaluate(width => document.documentElement.scrollWidth <= width, width), `Horizontal overflow at ${width}`);
@@ -137,12 +138,38 @@ try {
       const lastReel = page.locator('.tp-client-reel').last();
       await expect(firstReel.locator('video source')).toHaveAttribute('src', '/assets/topper-client-reel-02.mp4');
       await expect(lastReel.locator('video source')).toHaveAttribute('src', '/assets/topper-client-reel-09.mp4');
+      await page.locator('#client-stories').scrollIntoViewIfNeeded();
+      const clientHeading = await page.locator('#clients-title').evaluate(element => {
+        const box = element.getBoundingClientRect();
+        return { textAlign: getComputedStyle(element).textAlign, centerOffset: box.left + box.width / 2 - innerWidth / 2 };
+      });
+      assert.equal(clientHeading.textAlign, 'center', 'Phone client-story heading should be centred');
+      assert(Math.abs(clientHeading.centerOffset) < 2, 'Phone client-story heading should sit in the viewport centre');
+      const mobileCards = await page.locator('#tp-client-track .tp-client-reel').evaluateAll(cards => {
+        const active = cards.find(card => card.classList.contains('is-active'));
+        const neighbor = cards.find(card => card !== active);
+        const track = active.parentElement.getBoundingClientRect();
+        const box = active.getBoundingClientRect();
+        return {
+          activeWidth: box.width,
+          neighborWidth: neighbor.getBoundingClientRect().width,
+          centerOffset: box.left + box.width / 2 - (track.left + track.width / 2),
+        };
+      });
+      assert(Math.abs(mobileCards.neighborWidth / mobileCards.activeWidth - .8) < .02, 'Phone client-story neighbours should be 80% of the active card');
+      assert(Math.abs(mobileCards.centerOffset) < 2, 'Phone client story should be centred');
+      const playIcon = await page.locator('#tp-client-track .tp-client-reel').nth(1).locator('.pe-vplay svg').boundingBox();
+      assert(Math.abs(playIcon.width - 46) < 1 && Math.abs(playIcon.height - 46) < 1, 'Phone client-story play icon should match the homepage 46px control');
       await firstReel.locator('.pe-vplay').click();
-      await expect.poll(() => firstReel.locator('video').evaluate(video => !video.paused && video.readyState >= 2)).toBe(true);
-      await lastReel.locator('.pe-vplay').click();
-      await expect.poll(() => lastReel.locator('video').evaluate(video => !video.paused && video.readyState >= 2)).toBe(true);
-      await expect.poll(() => firstReel.locator('video').evaluate(video => video.paused)).toBe(true);
-      await lastReel.locator('video').evaluate(video => video.pause());
+      const storyDialog = page.locator('.story-film-dialog[open]');
+      await expect(storyDialog).toBeVisible();
+      await expect.poll(() => storyDialog.locator('video').evaluate(video => !video.paused && !video.muted && video.readyState >= 2)).toBe(true);
+      await page.screenshot({ path: `${out}/stories-player-390.png` });
+      await storyDialog.locator('[data-story-next]').click();
+      await expect(storyDialog.locator('.product-film-slide.is-active')).toHaveAttribute('data-story-index', '1');
+      await storyDialog.locator('[data-story-close]').click();
+      await expect(storyDialog).toBeHidden();
+      await expect(page.locator('#tp-client-track .pe-vplay').nth(1)).toBeFocused();
     }
     if (width === 1440) {
       const reasonPositions = await page.locator('.pe-specialist__reasons li').evaluateAll(items => items.slice(0, 3).map(item => ({ x: item.getBoundingClientRect().x, y: item.getBoundingClientRect().y })));
@@ -155,4 +182,11 @@ try {
     console.log(`Passed topper design ${width} × ${height}`);
     await page.close();
   }
+  const motionPage = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await motionPage.goto(`${base}/toppers.html`, { waitUntil: 'networkidle' });
+  await motionPage.locator('#client-stories').scrollIntoViewIfNeeded();
+  await expect.poll(() => motionPage.locator('#tp-client-track .tp-client-reel.is-active video').evaluate(video => !video.paused && video.muted && video.loop), { timeout: 15000 }).toBe(true);
+  assert.equal(await motionPage.locator('#tp-client-track video').evaluateAll(videos => videos.filter(video => !video.paused).length), 1, 'Only the centred topper client story should preview');
+  await motionPage.locator('#client-stories').screenshot({ path: `${out}/stories-mobile-390.png` });
+  await motionPage.close();
 } finally { await browser.close(); }

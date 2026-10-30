@@ -4,6 +4,7 @@ import '../sections/site-footer.css';
 import '../sections/floating-contact.css';
 import '../components/check-icon.css';
 import '../sections/client-feature.css';
+import { createStoryVideoViewer } from '../sections/story-video-viewer.js';
 import { initConsultationMeet } from '../sections/consultation-meet.js';
 // The Wigs page shares the Permanent Extensions page's layout pieces (header,
 // buttons, rails, carousel, FAQ, booking form), so it builds on that stylesheet.
@@ -101,28 +102,144 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
 // controls only appear once it plays. One clip plays at a time, and a clip
 // pauses when scrolled out of view.
 const PLAY_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg>';
+const storyMobile = matchMedia('(max-width: 699px)');
+let activateStoryCard = () => {};
+let stopStoryPreview = () => {};
+const storyViewer = createStoryVideoViewer(card => activateStoryCard(card), {
+  collection: '#stories',
+  card: '.pe-vcard',
+  opener: '.pe-vplay',
+});
 const clips = [...document.querySelectorAll('.pe-vcard video, #transformations video')];
 const offscreen = new IntersectionObserver(entries => entries.forEach(entry => {
   if (!entry.isIntersecting) entry.target.pause();
 }), { threshold: 0.15 });
 clips.forEach(video => {
+  const storyCard = video.closest('#stories .pe-vcard');
   video.controls = false;
   video.removeAttribute('controls');
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'pe-vplay';
-  button.setAttribute('aria-label', `Play video: ${video.getAttribute('aria-label')}`);
+  button.setAttribute('aria-label', storyCard
+    ? `Open ${video.getAttribute('aria-label')} with sound`
+    : `Play video: ${video.getAttribute('aria-label')}`);
   button.innerHTML = PLAY_ICON;
   video.after(button);
-  on(button, 'click', () => { video.play().catch(() => {}); });
+  on(button, 'click', () => {
+    if (storyCard && storyMobile.matches) {
+      stopStoryPreview();
+      storyViewer.open(storyCard, button);
+    } else video.play().catch(() => {});
+  });
   on(video, 'play', () => {
+    if (storyCard && storyMobile.matches) {
+      video.controls = false;
+      button.hidden = false;
+      storyCard.classList.add('is-previewing');
+      return;
+    }
     video.controls = true;
     button.hidden = true;
     clips.forEach(other => { if (other !== video) other.pause(); });
   });
+  on(video, 'pause', () => storyCard?.classList.remove('is-previewing'));
   offscreen.observe(video);
 });
 on(document, 'visibilitychange', () => { if (document.hidden) clips.forEach(video => video.pause()); });
+
+// Match the homepage client-story behaviour on phones: the centred story is
+// prominent, previews silently while visible, and opens with sound on tap.
+const storySection = document.querySelector('#stories');
+const storyTrack = storySection.querySelector('.pe-vtrack');
+const storyCards = [...storyTrack.querySelectorAll('.pe-vcard')];
+let storyIndex = 0;
+let storyPreview = null;
+let storyPreviewFrame = 0;
+let storySettleTimer = 0;
+const storyVisible = video => {
+  const rect = video.getBoundingClientRect();
+  const sectionRect = storySection.getBoundingClientRect();
+  const width = Math.max(0, Math.min(rect.right, innerWidth) - Math.max(rect.left, 0));
+  const height = Math.max(0, Math.min(rect.bottom, sectionRect.bottom, innerHeight) - Math.max(rect.top, sectionRect.top, 0));
+  return rect.width > 0 && rect.height > 0 && width * height / (rect.width * rect.height) >= .55;
+};
+stopStoryPreview = () => {
+  if (!storyPreview) return;
+  storyPreview.pause();
+  storyPreview.closest('.pe-vcard').classList.remove('is-previewing');
+  storyPreview = null;
+};
+const syncStoryPreview = () => {
+  storyPreviewFrame = 0;
+  const video = storyCards[storyIndex]?.querySelector('video');
+  if (!storyMobile.matches || reduceMotion.matches || document.hidden || document.querySelector('dialog[open]') || !video || !storyVisible(video)) {
+    stopStoryPreview();
+    return;
+  }
+  if (video === storyPreview) return;
+  stopStoryPreview();
+  storyPreview = video;
+  video.defaultMuted = true;
+  video.muted = true;
+  video.loop = true;
+  video.controls = false;
+  video.play().catch(() => { if (storyPreview === video) stopStoryPreview(); });
+};
+const requestStoryPreview = () => {
+  if (!storyPreviewFrame) storyPreviewFrame = requestAnimationFrame(syncStoryPreview);
+};
+const nearestStory = () => {
+  const trackBox = storyTrack.getBoundingClientRect();
+  const center = trackBox.left + trackBox.width / 2;
+  return storyCards.reduce((best, card, index) => {
+    const box = card.getBoundingClientRect();
+    const bestBox = storyCards[best].getBoundingClientRect();
+    return Math.abs(box.left + box.width / 2 - center) < Math.abs(bestBox.left + bestBox.width / 2 - center) ? index : best;
+  }, 0);
+};
+const alignStory = (index, behavior = 'auto') => {
+  const cardBox = storyCards[index].getBoundingClientRect();
+  const trackBox = storyTrack.getBoundingClientRect();
+  storyTrack.scrollTo({ left: storyTrack.scrollLeft + cardBox.left + cardBox.width / 2 - trackBox.left - trackBox.width / 2, behavior });
+};
+const selectStory = (index, align = false) => {
+  storyIndex = Math.max(0, Math.min(index, storyCards.length - 1));
+  storyCards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === storyIndex));
+  if (align && storyMobile.matches) alignStory(storyIndex, reduceMotion.matches ? 'auto' : 'smooth');
+  requestStoryPreview();
+};
+activateStoryCard = card => selectStory(storyCards.indexOf(card), true);
+const settleStory = () => {
+  if (!storyMobile.matches) return;
+  selectStory(nearestStory());
+  alignStory(storyIndex);
+};
+on(storyTrack, 'scroll', () => {
+  if (!storyMobile.matches) return;
+  const nearest = nearestStory();
+  if (nearest !== storyIndex) selectStory(nearest);
+  clearTimeout(storySettleTimer);
+  storySettleTimer = window.setTimeout(settleStory, 140);
+}, { passive: true });
+on(storyTrack, 'scrollend', settleStory);
+on(window, 'scroll', requestStoryPreview, { passive: true });
+on(storyMobile, 'change', () => {
+  stopStoryPreview();
+  storyCards.forEach(card => {
+    const video = card.querySelector('video');
+    video.pause();
+    video.controls = false;
+    card.querySelector('.pe-vplay').hidden = false;
+  });
+  if (storyMobile.matches) selectStory(nearestStory(), true);
+  else storyCards.forEach(card => card.classList.remove('is-active', 'is-previewing'));
+});
+const storyExposure = new IntersectionObserver(requestStoryPreview, { threshold: [0, .25, .55, .8, 1] });
+storyExposure.observe(storySection);
+const storyDialogs = new MutationObserver(requestStoryPreview);
+storyDialogs.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+selectStory(0);
 
 // ---- See the difference carousel ----
 // Native scroll-snap; arrows step one photo and wrap. Three photos show from
@@ -235,4 +352,11 @@ on(form, 'submit', event => {
   window.open(link, '_blank', 'noopener');
 });
 
-if (import.meta.hot) import.meta.hot.dispose(() => { abort.abort(); offscreen.disconnect(); contactCleanup?.(); });
+if (import.meta.hot) import.meta.hot.dispose(() => {
+  abort.abort();
+  offscreen.disconnect();
+  storyExposure.disconnect();
+  storyDialogs.disconnect();
+  storyViewer.destroy();
+  contactCleanup?.();
+});

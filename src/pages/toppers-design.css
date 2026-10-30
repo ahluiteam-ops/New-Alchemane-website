@@ -75,6 +75,33 @@
 .toppers .site-footer a:hover { text-decoration: underline; }
 .toppers [hidden] { display: none !important; }
 @media (max-width: 699px) {
+  #client-stories .pe-vhead { justify-content: center; }
+  #client-stories .pe-vhead > div:first-child { width: 100%; text-align: center; }
+  #client-stories .pe-vtrack {
+    --active-card: clamp(160px, 48vw, 240px);
+    --peek-card: calc(var(--active-card) * .8);
+    align-items: center;
+    gap: 16px;
+    min-height: calc(var(--active-card) * 1.77778);
+    padding-inline: calc((100vw - var(--active-card)) / 2);
+    scroll-padding-inline: 0;
+  }
+  #client-stories .tp-client-reel {
+    width: auto;
+    flex-basis: var(--peek-card);
+    border-radius: 4px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: flex-basis 160ms var(--ease-out);
+  }
+  #client-stories .tp-client-reel.is-active { flex-basis: var(--active-card); }
+  #client-stories .pe-vplay svg {
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+    padding: 13px 11px 13px 15px;
+  }
+  #client-stories .tp-client-reel.is-previewing .pe-vplay svg { opacity: 0; }
   .toppers .pe-transform .client-proof-heading h2 { max-width: none; letter-spacing: -.055em; }
   .toppers .pe-transform .client-proof-heading h2 span { display: block; white-space: nowrap; }
   .toppers main .tp-hairline__header h2 { width: calc(100% + var(--pe-gutter)); max-width: none; letter-spacing: -.045em; }
@@ -117,4 +144,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .toppers .pe-diff__frame, .toppers .pe-vtrack { scroll-behavior: auto; }
+  #client-stories .tp-client-reel { transition: none; }
 }

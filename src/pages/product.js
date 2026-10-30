@@ -1,4 +1,6 @@
-import { productPages, formatPrice } from '../products/product-content.js';
+import { formatPrice } from '../products/product-content.js';
+import { shopProducts } from '../products/shop-products.js';
+import { readBag, writeBag } from '../products/cart.js';
 import { escapeHtml as e, icon } from '../products/render-product.js';
 import { initConsultationMeet } from '../sections/consultation-meet.js';
 import { initProductReviews } from '../products/product-reviews.js';
@@ -481,19 +483,11 @@ document.querySelectorAll('[data-quantity-step]').forEach(button => on(button, '
 syncSelection();
 
 // The bag is local to this website.
-const bagKey = 'alchemane-product-bag-v2';
-let bag = [];
-try {
-  const stored = JSON.parse(localStorage.getItem(bagKey) || '[]');
-  if (Array.isArray(stored)) bag = stored.filter(item => {
-    const itemProduct = productPages[item.handle || product.handle];
-    return itemProduct?.variants.some(v => v.id === item.id) && itemProduct.textures.includes(item.texture) && Number.isInteger(item.quantity) && item.quantity > 0;
-  }).map(item => ({ handle: item.handle || product.handle, id: item.id, texture: item.texture, quantity: Math.min(10, item.quantity) }));
-} catch { /* Private browsing or unavailable storage: in-memory bag still works. */ }
+let bag = readBag();
 const bagDialog = document.querySelector('#bag-dialog');
 const bagItems = document.querySelector('[data-bag-items]');
 const bagSummary = document.querySelector('.pd-bag__summary');
-const saveBag = () => { try { localStorage.setItem(bagKey, JSON.stringify(bag)); } catch { /* Keep the active bag in memory. */ } };
+const saveBag = () => writeBag(bag);
 const renderBag = () => {
   document.querySelector('[data-bag-count]').textContent = bag.reduce((sum, item) => sum + item.quantity, 0);
   document.querySelector('.pd-bag-button').setAttribute('aria-label', `Open shopping bag, ${bag.reduce((sum, item) => sum + item.quantity, 0)} items`);
@@ -501,11 +495,11 @@ const renderBag = () => {
   if (!bag.length) { bagItems.innerHTML = '<div class="pd-bag__empty"><h3>Your bag is waiting.</h3><p>Choose your length, colour and texture to add a topper.</p></div>'; return; }
   let subtotal = 0;
   bagItems.innerHTML = bag.map(item => {
-    const itemProduct = productPages[item.handle];
+    const itemProduct = shopProducts[item.handle];
     const variant = itemProduct.variants.find(v => v.id === item.id);
     subtotal += variant.price * item.quantity;
     const key = `${item.id}-${item.texture}`;
-    return `<article class="pd-bag__item"><img src="${e(itemProduct.gallery[0].display || `/assets/products/${itemProduct.handle}/${itemProduct.gallery[0].file}.webp`)}" alt="" width="80" height="100"><div><h3>${e(itemProduct.name)}</h3><p>${e(itemProduct.base)} · ${e(variant.length)}</p><p>${e(variant.colour)} · ${e(item.texture)}</p><strong>${formatPrice(variant.price * item.quantity)}</strong><div class="pd-bag__item-controls"><div class="pd-quantity" role="group" aria-label="Quantity for ${e(variant.length)} ${e(variant.colour)} ${e(item.texture)}"><button type="button" data-bag-step="-1" data-key="${e(key)}" aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>${icon('minus')}</button><span>${item.quantity}</span><button type="button" data-bag-step="1" data-key="${e(key)}" aria-label="Increase quantity" ${item.quantity >= 10 ? 'disabled' : ''}>${icon('plus')}</button></div><button class="pd-text-button" type="button" data-remove="${e(key)}">Remove</button></div></div></article>`;
+    return `<article class="pd-bag__item"><img src="${e(itemProduct.image)}" alt="" width="80" height="100"><div><h3>${e(itemProduct.name)}</h3><p>${e(variant.title)}</p>${item.texture ? `<p>${e(item.texture)}</p>` : ''}<strong>${formatPrice(variant.price * item.quantity)}</strong><div class="pd-bag__item-controls"><div class="pd-quantity" role="group" aria-label="Quantity for ${e(variant.title)} ${e(item.texture)}"><button type="button" data-bag-step="-1" data-key="${e(key)}" aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>${icon('minus')}</button><span>${item.quantity}</span><button type="button" data-bag-step="1" data-key="${e(key)}" aria-label="Increase quantity" ${item.quantity >= 10 ? 'disabled' : ''}>${icon('plus')}</button></div><button class="pd-text-button" type="button" data-remove="${e(key)}">Remove</button></div></div></article>`;
   }).join('');
   document.querySelector('[data-bag-subtotal]').textContent = formatPrice(subtotal);
   document.querySelector('[data-checkout]').href = '/checkout.html';

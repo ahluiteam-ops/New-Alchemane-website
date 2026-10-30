@@ -4,6 +4,7 @@ import '../sections/site-footer.css';
 import '../sections/floating-contact.css';
 import '../components/check-icon.css';
 import '../sections/client-feature.css';
+import { createStoryVideoViewer } from '../sections/story-video-viewer.js';
 import { initConsultationMeet } from '../sections/consultation-meet.js';
 import './permanent-extensions.css';
 import { initFloatingContact } from '../sections/floating-contact';
@@ -63,12 +64,21 @@ films.forEach(film => {
 // three-dot menu) are switched off until playback actually starts, then
 // switched on so the visitor can pause, scrub and go fullscreen.
 const PLAY_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg>';
+const resultMobile = matchMedia('(max-width: 699px)');
+let activateResultCard = () => {};
+let stopResultPreview = () => {};
+const resultViewer = createStoryVideoViewer(card => activateResultCard(card), {
+  collection: '#results',
+  card: '.pe-vcard',
+  opener: '.pe-vplay',
+});
 document.querySelectorAll('main video:not(.pe-hero__video)').forEach(video => {
   video.controls = false;
   video.removeAttribute('controls');
   const inFilm = Boolean(video.closest('.pe-film'));
   let button = null;
   if (!inFilm) {
+    const resultCard = video.closest('#results .pe-vcard');
     if (video.matches('.pe-method__video')) {
       const wrap = document.createElement('span');
       wrap.className = 'pe-vwrap';
@@ -78,12 +88,30 @@ document.querySelectorAll('main video:not(.pe-hero__video)').forEach(video => {
     button = document.createElement('button');
     button.type = 'button';
     button.className = 'pe-vplay';
-    button.setAttribute('aria-label', `Play video${video.getAttribute('aria-label') ? `: ${video.getAttribute('aria-label')}` : ''}`);
+    button.setAttribute('aria-label', resultCard
+      ? `Open ${video.getAttribute('aria-label') || 'client video'} with sound`
+      : `Play video${video.getAttribute('aria-label') ? `: ${video.getAttribute('aria-label')}` : ''}`);
     button.innerHTML = PLAY_ICON;
     video.after(button);
-    on(button, 'click', () => { video.play().catch(() => {}); });
+    on(button, 'click', () => {
+      if (resultCard && resultMobile.matches) {
+        stopResultPreview();
+        resultViewer.open(resultCard, button);
+      } else video.play().catch(() => {});
+    });
   }
-  on(video, 'play', () => { video.controls = true; if (button) button.hidden = true; });
+  on(video, 'play', () => {
+    const resultCard = video.closest('#results .pe-vcard');
+    if (resultCard && resultMobile.matches) {
+      video.controls = false;
+      if (button) button.hidden = false;
+      resultCard.classList.add('is-previewing');
+      return;
+    }
+    video.controls = true;
+    if (button) button.hidden = true;
+  });
+  on(video, 'pause', () => video.closest('#results .pe-vcard')?.classList.remove('is-previewing'));
 });
 const offscreen = new IntersectionObserver(entries => entries.forEach(entry => {
   if (!entry.isIntersecting) entry.target.querySelector('video').pause();
@@ -116,6 +144,100 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   on(window, 'resize', syncRail);
   syncRail();
 });
+
+// On phones, client stories use the homepage pattern: a centred active film,
+// quieter neighbouring previews, muted motion in the rail and sound after tap.
+const resultSection = document.querySelector('#results');
+const resultTrack = resultSection.querySelector('.pe-vtrack');
+const resultCards = [...resultTrack.querySelectorAll('.pe-vcard')];
+let resultIndex = 0;
+let resultPreview = null;
+let resultPreviewFrame = 0;
+let resultSettleTimer = 0;
+const resultVisible = video => {
+  const rect = video.getBoundingClientRect();
+  const sectionRect = resultSection.getBoundingClientRect();
+  const width = Math.max(0, Math.min(rect.right, innerWidth) - Math.max(rect.left, 0));
+  const height = Math.max(0, Math.min(rect.bottom, sectionRect.bottom, innerHeight) - Math.max(rect.top, sectionRect.top, 0));
+  return rect.width > 0 && rect.height > 0 && width * height / (rect.width * rect.height) >= .55;
+};
+stopResultPreview = () => {
+  if (!resultPreview) return;
+  resultPreview.pause();
+  resultPreview.closest('.pe-vcard').classList.remove('is-previewing');
+  resultPreview = null;
+};
+const syncResultPreview = () => {
+  resultPreviewFrame = 0;
+  const video = resultCards[resultIndex]?.querySelector('video');
+  if (!resultMobile.matches || reduceMotion.matches || document.hidden || document.querySelector('dialog[open]') || !video || !resultVisible(video)) {
+    stopResultPreview();
+    return;
+  }
+  if (video === resultPreview) return;
+  stopResultPreview();
+  resultPreview = video;
+  video.defaultMuted = true;
+  video.muted = true;
+  video.loop = true;
+  video.controls = false;
+  video.play().catch(() => { if (resultPreview === video) stopResultPreview(); });
+};
+const requestResultPreview = () => {
+  if (!resultPreviewFrame) resultPreviewFrame = requestAnimationFrame(syncResultPreview);
+};
+const resultNearest = () => {
+  const trackBox = resultTrack.getBoundingClientRect();
+  const center = trackBox.left + trackBox.width / 2;
+  return resultCards.reduce((best, card, index) => {
+    const box = card.getBoundingClientRect();
+    const bestBox = resultCards[best].getBoundingClientRect();
+    return Math.abs(box.left + box.width / 2 - center) < Math.abs(bestBox.left + bestBox.width / 2 - center) ? index : best;
+  }, 0);
+};
+const alignResult = (index, behavior = 'auto') => {
+  const card = resultCards[index];
+  const cardBox = card.getBoundingClientRect();
+  const trackBox = resultTrack.getBoundingClientRect();
+  resultTrack.scrollTo({ left: resultTrack.scrollLeft + cardBox.left + cardBox.width / 2 - trackBox.left - trackBox.width / 2, behavior });
+};
+const selectResult = (index, align = false) => {
+  resultIndex = Math.max(0, Math.min(index, resultCards.length - 1));
+  resultCards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === resultIndex));
+  if (align && resultMobile.matches) alignResult(resultIndex, reduceMotion.matches ? 'auto' : 'smooth');
+  requestResultPreview();
+};
+activateResultCard = card => selectResult(resultCards.indexOf(card), true);
+const settleResult = () => {
+  if (!resultMobile.matches) return;
+  selectResult(resultNearest());
+  alignResult(resultIndex);
+};
+on(resultTrack, 'scroll', () => {
+  if (!resultMobile.matches) return;
+  const nearest = resultNearest();
+  if (nearest !== resultIndex) selectResult(nearest);
+  clearTimeout(resultSettleTimer);
+  resultSettleTimer = window.setTimeout(settleResult, 140);
+}, { passive: true });
+on(resultTrack, 'scrollend', settleResult);
+on(window, 'scroll', requestResultPreview, { passive: true });
+on(resultMobile, 'change', () => {
+  stopResultPreview();
+  resultCards.forEach(card => {
+    const video = card.querySelector('video');
+    video.pause();
+    video.controls = false;
+    card.querySelector('.pe-vplay').hidden = false;
+  });
+  if (resultMobile.matches) selectResult(resultNearest(), true);
+  else resultCards.forEach(card => card.classList.remove('is-active', 'is-previewing'));
+});
+const resultExposure = new IntersectionObserver(requestResultPreview, { threshold: [0, .25, .55, .8, 1] });
+resultExposure.observe(resultSection);
+const resultDialogs = new MutationObserver(requestResultPreview);
+resultDialogs.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+selectResult(0);
 
 // ---- See the difference carousel ----
 // Same logic as the homepage's stories carousel: native scroll-snap, arrows step
@@ -312,4 +434,14 @@ on(form, 'submit', event => {
   window.open(link, '_blank', 'noopener');
 });
 
-if (import.meta.hot) import.meta.hot.dispose(() => { abort.abort(); offscreen.disconnect(); contactCleanup?.(); });
+if (import.meta.hot) import.meta.hot.dispose(() => {
+  abort.abort();
+  offscreen.disconnect();
+  resultExposure.disconnect();
+  resultDialogs.disconnect();
+  cancelAnimationFrame(resultPreviewFrame);
+  clearTimeout(resultSettleTimer);
+  stopResultPreview();
+  resultViewer.destroy();
+  contactCleanup?.();
+});

@@ -29,9 +29,9 @@ function card(film, index, total) {
   const dir = film.dir ?? 'testimonials';
   const kind = film.kind ?? 'client film';
   const label = film.name ? `${film.name}, ${kind}` : `${kind[0].toUpperCase()}${kind.slice(1)} ${index + 1} of ${total}`;
-  return `<li class="voice-card" data-voice>
-      <video preload="none" playsinline poster="/assets/${dir}/${film.id}.webp" aria-label="${esc(label)}"><source src="/assets/${dir}/${film.id}.mp4" type="video/mp4"><a href="/assets/${dir}/${film.id}.mp4">Watch the film</a></video>
-      <button type="button" class="voice-play" aria-label="Play ${esc(label)}, ${spoken(film.seconds)}">
+  return `<li class="voice-card${index === 0 ? ' is-active' : ''}" data-voice>
+      <video preload="none" muted loop playsinline poster="/assets/${dir}/${film.id}.webp" aria-label="${esc(label)}"><source src="/assets/${dir}/${film.id}.mp4" type="video/mp4"><a href="/assets/${dir}/${film.id}.mp4">Watch the film</a></video>
+      <button type="button" class="voice-play" aria-label="Open ${esc(label)} with sound, ${spoken(film.seconds)}">
         <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span>
         <span class="voice-time" aria-hidden="true">${clock(film.seconds)}</span>
       </button>
@@ -46,12 +46,16 @@ function card(film, index, total) {
 // an honest placeholder with no fake playback.
 const celebrityFilms = Array.from({ length: 7 }, () => ({ id: '', seconds: 0, name: '' }));
 
+// Add an id and seconds when each approved salon film and matching poster are
+// available at /assets/flagship-store/<id>.mp4 and <id>.webp.
+const flagshipFilms = Array.from({ length: 3 }, () => ({ id: '', seconds: 0, name: '' }));
+
 function pendingCard(index, total, kind) {
-  return `<li class="voice-card voice-card--pending">
-      <div class="voice-pending">
+  return `<li class="voice-card voice-card--pending${index === 0 ? ' is-active' : ''}">
+      <button type="button" class="voice-play voice-play--pending" aria-label="${kind} ${index + 1} of ${total} coming soon" disabled>
+        <span class="voice-badge" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"/></svg></span>
         <span class="voice-pending-label">Film coming soon</span>
-        <span class="sr-only">${kind} ${index + 1} of ${total}</span>
-      </div>
+      </button>
     </li>`;
 }
 
@@ -66,7 +70,7 @@ function rail({ id, title, sub, label, items }) {
         </div>
       </div>
     </div>
-    <ul class="voices-track" role="list" tabindex="-1" data-voices-track aria-label="${label}">
+    <ul class="voices-track" role="list" tabindex="0" data-voices-track aria-label="${label}">
       ${items.join('\n      ')}
     </ul>
   </section>`;
@@ -82,13 +86,23 @@ export function renderTestimonials() {
 }
 
 export function renderCelebrityPicks() {
-  const ready = celebrityFilms.filter(film => film.id);
   return rail({
     id: 'celebrity-picks',
     title: 'Celebrity Choice',
     label: 'Celebrity films',
-    items: ready.length
-      ? ready.map((film, index) => card({ ...film, dir: 'celebrities', kind: 'celebrity film' }, index, ready.length))
-      : [pendingCard(0, 2, 'Celebrity film'), pendingCard(1, 2, 'Celebrity film')],
+    items: celebrityFilms.map((film, index) => film.id
+      ? card({ ...film, dir: 'celebrities', kind: 'celebrity film' }, index, celebrityFilms.length)
+      : pendingCard(index, celebrityFilms.length, 'Celebrity film')),
+  });
+}
+
+export function renderFlagshipStore() {
+  return rail({
+    id: 'flagship-store',
+    title: 'Our flagship store',
+    label: 'Flagship store films',
+    items: flagshipFilms.map((film, index) => film.id
+      ? card({ ...film, dir: 'flagship-store', kind: 'salon film' }, index, flagshipFilms.length)
+      : pendingCard(index, flagshipFilms.length, 'Salon film')),
   });
 }

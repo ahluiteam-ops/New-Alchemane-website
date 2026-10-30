@@ -16,12 +16,14 @@ import './mobile.css';
 import './palette.css';
 import './mobile-homepage.css';
 import './sections/best-sellers.css';
+import './sections/product-videos.css';
 import './sections/shop-concerns.css';
 import './sections/checkout-discount.css';
 import './sections/risk-free-banner.css';
 import './sections/faq-tabs.css';
 import './sections/studio-visit.css';
 import './sections/hero-cloud.css';
+import './sections/hero-wordmark.css';
 import './sections/floating-contact.css';
 import './components/check-icon.css';
 import './sections/site-footer.css';
@@ -78,10 +80,17 @@ document.addEventListener('click', event => {
 const cleanups = [initHomepage(), initSolutions(), initCatalogue(), initTestimonials(), initHeroCloud(), initQualityBanner(), initOfferPopup(), initFloatingContact()];
 const contact = document.querySelector('.floating-contact');
 const bestSellers = document.querySelector('.best-sellers');
+const studioBooking = document.querySelector('.studio-visit__actions');
+const consultation = document.querySelector('#consultation');
 let contactFrame = 0;
 const syncContactVisibility = () => {
   contactFrame = 0;
-  contact?.classList.toggle('is-visible', Boolean(bestSellers && bestSellers.getBoundingClientRect().top <= 0));
+  const coversBooking = [studioBooking, consultation].some(section => {
+    if (!section) return false;
+    const { top, bottom } = section.getBoundingClientRect();
+    return top < innerHeight - 72 && bottom > 72;
+  });
+  contact?.classList.toggle('is-visible', Boolean(bestSellers && bestSellers.getBoundingClientRect().top <= 0 && !coversBooking));
 };
 const requestContactVisibilitySync = () => {
   if (!contactFrame) contactFrame = requestAnimationFrame(syncContactVisibility);

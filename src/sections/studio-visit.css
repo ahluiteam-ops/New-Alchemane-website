@@ -31,29 +31,27 @@
   line-height: 1.65;
 }
 
-.simple-home .studio-visit__cta {
-  min-width: 210px;
-  justify-content: space-between;
-  background: var(--action);
-}
-
 .studio-visit__actions {
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  display: grid;
+  gap: 18px;
+  width: min(100%, 420px);
 }
 
-.studio-visit__online {
-  display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-size: 15px;
-  transition: border-color var(--duration-fast), color var(--duration-fast);
+.studio-visit__choice {
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
 }
 
-.studio-visit__online:hover { border-color: currentColor; color: var(--color-accent-ink); }
+.studio-visit__choice .consultation-meet__label { font-size: 16px; }
+.studio-visit__choice .consultation-meet__options,
+.studio-visit__choice .consultation-meet__note { width: 100%; }
+.studio-visit__choice .consultation-meet__note { display: grid; gap: 2px; }
+.studio-visit__choice .consultation-meet__note strong { font-size: 15px; }
+.studio-visit__choice .consultation-meet__note span { color: var(--text-secondary); font-size: 14px; font-weight: 400; }
+.simple-home .studio-visit__cta { width: 100%; min-height: 52px; justify-content: center; background: var(--action); text-align: center; }
 
 .studio-visit__media {
   grid-area: media;
@@ -123,14 +121,7 @@
     line-height: 1.6;
   }
 
-  .simple-home .studio-visit__cta {
-    width: 100%;
-    min-height: 52px;
-    justify-content: center;
-    gap: 12px;
-  }
-  .studio-visit__actions { align-items: stretch; flex-direction: column; gap: 12px; }
-  .studio-visit__online { align-self: center; justify-content: center; }
+  .studio-visit__actions { gap: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

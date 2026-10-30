@@ -116,7 +116,7 @@ button { border: 0; }
   .header-actions { gap: 2px; }
   .brand-logo { width: 144px; }
   .main-nav { padding-inline: 16px; }
-  /* Mobile portrait artwork retains all three models and the complete wordmark. */
+  /* Mobile portrait composition retains all three models. */
   .hero-visual { background: #fff; }
   .hero-art picture { display: block; height: 100%; }
   .hero-art img { height: 100%; object-fit: contain; object-position: center top; mask-image: none; }

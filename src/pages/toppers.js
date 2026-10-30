@@ -5,6 +5,7 @@ import '../components/check-icon.css';
 import '../sections/client-feature.css';
 import '../sections/consultation-meet.css';
 import '../components/consultation-submit.css';
+import { createStoryVideoViewer } from '../sections/story-video-viewer.js';
 import './permanent-extensions.css';
 import './toppers-design.css';
 import './topper-consultation.js';
@@ -115,19 +116,42 @@ on(document, 'visibilitychange', () => {
 // Consultation, client reels and the topper guide share the same visible play control.
 const reelVideos = [...document.querySelectorAll('.tp-client-reel video, .tp-consult-reel video, .pe-guide__video')];
 const reelPlayIcon = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7.1244 4 28.1244 16.1244 7.1244 28.2487Z"></path></svg>';
+const topperStoryMobile = matchMedia('(max-width: 699px)');
+let activateTopperStory = () => {};
+let stopTopperPreview = () => {};
+const topperStoryViewer = createStoryVideoViewer(card => activateTopperStory(card), {
+  collection: '#client-stories',
+  card: '.tp-client-reel',
+  opener: '.pe-vplay',
+});
 reelVideos.forEach(video => {
+  const clientCard = video.closest('#client-stories .tp-client-reel');
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'pe-vplay';
-  button.setAttribute('aria-label', `Play ${video.getAttribute('aria-label')}`);
+  button.setAttribute('aria-label', clientCard
+    ? `Open ${video.getAttribute('aria-label')} with sound`
+    : `Play ${video.getAttribute('aria-label')}`);
   button.innerHTML = reelPlayIcon;
   video.after(button);
   video.controls = false;
-  on(button, 'click', () => video.play().catch(() => { button.hidden = false; }));
+  on(button, 'click', () => {
+    if (clientCard && topperStoryMobile.matches) {
+      stopTopperPreview();
+      topperStoryViewer.open(clientCard, button);
+    } else video.play().catch(() => { button.hidden = false; });
+  });
   on(video, 'play', () => {
+    if (clientCard && topperStoryMobile.matches) {
+      video.controls = false;
+      button.hidden = false;
+      clientCard.classList.add('is-previewing');
+      return;
+    }
     video.controls = true;
     button.hidden = true;
   });
+  on(video, 'pause', () => clientCard?.classList.remove('is-previewing'));
   on(video, 'ended', () => {
     video.controls = false;
     button.hidden = false;
@@ -228,8 +252,8 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   const controls = section.querySelector('.pe-rail-controls');
   const [prev, next] = controls.querySelectorAll('button');
   const dotRow = section.querySelector('.pe-dots');
-  dotRow.replaceChildren(...cards.map(() => document.createElement('span')));
-  const dots = [...dotRow.children];
+  dotRow?.replaceChildren(...cards.map(() => document.createElement('span')));
+  const dots = dotRow ? [...dotRow.children] : [];
   const step = () => cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
   const syncRail = () => {
     const max = track.scrollWidth - track.clientWidth;
@@ -250,6 +274,99 @@ document.querySelectorAll('[data-vrail]').forEach(section => {
   on(window, 'resize', syncRail);
   syncRail();
 });
+
+// Match the homepage client-story behaviour on phones: the centred card is
+// active, previews silently in view, and opens a vertical sound player on tap.
+const topperStorySection = document.querySelector('#client-stories');
+const topperStoryTrack = topperStorySection.querySelector('.pe-vtrack');
+const topperStoryCards = [...topperStoryTrack.querySelectorAll('.tp-client-reel')];
+let topperStoryIndex = 0;
+let topperPreview = null;
+let topperPreviewFrame = 0;
+let topperSettleTimer = 0;
+const topperStoryVisible = video => {
+  const rect = video.getBoundingClientRect();
+  const sectionRect = topperStorySection.getBoundingClientRect();
+  const width = Math.max(0, Math.min(rect.right, innerWidth) - Math.max(rect.left, 0));
+  const height = Math.max(0, Math.min(rect.bottom, sectionRect.bottom, innerHeight) - Math.max(rect.top, sectionRect.top, 0));
+  return rect.width > 0 && rect.height > 0 && width * height / (rect.width * rect.height) >= .55;
+};
+stopTopperPreview = () => {
+  if (!topperPreview) return;
+  topperPreview.pause();
+  topperPreview.closest('.tp-client-reel').classList.remove('is-previewing');
+  topperPreview = null;
+};
+const syncTopperPreview = () => {
+  topperPreviewFrame = 0;
+  const video = topperStoryCards[topperStoryIndex]?.querySelector('video');
+  if (!topperStoryMobile.matches || reduceMotion.matches || document.hidden || document.querySelector('dialog[open]') || !video || !topperStoryVisible(video)) {
+    stopTopperPreview();
+    return;
+  }
+  if (video === topperPreview) return;
+  stopTopperPreview();
+  topperPreview = video;
+  video.defaultMuted = true;
+  video.muted = true;
+  video.loop = true;
+  video.controls = false;
+  video.play().catch(() => { if (topperPreview === video) stopTopperPreview(); });
+};
+const requestTopperPreview = () => {
+  if (!topperPreviewFrame) topperPreviewFrame = requestAnimationFrame(syncTopperPreview);
+};
+const nearestTopperStory = () => {
+  const trackBox = topperStoryTrack.getBoundingClientRect();
+  const center = trackBox.left + trackBox.width / 2;
+  return topperStoryCards.reduce((best, card, index) => {
+    const box = card.getBoundingClientRect();
+    const bestBox = topperStoryCards[best].getBoundingClientRect();
+    return Math.abs(box.left + box.width / 2 - center) < Math.abs(bestBox.left + bestBox.width / 2 - center) ? index : best;
+  }, 0);
+};
+const alignTopperStory = (index, behavior = 'auto') => {
+  const cardBox = topperStoryCards[index].getBoundingClientRect();
+  const trackBox = topperStoryTrack.getBoundingClientRect();
+  topperStoryTrack.scrollTo({ left: topperStoryTrack.scrollLeft + cardBox.left + cardBox.width / 2 - trackBox.left - trackBox.width / 2, behavior });
+};
+const selectTopperStory = (index, align = false) => {
+  topperStoryIndex = Math.max(0, Math.min(index, topperStoryCards.length - 1));
+  topperStoryCards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === topperStoryIndex));
+  if (align && topperStoryMobile.matches) alignTopperStory(topperStoryIndex, reduceMotion.matches ? 'auto' : 'smooth');
+  requestTopperPreview();
+};
+activateTopperStory = card => selectTopperStory(topperStoryCards.indexOf(card), true);
+const settleTopperStory = () => {
+  if (!topperStoryMobile.matches) return;
+  selectTopperStory(nearestTopperStory());
+  alignTopperStory(topperStoryIndex);
+};
+on(topperStoryTrack, 'scroll', () => {
+  if (!topperStoryMobile.matches) return;
+  const nearest = nearestTopperStory();
+  if (nearest !== topperStoryIndex) selectTopperStory(nearest);
+  clearTimeout(topperSettleTimer);
+  topperSettleTimer = window.setTimeout(settleTopperStory, 140);
+}, { passive: true });
+on(topperStoryTrack, 'scrollend', settleTopperStory);
+on(window, 'scroll', requestTopperPreview, { passive: true });
+on(topperStoryMobile, 'change', () => {
+  stopTopperPreview();
+  topperStoryCards.forEach(card => {
+    const video = card.querySelector('video');
+    video.pause();
+    video.controls = false;
+    card.querySelector('.pe-vplay').hidden = false;
+  });
+  if (topperStoryMobile.matches) selectTopperStory(nearestTopperStory(), true);
+  else topperStoryCards.forEach(card => card.classList.remove('is-active', 'is-previewing'));
+});
+const topperStoryExposure = new IntersectionObserver(requestTopperPreview, { threshold: [0, .25, .55, .8, 1] });
+topperStoryExposure.observe(topperStorySection);
+const topperStoryDialogs = new MutationObserver(requestTopperPreview);
+topperStoryDialogs.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+selectTopperStory(0);
 
 // Match the consultation/product FAQ tabs used on the other product pages.
 const faqTabs = [...document.querySelectorAll('#faq [data-faq-tab]')];
@@ -276,5 +393,11 @@ if (import.meta.hot) import.meta.hot.dispose(() => {
   heroVisibility.disconnect();
   transformationVisibility.disconnect();
   reelObservers.forEach(observer => observer.disconnect());
+  topperStoryExposure.disconnect();
+  topperStoryDialogs.disconnect();
+  cancelAnimationFrame(topperPreviewFrame);
+  clearTimeout(topperSettleTimer);
+  stopTopperPreview();
+  topperStoryViewer.destroy();
   clearTimeout(diffTimer);
 });

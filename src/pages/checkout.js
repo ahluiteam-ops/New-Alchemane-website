@@ -1,8 +1,9 @@
 import './checkout.css';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString } from 'libphonenumber-js/min';
-import { productPages, formatPrice } from '../products/product-content.js';
+import { formatPrice } from '../products/product-content.js';
+import { shopProducts } from '../products/shop-products.js';
+import { readBag } from '../products/cart.js';
 
-const bagKey = 'alchemane-product-bag-v2';
 const sample = { handle: 'silk-hair-toppers', id: '41758814142523', texture: 'Straight', quantity: 1 };
 const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 const countries = getCountries().map(code => ({ code, name: countryNames.of(code) || code, dial: getCountryCallingCode(code) }))
@@ -28,17 +29,7 @@ for (const select of document.querySelectorAll('#checkout-country, #billing-coun
 dialSelect.innerHTML = countries.map(({ code, name, dial }) => `<option value="${code}">+${dial} ${escape(name)}</option>`).join('');
 dialSelect.value = 'IN';
 
-let bag = [];
-try {
-  const saved = JSON.parse(localStorage.getItem(bagKey) || '[]');
-  if (Array.isArray(saved)) bag = saved;
-} catch { /* The empty state still works when storage is unavailable. */ }
-bag = bag.filter(item => {
-  const product = productPages[item?.handle];
-  return product?.variants.some(variant => variant.id === String(item.id))
-    && product.textures.includes(item.texture)
-    && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 10;
-});
+let bag = readBag();
 if (!bag.length && new URLSearchParams(location.search).get('preview') === '1') {
   bag = [sample];
   document.querySelector('#intro-note').textContent = 'Sample order for layout review.';
@@ -51,12 +42,11 @@ if (!bag.length) {
 } else {
   let subtotal = 0;
   document.querySelector('#summary-items').innerHTML = bag.map(item => {
-    const product = productPages[item.handle];
+    const product = shopProducts[item.handle];
     const variant = product.variants.find(option => option.id === String(item.id));
     const price = variant.price * item.quantity;
     subtotal += price;
-    const image = product.gallery[0].display || `/assets/products/${product.handle}/${product.gallery[0].file}.webp`;
-    return `<article class="co-item"><div class="co-item__image"><img src="${escape(image)}" width="64" height="76" alt=""><span class="co-item__quantity" aria-label="Quantity ${item.quantity}">${item.quantity}</span></div><div class="co-item__copy"><strong>${escape(product.name)}</strong><p>${escape(product.base)} · ${escape(variant.length)}</p><p>${escape(variant.colour)} · ${escape(item.texture)}</p></div><span class="co-item__price">${formatPrice(price)}</span></article>`;
+    return `<article class="co-item"><div class="co-item__image"><img src="${escape(product.image)}" width="64" height="76" alt=""><span class="co-item__quantity" aria-label="Quantity ${item.quantity}">${item.quantity}</span></div><div class="co-item__copy"><strong>${escape(product.name)}</strong><p>${escape(variant.title)}</p>${item.texture ? `<p>${escape(item.texture)}</p>` : ''}</div><span class="co-item__price">${formatPrice(price)}</span></article>`;
   }).join('');
   document.querySelector('#summary-toggle-total').textContent = formatPrice(subtotal);
   document.querySelector('#summary-subtotal').textContent = formatPrice(subtotal);

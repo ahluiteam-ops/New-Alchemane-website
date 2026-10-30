@@ -1,5 +1,7 @@
 <div class="home-rest">
 
+  <!-- product-videos -->
+
   <section class="best-sellers" aria-labelledby="best-sellers-title">
     <div class="best-sellers__inner">
       <header class="best-sellers__heading reveal-on-scroll">
@@ -187,17 +189,6 @@
     </div>
   </section>
 
-  <section class="media-coverage" aria-labelledby="media-coverage-title">
-    <div class="section-wrap media-coverage-inner">
-      <h2 id="media-coverage-title">Featured In</h2>
-      <ul class="media-coverage-logos" role="list">
-        <li class="media-logo media-logo--vogue"><img src="/icons/Vouge.svg" alt="Vogue" width="1544" height="410" loading="lazy" decoding="async"></li>
-        <li class="media-logo media-logo--beauty"><img src="/icons/PB.png" alt="Professional Beauty" width="2481" height="982" loading="lazy" decoding="async"></li>
-        <li class="media-logo media-logo--economic-times"><img src="/icons/ET.svg" alt="The Economic Times" width="930" height="94" loading="lazy" decoding="async"></li>
-      </ul>
-    </div>
-  </section>
-
   <!-- celebrity-picks -->
 
 
@@ -210,12 +201,32 @@
       </picture>
     </div>
     <div class="studio-visit__copy reveal-on-scroll">
-      <h2 id="studio-title">Want to Try Out<br>Our Hair Extensions<br>In-Person?</h2>
-      <p class="studio-visit__lede">Try and buy natural hair extensions, wigs and toppers that suit your hair needs.</p>
+      <h2 id="studio-title">Want Help Choosing<br> Your Hair Extensions?</h2>
+      <p class="studio-visit__lede">Explore natural hair extensions, wigs and toppers online or at our Mumbai studio.</p>
       <div class="studio-visit__actions">
-        <a href="#consultation" class="solid-button studio-visit__cta" data-consult-type="studio">Visit us <span aria-hidden="true">↗</span></a>
-        <a href="#consultation" class="studio-visit__online" data-consult-type="online">Prefer to meet online?</a>
+        <div class="studio-visit__choice consultation-meet" role="group" aria-labelledby="studio-meet-label" data-studio-meet>
+          <p class="consultation-meet__label" id="studio-meet-label">How would you like to meet?</p>
+          <div class="consultation-meet__options">
+            <button type="button" data-studio-meet-option="Online" aria-pressed="true">Online</button>
+            <button type="button" data-studio-meet-option="Khar West studio" aria-pressed="false">Offline</button>
+          </div>
+          <p class="consultation-meet__note" data-studio-meet-note aria-live="polite"><strong>Online</strong><span>Meet from anywhere.</span></p>
+        </div>
+        <a href="#consultation" class="solid-button studio-visit__cta" data-consult-type="online">Book an online consultation</a>
       </div>
+    </div>
+  </section>
+
+  <!-- flagship-store -->
+
+  <section class="media-coverage" aria-labelledby="media-coverage-title">
+    <div class="section-wrap media-coverage-inner">
+      <h2 id="media-coverage-title">Featured In</h2>
+      <ul class="media-coverage-logos" role="list">
+        <li class="media-logo media-logo--vogue"><img src="/icons/Vouge.svg" alt="Vogue" width="1544" height="410" loading="lazy" decoding="async"></li>
+        <li class="media-logo media-logo--beauty"><img src="/icons/PB.png" alt="Professional Beauty" width="2481" height="982" loading="lazy" decoding="async"></li>
+        <li class="media-logo media-logo--economic-times"><img src="/icons/ET.svg" alt="The Economic Times" width="930" height="94" loading="lazy" decoding="async"></li>
+      </ul>
     </div>
   </section>
 
@@ -352,13 +363,13 @@
         <a href="/wigs.html">Hair Wigs</a>
         <a href="/toppers.html">Hair Toppers</a>
       </nav>
-      <nav class="footer-nav-column" aria-label="Quick links">
-        <p class="footer-title">Quick Links</p>
+      <nav class="footer-nav-column" aria-label="Information">
+        <p class="footer-title">Information</p>
+        <a href="/blogs.html">Blogs</a>
         <a href="/pages/privacy-policy/">Privacy Policy</a>
         <a href="/pages/returns-and-exchanges/">Returns and Exchanges</a>
         <a href="/pages/shipping-delivery/">Shipping and Delivery</a>
         <a href="/pages/terms-of-service/">Terms of Service</a>
-        <a href="/blogs.html">Blogs</a>
       </nav>
       <div class="footer-contact-column">
         <p class="footer-title">Contact Us</p>

@@ -8,7 +8,7 @@ const routes = [
   ['/permanent-extensions.html', 'Permanent Extensions'],
   ['/toppers.html', 'Hair Toppers'],
   ['/wigs.html', 'Wigs'],
-  ['/blogs.html', 'Blogs'],
+  ['/blogs.html', null],
   ['/consultation.html', 'Book A Consultation'],
 ];
 
@@ -33,7 +33,7 @@ try {
           height: rect(header).height,
           logoWidth: rect(header.querySelector('img')).width,
           navCenter: rect(nav).left + rect(nav).width / 2,
-          current: current?.textContent.trim(),
+          current: current?.textContent.trim() || null,
           underline: underline?.transform,
           shopWeight: getComputedStyle(shop).fontWeight,
           cta: cta?.textContent.trim(),
@@ -47,7 +47,9 @@ try {
       assert(Math.abs(state.navCenter - width / 2) < 2, `${route}: centered navigation`);
       assert.equal(state.current, current, `${route}: current page`);
       if (route === '/consultation.html') assert.equal(state.ctaCurrent, 'page', `${route}: current action`);
-      else assert.equal(state.underline, 'matrix(1, 0, 0, 1, 0, 0)', `${route}: active underline`);
+      else if (current) assert.equal(state.underline, 'matrix(1, 0, 0, 1, 0, 0)', `${route}: active underline`);
+      assert.equal(await page.locator('header a[href="/blogs.html"]').count(), 0, `${route}: Blogs is not in the header`);
+      assert.equal(await page.locator('footer a[href="/blogs.html"]').count(), 1, `${route}: Blogs is in the footer`);
       assert.equal(state.shopWeight, '400', `${route}: Shop text weight`);
       assert.equal(state.cta, 'Book consultation', `${route}: action label`);
       assert(state.ctaVisible, `${route}: action visible`);

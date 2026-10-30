@@ -67,6 +67,7 @@ try {
     }
     if (await page.locator('#stories-track video').count() !== 7) throw new Error('Expected seven client testimonial videos.');
     if (await page.locator('#stories-track .pe-vplay').count() !== 7) throw new Error('Each testimonial needs a play control.');
+    if (await page.locator('#stories .pe-dots').count() !== 0) throw new Error('Client-story pagination dots should be removed.');
 
     const sources = await page.locator('#stories-track source').evaluateAll(elements => elements.map(element => element.getAttribute('src')));
     const posters = await page.locator('#stories-track video').evaluateAll(elements => elements.map(element => element.getAttribute('poster')));
@@ -74,6 +75,42 @@ try {
     if (sources.join(',') !== expectedSources.join(',')) throw new Error('Client testimonial video order is incorrect.');
     if (posters.join(',') !== expectedPosters.join(',')) throw new Error('Client testimonial posters do not match their clips.');
     if (preload.some(value => value !== 'none')) throw new Error('Testimonials must not preload their video files.');
+
+    if (setup.width === 390) {
+      await page.locator('#stories').scrollIntoViewIfNeeded();
+      const storyCards = await page.locator('#stories-track .pe-vcard').evaluateAll(cards => {
+        const active = cards.find(card => card.classList.contains('is-active'));
+        const neighbour = cards.find(card => card !== active);
+        const trackBox = active.parentElement.getBoundingClientRect();
+        const activeBox = active.getBoundingClientRect();
+        return {
+          activeWidth: activeBox.width,
+          neighbourWidth: neighbour.getBoundingClientRect().width,
+          centerOffset: activeBox.left + activeBox.width / 2 - (trackBox.left + trackBox.width / 2),
+        };
+      });
+      if (Math.abs(storyCards.neighbourWidth / storyCards.activeWidth - .8) >= .02) {
+        throw new Error('Mobile story neighbours should be 80% of the active card.');
+      }
+      if (Math.abs(storyCards.centerOffset) >= 2) throw new Error('The active mobile story should be centred.');
+      const playIcon = await page.locator('#stories-track .pe-vcard').nth(1).locator('.pe-vplay svg').boundingBox();
+      if (Math.abs(playIcon.width - 46) >= 1 || Math.abs(playIcon.height - 46) >= 1) {
+        throw new Error('Mobile story play controls should match the homepage 46px size.');
+      }
+      await page.locator('#stories').screenshot({ path: 'preview/wigs-new-sections-qa/stories-mobile-390.png' });
+      await page.locator('#stories-track .pe-vcard').first().locator('.pe-vplay').click();
+      const storyDialog = page.locator('.story-film-dialog[open]');
+      await storyDialog.waitFor({ state: 'visible' });
+      await page.waitForFunction(() => {
+        const video = document.querySelector('.story-film-dialog[open] video');
+        return video && !video.paused && !video.muted && video.readyState >= 2;
+      });
+      await storyDialog.locator('[data-story-next]').click();
+      await page.waitForFunction(() => document.querySelector('.story-film-dialog[open] .product-film-slide.is-active')?.dataset.storyIndex === '1');
+      await storyDialog.locator('[data-story-close]').click();
+      await storyDialog.waitFor({ state: 'hidden' });
+      await page.waitForFunction(() => document.activeElement === document.querySelectorAll('#stories-track .pe-vplay')[1]);
+    }
 
     if (await page.locator('.wg-journeys > li').count() !== 3) throw new Error('Expected three hair-loss journey cards.');
     if (await page.locator('#types .wg-youtube').count() !== 1 || await page.locator('#types .pe-product-card').count() !== 0) {

@@ -105,17 +105,48 @@ try {
       '/assets/permanent/testimonial-6.jpg',
       '/assets/permanent/testimonial-7.jpg',
     ].join(',')) throw new Error('Client testimonial posters do not match their clips.');
-    if (await page.locator('#results .pe-dots span').count() !== 14) throw new Error('Each client video needs a navigation dot.');
+    if (await page.locator('#results .pe-dots').count() !== 0) throw new Error('Client-story navigation dots should be removed.');
+    if (await page.locator('#how .pe-dots span').count() !== 4) throw new Error('Consultation navigation dots should remain unchanged.');
     if (setup.width === 390 || setup.width === 1440) {
       await page.locator('#results').screenshot({ path: `preview/permanent-reels-qa/results-${setup.width}.png` });
     }
     if (setup.width === 390) {
-      await page.locator('#results-track .pe-vplay').first().click();
+      await page.locator('#results').scrollIntoViewIfNeeded();
+      const mobileCards = await page.locator('#results-track .pe-vcard').evaluateAll(cards => {
+        const active = cards.find(card => card.classList.contains('is-active'));
+        const neighbor = cards.find(card => card !== active);
+        const track = active.parentElement.getBoundingClientRect();
+        const box = active.getBoundingClientRect();
+        return {
+          activeWidth: box.width,
+          neighborWidth: neighbor.getBoundingClientRect().width,
+          centerOffset: box.left + box.width / 2 - (track.left + track.width / 2),
+        };
+      });
+      if (Math.abs(mobileCards.neighborWidth / mobileCards.activeWidth - .8) > .02 || Math.abs(mobileCards.centerOffset) > 2) {
+        throw new Error(`Mobile client stories should open centred with 80% neighbours: ${JSON.stringify(mobileCards)}.`);
+      }
+      const playIcon = await page.locator('#results-track .pe-vcard').nth(1).locator('.pe-vplay svg').boundingBox();
+      if (Math.abs(playIcon.width - 46) > 1 || Math.abs(playIcon.height - 46) > 1) {
+        throw new Error(`Mobile client story play icon should match the homepage 46px control: ${JSON.stringify(playIcon)}.`);
+      }
       await page.waitForFunction(() => {
-        const video = document.querySelector('#results-track video');
-        return !video.paused && video.readyState >= 2;
+        const video = document.querySelector('#results-track .pe-vcard.is-active video');
+        return video && !video.paused && video.muted && video.loop;
       }, null, { timeout: 15000 });
-      await page.locator('#results-track video').first().evaluate(video => video.pause());
+      await page.locator('#results-track .pe-vplay').first().click();
+      const storyDialog = page.locator('.story-film-dialog[open]');
+      await storyDialog.waitFor({ state: 'visible' });
+      await page.waitForFunction(() => {
+        const video = document.querySelector('.story-film-dialog[open] video');
+        return video && !video.paused && !video.muted && video.readyState >= 2;
+      }, null, { timeout: 15000 });
+      await storyDialog.screenshot({ path: 'preview/permanent-reels-qa/results-player-390.png' });
+      await storyDialog.locator('[data-story-next]').click();
+      await page.waitForFunction(() => document.querySelector('.story-film-dialog .product-film-slide.is-active')?.dataset.storyIndex === '1');
+      await storyDialog.locator('[data-story-close]').click();
+      await storyDialog.waitFor({ state: 'hidden' });
+      await page.waitForFunction(() => document.activeElement === document.querySelectorAll('#results-track .pe-vplay')[1], null, { timeout: 3000 });
     }
     if (await page.locator('#mpanel-tape source').getAttribute('src') !== '/assets/permanent/method-tape.mp4') {
       throw new Error('Tape method video is not mapped correctly.');

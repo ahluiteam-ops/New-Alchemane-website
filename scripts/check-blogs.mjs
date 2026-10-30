@@ -68,19 +68,25 @@ try {
       assert.equal(await page.locator('.blog-nav').isVisible(), false, 'Mobile navigation starts collapsed');
       await page.getByRole('button', { name: 'Open navigation menu' }).click();
       assert.equal(await page.locator('.blog-nav').isVisible(), true, 'Mobile menu opens');
-      assert.equal(await page.locator('.blog-nav a', { hasText: 'Blogs' }).isVisible(), true, 'Mobile menu includes Blogs');
+      assert.equal(await page.locator('.blog-nav a[href="/blogs.html"]').count(), 0, 'Mobile header omits the footer-level Blogs link');
       await page.getByRole('button', { name: 'Close navigation menu' }).click();
     }
+    assert.equal(await page.locator('.site-footer a[href="/blogs.html"]').isVisible(), true, `${name}: footer includes Blogs`);
+    assert.equal(await page.locator('.site-footer a[href="/blogs.html"]').getAttribute('aria-current'), 'page', `${name}: footer identifies Blogs as current`);
+    await page.locator('.site-footer').scrollIntoViewIfNeeded();
+    await page.locator('.site-footer').screenshot({ path: `${output}/${name}-footer.png` });
     await page.screenshot({ path: `${output}/${name}.png`, fullPage: false });
     await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' });
     if (name === 'mobile') await page.getByRole('button', { name: 'Open navigation menu' }).click();
-    assert.equal(await page.locator('.main-nav a[href="/blogs.html"]').isVisible(), true, `${name}: main header includes Blogs`);
+    assert.equal(await page.locator('.main-nav a[href="/blogs.html"]').count(), 0, `${name}: main header omits Blogs`);
+    assert.equal(await page.locator('.site-footer a[href="/blogs.html"]').isVisible(), true, `${name}: homepage footer includes Blogs`);
     await page.goto(`${base}/extensions.html`, { waitUntil: 'domcontentloaded' });
     if (name === 'mobile') {
       await page.locator('.shopnav__mobile-trigger').click();
       assert.equal(await page.locator('#shop-navigation a[href="/blogs.html"]').count(), 0, 'Shop menu lists only product categories');
     } else {
-      assert.equal(await page.locator('.shopnav__blog-link').isVisible(), true, 'Shop-style header includes Blogs');
+      assert.equal(await page.locator('.shopnav__blog-link').count(), 0, 'Shop-style header omits Blogs');
+      assert.equal(await page.locator('.site-footer a[href="/blogs.html"]').isVisible(), true, 'Shop-style footer includes Blogs');
     }
     await page.goto(`${base}/blogs.html?page=26`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.locator('.blog-grid .blog-card').count(), 3, `${name}: last index page has three articles`);
@@ -174,6 +180,14 @@ try {
   assert.equal(await compactPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, '320px: blog detail has no horizontal overflow');
   await compactPage.screenshot({ path: `${output}/compact-article.png`, fullPage: false });
   await compactPage.close();
+  const navigationPage = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  for (const route of ['/', '/permanent-extensions.html', '/toppers.html', '/wigs.html', '/extensions.html', '/consultation.html', '/blogs.html', '/products/silk-hair-toppers/', '/pages/privacy-policy/']) {
+    await navigationPage.goto(base + route, { waitUntil: 'domcontentloaded' });
+    await navigationPage.locator('footer').waitFor();
+    assert.equal(await navigationPage.locator('header a[href="/blogs.html"]').count(), 0, `${route}: header omits Blogs`);
+    assert.equal(await navigationPage.locator('footer a[href="/blogs.html"]').count(), 1, `${route}: footer includes Blogs once`);
+  }
+  await navigationPage.close();
   console.log(`PASS: 253 unique articles, 26 index pages, ${embeddedVideos} article videos, ${tableOfContents} tables of contents, comments, and responsive routes.`);
 } finally {
   await browser.close();

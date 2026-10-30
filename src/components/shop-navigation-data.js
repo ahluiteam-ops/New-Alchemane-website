@@ -38,9 +38,8 @@ export function addShopNavigation(html) {
   const isProductPage = /<body[^>]*class="[^"]*\bpd\b/.test(html);
   html = html.replace(/<header class="(site-header|pe-header|pd-header|shop-header|consult-header)"[^>]*>[\s\S]*?<\/header>/, (header, type) => {
     decorated = true;
-    if (type !== 'consult-header') header = header.replace(/(<a href="\/consultation\.html"[^>]*>Book A Consultation<\/a>)/, '<a href="/blogs.html">Blogs</a>$1');
     header = header.replace(/(<nav[^>]*class="(?:main-nav|pe-nav|pd-nav|shop-nav|consult-nav)"[^>]*>)(\s*<a href="\/"[^>]*>Home<\/a>)?/, (_, opening, home = '') => opening + home + trigger(false));
-    if (type === 'shop-header') header = header.replace(/(<a class="header-help"[\s\S]*?<\/a>)/, `<div class="shopnav__masthead-links"><a class="shopnav__blog-link" href="/blogs.html">Blogs</a>${trigger(true)}$1</div>`);
+    if (type === 'shop-header') header = header.replace(/(<a class="header-help"[\s\S]*?<\/a>)/, `<div class="shopnav__masthead-links">${trigger(true)}$1</div>`);
     else if (type === 'consult-header') header = header.replace(/(<button class="consult-menu")/, '<a class="desktop-header-cta" href="#booking" aria-current="page">Book consultation</a>$1');
     else header = header
       .replace(/<button class="(?:menu-toggle|pe-menu|pd-icon-button pd-menu)"/, match => trigger(true) + match)

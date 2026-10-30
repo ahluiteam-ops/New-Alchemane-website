@@ -1,0 +1,3 @@
+.story-film-dialog .product-film-slide { background: var(--text); }
+.story-film-dialog .product-film-stage { inset: 0; }
+.story-film-dialog .product-film-toggle { background: linear-gradient(0deg, #23292855, transparent 40%, transparent 80%, #23292833); }

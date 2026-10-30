@@ -105,11 +105,11 @@
 @media (max-width: 700px) {
   .shop-concerns { padding-block: 56px; }
   .shop-concerns__heading { margin-bottom: 26px; text-align: left; }
-  .shop-concerns__grid { grid-template-columns: repeat(4, minmax(224px, 1fr)); overflow-x: auto; padding: 0 0 8px; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
-  .shop-concerns__grid::-webkit-scrollbar { display: none; }
-  .shop-concerns__card { scroll-snap-align: start; aspect-ratio: 4 / 5; }
-  .shop-concerns__card-copy { right: 16px; bottom: 16px; left: 16px; font-size: 28px; }
-  .shop-concerns__arrow { width: 40px; height: 40px; }
+  .shop-concerns__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-concerns__card { aspect-ratio: 4 / 5; }
+  .shop-concerns__card-copy { right: 12px; bottom: 12px; left: 12px; gap: 6px; font-size: clamp(18px, 5vw, 22px); }
+  .shop-concerns__arrow { width: 32px; height: 32px; }
+  .shop-concerns__arrow svg { width: 16px; height: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
