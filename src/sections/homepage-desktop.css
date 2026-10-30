@@ -1,0 +1,56 @@
+/* Desktop refinements for the founder, consultation and flagship-store sections.
+   Everything sits inside min-width media queries, so the phone layouts (700px
+   and below) keep exactly the rules they had before. Selectors carry the
+   .simple-home / id prefix so they outrank the base files regardless of import order. */
+
+/* ---------- Founder: portrait left, story right ----------
+   The heading used to sit alone above both columns, leaving the copy stranded
+   under it with a large empty right side. It now leads the right column, so
+   name, proof points and call to action read as one block beside the portrait. */
+@media (min-width: 701px) {
+  .simple-home .home-rest .founder-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas: 'image .' 'image heading' 'image copy' 'image .';
+    column-gap: clamp(48px, 7vw, 112px);
+    row-gap: 0;
+    align-items: start;
+  }
+  .simple-home .home-rest .founder-grid .founder-heading { grid-area: heading; margin: 0 0 clamp(20px, 2vw, 32px); font-size: clamp(36px, 3.6vw, 52px); }
+  .simple-home .home-rest .founder-image { grid-area: image; align-self: center; width: 100%; max-width: 520px; }
+  .simple-home .home-rest .founder-image img { width: 100%; max-width: 520px; }
+  .simple-home .home-rest .founder-copy { grid-area: copy; max-width: 38rem; }
+  .simple-home .home-rest .founder-cta { width: fit-content; min-width: 280px; padding-inline: 32px; }
+}
+
+/* ---------- Consultation: aligned to the page, balanced columns ----------
+   The copy used to start at the screen edge (not the content edge every other
+   section uses) in a column too narrow for its heading, which wrapped to three
+   lines. The section now follows the 1320px content width on large screens. */
+@media (min-width: 901px) {
+  .simple-home .studio-visit {
+    --edge: max(var(--page-gutter), calc((100vw - var(--content-width)) / 2));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    min-height: 0;
+    padding: clamp(48px, 5vw, 80px) var(--edge);
+  }
+  .simple-home .studio-visit__copy { max-width: none; padding: 0 clamp(40px, 5vw, 80px) 0 0; }
+  .simple-home .studio-visit__copy h2 { font-size: clamp(36px, 3.4vw, 52px); }
+  .simple-home .studio-visit__copy h2 br { display: none; }
+  .simple-home .studio-visit__actions { width: min(100%, 440px); }
+  .simple-home .studio-visit__media { margin: 0; }
+  .simple-home .studio-visit__media img { object-position: right center; }
+}
+
+/* ---------- Flagship store: centered heading, original card size ----------
+   The heading sat flush left while its row of cards (unchanged size) left
+   empty space beside it. A 3-column head keeps the arrows at the right, in
+   their usual place, while the heading centers over the full row. */
+@media (min-width: 701px) {
+  #flagship-store .voices-head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  #flagship-store .voices-head > div:first-child { grid-column: 2; text-align: center; }
+  #flagship-store .voices-controls { grid-column: 3; justify-self: end; }
+  #flagship-store .voices-controls[data-idle] { visibility: hidden; }
+  /* The three cards fit the row with no need to scroll, so center them like the heading above, instead of hugging the left edge. */
+  #flagship-store .voices-track { justify-content: center; }
+}

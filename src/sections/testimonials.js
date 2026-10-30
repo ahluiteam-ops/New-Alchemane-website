@@ -101,7 +101,10 @@ export function initTestimonials() {
       };
       return cards.reduce((best, card, index) => distance(card) < distance(cards[best]) ? index : best, 0);
     };
+    const controls = prev.closest('.voices-controls');
     const sync = () => {
+      // Nothing to scroll on desktop (every card already fits): hide the arrows.
+      controls?.toggleAttribute('data-idle', !mobileFilm() && track.scrollWidth <= track.clientWidth + 2);
       if (mobileFilm()) {
         prev.disabled = activeIndex === 0;
         next.disabled = activeIndex === cards.length - 1;

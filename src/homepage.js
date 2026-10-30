@@ -1,5 +1,6 @@
 import './homepage.css';
 import './sections/client-feature.css';
+import './sections/homepage-desktop.css';
 import { initConsultationMeet } from './sections/consultation-meet.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

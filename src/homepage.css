@@ -81,7 +81,8 @@
 .founder-copy .eyebrow { color: #c6b58f; font-size: 10px; }
 .stories-section { padding-block: 110px; }
 .story-controls { display: flex; gap: 10px; }
-.story-controls button { background: transparent; border: 1px solid var(--line); border-radius: 50%; width: 46px; height: 46px; transition: color .25s, background .25s; }.story-controls button:hover { color: white; background: var(--ink); }
+.story-controls button { display: grid; place-items: center; background: transparent; border: 1px solid var(--line); border-radius: 50%; width: 46px; height: 46px; transition: color .25s, background .25s; }.story-controls button:hover { color: white; background: var(--ink); }
+.story-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 /* A second copy of the arrows sits under the image, for phones only — see the
    700px block in premium.css, which swaps which copy is shown. display: none
    also pulls this one out of the tab order and the accessibility tree, so only
