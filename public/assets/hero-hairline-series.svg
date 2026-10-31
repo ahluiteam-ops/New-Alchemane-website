@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 1710 212" width="1710" height="212">
+  <!-- Campaign lettering follows the existing hero's Didone stems and hairline serifs.
+       Outlines keep the artwork identical across devices without a font download. -->
+  <defs>
+    <g id="hairline-H"><path stroke="none" d="M16 3H49V201H16Z M117 3H150V201H117Z"/><path fill="none" d="M0 3H66M100 3H166M0 201H66M100 201H166M49 100H117"/></g>
+    <g id="hairline-A"><path stroke="none" fill-rule="evenodd" d="M80 0L165 201H129L98 128.5H34.8L7.7 201H2.3Z M36.7 123.5H95.9L65.1 50Z"/><path fill="none" d="M0 201H43M108 201H180"/></g>
+    <g id="hairline-I"><path stroke="none" d="M16 3H49V201H16Z"/><path fill="none" d="M0 3H65M0 201H65"/></g>
+    <g id="hairline-R"><path stroke="none" d="M16 3H49V201H16Z M49 .5H78C125 .5 150 18 150 53C150 83 127 99 84 101C124 103 141 123 143 153L145 181C146 196 154 204 164 192L168 196C148 214 114 203 112 180L109 146C107 114 92 104 67 104H49V99H74C104 99 115 85 115 53C115 21 103 8 77 8H49Z"/><path fill="none" d="M0 3H80M0 201H67"/></g>
+    <g id="hairline-L"><path stroke="none" d="M16 3H49V196H78C111 196 130 175 138 142H143L140 201H16Z"/><path fill="none" d="M0 3H67M0 201H140"/></g>
+    <g id="hairline-N"><path stroke="none" d="M18 3H51L143 148V3H148V201H139L23 20V201H18Z"/><path fill="none" d="M0 3H52M126 3H166M0 201H43"/></g>
+    <g id="hairline-E"><path stroke="none" d="M16 3H135L138 58H133C123 24 109 8 78 8H49V196H80C113 196 130 175 138 142H143L140 201H16Z"/><path fill="none" d="M0 3H135M0 201H140M49 100H105M105 68V133"/></g>
+    <g id="hairline-S"><path stroke="none" d="M139 3V58H134C126 23 108 5 80 5C52 5 34 21 34 44C34 67 51 78 84 91C126 107 146 125 146 154C146 185 116 204 78 204C50 204 32 189 14 189C7 189 3 198 2 201H0V136H5C14 178 39 199 78 199C108 199 126 180 126 158C126 135 107 124 72 110C27 92 8 76 8 48C8 19 33 0 78 0C102 0 117 15 127 15C133 15 136 9 137 3Z"/></g>
+  </defs>
+  <g transform="scale(.84 1)" fill="#080808" stroke="#080808" stroke-width="5" stroke-linejoin="round">
+    <use href="#hairline-H"/>
+    <use href="#hairline-A" x="164"/>
+    <use href="#hairline-I" x="340"/>
+    <use href="#hairline-R" x="412"/>
+    <use href="#hairline-L" x="580"/>
+    <use href="#hairline-I" x="726"/>
+    <use href="#hairline-N" x="798"/>
+    <use href="#hairline-E" x="968"/>
+    <use href="#hairline-S" x="1184"/>
+    <use href="#hairline-E" x="1340"/>
+    <use href="#hairline-R" x="1486"/>
+    <use href="#hairline-I" x="1654"/>
+    <use href="#hairline-E" x="1726"/>
+    <use href="#hairline-S" x="1872"/>
+  </g>
+</svg>

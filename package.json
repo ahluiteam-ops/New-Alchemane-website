@@ -13,6 +13,7 @@
     "assets:editorial": "node scripts/prepare-editorial-assets.mjs",
     "check:preview": "node scripts/check-preview.mjs",
     "check:homepage": "node scripts/check-mobile-homepage.mjs",
+    "check:hero-artwork": "node scripts/check-hero-artwork.mjs",
     "check:video-player": "node scripts/check-video-player.mjs",
     "check:desktop-homepage": "node scripts/check-desktop-homepage.mjs",
     "check:stories": "node scripts/check-story-carousel.mjs",

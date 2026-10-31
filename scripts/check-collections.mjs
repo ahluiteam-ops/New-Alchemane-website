@@ -57,7 +57,7 @@ try {
     HTMLDialogElement.prototype.showModal = function () { if (!this.classList.contains('offer-dialog')) show.call(this); };
   });
   await mobile.goto(base, { waitUntil: 'networkidle' });
-  await mobile.locator('.hero-actions .collection-cta').click();
+  await mobile.locator('.hero-actions .scroll-cue').click();
   await expect.poll(() => mobile.locator('#collection').evaluate(node => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(5);
   await expect.poll(() => mobile.locator('.hero-scene').evaluate(node => getComputedStyle(node).visibility)).toBe('hidden');
   await expect(mobile.locator('#collection .solutions-tab')).toHaveCount(6);
@@ -217,7 +217,7 @@ try {
     }
     if (width === 1440) {
       await page.goto(base, { waitUntil: 'networkidle' });
-      await page.locator('.hero-actions .collection-cta').click();
+      await page.locator('.hero-actions .scroll-cue').click();
       await expect.poll(() => page.locator('#collection').evaluate(node => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(5);
       await expect(page.locator('#collection')).not.toHaveAttribute('inert', '');
       await expect.poll(() => page.evaluate(() => document.documentElement.classList.contains('mobile-reveal-complete'))).toBe(true);

@@ -2,20 +2,14 @@
 .hero-wordmark {
   position: absolute;
   z-index: 1;
-  top: 2.4cqw;
-  left: 6%;
-  width: 88%;
+  top: 2.8cqw;
+  left: 4%;
+  width: 92%;
   margin: 0;
   pointer-events: none;
 }
-/* Draw desktop curves at the display resolution; preserve mobile rendering. */
+/* One outlined master keeps the campaign lettering sharp at every size. */
 .hero-wordmark-vector { display: block; width: 100%; height: auto; }
-.hero-wordmark-vector--desktop { display: none; }
-@media (min-width: 1001px) {
-  .hero-wordmark-vector--compact { display: none; }
-  .hero-wordmark-vector--desktop { display: block; }
-}
-.simple-home .hero-wordmark img { display: none; width: 100%; height: auto; mask-image: none; }
 .simple-home .hero-art .hero-wordmark-foreground {
   position: absolute;
   z-index: 2;
@@ -30,18 +24,14 @@
 }
 .simple-home .hero-ground { inset-block-start: 50%; background: linear-gradient(transparent, var(--surface) 60%); }
 .simple-home .hero-actions { width: min(650px, calc(100% - 32px)); }
-.hero-description { margin: 0 0 4px; color: var(--text); font: 400 16px/1.4 var(--font-body); text-align: center; text-wrap: balance; }
 
 @media (max-width: 600px) {
   /* Match the original portrait artwork's cap height and optical margins. */
   .hero-art-composition { width: min(100%, calc((100svh - var(--header-height)) * 2 / 3)); margin-inline: auto; }
   .simple-home .hero-art picture { height: auto; }
   .simple-home .hero-art img { height: auto; }
-  .hero-wordmark { top: 10.5cqw; left: 8%; width: 84%; }
-  .hero-wordmark-vector { display: none; }
-  .simple-home .hero-wordmark img { display: block; height: 12.5cqw; }
+  .hero-wordmark { top: 9.5cqw; }
   .simple-home .hero-art .hero-wordmark-foreground { display: none; }
-  .hero-description { max-width: 31ch; }
 }
 
 @media (max-width: 1000px) and (max-height: 520px) and (orientation: landscape) {
@@ -49,6 +39,5 @@
   .simple-home .hero-art { width: 60%; }
   .simple-home .hero-ground { display: none; }
   .simple-home .hero-actions { left: 80%; bottom: 50%; width: calc(40% - 32px); transform: translate(-50%, 50%); }
-  .simple-home .hero-description { max-width: 28ch; font-size: 14px; }
   .simple-home .hero-actions .collection-cta { min-width: 0; width: 100%; padding-inline: 12px; }
 }

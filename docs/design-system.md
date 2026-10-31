@@ -2,6 +2,8 @@
 
 ## Current homepage revision
 
+The hero now features outlined “HAIRLINE SERIES” lettering in the original high-contrast display style. The desktop title sits behind photo-aligned hair silhouettes; the portrait layout keeps the full title above the models. “Shop now” opens the Hairline Series collection, and “See more options” reveals the circular category section. The homepage header sits outside the animated scene and remains fixed throughout browsing, with anchor and section spacing adjusted to keep headings visible. Run `npm run check:hero-artwork` to check the artwork, hair occlusion, both CTA journeys and the header after scrolling.
+
 The October 31 shopping revision keeps the original circular category tabs and homepage product grid immediately after the hero. Best Sellers and a separate square category section follow. The square cards use a 3 × 2 grid on mobile and one row on desktop, and open dedicated collections with persistent category navigation, sorting and responsive product grids. See `docs/collections.md` for the current shopping behaviour and checks. The opening cloud reveal and remaining homepage sections continue to use the existing design. Typography, palette, product provenance and other foundations below continue to apply.
 
 The homepage helps someone compare hair pieces and speak to the team. Photography and useful product information lead; copy is direct, warm and brief.

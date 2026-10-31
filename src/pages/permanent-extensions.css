@@ -446,13 +446,6 @@ html:has(.pe) { --pe-header: 64px; scroll-behavior: smooth; scroll-padding-top: 
 .pe-form__note, .pe-status { font-size: 13px; color: var(--text-secondary); text-align: center; }
 .pe-status a { color: var(--action); font-weight: 600; }
 
-/* ---------- Footer ---------- */
-/* Same .site-footer as the homepage (site-footer.css); this page adds its own
-   results disclaimer above the copyright row. The booking dock (below) is
-   already hidden by the time the footer scrolls into view, so the footer
-   needs no extra clearance for it. */
-.pe .pe-disclaimer { width: min(100%, var(--content-width)); margin: 28px auto 0; font-size: 12px; color: var(--text-secondary); }
-
 /* Short phones (SE and similar): a shallower box saves vertical space. */
 @media (max-width: 699px) and (max-height: 700px) {
   .pe-hero__media { aspect-ratio: 3 / 4; }

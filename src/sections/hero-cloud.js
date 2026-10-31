@@ -186,7 +186,6 @@ export function initHeroCloud() {
     });
     reveal.to(hero.querySelector('.hero-art'), { scale: 1.045, yPercent: -3, duration: 0.52 }, 0)
       .to(hero.querySelector('.hero-actions'), { opacity: 0, y: -22, duration: 0.16 }, 0)
-      .to(hero.querySelector('.site-header'), { y: -24, opacity: 0, duration: 0.22 }, 0.2)
       .to(far, { y: () => -innerHeight * 1.22, xPercent: 4, duration: 0.52 }, 0)
       .to(near, { y: () => -innerHeight * 1.4, xPercent: -4, duration: 0.49 }, 0.025)
       .to(front, { y: () => -innerHeight * 1.58, xPercent: 3, duration: 0.47 }, 0.055)
@@ -218,7 +217,7 @@ export function initHeroCloud() {
       collection.classList.remove('collection-scene-flow');
       stage.insertBefore(collection, next);
       preview.remove();
-      gsap.set([hero, collection, hero.querySelector('.hero-art'), hero.querySelector('.hero-actions'), hero.querySelector('.site-header'), ...layers, whiteout], { clearProps: 'all' });
+      gsap.set([hero, collection, hero.querySelector('.hero-art'), hero.querySelector('.hero-actions'), ...layers, whiteout], { clearProps: 'all' });
     };
   });
 

@@ -26,5 +26,8 @@ const paths = regions.map(([left, right, top, bottom]) => {
   }
   return `<path d="M${left} ${bottom} ${edge.map(([x, y]) => `L${x} ${y}`).join(' ')} L${right} ${bottom}Z"/>`;
 });
-await writeFile('public/assets/hero-hair-mask.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1664 936"><g fill="white">${paths.join('')}</g></svg>\n`);
+// Cover the half-pixel fringe around the traced edge as well as its dark core.
+// The foreground reuses the exact photograph, so these fine strands keep their
+// original antialiasing instead of allowing a letter through at the boundary.
+await writeFile('public/assets/hero-hair-mask.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1664 936"><g fill="white" stroke="white" stroke-width="1" stroke-linejoin="round">${paths.join('')}</g></svg>\n`);
 console.log('Prepared photo-aligned hair mask for the desktop title overlap.');

@@ -9,18 +9,39 @@ try {
   for (const [width, height] of [[320, 740], [390, 844], [600, 800], [768, 1024], [1440, 900], [1920, 1080], [844, 390]]) {
     const page = await browser.newPage({ viewport: { width, height } });
     const errors = [];
+    await page.addInitScript(() => {
+      const show = HTMLDialogElement.prototype.showModal;
+      HTMLDialogElement.prototype.showModal = function () { if (!this.classList.contains('offer-dialog')) show.call(this); };
+    });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
-    await expect(page.getByRole('heading', { name: 'Your Match', exact: true })).toBeVisible();
-    await expect(page.locator('.hero-wordmark img')).not.toHaveJSProperty('naturalWidth', 0);
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.getByRole('heading', { name: 'Hairline Series', exact: true, level: 1 })).toBeVisible();
+    await expect(page.locator('.hero-wordmark-vector')).toBeVisible();
+    await expect(page.locator('.hero-description')).toHaveCount(0);
+    await expect(page.locator('.hero-actions .collection-cta')).toHaveText('Shop now');
+    await expect(page.locator('.hero-actions .collection-cta')).toHaveAttribute('href', '/collections/hairline-series/');
+    await expect(page.locator('.hero-actions .scroll-cue')).toHaveText('See more options');
     await expect(page.locator('.hero-actions .collection-cta')).toBeInViewport();
+    await expect(page.locator('.hero-actions .scroll-cue')).toBeInViewport();
+    await expect(page.locator('.site-header')).toHaveCSS('position', 'fixed');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
     expect(errors).toEqual([]);
     await page.screenshot({ path: `${output}/${width}.png` });
-    await page.locator('.hero-actions .collection-cta').click();
+    await page.locator('.hero-actions .scroll-cue').click();
     await expect(page.locator('#collection')).toBeInViewport({ ratio: .2 });
+    await expect.poll(() => page.locator('.site-header').evaluate(header => header.getBoundingClientRect().top)).toBe(0);
+    await expect(page.locator('.site-header')).toHaveCSS('opacity', '1');
+    await expect(page.locator('#solutions-title')).toBeVisible();
+    expect(await page.locator('#solutions-title').evaluate(heading => heading.getBoundingClientRect().top >= document.querySelector('.site-header').getBoundingClientRect().bottom)).toBeTruthy();
+    await page.locator('.shopnav__trigger:visible').click();
+    await expect(page.locator('#shop-navigation')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.locator('#explore-collections').scrollIntoViewIfNeeded();
+    await expect(page.locator('.site-header')).toBeInViewport();
+    await page.screenshot({ path: `${output}/header-scrolled-${width}.png` });
     await page.close();
-    console.log(`Passed ${width}x${height}: heading, CTA, navigation, overflow and browser errors`);
+    console.log(`Passed ${width}x${height}: artwork, CTAs, fixed header, scrolled menu, overflow and browser errors`);
   }
 
   // Compare the rendered hair with the photograph without lettering.
@@ -49,9 +70,12 @@ try {
   expect(changed / checked).toBeLessThan(.001);
   console.log(`Hair occlusion passed: ${checked} hair pixels compared, ${changed} changed`);
   await page.locator('.hero-wordmark').evaluate(el => { el.style.visibility = ''; });
-  await page.locator('.hero-actions .collection-cta').click();
+  await page.locator('.hero-actions .scroll-cue').click();
   await expect(page.locator('#collection')).toBeInViewport({ ratio: .2 });
-  console.log('Reduced-motion CTA passed');
+  await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+  await page.locator('.hero-actions .collection-cta').click();
+  await expect(page).toHaveURL('http://localhost:5173/collections/hairline-series/');
+  console.log('Reduced-motion reveal and Shop now destination passed');
 } finally {
   await browser.close();
 }

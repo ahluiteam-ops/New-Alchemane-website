@@ -36,10 +36,8 @@ export default defineConfig({
         .replace('<!-- square-solutions -->', renderSquareSolutions());
       return addShopNavigation(renderReels(html.replace(/<!-- product-page:([a-z0-9-]+) -->/g, (_, handle) => renderProductPage(handle))
         .replace('<!-- homepage-sections -->', sections)
-        .replace('<!-- hero-wordmark-vector -->', readFileSync(new URL('./public/assets/hero-your-match.svg', import.meta.url), 'utf8')
-          .replace('<svg ', '<svg class="hero-wordmark-vector hero-wordmark-vector--compact" aria-hidden="true" focusable="false" width="1488" height="212" shape-rendering="geometricPrecision" ')
-          + readFileSync(new URL('./public/assets/hero-your-match-desktop.svg', import.meta.url), 'utf8')
-            .replace('<svg ', '<svg class="hero-wordmark-vector hero-wordmark-vector--desktop" aria-hidden="true" focusable="false" width="1488" height="212" shape-rendering="geometricPrecision" '))
+        .replace('<!-- hero-wordmark-vector -->', readFileSync(new URL('./public/assets/hero-hairline-series.svg', import.meta.url), 'utf8')
+          .replace('<svg ', '<svg class="hero-wordmark-vector" aria-hidden="true" focusable="false" shape-rendering="geometricPrecision" '))
         .replace('<!-- hair-solutions -->', renderSolutions())
         .replace('<!-- product-discovery -->', renderCatalogue())
         .replace('<!-- extensions-sections -->', renderExtensions())));

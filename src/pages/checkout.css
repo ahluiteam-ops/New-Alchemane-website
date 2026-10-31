@@ -89,6 +89,8 @@ body.checkout-page { margin: 0; background: #fff; color: var(--text); font: 400 
 .co-footer p { margin: 0; }
 .co-footer a, .co-footer button { color: var(--color-accent-ink); text-decoration: underline; text-underline-offset: 3px; }
 .co-footer button { min-height: 44px; padding: 0; border: 0; background: none; }
+.co-footer__community { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.co-footer__community img { flex: 0 0 22px; width: 22px; height: 22px; }
 
 .co-aside { align-self: start; position: sticky; top: 26px; }
 .co-summary { border: 1px solid var(--border); border-radius: 7px; background: #f7f9f8; overflow: hidden; }
