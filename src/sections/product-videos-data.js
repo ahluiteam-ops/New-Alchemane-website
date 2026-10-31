@@ -21,7 +21,7 @@ export function renderProductVideos() {
   const ordered = [...products.filter(product => productVideoMedia[product.handle]), ...products.filter(product => !productVideoMedia[product.handle])];
   return `<section class="voices product-videos" id="product-videos" aria-label="Product videos">
     <div class="section-wrap product-videos-heading">
-      <div class="product-videos-intro"><h2>See it in action</h2><p>Explore the fit and finish of each hair solution.</p></div>
+      <div class="product-videos-intro"><h2>Hair solutions in action</h2></div>
       <div class="voices-controls product-videos-controls" role="group" aria-label="Scroll product videos">
         <button type="button" data-voices-prev aria-label="Previous product videos" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
         <button type="button" data-voices-next aria-label="Next product videos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>

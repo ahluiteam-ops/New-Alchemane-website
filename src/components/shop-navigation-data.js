@@ -1,4 +1,5 @@
 import { categories, products, productBelongsToCategory } from '../sections/catalogue-data.js';
+import { collectionUrl } from '../collections/collection-data.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>';
@@ -27,6 +28,7 @@ export function renderShopPanel(isProductPage = false) {
               ? `<a class="shopnav__product shopnav__product--available" href="${route}"${isProductPage ? ' aria-current="page"' : ''}><span>${escape(product.name)}</span><span class="shopnav__product-action">${isProductPage ? 'Current product' : 'View product'} ${arrow}</span></a>`
               : `<span class="shopnav__product shopnav__product--soon" role="link" aria-disabled="true"><span>${escape(product.name)}</span></span>`}</li>`;
           }).join('')}</ul>
+          <a class="shopnav__collection-link" href="${collectionUrl(category.id)}">Explore all ${escape(category.name)} ${arrow}</a>
         </section>`).join('')}
       </div>
     </div>
@@ -34,6 +36,10 @@ export function renderShopPanel(isProductPage = false) {
 }
 
 export function addShopNavigation(html) {
+  // Keep older campaign, footer and category links on the new shopping journey.
+  html = html.replace(/href="\/\?category=([a-z-]*)(?:#|&#35;)(?:range|collection)"/g, (_, id) => `href="${collectionUrl(id || 'all')}"`)
+    .replace(/href="#range" data-catalogue-category="([a-z-]+)"/g, (_, id) => `href="${collectionUrl(id)}"`)
+    .replace(/href="\/\?new=1(?:#|&#35;)range"/g, 'href="/collections/all/?sort=newest"');
   let decorated = false;
   const isProductPage = /<body[^>]*class="[^"]*\bpd\b/.test(html);
   html = html.replace(/<header class="(site-header|pe-header|pd-header|shop-header|consult-header)"[^>]*>[\s\S]*?<\/header>/, (header, type) => {

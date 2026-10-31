@@ -9,6 +9,34 @@
 .solutions-tab[aria-selected=true] .solutions-tab-label { font-weight: 600; }
 .solutions-tab:hover:not([aria-selected=true]) .solutions-tab-photo { border-color: var(--border); }
 .solutions-tab:focus-visible { outline: 2px solid var(--action); outline-offset: -2px; }
+/* Larger cards follow Best Sellers, with space between the two browse moments. */
+.solution-discovery { padding: 64px var(--page-gutter) 80px; background: var(--surface); }
+.solution-discovery__inner { width: min(100%, 1200px); margin-inline: auto; }
+.solution-discovery__heading { margin-bottom: 32px; text-align: center; }
+.solution-discovery h2 { margin: 0; font: 400 var(--text-title)/1.15 var(--font-display); letter-spacing: -.035em; text-wrap: balance; }
+.solution-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; text-align: left; }
+.solution-card { display: flex; flex-direction: column; gap: 12px; min-width: 0; color: var(--text); border-radius: 6px; font: 600 15px/1.3 var(--font-body); text-decoration: none; }
+.solution-card__photo { display: block; aspect-ratio: 1; overflow: hidden; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 6px; transition: border-color var(--duration-fast) ease; }
+.solution-card__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; transition: transform var(--duration-normal) var(--ease-out); }
+.solution-card__label { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 2.6em; }
+.solution-card__label svg, .solutions-all svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.solution-card:focus-visible, .solutions-all:focus-visible { outline: 2px solid var(--action); outline-offset: 5px; }
+.solution-card:active .solution-card__photo { background: var(--surface-tint); }
+.solutions-all { display: flex; align-items: center; justify-content: center; gap: 16px; width: fit-content; min-height: 48px; margin: 28px auto 0; padding: 12px 24px; border: 1px solid var(--action); border-radius: 4px; font: 600 15px/1.3 var(--font-body); text-decoration: none; transition: background var(--duration-fast), color var(--duration-fast); }
+.solutions-all:hover { background: var(--action); color: var(--surface); }
+@media (hover: hover) {
+  .solution-card:hover .solution-card__photo { border-color: var(--action); }
+  .solution-card:hover img { transform: scale(1.035); }
+  .solution-card:hover .solution-card__label { text-decoration: underline; text-underline-offset: 4px; }
+}
+@media (min-width: 1001px) {
+  .solution-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
+  .solution-card { font-size: 17px; }
+}
+@media (max-width: 1000px) {
+  /* Tablets show all six collections in three columns and two rows. */
+  .solution-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); grid-auto-flow: row; }
+}
 @media (max-width: 900px) {
   .solutions-journey { padding-top: 12px; }
   .solutions-journey h2 { margin-bottom: 20px; }
@@ -18,6 +46,18 @@
   .solutions-tab { flex: 0 0 clamp(80px, 24vw, 112px); max-width: none; padding: 4px 0; font-size: 14px; }
   .solutions-tab-photo { width: min(100%, 92px); }
 }
+@media (max-width: 700px) {
+  /* Phones use three rows and two columns. */
+  .solution-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); }
+  .solution-discovery h2 { font-size: clamp(28px, 7vw, 36px); }
+  .solution-discovery { padding-block: 48px 56px; }
+  .solution-discovery__heading { margin-bottom: 24px; }
+  .solution-card { gap: 10px; font-size: 16px; line-height: 1.35; }
+  .solution-card__label { min-height: 2.7em; }
+  .solution-card__label svg { display: none; }
+  .solutions-all { margin-top: 24px; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .solutions-tab-photo { transition: none; }
+  .solutions-tab-photo, .solution-card__photo, .solution-card__photo img, .solutions-all { transition: none; }
+  .solution-card:hover img { transform: none; }
 }

@@ -23,6 +23,7 @@
     "check:permanent-videos": "node scripts/check-permanent-videos.mjs",
     "check:wigs": "node scripts/check-wigs.mjs",
     "check:discovery": "node scripts/check-discovery.mjs",
+    "check:collections": "node scripts/check-collections.mjs",
     "check:product": "node scripts/check-product-page.mjs",
     "check:breadcrumbs": "node scripts/check-breadcrumbs.mjs",
     "check:shop-navigation": "node scripts/check-shop-navigation.mjs"

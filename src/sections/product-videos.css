@@ -24,7 +24,6 @@
   .product-videos-heading { align-items: end; justify-content: space-between; gap: 32px; margin-bottom: clamp(28px, 3.4vw, 48px); }
   .product-videos-intro { display: block; }
   .product-videos-intro h2 { margin: 0; color: var(--text); font: 400 clamp(34px, 3.9vw, 58px)/1.06 var(--font-display); letter-spacing: -.03em; }
-  .product-videos-intro p { margin: 12px 0 0; color: var(--text-secondary); font: 400 17px/1.5 var(--font-body); }
   #product-videos .voice-play { transition: opacity var(--duration-normal) var(--ease-out), background var(--duration-normal) var(--ease-out); }
   #product-videos .voice-card:hover .voice-play { background: linear-gradient(0deg, #10130fbb 0%, #10130f00 42%); }
   #product-videos .voice-card.is-previewing .voice-play:hover .voice-badge,

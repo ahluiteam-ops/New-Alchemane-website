@@ -29,7 +29,8 @@ const bookingFields = {
   phone: bookingForm.elements.namedItem('phone'),
 };
 
-initConsultationMeet(bookingForm);
+const selectConsultationMeeting = initConsultationMeet(bookingForm);
+if (new URLSearchParams(location.search).get('meeting') === 'Online') selectConsultationMeeting('Online');
 
 function validationMessage(fieldName) {
   const value = bookingFields[fieldName].value.trim();

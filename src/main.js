@@ -77,6 +77,14 @@ document.addEventListener('click', event => {
   history.pushState(null, '', link.hash);
 }, options);
 
+// A real fragment restores the category section the shopper came from,
+// including browsers that do not retain the homepage in their back/forward cache.
+document.addEventListener('click', event => {
+  const link = event.target.closest('.solution-card, .solutions-all');
+  if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+    history.replaceState(history.state, '', link.closest('#explore-collections') ? '#explore-collections' : '#collection');
+  }
+}, options);
 const cleanups = [initHomepage(), initSolutions(), initCatalogue(), initTestimonials(), initHeroCloud(), initQualityBanner(), initOfferPopup(), initFloatingContact()];
 const contact = document.querySelector('.floating-contact');
 const bestSellers = document.querySelector('.best-sellers');
